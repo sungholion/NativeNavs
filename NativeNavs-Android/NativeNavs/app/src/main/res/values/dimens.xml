@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--font-->
+    <dimen name="font_size_title_page">25sp</dimen>
+    <dimen name="font_size_btn_long">20sp</dimen>
+    <dimen name="font_size_btn_short">20sp</dimen>
+    <dimen name="font_size_et_default">16sp</dimen>
+
+    <!--margin-->
+    <dimen name="margin_horizontal_btn">15dp</dimen>
+
+    <!--padding-->
+    <dimen name="padding_horizontal_btn_short">30dp</dimen>
+    <dimen name="padding_horizontal_et">20dp</dimen>
+    <dimen name="padding_vertical_et">15dp</dimen>
+
+    <!--radius-->
+    <dimen name="radius_default">10dp</dimen>
+
+    <!--stroke-->
+    <dimen name="stroke_et">2dp</dimen>
+</resources>
