@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--font-->
+    <style name="bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="extraBold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/pretendard_extra_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="regular" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="medium" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="light" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_light</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="semiBold" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <!--text style-->
+    <style name="title_page" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textSize">@dimen/font_size_title_page</item>
+    </style>
+
+    <!--button-->
+    <style name="btn_long_blue" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/shape_round_10_blue</item>
+        <item name="android:textSize">@dimen/font_size_btn_long</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:layout_marginHorizontal">@dimen/margin_horizontal_btn</item>
+    </style>
+
+    <style name="btn_short_blue" parent="btn_long_blue">
+        <item name="android:paddingHorizontal">@dimen/padding_horizontal_btn_short</item>
+    </style>
+
+    <!--edit text-->
+    <style name="et_default" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">@dimen/font_size_et_default</item>
+        <item name="android:background">@drawable/stroke_round_10_light_grey</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/gray_5858</item>
+        <item name="android:paddingHorizontal">@dimen/padding_horizontal_et</item>
+        <item name="android:paddingVertical">@dimen/padding_vertical_et</item>
+    </style>
+
+    <!--bottom navigation-->
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+</resources>
