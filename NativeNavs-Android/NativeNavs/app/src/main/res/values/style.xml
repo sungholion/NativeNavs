@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="extraBold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/pretendard_extra_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="regular" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="medium" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="light" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_light</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="semiBold" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+    </style>
+
+</resources>
