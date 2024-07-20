@@ -20,6 +20,8 @@
         app:itemPaddingBottom="8dp"
         app:itemRippleColor="@color/white"
         app:itemBackground="@color/white"
+        app:itemIconTint="@drawable/nav_menu_selector_color"
+        app:itemTextColor="@drawable/nav_menu_selector_color"
         app:itemTextAppearanceInactive="@color/white"
         app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView"
         app:layout_constraintBottom_toBottomOf="parent"
