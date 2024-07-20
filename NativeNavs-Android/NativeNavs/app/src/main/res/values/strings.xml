@@ -2,4 +2,9 @@
     <string name="app_name">NativeNavs</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+<!--    booking-->
+    <string name="booking_page_title">예약하기</string>
+    <string name="booking_detail_page_title">예약 상세보기</string>
 </resources>

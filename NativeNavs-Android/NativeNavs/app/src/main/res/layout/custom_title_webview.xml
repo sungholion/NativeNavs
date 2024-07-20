@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/custom_title_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_horizontal_page"
+            android:src="@drawable/icon_back"
+            app:layout_constraintBottom_toBottomOf="@+id/custom_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/custom_title_tv" />
+
+        <TextView
+            android:id="@+id/custom_title_tv"
+            style="@style/title_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_title_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/booking_page_title" />
+
+        <View
+            android:id="@+id/custom_title_line_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/stroke_default"
+            android:layout_marginTop="@dimen/margin_vertical_title_page"
+            android:background="@color/gray_d9d9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/custom_title_tv" />
+
+        <WebView
+            android:id="@+id/custom_title_wv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/custom_title_line_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
