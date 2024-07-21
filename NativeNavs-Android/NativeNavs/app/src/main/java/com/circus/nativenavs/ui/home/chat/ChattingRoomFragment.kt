@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.chat
+package com.circus.nativenavs.ui.home.chat
 
 import android.os.Bundle
 import android.view.View
