@@ -28,6 +28,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/booking_page_title" />
 
+        <ImageView
+            android:id="@+id/custom_title_noti_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_page"
+            android:src="@drawable/icon_notifications"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/custom_title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/custom_title_tv" />
+
         <View
             android:id="@+id/custom_title_line_view"
             android:layout_width="0dp"
