@@ -9,6 +9,8 @@
 
     <!--margin-->
     <dimen name="margin_horizontal_btn">15dp</dimen>
+    <dimen name="margin_vertical_title_page">15dp</dimen>
+    <dimen name="margin_horizontal_page">20dp</dimen>
 
     <!--padding-->
     <dimen name="padding_horizontal_btn_short">30dp</dimen>
@@ -19,5 +21,5 @@
     <dimen name="radius_default">10dp</dimen>
 
     <!--stroke-->
-    <dimen name="stroke_et">2dp</dimen>
+    <dimen name="stroke_default">2dp</dimen>
 </resources>

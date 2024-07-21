@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NativeNavs</string>
     <string name="hello_blank_fragment">hello</string>
+
     <!-- 네비 메뉴 명 -->
     <string name="nav_user_tour">투어</string>
     <string name="nav_trav_wishlist">위시리스트</string>
@@ -10,4 +11,7 @@
     <string name="nav_user_chat">채팅</string>
     <string name="nav_user_profile">프로필</string>
 
+    <!--booking-->
+    <string name="booking_page_title">예약하기</string>
+    <string name="booking_detail_page_title">예약 상세보기</string>
 </resources>
