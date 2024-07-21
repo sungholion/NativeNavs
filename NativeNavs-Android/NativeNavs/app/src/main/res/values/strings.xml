@@ -11,6 +11,14 @@
     <string name="nav_user_chat">채팅</string>
     <string name="nav_user_profile">프로필</string>
 
+    <!--sign-->
+    <string name="sign_email">이메일</string>
+    <string name="sign_pw">비밀번호</string>
+    <string name="sign_login">로그인</string>
+    <string name="sign_google_login">구글 계정으로 로그인</string>
+    <string name="sign_login_not_user">아직 회원이 아니신가요?</string>
+    <string name="sign_login_signup"><u>회원가입</u></string>
+
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
     <string name="booking_detail_page_title">예약 상세보기</string>
