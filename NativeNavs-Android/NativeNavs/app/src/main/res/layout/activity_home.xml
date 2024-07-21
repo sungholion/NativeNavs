@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".ui.home.HomeActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_bottom_nav"
@@ -20,8 +20,8 @@
         app:itemPaddingBottom="8dp"
         app:itemRippleColor="@color/white"
         app:itemBackground="@color/white"
-        app:itemIconTint="@drawable/nav_menu_selector_color"
-        app:itemTextColor="@drawable/nav_menu_selector_color"
+        app:itemIconTint="@drawable/selector_nav_menu_color"
+        app:itemTextColor="@drawable/selector_nav_menu_color"
         app:itemTextAppearanceInactive="@color/white"
         app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView"
         app:layout_constraintBottom_toBottomOf="parent"
