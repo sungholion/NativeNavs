@@ -27,7 +27,7 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
     }
 
     private fun initWebView() {
-        binding.customTitleWv.settings.apply {
+        binding.customWebviewTitleWv.settings.apply {
             javaScriptEnabled = true
             javaScriptCanOpenWindowsAutomatically = true
             setSupportMultipleWindows(true)
@@ -37,18 +37,18 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
             domStorageEnabled = true
         }
 
-        binding.customTitleWv.webViewClient = WebViewClient()
-        binding.customTitleWv.webChromeClient = WebChromeClient()
+        binding.customWebviewTitleWv.webViewClient = WebViewClient()
+        binding.customWebviewTitleWv.webChromeClient = WebChromeClient()
     }
 
     private fun initEvent() {
-        binding.customTitleBackIv.setOnClickListener {
+        binding.customWebviewTitleBackIv.setOnClickListener {
             onBackClickListener?.onClick()
         }
     }
 
     fun backWebView(): Boolean {
-        binding.customTitleWv.apply {
+        binding.customWebviewTitleWv.apply {
             if (this.canGoBack()) {
                 this.goBack()
                 return true
@@ -59,7 +59,7 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
     }
 
     fun loadWebViewUrl(url: String) {
-        binding.customTitleWv.loadUrl(url)
+        binding.customWebviewTitleWv.loadUrl(url)
     }
 
     private fun getAttrs(attrs: AttributeSet) {
@@ -69,9 +69,9 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
     }
 
     private fun setTypedArray(typedArray: TypedArray) {
-        binding.customTitleTv.text = typedArray.getText(R.styleable.CustomTitleWebView_title)
+        binding.customWebviewTitleTv.text = typedArray.getText(R.styleable.CustomTitleWebView_title)
         typedArray.getString(R.styleable.CustomTitleWebView_url)
-            ?.let { binding.customTitleWv.loadUrl(it) }
+            ?.let { binding.customWebviewTitleWv.loadUrl(it) }
     }
 
     fun setOnBackListener(listener: OnBackClickListener) {
