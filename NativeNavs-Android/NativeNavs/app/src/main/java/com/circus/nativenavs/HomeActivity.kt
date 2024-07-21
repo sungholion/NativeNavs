@@ -18,22 +18,5 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        binding.homeCustomWv.setOnBackListener(object : CustomTitleWebView.OnBackClickListener{
-            override fun onClick() {
-                val intent = Intent(this@HomeActivity, StyleActivity::class.java)
-                startActivity(intent)
-            }
-        })
-
-        binding.homeCustomWv.loadWebViewUrl("www.google.com")
-
-        this.onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (!binding.homeCustomWv.backWebView()){
-                    finish()
-                }
-            }
-        })
     }
 }
