@@ -13,5 +13,15 @@
         select count(email) > 0 from user where email = #{email}
     </select>
 
+    <select id="search" parameterType="string" resultType="user">
+        select * from user
+        where email = #{email}
+    </select>
+
+    <select id="searchAll" parameterType="string" resultType="user">
+        select * from user
+    </select>
+
+
 
 </mapper>
