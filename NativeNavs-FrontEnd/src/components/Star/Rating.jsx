@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Rating.module.css";
 
-const Rating = () => {
-  const ratingValue = 3.54124;
+const Rating = ({ ratingValue }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -14,7 +13,8 @@ const Rating = () => {
       const progressPercentage = Math.min(progress / duration, 1); // 진행율 계산
       setDisplayValue((ratingValue * progressPercentage).toFixed(2)); // 진행율에 맞게 값을 표시
 
-      if (progress < duration) { // 설정한 지속시간보다 덜 진행됐으면
+      if (progress < duration) {
+        // 설정한 지속시간보다 덜 진행됐으면
         requestAnimationFrame(animate); // 다음 프레임 요청
       }
     };
