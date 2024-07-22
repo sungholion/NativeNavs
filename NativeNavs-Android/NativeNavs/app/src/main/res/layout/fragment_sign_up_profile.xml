@@ -5,11 +5,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.signup.SignUpProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/signup_profile_img_cv"
@@ -24,7 +25,7 @@
                     android:id="@+id/signup_profile_img_iv"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@tools:sample/avatars" />
+                    android:src="@drawable/logo_nativenavs" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -77,17 +78,78 @@
                 app:layout_constraintStart_toStartOf="@id/signup_nickname_et"
                 app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
 
+            <TextView
+                android:id="@+id/signup_nationality_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_title_et"
+                android:layout_marginTop="20dp"
+                android:text="@string/sign_nationality"
+                app:layout_constraintStart_toStartOf="@id/signup_name_et"
+                app:layout_constraintTop_toBottomOf="@id/signup_nickname_help_tv" />
+
+            <Spinner
+                android:id="@+id/signup_nationality_sp"
+                style="@style/et_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signup_nationality_tv" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/signup_language_cl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_nationality_sp">
+
+                <TextView
+                    android:id="@+id/signup_language_tv"
+                    style="@style/title_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_languages"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_more"
+                    app:layout_constraintBottom_toBottomOf="@+id/signup_language_tv"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toEndOf="@+id/signup_language_tv"
+                    app:layout_constraintTop_toTopOf="@+id/signup_language_tv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/signup_selected_language_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/signup_language_cl"
+                app:layout_constraintTop_toBottomOf="@id/signup_language_cl"
+                tools:text="한국어, 영어, 우즈베키스탄어, 스페인어, 이탈리아어" />
 
             <TextView
                 android:id="@+id/signup_name_tv"
                 style="@style/title_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_start_title_et"
                 android:layout_marginTop="20dp"
                 android:text="@string/sign_name"
                 app:layout_constraintStart_toStartOf="@id/signup_name_et"
-                app:layout_constraintTop_toBottomOf="@id/signup_nickname_help_tv" />
+                app:layout_constraintTop_toBottomOf="@id/signup_selected_language_tv" />
 
             <EditText
                 android:id="@+id/signup_name_et"
@@ -180,9 +242,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_start_title_et"
                 android:text="@string/sign_terms"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/signup_terms_cb"
                 app:layout_constraintStart_toEndOf="@id/signup_terms_cb"
                 app:layout_constraintTop_toTopOf="@id/signup_terms_cb" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/btn_long_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/sign_register"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signup_terms_cb" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

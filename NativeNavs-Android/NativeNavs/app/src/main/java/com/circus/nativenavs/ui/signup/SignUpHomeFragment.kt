@@ -16,6 +16,10 @@ class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(FragmentSignU
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initEvent()
+    }
+
+    private fun initEvent() {
         binding.signupEmailBtn.setOnClickListener {
             navigate(R.id.action_signUpHomeFragment_to_signUpEmailFragment)
         }

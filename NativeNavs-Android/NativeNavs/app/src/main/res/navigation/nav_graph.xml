@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tourListFragment">
+    app:startDestination="@id/signUpHomeFragment">
     <activity
         android:id="@+id/loginActivity"
         android:name="com.circus.nativenavs.ui.login.LoginActivity"
-        android:label="SignUpActivity" />
+        android:label="SignUpActivity"
+        tools:layout="@layout/activity_login"/>
     <activity
         android:id="@+id/signUpActivity"
         android:name="com.circus.nativenavs.ui.signup.SignUpActivity"
@@ -160,4 +161,8 @@
         android:name="com.circus.nativenavs.util.StyleActivity"
         android:label="activity_style"
         tools:layout="@layout/activity_style" />
+    <fragment
+        android:id="@+id/myTripFragment2"
+        android:name="com.circus.nativenavs.ui.home.trip.MyTripFragment"
+        android:label="MyTripFragment" />
 </navigation>
