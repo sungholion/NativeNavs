@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_homeFragment"
+        android:id="@+id/tourListFragment"
         android:icon="@drawable/icon_search"
         android:title="@string/nav_user_tour"
         android:enabled="true"
         />
     <item
-        android:id="@+id/menu_wishlistFragment"
+        android:id="@+id/tourWishListFragment"
         android:icon="@drawable/icon_wishlists"
         android:title="@string/nav_trav_wishlist"
         />
     <item
-        android:id="@+id/menu_tripFragment"
+        android:id="@+id/myTripFragment"
         android:icon="@drawable/icon_trips"
         android:title="@string/nav_trav_trip"
         />
     <item
-        android:id="@+id/menu_chatFragment"
+        android:id="@+id/chatListFragment"
         android:icon="@drawable/icon_chat"
         android:title="@string/nav_user_chat"
         />
     <item
-        android:id="@+id/menu_profileFragment"
+        android:id="@+id/mypageFragment"
         android:icon="@drawable/icon_profile"
         android:title="@string/nav_user_profile"
         />
