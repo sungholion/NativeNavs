@@ -24,4 +24,5 @@
 
     <!--stroke-->
     <dimen name="stroke_default">2dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

@@ -5,12 +5,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.mypage.MypageFragment">
+        tools:context=".ui.home.reservation.ReservationDetailFragment">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="여기는 마이페이지 프래그먼트 입니다." />
+            android:text="여기는 예약 상세 프래그머트 입니다" />
 
     </FrameLayout>
 </layout>
