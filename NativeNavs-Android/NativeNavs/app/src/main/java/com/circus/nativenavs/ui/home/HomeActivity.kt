@@ -29,7 +29,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     private fun initBottomNavBar() {
 
         binding.mainBottomNav.menu.clear()
-
         binding.mainBottomNav.apply {
 
             inflateMenu(R.menu.menu_bottom_nav_trav)
@@ -39,6 +38,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
                     R.id.menu_homeFragment -> {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.home_fcv, TourListFragment()).commit()
+
                     }
                     R.id.menu_wishlistFragment -> {
                         supportFragmentManager.beginTransaction()

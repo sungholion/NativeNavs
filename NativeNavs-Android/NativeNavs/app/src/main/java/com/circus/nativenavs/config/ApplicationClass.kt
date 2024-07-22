@@ -7,6 +7,9 @@ class ApplicationClass : Application() {
     companion object {
         lateinit var sharedPreferences: SharedPreferenceController
 
+        const val FRAGMENT_TOUR_LIST = 10
+        const val FRAGMENT_TOUR_DETAIL = 11
+        const val FRAGMENT_TOUR_REGISTER = 12
     }
 
     override fun onCreate() {

@@ -19,6 +19,10 @@
     <string name="sign_login_not_user">아직 회원이 아니신가요?</string>
     <string name="sign_login_signup"><u>회원가입</u></string>
 
+    <!--tourList-->
+    <string name="search_bar_title">원하는 Travel이 있나요?</string>
+    <string name="search_bar_content">검색을 해서 다양한 Navs를 찾아보세요</string>
+
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
     <string name="booking_detail_page_title">예약 상세보기</string>
@@ -27,5 +31,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+
 
 </resources>

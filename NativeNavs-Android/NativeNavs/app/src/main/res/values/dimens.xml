@@ -7,6 +7,8 @@
     <dimen name="font_size_btn_long">20sp</dimen>
     <dimen name="font_size_btn_short">20sp</dimen>
     <dimen name="font_size_et_default">16sp</dimen>
+    <dimen name="font_size_search_title_btn">16sp</dimen>
+    <dimen name="font_size_search_content_btn">12sp</dimen>
 
     <!--margin-->
     <dimen name="margin_horizontal_btn">15dp</dimen>
