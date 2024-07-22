@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:paddingTop="60dp"
         tools:context=".ui.login.LoginActivity">
 
         <ImageView
             android:id="@+id/login_logo_iv"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="60dp"
+            android:layout_marginHorizontal="40dp"
             android:src="@drawable/logo_nativenavs"
             app:layout_constraintBottom_toTopOf="@id/login_content_cl"
             app:layout_constraintDimensionRatio="1:1"
