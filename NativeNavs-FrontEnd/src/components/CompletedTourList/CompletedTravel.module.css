@@ -1,0 +1,59 @@
+/* 전체 컨테이너 */
+.completedContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.completedTravelContainer {
+    width: 90%;
+    height: 80px;
+    display: flex;
+    border-radius: 5px;
+    margin:10px;
+}
+
+.completedTravelContainer:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+
+
+/* 여행 썸네일 */
+.thumbnailImageContainer {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}                          
+
+.thumbnail_image {
+    border-radius: 5px;
+    width: 60px;
+    height: 60px;
+}
+
+
+
+/* 여행 설명 */
+.tourDescriptionContainer {
+    padding-left: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5px;
+    width: 75%;
+    
+}
+
+.tourTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.tourNavName {
+    font-size: 12px;
+}
+
+.startDate {
+    font-size: 12px;
+}

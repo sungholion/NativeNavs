@@ -3,6 +3,7 @@
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
 }
 
 .button_2 {
@@ -10,6 +11,7 @@
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
 }
 
 .button_3 {
@@ -17,4 +19,14 @@
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+.button_1:active, .button_2:active, .button_3:active {
+    background-color: #1a9c9c; /* 클릭 시 배경색 변경 */
+    transform: scale(0.95); /* 버튼 클릭 시 약간 축소 */
+}
+
+.button_1:focus, .button_2:focus, .button_3:focus {
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
 }
