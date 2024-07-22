@@ -5,21 +5,25 @@
 <mapper namespace="com.nativenavs.user.mapper.UserMapper">
 
     <insert id="signUp" parameterType="user">
-        insert into user(email, password, name, nickname, is_nav, birth, user_language, nation, image, created_at, updated_at)
-        values (#{email}, #{password}, #{name}, #{nickname}, #{is_nav}, #{birth}, #{user_language}, #{nation}, #{image}, NOW(), NOW())
+        INSERT INTO user(email, password, name, nickname, is_nav, birth, user_language, nation, image, created_at, updated_at)
+        VALUES (#{email}, #{password}, #{name}, #{nickname}, #{is_nav}, #{birth}, #{user_language}, #{nation}, #{image}, NOW(), NOW())
     </insert>
 
     <select id="checkDuplicatedEmail" parameterType="string" resultType="boolean">
-        select count(email) > 0 from user where email = #{email}
+        SELECT COUNT(email) > 0 FROM user WHERE email = #{email}
     </select>
 
-    <select id="search" parameterType="string" resultType="user">
-        select * from user
-        where email = #{email}
+    <select id="searchOneUser" parameterType="string" resultType="user">
+        SELECT * FROM user
+        WHERE email = #{email}
     </select>
 
-    <select id="searchAll" parameterType="string" resultType="user">
-        select * from user
+    <select id="searchAllUser" parameterType="string" resultType="user">
+        SELECT * FROM user
+    </select>
+
+    <select id="findByEmailAndPassword" parameterType="map" resultType="user">
+        SELECT * FROM user WHERE email = #{email} AND password = #{password}
     </select>
 
 

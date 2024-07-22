@@ -2,6 +2,7 @@ package com.nativenavs.user.mapper;
 
 import com.nativenavs.user.model.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public interface UserMapper {
     public void signUp(User user);
     public boolean checkDuplicatedEmail(String email);
-    public User search(String email);
-    public List<User> searchAll();
+    public User searchOneUser(String email);
+    public List<User> searchAllUser();
+    public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 }

@@ -19,17 +19,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkDuplicatedEmail(String email) {
-        User user = userMapper.search(email);
+        User user = userMapper.searchOneUser(email);
         return user != null;
     }
 
     @Override
-    public User search(String email) {
-        return userMapper.search(email);
+    public User searchOneUser(String email) {
+        return userMapper.searchOneUser(email);
     }
 
     @Override
-    public List<User> searchAll() {
-        return userMapper.searchAll();
+    public List<User> searchAllUser() {
+        return userMapper.searchAllUser();
     }
 }

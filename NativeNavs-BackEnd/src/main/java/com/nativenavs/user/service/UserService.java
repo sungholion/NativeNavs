@@ -9,6 +9,6 @@ public interface UserService {
 
     public boolean checkDuplicatedEmail(String email);
 
-    public User search(String email);
-    public List<User> searchAll();
+    public User searchOneUser(String email);
+    public List<User> searchAllUser();
 }
