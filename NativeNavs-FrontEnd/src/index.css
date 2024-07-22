@@ -1,37 +1,37 @@
 @font-face {
   font-family: "Pretended";
   font-weight: 500;
-  src: url("../public/Pretendard-Medium.ttf");
+  src: url("/Pretendard-Medium.ttf");
 }
 
 @font-face {
   font-family: "Pretended";
   font-weight: 700;
-  src: url("../public/Pretendard-Bold.ttf");
+  src: url("/Pretendard-Bold.ttf");
 }
 
 @font-face {
   font-family: "Pretended";
   font-weight: 800;
-  src: url("../public/Pretendard-ExtraBold.ttf");
+  src: url("/Pretendard-ExtraBold.ttf");
 }
 
 @font-face {
   font-family: "Pretended";
   font-weight: 600;
-  src: url("../public/Pretendard-SemiBold.ttf");
+  src: url("/Pretendard-SemiBold.ttf");
 }
 
 @font-face {
   font-family: "Pretended";
   font-weight: 300;
-  src: url("../public/Pretendard-Light.ttf");
+  src: url("/Pretendard-Light.ttf");
 }
 
 @font-face {
   font-family: "Pretended";
   font-weight: 400;
-  src: url("../public/Pretendard-Regular.ttf");
+  src: url("/Pretendard-Regular.ttf");
 }
 
 body * {
