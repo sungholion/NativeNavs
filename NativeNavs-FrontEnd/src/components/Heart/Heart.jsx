@@ -1,4 +1,4 @@
-const Heart = () => {
+const Heart = ({ isWishListed }) => {
   return <div>Heart</div>;
 };
 

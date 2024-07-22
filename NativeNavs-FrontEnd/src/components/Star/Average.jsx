@@ -1,4 +1,4 @@
-const Average = () => {
+const Average = ({ avg }) => {
   return <div>Average</div>;
 };
 
