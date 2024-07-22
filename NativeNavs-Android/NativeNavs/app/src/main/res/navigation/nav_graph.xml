@@ -103,15 +103,30 @@
     <fragment
         android:id="@+id/signUpEmailFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpEmailFragment"
-        android:label="SignUpEmailFragment" />
+        android:label="SignUpEmailFragment" >
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpUserTypeFragment"
+            app:destination="@id/signUpUserTypeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpHomeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpHomeFragment"
-        android:label="SignUpHomeFragment" />
+        android:label="SignUpHomeFragment" >
+        <action
+            android:id="@+id/action_signUpHomeFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpProfileFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpProfileFragment"
-        android:label="SignUpProfileFragment" />
+        android:label="SignUpProfileFragment" >
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpTosFragment"
+            app:destination="@id/signUpTosFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpCompleteFragment"
+            app:destination="@id/signUpCompleteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpTosFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpTosFragment"
@@ -119,7 +134,11 @@
     <fragment
         android:id="@+id/signUpUserTypeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpUserTypeFragment"
-        android:label="SignUpUserTypeFragment" />
+        android:label="SignUpUserTypeFragment" >
+        <action
+            android:id="@+id/action_signUpUserTypeFragment_to_signUpProfileFragment"
+            app:destination="@id/signUpProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stampDetailFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.StampDetailFragment"

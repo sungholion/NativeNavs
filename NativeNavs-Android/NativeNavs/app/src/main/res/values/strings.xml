@@ -34,6 +34,16 @@
     <string name="sign_type_nav_explain">가이드</string>
     <string name="sign_type_trav">Trav</string>
     <string name="sign_type_trav_explain">여행자</string>
+    <string name="sign_nickname">닉네임</string>
+    <string name="sign_nickname_check">중복 확인</string>
+    <string name="sign_nickname_help">NativeNavs에 표시할 닉네임을 4~20자리 영어 및 숫자로 입력해 주세요.\n이미 사용된 닉네임은 사용 불가능합니다.</string>
+    <string name="sign_nationality">국가</string>
+    <string name="sign_name">이름</string>
+    <string name="sign_name_help">정부 발급 신분증에 기재된 이름과 일치하게 작성해 주세요.</string>
+    <string name="sign_birth">생년월일</string>
+    <string name="sign_phone">전화번호</string>
+    <string name="sign_phone_help">숫자로만 입력해주세요.</string>
+    <string name="sign_terms"><u>서비스 이용 약관 및 개인정보 수집 약관</u>에 동의합니다.</string>
 
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
