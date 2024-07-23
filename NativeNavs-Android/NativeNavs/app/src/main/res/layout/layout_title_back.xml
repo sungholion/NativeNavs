@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="titleText"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/custom_webview_title_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_horizontal_page"
+            android:src="@drawable/icon_back"
+            app:layout_constraintBottom_toBottomOf="@+id/custom_webview_title_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/custom_webview_title_tv" />
+
+        <TextView
+            android:id="@+id/custom_webview_title_tv"
+            style="@style/title_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_title_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@{titleText}" />
+
+        <ImageView
+            android:id="@+id/custom_webview_title_noti_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_page"
+            android:src="@drawable/icon_notifications"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/custom_webview_title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/custom_webview_title_tv" />
+
+        <View
+            android:id="@+id/custom_webview_title_line_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/stroke_default"
+            android:layout_marginTop="@dimen/margin_vertical_title_page"
+            android:background="@color/gray_d9d9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/custom_webview_title_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

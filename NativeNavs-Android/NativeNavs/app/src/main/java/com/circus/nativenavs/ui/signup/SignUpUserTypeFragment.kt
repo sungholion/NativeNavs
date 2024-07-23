@@ -8,12 +8,25 @@ import android.view.ViewGroup
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpUserTypeBinding
+import com.circus.nativenavs.util.navigate
 
 class SignUpUserTypeFragment : BaseFragment<FragmentSignUpUserTypeBinding>(FragmentSignUpUserTypeBinding::bind, R.layout.fragment_sign_up_user_type) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initEvent()
     }
+
+    private fun initEvent() {
+        binding.signupTypeNavLl.setOnClickListener {
+            navigate(R.id.action_signUpUserTypeFragment_to_signUpProfileFragment)
+        }
+
+        binding.signupTypeTravLl.setOnClickListener {
+            navigate(R.id.action_signUpUserTypeFragment_to_signUpProfileFragment)
+        }
+    }
+
 
 }

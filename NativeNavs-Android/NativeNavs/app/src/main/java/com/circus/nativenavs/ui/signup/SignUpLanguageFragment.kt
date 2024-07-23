@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
-import com.circus.nativenavs.databinding.FragmentSignUpHomeBinding
+import com.circus.nativenavs.databinding.FragmentSignUpLanguageBinding
+import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
 import com.circus.nativenavs.util.navigate
 
-class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(FragmentSignUpHomeBinding::bind, R.layout.fragment_sign_up_home) {
+
+class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
+    FragmentSignUpLanguageBinding::bind,
+    R.layout.fragment_sign_up_language
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,9 +24,7 @@ class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(FragmentSignU
     }
 
     private fun initEvent() {
-        binding.signupEmailBtn.setOnClickListener {
-            navigate(R.id.action_signUpHomeFragment_to_signUpEmailFragment)
-        }
+
     }
 
 }

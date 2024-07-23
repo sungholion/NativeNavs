@@ -4,6 +4,7 @@
     <!--font-->
     <dimen name="font_size_title_page">25sp</dimen>
     <dimen name="font_size_title_et">15sp</dimen>
+    <dimen name="font_size_content_help">12sp</dimen>
     <dimen name="font_size_btn_long">20sp</dimen>
     <dimen name="font_size_btn_short">20sp</dimen>
     <dimen name="font_size_et_default">16sp</dimen>
@@ -15,6 +16,7 @@
     <dimen name="margin_vertical_title_page">15dp</dimen>
     <dimen name="margin_horizontal_page">20dp</dimen>
     <dimen name="margin_start_title_et">5dp</dimen>
+    <dimen name="margin_bottom_next_btn">40dp</dimen>
 
     <!--padding-->
     <dimen name="padding_horizontal_btn_short">30dp</dimen>
