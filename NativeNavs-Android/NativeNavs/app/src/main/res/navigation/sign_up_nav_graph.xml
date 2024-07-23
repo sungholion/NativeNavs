@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_signUpProfileFragment_to_signUpCompleteFragment"
             app:destination="@id/signUpCompleteFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpLanguageFragment"
+            app:destination="@id/signUpLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpTosFragment"
@@ -54,4 +57,9 @@
             android:id="@+id/action_signUpUserTypeFragment_to_signUpProfileFragment"
             app:destination="@id/signUpProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/signUpLanguageFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpLanguageFragment"
+        android:label="SignUpLanguageFragment"
+        tools:layout="@layout/fragment_sign_up_language" />
 </navigation>
