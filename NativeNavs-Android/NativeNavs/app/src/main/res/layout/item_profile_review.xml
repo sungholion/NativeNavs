@@ -6,6 +6,7 @@
     android:layout_height="200dp">
 
     <FrameLayout
+        android:layout_margin="10dp"
         android:background="@drawable/stroke_round_10_light_grey"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,30 +18,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
+                android:paddingStart="10dp"
+                android:paddingBottom="15dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:orientation="vertical">
                 <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:paddingStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:gravity="start|center"
                     android:layout_weight="1">
                     <RatingBar
                         style="?android:attr/ratingBarStyleSmall"
-                        android:id="@+id/ratingBar"
+                        android:id="@+id/profile_review_ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:rating="4"/>
                     <TextView
+                        android:id="@+id/profile_review_date"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textSize="11sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2024년 1월"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/profile_reivew_content"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="3"
+                    android:paddingStart="5dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/pretendard_regular"
                     android:text="두 번째 방문입니다. 올 때 마다 힐링하고 가요. 😊가이드님이 잘 챙겨주셨어요!"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="71dp" />
@@ -53,6 +66,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
                         <ImageView
+                            android:id="@+id/profile_review_user_img"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/logo_nativenavs"/>
@@ -63,17 +77,24 @@
                         android:layout_weight="4"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/profile_reivew_user_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/pretendard_medium"
                             android:text="아린"/>
                         <TextView
+                            android:id="@+id/profile_review_user_language"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:fontFamily="@font/pretendard_regular"
                             android:text="영어"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:padding="10dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -87,6 +108,7 @@
                     android:layout_marginBottom="25dp"
                     app:cardCornerRadius="20dp">
                     <ImageView
+                        android:id="@+id/profile_review_img"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"

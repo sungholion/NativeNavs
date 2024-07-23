@@ -33,6 +33,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -77,14 +78,14 @@
                                 android:minWidth="0dp"
                                 android:paddingTop="4dp"
                                 android:paddingBottom="4dp"
-                                android:paddingStart="6dp"
-                                android:paddingEnd="6dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
                                 android:layout_marginTop="5dp"
                                 android:background="@drawable/stroke_round_25_blue"
-                                android:fontFamily="@font/pretendard_bold"
+                                android:fontFamily="@font/pretendard_regular"
                                 android:text="프로필 수정"
                                 android:textColor="@color/nn_blue"
-                                android:textSize="13sp" />
+                                android:textSize="15sp" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -140,7 +141,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_cv">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -161,8 +161,10 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_review_rv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
                     tools:listitem="@layout/item_profile_review"/>
@@ -201,22 +203,25 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/profile_stamp_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        tools:src="@tools:sample/avatars"/>
+                        android:src="@drawable/sample_stamp"/>
 
                     <ImageView
+                        android:id="@+id/profile_stamp_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        tools:src="@tools:sample/avatars"/>
+                        android:src="@drawable/sample_stamp"/>
 
                     <ImageView
+                        android:id="@+id/profile_stamp_3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        tools:src="@tools:sample/avatars"/>
+                        android:src="@drawable/sample_stamp"/>
                 </LinearLayout>
             </LinearLayout>
 
