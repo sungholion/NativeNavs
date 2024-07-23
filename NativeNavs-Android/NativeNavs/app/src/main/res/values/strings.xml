@@ -54,6 +54,10 @@
     <string name="sign_terms"><u>서비스 이용 약관 및 개인정보 수집 약관</u>에 동의합니다.</string>
     <string name="sign_register">등록 완료</string>
     <string name="sign_language_help">최대 5개까지 선택 가능합니다.</string>
+    <string name="sign_check">확인</string>
+    <string name="sign_complete">회원가입 완료!</string>
+    <string name="sign_complete_welcome">가입하신 것을 축하합니다!\n당신의 여행을 NativeNavs가 함께하겠습니다.</string>
+    <string name="sign_move_to_main">메인으로 이동</string>
 
     <!--tourList-->
     <string name="search_bar_title">원하는 Travel이 있나요?</string>

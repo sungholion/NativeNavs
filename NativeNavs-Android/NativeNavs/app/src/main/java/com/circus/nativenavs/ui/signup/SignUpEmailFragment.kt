@@ -9,8 +9,12 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpEmailBinding
 import com.circus.nativenavs.util.navigate
+import com.circus.nativenavs.util.popBackStack
 
-class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(FragmentSignUpEmailBinding::bind,R.layout.fragment_sign_up_email) {
+class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
+    FragmentSignUpEmailBinding::bind,
+    R.layout.fragment_sign_up_email
+) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -20,6 +24,10 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(FragmentSig
     }
 
     private fun initEvent() {
+        binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
+            popBackStack()
+        }
+
         binding.signupEmailNextBtn.setOnClickListener {
             navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
         }
