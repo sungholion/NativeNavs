@@ -3,6 +3,7 @@
 
     <!--font-->
     <dimen name="font_size_title_page">25sp</dimen>
+    <dimen name="font_size_title_fragment">44sp</dimen>
     <dimen name="font_size_title_et">15sp</dimen>
     <dimen name="font_size_content_help">12sp</dimen>
     <dimen name="font_size_btn_long">20sp</dimen>
