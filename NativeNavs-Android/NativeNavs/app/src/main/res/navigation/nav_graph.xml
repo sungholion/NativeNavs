@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tourListFragment">
+    app:startDestination="@id/signUpHomeFragment">
     <activity
         android:id="@+id/loginActivity"
         android:name="com.circus.nativenavs.ui.login.LoginActivity"
         android:label="SignUpActivity"
-        tools:layout="@layout/activity_login"/>
+        tools:layout="@layout/activity_login" />
     <activity
         android:id="@+id/signUpActivity"
         android:name="com.circus.nativenavs.ui.signup.SignUpActivity"
         android:label="SignUpActivity"
-        tools:layout="@layout/activity_sign_up"/>
+        tools:layout="@layout/activity_sign_up" />
     <fragment
         android:id="@+id/tourListFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourListFragment"
@@ -27,12 +27,12 @@
         android:id="@+id/homeActivity"
         android:name="com.circus.nativenavs.ui.home.HomeActivity"
         android:label="HomeActivity"
-        tools:layout="@layout/activity_home"/>
+        tools:layout="@layout/activity_home" />
     <activity
         android:id="@+id/videoActivity"
         android:name="com.circus.nativenavs.ui.video.VideoActivity"
         android:label="VideoActivity"
-        tools:layout="@layout/activity_video"/>
+        tools:layout="@layout/activity_video" />
     <fragment
         android:id="@+id/chatListFragment"
         android:name="com.circus.nativenavs.ui.home.chat.ChatListFragment"
@@ -46,7 +46,7 @@
         android:id="@+id/mypageFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.MypageFragment"
         android:label="MypageFragment"
-        tools:layout="@layout/fragment_mypage"/>
+        tools:layout="@layout/fragment_mypage" />
     <fragment
         android:id="@+id/reservationListFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationListFragment"
@@ -69,102 +69,121 @@
         android:id="@+id/reservationDetailFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationDetailFragment"
         android:label="ReservationDetailFragment"
-        tools:layout="@layout/fragment_reservation_detail"/>
+        tools:layout="@layout/fragment_reservation_detail" />
     <fragment
         android:id="@+id/tourDetailFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourDetailFragment"
         android:label="TourDetailFragment"
-        tools:layout="@layout/fragment_tour_detail"/>
+        tools:layout="@layout/fragment_tour_detail" />
     <fragment
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.AppSettingFragment"
         android:label="AppSettingFragment"
-        tools:layout="@layout/fragment_app_setting"/>
+        tools:layout="@layout/fragment_app_setting" />
     <fragment
         android:id="@+id/chattingRoomFragment"
         android:name="com.circus.nativenavs.ui.home.chat.ChattingRoomFragment"
         android:label="ChattingRoomFragment"
-        tools:layout="@layout/fragment_chatting_room"/>
+        tools:layout="@layout/fragment_chatting_room" />
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.NotificationFragment"
         android:label="NotificationFragment"
-        tools:layout="@layout/fragment_notification"/>
+        tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/profileModifylFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.ProfileModifylFragment"
         android:label="ProfileModifylFragment"
-        tools:layout="@layout/fragment_profile_modify"/>
+        tools:layout="@layout/fragment_profile_modify" />
     <fragment
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register"/>
+        tools:layout="@layout/fragment_reservation_register" />
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.home.review.ReviewListFragment"
         android:label="ReviewListFragment"
-        tools:layout="@layout/fragment_review_list"/>
+        tools:layout="@layout/fragment_review_list" />
     <fragment
         android:id="@+id/reviewRegisterFragment"
         android:name="com.circus.nativenavs.ui.home.review.ReviewRegisterFragment"
         android:label="ReviewRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register"/>
+        tools:layout="@layout/fragment_reservation_register" />
     <fragment
         android:id="@+id/signUpCompleteFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpCompleteFragment"
         android:label="SignUpCompleteFragment"
-        tools:layout="@layout/fragment_sign_up_complete"/>
+        tools:layout="@layout/fragment_sign_up_complete" />
     <fragment
         android:id="@+id/signUpEmailFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpEmailFragment"
         android:label="SignUpEmailFragment"
-        tools:layout="@layout/fragment_sign_up_email"/>
+        tools:layout="@layout/fragment_sign_up_email">
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpUserTypeFragment"
+            app:destination="@id/signUpUserTypeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpHomeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpHomeFragment"
         android:label="SignUpHomeFragment"
-        tools:layout="@layout/fragment_sign_up_home"/>
+        tools:layout="@layout/fragment_sign_up_home">
+        <action
+            android:id="@+id/action_signUpHomeFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpProfileFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpProfileFragment"
         android:label="SignUpProfileFragment"
-        tools:layout="@layout/fragment_sign_up_profile"/>
+        tools:layout="@layout/fragment_sign_up_profile">
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpTosFragment"
+            app:destination="@id/signUpTosFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpCompleteFragment"
+            app:destination="@id/signUpCompleteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpTosFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpTosFragment"
         android:label="SignUpTosFragment"
-        tools:layout="@layout/fragment_sign_up_tos"/>
+        tools:layout="@layout/fragment_sign_up_tos" />
     <fragment
         android:id="@+id/signUpUserTypeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpUserTypeFragment"
         android:label="SignUpUserTypeFragment"
-        tools:layout="@layout/fragment_sign_up_user_type"/>
+        tools:layout="@layout/fragment_sign_up_user_type">
+        <action
+            android:id="@+id/action_signUpUserTypeFragment_to_signUpProfileFragment"
+            app:destination="@id/signUpProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stampDetailFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.StampDetailFragment"
         android:label="StampDetailFragment"
-        tools:layout="@layout/fragment_stamp_detail"/>
+        tools:layout="@layout/fragment_stamp_detail" />
     <fragment
         android:id="@+id/stampFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.StampFragment"
         android:label="StampFragment"
-        tools:layout="@layout/fragment_stamp"/>
+        tools:layout="@layout/fragment_stamp" />
     <fragment
         android:id="@+id/teamIntroFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.TeamIntroFragment"
         android:label="TeamIntroFragment"
-        tools:layout="@layout/fragment_team_intro"/>
+        tools:layout="@layout/fragment_team_intro" />
     <fragment
         android:id="@+id/tosFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.TosFragment"
         android:label="TosFragment"
-        tools:layout="@layout/fragment_tos"/>
+        tools:layout="@layout/fragment_tos" />
     <activity
         android:id="@+id/styleActivity"
         android:name="com.circus.nativenavs.util.StyleActivity"
@@ -174,10 +193,10 @@
         android:id="@+id/myTripFragment"
         android:name="com.circus.nativenavs.ui.home.trip.MyTripFragment"
         android:label="MyTripFragment"
-        tools:layout="@layout/fragment_my_trip"/>
+        tools:layout="@layout/fragment_my_trip" />
     <fragment
         android:id="@+id/tourWishListFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourWishListFragment"
         android:label="TourWishListFragment"
-        tools:layout="@layout/fragment_tour_wish_list"/>
+        tools:layout="@layout/fragment_tour_wish_list" />
 </navigation>
