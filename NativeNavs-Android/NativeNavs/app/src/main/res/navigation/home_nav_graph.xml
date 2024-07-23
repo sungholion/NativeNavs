@@ -41,7 +41,11 @@
         android:id="@+id/mypageFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.MypageFragment"
         android:label="MypageFragment"
-        tools:layout="@layout/fragment_mypage" />
+        tools:layout="@layout/fragment_mypage" >
+        <action
+            android:id="@+id/action_mypageFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationListFragment"
