@@ -40,6 +40,13 @@
         <item name="android:textSize">@dimen/font_size_title_page</item>
     </style>
 
+    <style name="title_et" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/gray_5858</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">@dimen/font_size_title_et</item>
+    </style>
+
     <!--button-->
     <style name="btn_long_blue" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/shape_round_10_blue</item>
