@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Rating.module.css";
 
-const Rating = ({ ratingValue }) => {
+const Rating = ({ review_average }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const Rating = ({ ratingValue }) => {
     const animate = (currentTime) => {
       const progress = currentTime - start; // 현재시간과 시작시간을 비교하여 지속 시간을 구함
       const progressPercentage = Math.min(progress / duration, 1); // 진행율 계산
-      setDisplayValue((ratingValue * progressPercentage).toFixed(2)); // 진행율에 맞게 값을 표시
+      setDisplayValue((review_average * progressPercentage).toFixed(2)); // 진행율에 맞게 값을 표시
 
       if (progress < duration) {
         // 설정한 지속시간보다 덜 진행됐으면
@@ -20,12 +20,12 @@ const Rating = ({ ratingValue }) => {
     };
 
     requestAnimationFrame(animate); // 애니메이션 루프 구현 메서드(인수 : 콜백함수)
-  }, [ratingValue]);
+  }, [review_average]);
 
   return (
     <div className={styles.ratingContainer}>
       <span className={styles.star}>★</span>
-      <span className={styles.ratingValue}>{displayValue}</span>
+      <span className={styles.review_average}>{displayValue}</span>
     </div>
   );
 };

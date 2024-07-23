@@ -1,8 +1,7 @@
 import styles from "./Button.module.css";
 // size : 버튼의 사이즈를 커스텀
-const Button = ({ text, onClickEvent }) => {
-  const size = 1;
-
+const Button = ({ size, text, onClickEvent }) => {
+  
   const onClickButton = () => {
     console.log("클릭 이벤트 발생");
     onClickEvent();
@@ -10,7 +9,7 @@ const Button = ({ text, onClickEvent }) => {
 
   return (
     <button className={styles[`button_${size}`]} onClick={onClickButton}>
-      +{text}
+      {text}
     </button>
   );
 };

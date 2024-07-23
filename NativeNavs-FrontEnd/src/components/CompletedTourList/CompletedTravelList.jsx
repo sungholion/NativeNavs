@@ -1,6 +1,6 @@
 import styles from "./CompletedTravelList.module.css";
 import CompletedTravel from "./CompletedTravel.jsx";
-import { tours as dummyTours } from "./dummyData.jsx";
+import { tours as dummyTours } from "../../dummy.jsx";
 import { useState } from "react";
 
 const CompletedTravelList = () => {

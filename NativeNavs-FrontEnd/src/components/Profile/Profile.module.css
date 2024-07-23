@@ -1,0 +1,39 @@
+.TopContainer {
+    display: flex;
+    align-items: center;
+}
+
+
+.ImageContainer > img {
+    
+    width: 40px;
+    height: 40px;
+}
+
+
+.ImageContainer {
+    width: 50%;
+}
+
+.NicknameContainer {
+    width: 50%;
+}
+
+
+.BottomContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.BottomContainer > img {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(#d9d9d9);
+    border-radius: 70%;
+}
+
+.BottomContainer > h6 {
+    padding: 9px 0px;
+    margin-bottom: 0px;
+}

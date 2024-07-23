@@ -1,0 +1,35 @@
+.TotalContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.TotalContainer h3 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px; /* h3와 h6 사이의 간격을 줄입니다 */
+}
+
+.TotalContainer h6 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+
+
+.TopContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.NativeNavsImg {
+    width: 50px;
+    height: 50px;
+}    
