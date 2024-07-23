@@ -11,12 +11,11 @@
 .TotalContainer h3 {
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px; /* h3와 h6 사이의 간격을 줄입니다 */
 }
 
 .TotalContainer h6 {
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
     text-align: center;
 }
 

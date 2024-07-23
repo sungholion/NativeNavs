@@ -10,7 +10,7 @@ export const nav = {
 export const tours = [
   {
     name: "김세미",
-    nickname: "아린",
+    nickname: "아이린",
     id: 1,
     img_url:
       "https://api.cdn.visitjeju.net/photomng/imgpath/201911/29/48bdb99e-20ba-4fb6-82f2-6ea79ceefb0d.jpg",
@@ -21,7 +21,7 @@ export const tours = [
     regional_information: "대구",
     date: new Date(2024, 12, 31),
     review_average: 4.52,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHmXW7ywqVPTG7oiomKDLaSZCXnwttiqYuw&s",
+    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
     language: "영어, 독일어"
   },
   {
