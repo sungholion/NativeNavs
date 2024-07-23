@@ -13,4 +13,6 @@ public interface UserMapper {
     public User searchOneUser(String email);
     public List<User> searchAllUser();
     public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+    public void updateUser(@Param("existingId") int existingId, @Param("updateUser") User updateUser);
+    public void deleteUser(int id);
 }

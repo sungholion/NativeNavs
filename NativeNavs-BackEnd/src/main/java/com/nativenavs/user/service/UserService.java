@@ -11,4 +11,6 @@ public interface UserService {
 
     public User searchOneUser(String email);
     public List<User> searchAllUser();
+    public void updateUser(int existingId, User updateUser);
+    public void deleteUser(int id);
 }

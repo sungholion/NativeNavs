@@ -11,19 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @CrossOrigin("*") // 아직 고민..
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Tag(name = "user 관련 API", description = "user")
-    @Operation(summary = "회원가입 API", description = "회원가입 할 때 사용하는 API")
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "회원가입 API", description = "유저가 회원가입할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
     public ResponseEntity<?> signUp(@RequestBody User user) {
@@ -39,8 +38,10 @@ public class UserController {
         }
     }
 
-    @Tag(name = "user 관련 API", description = "user")
-    @Operation(summary = "email로 회원 검색 API", description = "특정 email을 가진 회원을 조회할 때 사용하는 API")
+
+
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "특정 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/{email}")
     public ResponseEntity<?> searchOneUser(@PathVariable("email") String email) {
@@ -58,7 +59,7 @@ public class UserController {
         }
     }
 
-    @Tag(name = "user 관련 API", description = "user")
+    @Tag(name = "user API", description = "user")
     @Operation(summary = "전체 회원 조회 API", description = "전체 회원을 조회할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping
@@ -66,15 +67,48 @@ public class UserController {
         return new ResponseEntity<List<User>>(userService.searchAllUser(), HttpStatus.OK);
     }
 
-//    @Tag(name = "user 관련 API", description = "user")
-//    @Operation(summary = "회원 수정 API", description = "회원을 수정할 때 사용하는 API")
-//    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-//    @PutMapping
-//    public ResponseEntity<?> updateUser() {
-//
-//    }
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정할 때 사용하는 API")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @PutMapping
+    public ResponseEntity<?> updateUser(HttpSession session, @RequestBody User updateUser) {
+        try{
+            User existingUser= (User) session.getAttribute("user");
+
+            if (existingUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            }
+
+            userService.updateUser(existingUser.getId(), updateUser);
+            return ResponseEntity.ok("회원 정보 수정 성공");
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 업데이트 중 서버 오류 발생");
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(HttpSession session) {
+        try {
+            User existingUser= (User) session.getAttribute("user");
+            if (existingUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            }
+
+            userService.deleteUser(existingUser.getId());
+            return ResponseEntity.ok("회원 탈퇴 성공");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 삭제 서버 오류");
+        }
+//            if(result != 0) {
+//                session.removeAttribute("member");
+//                return ResponseEntity.accepted().body("회원 삭제 성공");
+//            }
 
 
+    }
 
 
 

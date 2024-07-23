@@ -8,6 +8,7 @@ public class User {
     private String password;
     private String name;
     private String nickname;
+    private String phone;
     private boolean is_nav;
     private Date birth;
     private String user_language;
@@ -94,6 +95,8 @@ public class User {
         return device;
     }
 
+    public String getPhone() {return phone; }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -166,14 +169,22 @@ public class User {
         this.device = device;
     }
 
+
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "nav_review_count=" + nav_review_count +
+                ", id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", nickname='" + nickname + '\'' +
+                ", phone='" + phone + '\'' +
                 ", is_nav=" + is_nav +
                 ", birth=" + birth +
                 ", user_language='" + user_language + '\'' +
@@ -182,14 +193,12 @@ public class User {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 ", is_removed=" + is_removed +
-                ", nav_review_count=" + nav_review_count +
                 ", nav_review_average=" + nav_review_average +
                 ", trav_reservation_count=" + trav_reservation_count +
                 ", is_korean=" + is_korean +
                 ", device='" + device + '\'' +
                 '}';
     }
-
 }
 
 

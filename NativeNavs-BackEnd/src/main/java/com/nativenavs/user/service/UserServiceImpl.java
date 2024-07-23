@@ -32,4 +32,14 @@ public class UserServiceImpl implements UserService {
     public List<User> searchAllUser() {
         return userMapper.searchAllUser();
     }
+
+    @Override
+    public void updateUser(int existingId, User updateUser){
+        userMapper.updateUser(existingId, updateUser);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userMapper.deleteUser(id);
+    }
 }
