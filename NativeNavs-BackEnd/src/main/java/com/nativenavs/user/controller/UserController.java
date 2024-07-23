@@ -88,6 +88,9 @@ public class UserController {
         }
     }
 
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴할 때 사용하는 API")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @DeleteMapping
     public ResponseEntity<?> deleteUser(HttpSession session) {
         try {
