@@ -11,6 +11,13 @@
     <string name="nav_user_chat">채팅</string>
     <string name="nav_user_profile">프로필</string>
 
+    <!-- 상단 바 Title -->
+    <string name="app_bar_tour_detail">투어상세</string>
+    <string name="app_bar_tour_register">투어작성</string>
+    <string name="app_bar_tour_modify">투어수정</string>
+
+    <string name="tour_wish_list_title">WishList</string>
+
     <!--sign-->
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
@@ -61,7 +68,6 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
 
 
 </resources>
