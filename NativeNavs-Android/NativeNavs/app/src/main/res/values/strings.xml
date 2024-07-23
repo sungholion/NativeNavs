@@ -46,6 +46,7 @@
     <string name="sign_phone_help">숫자로만 입력해주세요.</string>
     <string name="sign_terms"><u>서비스 이용 약관 및 개인정보 수집 약관</u>에 동의합니다.</string>
     <string name="sign_register">등록 완료</string>
+    <string name="sign_language_help">최대 5개까지 선택 가능합니다.</string>
 
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
