@@ -4,6 +4,7 @@ import com.nativenavs.user.model.User;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,22 @@ public class UserController {
     @Operation(summary = "회원가입 API", description = "유저가 회원가입할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
-    public ResponseEntity<?> signUp(@RequestBody User user) {
+    public ResponseEntity<?> signUp (
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = ".",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    example = "{\"email\": \"test1@example.com\", \"password\": \"1234\", " +
+                                            "\"image\": \"profile.png\",\"name\": \"kevin\"," +
+                                            "\"birth\": \"1999-12-11\", \"phone\": \"01012345678\"," +
+                                            "\"nation\": \"USA\", \"nickname\": \"nativeGood\"," +
+                                            "\"user_language\": \"english\"}"
+                            )
+                    )
+            )
+            @RequestBody User user) {
         try {
             if (userService.checkDuplicatedEmail(user.getEmail())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일");

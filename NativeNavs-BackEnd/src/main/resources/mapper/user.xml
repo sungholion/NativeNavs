@@ -22,7 +22,7 @@
         SELECT * FROM user
     </select>
 
-    <select id="findByEmailAndPassword" parameterType="map" resultType="user">
+    <select id="loginSessionWithEmail" parameterType="map" resultType="user">
         SELECT * FROM user WHERE email = #{email} AND password = #{password}
     </select>
 

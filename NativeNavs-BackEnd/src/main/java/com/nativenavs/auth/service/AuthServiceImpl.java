@@ -12,7 +12,7 @@ public class AuthServiceImpl implements AuthService{
     private UserMapper userMapper;
 
     // 이메일 로그인 로직
-    public User loginSessionWithEmail(String email, String password) {
-        return userMapper.findByEmailAndPassword(email, password);
+    public User loginSessionWithEmail(String email, String password, String device) {
+        return userMapper.loginSessionWithEmail(email, password, device);
     }
 }

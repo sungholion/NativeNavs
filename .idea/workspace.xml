@@ -5,19 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2db6cd8-563b-4816-9d46-f3c20261f0a4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/NativenavsApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/test/java/com/nativenavs/NativenavsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/user.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/NativeNavs-BackEnd">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,23 +62,46 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Feat/BE/프로젝트-초기세팅",
+    "Spring Boot.NativeNavsBackEndApplication.executor": "Run",
+    "git-widget-placeholder": "Feat/BE/user",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/jerry/workspace/S11P12D110/NativeNavs-BackEnd",
+    "last_opened_file_path": "C:/Users/SSAFY/Desktop/workspace/S11P12D110",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="NativeNavsBackEndApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="NativeNavs-BackEnd.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.navtivenavs.NativeNavs_BackEnd.NativeNavsBackEndApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-ebaef533" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
       </set>
     </attachedChunks>
   </component>
@@ -66,6 +115,10 @@
       <updated>1721454083937</updated>
       <workItem from="1721454085012" duration="2049000" />
       <workItem from="1721457788617" duration="11000" />
+      <workItem from="1721628412981" duration="810000" />
+      <workItem from="1721629236028" duration="8312000" />
+      <workItem from="1721696551292" duration="3444000" />
+      <workItem from="1721707880345" duration="15491000" />
     </task>
     <servers />
   </component>

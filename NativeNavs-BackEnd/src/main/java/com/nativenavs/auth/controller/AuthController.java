@@ -5,6 +5,7 @@ import com.nativenavs.user.model.User;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -29,14 +30,27 @@ public class AuthController {
     @Operation(summary = "이메일과 비밀번호로 로그인", description = "사용자의 이메일과 비밀번호로 로그인 합니다.")
     @ApiResponse(responseCode = "200", description = "로그인에 성공하였습니다.")
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginSessionWithEmail(@RequestBody Map<String, String> credentials, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> loginSessionWithEmail(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "로그인에 필요한 email, password, device 정보",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    example = "{\"email\": \"user@example.com\", \"password\": \"password123\", \"device\": \"asjdlkwej\"}"
+                            )
+                    )
+            )
+            @RequestBody Map<String, String> credentials, HttpSession session){
         String email = credentials.get("email");
         String password = credentials.get("password");
+        String device = credentials.get("device");
         Map<String, Object> response = new HashMap<>();
         try {
-            User user = authService.loginSessionWithEmail(email, password);
+            User user = authService.loginSessionWithEmail(email, password, device);
             if (user != null) {
                 session.setAttribute("user", user);
+//                session.setAttribute("device", device);
                 response.put("message", "로그인 성공");
                 return ResponseEntity.ok(response);
             } else {
@@ -55,10 +69,6 @@ public class AuthController {
     @ApiResponse(responseCode = "200", description = "로그아웃에 성공하였습니다.")
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
-//        session.invalidate();
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("message", "로그아웃 성공");
-//        return ResponseEntity.ok(response);
 
         Map<String, Object> response = new HashMap<>();
 
