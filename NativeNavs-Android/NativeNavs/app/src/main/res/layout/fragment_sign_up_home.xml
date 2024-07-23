@@ -8,6 +8,11 @@
         android:background="@color/white"
         tools:context=".ui.signup.SignUpHomeFragment">
 
+        <include
+            android:id="@+id/signup_title_layout"
+            layout="@layout/layout_title_back"
+            app:titleText="@{`회원가입`}" />
+
         <ImageView
             android:id="@+id/signup_logo_iv"
             android:layout_width="0dp"

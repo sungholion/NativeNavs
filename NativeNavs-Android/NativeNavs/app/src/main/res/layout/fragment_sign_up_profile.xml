@@ -8,24 +8,31 @@
         android:background="@color/white"
         tools:context=".ui.signup.SignUpProfileFragment">
 
+        <include
+            android:id="@+id/signup_title_layout"
+            layout="@layout/layout_title_back"
+            app:titleText="@{`프로필 등록`}" />
+
         <ScrollView
             android:id="@+id/signup_profile_sv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@+id/signup_register_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/signup_title_layout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/signup_profile_img_cv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
                     app:cardCornerRadius="100dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -271,8 +278,7 @@
             android:text="@string/sign_register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_profile_sv" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

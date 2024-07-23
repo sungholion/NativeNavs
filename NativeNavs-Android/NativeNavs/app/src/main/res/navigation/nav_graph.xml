@@ -8,7 +8,7 @@
         android:id="@+id/loginActivity"
         android:name="com.circus.nativenavs.ui.login.LoginActivity"
         android:label="SignUpActivity"
-        tools:layout="@layout/activity_login"/>
+        tools:layout="@layout/activity_login" />
     <activity
         android:id="@+id/signUpActivity"
         android:name="com.circus.nativenavs.ui.signup.SignUpActivity"
@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/tourListFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourListFragment"
-        android:label="TourListFragment" >
+        android:label="TourListFragment">
         <action
             android:id="@+id/action_tourListFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/chatListFragment"
         android:name="com.circus.nativenavs.ui.home.chat.ChatListFragment"
-        android:label="ChatListFragment" >
+        android:label="ChatListFragment">
         <action
             android:id="@+id/action_chatListFragment_to_chattingRoomFragment"
             app:destination="@id/chattingRoomFragment" />
@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/reservationListFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationListFragment"
-        android:label="ReservationListFragment" >
+        android:label="ReservationListFragment">
         <action
             android:id="@+id/action_reservationListFragment_to_reservationDetailFragment"
             app:destination="@id/reservationDetailFragment" />
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/tourRegisterFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourRegisterFragment"
-        android:label="TourRegisterFragment" >
+        android:label="TourRegisterFragment">
         <action
             android:id="@+id/action_tourRegisterFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
@@ -104,7 +104,7 @@
     <fragment
         android:id="@+id/signUpEmailFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpEmailFragment"
-        android:label="SignUpEmailFragment" >
+        android:label="SignUpEmailFragment">
         <action
             android:id="@+id/action_signUpEmailFragment_to_signUpUserTypeFragment"
             app:destination="@id/signUpUserTypeFragment" />
@@ -112,7 +112,7 @@
     <fragment
         android:id="@+id/signUpHomeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpHomeFragment"
-        android:label="SignUpHomeFragment" >
+        android:label="SignUpHomeFragment">
         <action
             android:id="@+id/action_signUpHomeFragment_to_signUpEmailFragment"
             app:destination="@id/signUpEmailFragment" />
@@ -120,13 +120,16 @@
     <fragment
         android:id="@+id/signUpProfileFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpProfileFragment"
-        android:label="SignUpProfileFragment" >
+        android:label="SignUpProfileFragment">
         <action
             android:id="@+id/action_signUpProfileFragment_to_signUpTosFragment"
             app:destination="@id/signUpTosFragment" />
         <action
             android:id="@+id/action_signUpProfileFragment_to_signUpCompleteFragment"
             app:destination="@id/signUpCompleteFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpLanguageFragment"
+            app:destination="@id/signUpLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpTosFragment"
@@ -135,7 +138,7 @@
     <fragment
         android:id="@+id/signUpUserTypeFragment"
         android:name="com.circus.nativenavs.ui.signup.SignUpUserTypeFragment"
-        android:label="SignUpUserTypeFragment" >
+        android:label="SignUpUserTypeFragment">
         <action
             android:id="@+id/action_signUpUserTypeFragment_to_signUpProfileFragment"
             app:destination="@id/signUpProfileFragment" />
@@ -165,4 +168,9 @@
         android:id="@+id/myTripFragment2"
         android:name="com.circus.nativenavs.ui.home.trip.MyTripFragment"
         android:label="MyTripFragment" />
+    <fragment
+        android:id="@+id/signUpLanguageFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpLanguageFragment"
+        android:label="SignUpLanguageFragment"
+        tools:layout="@layout/fragment_sign_up_language" />
 </navigation>

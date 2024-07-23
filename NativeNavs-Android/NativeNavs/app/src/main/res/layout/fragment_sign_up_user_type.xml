@@ -7,13 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".ui.signup.SignUpUserTypeFragment">
 
+        <include
+            android:id="@+id/signup_title_layout"
+            layout="@layout/layout_title_back"
+            app:titleText="@{`회원가입`}" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/signup_title_layout">
 
             <TextView
                 android:id="@+id/signup_welcome_tv"
