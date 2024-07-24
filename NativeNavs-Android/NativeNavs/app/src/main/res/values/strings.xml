@@ -18,6 +18,8 @@
 
     <string name="tour_wish_list_title">WishList</string>
 
+    <!-- 프로필 -->
+
     <!--sign-->
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>

@@ -41,7 +41,11 @@
         android:id="@+id/mypageFragment"
         android:name="com.circus.nativenavs.ui.home.mypage.MypageFragment"
         android:label="MypageFragment"
-        tools:layout="@layout/fragment_mypage" />
+        tools:layout="@layout/fragment_mypage" >
+        <action
+            android:id="@+id/action_mypageFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
         android:name="com.circus.nativenavs.ui.home.reservation.ReservationListFragment"
@@ -87,12 +91,22 @@
         tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.ProfileFragment"
+        android:name="com.circus.nativenavs.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_profileModifylFragment"
+            app:destination="@id/profileModifylFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_stampFragment"
+            app:destination="@id/stampFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileModifylFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.ProfileModifylFragment"
+        android:name="com.circus.nativenavs.ui.profile.ProfileModifylFragment"
         android:label="ProfileModifylFragment"
         tools:layout="@layout/fragment_profile_modify" />
     <fragment
