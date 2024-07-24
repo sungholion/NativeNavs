@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -7,6 +8,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.mypage.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
+import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.navigate
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
@@ -37,6 +39,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         )
     )
 
+    private lateinit var homeActivity: HomeActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        homeActivity = context as HomeActivity
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
