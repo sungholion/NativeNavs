@@ -11,6 +11,8 @@ import { duration_expression } from "../../utils/duration_expression";
 //       tour_id: 2,
 //       title: "투어 내용",
 //     },
+//     needToShowTourTitle : 투어 타이틀 보여주기 여부
+//      imageList : [] 이미지 url 담긴 배열
 //   };
 
 const Review_Item = ({
