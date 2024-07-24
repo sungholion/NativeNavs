@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.signup
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,12 +10,34 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.databinding.FragmentSignUpHomeBinding
+import com.circus.nativenavs.util.navigate
 
-class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(FragmentSignUpHomeBinding::bind, R.layout.fragment_sign_up_home) {
+class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(
+    FragmentSignUpHomeBinding::bind,
+    R.layout.fragment_sign_up_home
+) {
+
+    private lateinit var signUpActivity: SignUpActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        signUpActivity = context as SignUpActivity
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initEvent()
+    }
+
+    private fun initEvent() {
+        binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
+            signUpActivity.finish()
+        }
+
+        binding.signupEmailBtn.setOnClickListener {
+            navigate(R.id.action_signUpHomeFragment_to_signUpEmailFragment)
+        }
     }
 
 }

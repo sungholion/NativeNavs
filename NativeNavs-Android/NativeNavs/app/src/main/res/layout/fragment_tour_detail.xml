@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -7,10 +7,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.tour.TourDetailFragment">
 
-        <TextView
+        <com.circus.nativenavs.util.CustomTitleWebView
+            android:id="@+id/tour_detail_wv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="여기는 투어상세 프래그먼트 입니다." />
+            app:title="@string/app_bar_tour_detail"
+            app:img="@drawable/icon_back"/>
 
     </FrameLayout>
 </layout>

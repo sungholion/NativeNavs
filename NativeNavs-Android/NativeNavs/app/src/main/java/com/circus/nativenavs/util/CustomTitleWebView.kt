@@ -2,6 +2,7 @@ package com.circus.nativenavs.util
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.webkit.WebChromeClient
@@ -64,12 +65,14 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
 
     private fun getAttrs(attrs: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleWebView)
+
         setTypedArray(typedArray)
 
     }
 
     private fun setTypedArray(typedArray: TypedArray) {
         binding.customWebviewTitleTv.text = typedArray.getText(R.styleable.CustomTitleWebView_title)
+        binding.customWebviewTitleBackIv.setImageDrawable(typedArray.getDrawable(R.styleable.CustomTitleWebView_img))
         typedArray.getString(R.styleable.CustomTitleWebView_url)
             ?.let { binding.customWebviewTitleWv.loadUrl(it) }
     }

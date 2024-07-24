@@ -11,21 +11,69 @@
     <string name="nav_user_chat">채팅</string>
     <string name="nav_user_profile">프로필</string>
 
+    <!-- 상단 바 Title -->
+    <string name="app_bar_tour_detail">투어상세</string>
+    <string name="app_bar_tour_register">투어작성</string>
+    <string name="app_bar_tour_modify">투어수정</string>
+
+    <string name="tour_wish_list_title">WishList</string>
+
+    <!-- 프로필 -->
+
     <!--sign-->
+    <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
     <string name="sign_pw">비밀번호</string>
+    <string name="sign_pw_check">비밀번호 재입력</string>
     <string name="sign_login">로그인</string>
     <string name="sign_google_login">구글 계정으로 로그인</string>
     <string name="sign_login_not_user">아직 회원이 아니신가요?</string>
     <string name="sign_login_signup"><u>회원가입</u></string>
+    <string name="sign_email_signup">이메일로 회원가입</string>
+    <string name="sign_google_signup">구글 계정으로 회원가입</string>
+    <string name="sign_send">전송</string>
+    <string name="sign_code">코드 번호</string>
+    <string name="sign_code_help">만약 코드 번호가 오지 않았거나 재전송이 필요하시면\n코드 번호 재전송을 요청해 주세요.</string>
+    <string name="sign_auth">인증</string>
+    <string name="sign_pw_help">해당 계정에 대한 비밀번호를 입력해 주세요.\n알파벳, 소문자, 특수문자를 섞어서 8~20자리 입력해 주세요.</string>
+    <string name="sign_pw_check_help">위에서 입력한 비밀번호를 다시 입력해 주세요.</string>
+    <string name="sign_welcome">환영합니다!</string>
+    <string name="sign_your_type">당신의 방향은?</string>
+    <string name="sign_type_nav">Nav</string>
+    <string name="sign_type_nav_explain">가이드</string>
+    <string name="sign_type_trav">Trav</string>
+    <string name="sign_type_trav_explain">여행자</string>
+    <string name="sign_nickname">닉네임</string>
+    <string name="sign_nickname_check">중복 확인</string>
+    <string name="sign_nickname_help">NativeNavs에 표시할 닉네임을 4~20자리 영어 및 숫자로 입력해 주세요.\n이미 사용된 닉네임은 사용 불가능합니다.</string>
+    <string name="sign_nationality">국가</string>
+    <string name="sign_languages">구사 언어 선택</string>
+    <string name="sign_name">이름</string>
+    <string name="sign_name_help">정부 발급 신분증에 기재된 이름과 일치하게 작성해 주세요.</string>
+    <string name="sign_birth">생년월일</string>
+    <string name="sign_phone">전화번호</string>
+    <string name="sign_phone_help">숫자로만 입력해주세요.</string>
+    <string name="sign_terms"><u>서비스 이용 약관 및 개인정보 수집 약관</u>에 동의합니다.</string>
+    <string name="sign_register">등록 완료</string>
+    <string name="sign_language_help">최대 5개까지 선택 가능합니다.</string>
+    <string name="sign_check">확인</string>
+    <string name="sign_complete">회원가입 완료!</string>
+    <string name="sign_complete_welcome">가입하신 것을 축하합니다!\n당신의 여행을 NativeNavs가 함께하겠습니다.</string>
+    <string name="sign_move_to_main">메인으로 이동</string>
+
+    <!--tourList-->
+    <string name="search_bar_title">원하는 Travel이 있나요?</string>
+    <string name="search_bar_content">검색을 해서 다양한 Navs를 찾아보세요</string>
 
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
     <string name="booking_detail_page_title">예약 상세보기</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
 
 </resources>

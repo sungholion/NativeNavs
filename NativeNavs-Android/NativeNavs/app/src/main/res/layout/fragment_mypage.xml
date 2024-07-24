@@ -5,12 +5,17 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.home.mypage.MypageFragment">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="여기는 마이페이지 프래그먼트 입니다." />
-
+        <Button
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로필"/>
     </FrameLayout>
 </layout>

@@ -1,16 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.signup.SignUpEmailFragment">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="여기는 회원가입 이메일 인증 프래그먼트 입니다." />
+        tools:context=".ui.signup.SignUpEmailFragment">
 
-</FrameLayout>
+        <include
+            android:id="@+id/signup_title_layout"
+            layout="@layout/layout_title_back"
+            app:titleText="@{`회원가입`}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/signup_email_next_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signup_title_layout">
+
+            <TextView
+                android:id="@+id/signup_email_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_title_et"
+                android:text="@string/sign_email"
+                app:layout_constraintStart_toStartOf="@id/signup_email_et"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/signup_email_et"
+                style="@style/et_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_horizontal_page"
+                android:layout_marginEnd="0dp"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toStartOf="@+id/signup_code_send_btn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_email_tv" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_code_send_btn"
+                style="@style/btn_short_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/margin_horizontal_page"
+                android:text="@string/sign_send"
+                app:layout_constraintBottom_toBottomOf="@+id/signup_email_et"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/signup_email_et"
+                app:layout_constraintTop_toTopOf="@+id/signup_email_et" />
+
+            <TextView
+                android:id="@+id/signup_code_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_title_et"
+                android:layout_marginTop="20dp"
+                android:text="@string/sign_code"
+                app:layout_constraintStart_toStartOf="@id/signup_code_et"
+                app:layout_constraintTop_toBottomOf="@id/signup_email_et" />
+
+            <EditText
+                android:id="@+id/signup_code_et"
+                style="@style/et_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_horizontal_page"
+                android:layout_marginEnd="0dp"
+                android:inputType="number"
+                app:layout_constraintEnd_toStartOf="@+id/signup_code_auth_btn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_code_tv" />
+
+            <TextView
+                android:id="@+id/signup_code_time_tv"
+                style="@style/content_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_horizontal_et"
+                app:layout_constraintBottom_toBottomOf="@id/signup_code_et"
+                app:layout_constraintEnd_toEndOf="@id/signup_code_et"
+                app:layout_constraintTop_toTopOf="@id/signup_code_et"
+                tools:text="2:41" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_code_auth_btn"
+                style="@style/btn_short_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/margin_horizontal_page"
+                android:background="@drawable/shape_round_10_gray_d9d9"
+                android:text="@string/sign_auth"
+                app:layout_constraintBottom_toBottomOf="@+id/signup_code_et"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/signup_code_et"
+                app:layout_constraintTop_toTopOf="@+id/signup_code_et" />
+
+            <TextView
+                android:id="@+id/signup_code_help_tv"
+                style="@style/content_help"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                android:text="@string/sign_code_help"
+                app:layout_constraintEnd_toEndOf="@id/signup_code_auth_btn"
+                app:layout_constraintStart_toStartOf="@id/signup_code_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_code_et" />
+
+            <TextView
+                android:id="@+id/signup_pw_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_title_et"
+                android:layout_marginTop="20dp"
+                android:text="@string/sign_pw"
+                app:layout_constraintStart_toStartOf="@id/signup_pw_et"
+                app:layout_constraintTop_toBottomOf="@id/signup_code_help_tv" />
+
+            <EditText
+                android:id="@+id/signup_pw_et"
+                style="@style/et_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_pw_tv" />
+
+            <TextView
+                android:id="@+id/signup_pw_help_tv"
+                style="@style/content_help"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                android:text="@string/sign_pw_help"
+                app:layout_constraintEnd_toEndOf="@id/signup_code_auth_btn"
+                app:layout_constraintStart_toStartOf="@id/signup_pw_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_pw_et" />
+
+            <TextView
+                android:id="@+id/signup_pw_check_tv"
+                style="@style/title_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start_title_et"
+                android:layout_marginTop="20dp"
+                android:text="@string/sign_pw_check"
+                app:layout_constraintStart_toStartOf="@id/signup_pw_check_et"
+                app:layout_constraintTop_toBottomOf="@id/signup_pw_help_tv" />
+
+            <EditText
+                android:id="@+id/signup_pw_check_et"
+                style="@style/et_default"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_pw_check_tv" />
+
+            <TextView
+                android:id="@+id/signup_pw_check_help_tv"
+                style="@style/content_help"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                android:text="@string/sign_pw_check_help"
+                app:layout_constraintEnd_toEndOf="@id/signup_code_auth_btn"
+                app:layout_constraintStart_toStartOf="@id/signup_pw_check_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_pw_check_et" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signup_email_next_btn"
+            style="@style/btn_short_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="@dimen/margin_horizontal_page"
+            android:layout_marginBottom="@dimen/margin_bottom_next_btn"
+            android:background="@drawable/shape_round_10_gray_d9d9"
+            android:text="@string/sign_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
