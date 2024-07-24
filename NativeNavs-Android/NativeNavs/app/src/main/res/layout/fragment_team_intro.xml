@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.mypage.TeamIntroFragment">
+        android:background="@color/white"
+        tools:context=".ui.team.TeamIntroFragment">
 
-        <TextView
+        <com.circus.nativenavs.util.CustomTitleWebView
+            android:id="@+id/team_custom_wv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="여기는 팀소개 프래그먼트 입니다." />
+            app:img="@drawable/icon_back"
+            app:url="www.google.com"
+            app:title="@string/team_title" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -81,10 +81,19 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <!--setting-->
     <string name="setting_language">언어</string>
     <string name="setting_language_help">앱에 사용될 언어를 선택해주세요.</string>
     <string name="setting_noti">알림</string>
     <string name="setting_noti_help">예약, 메시지, 계정 활동에 관한 중요한 알림을 받아보세요.</string>
 
+    <!--tos-->
+    <string name="tos_title">개인정보 취급 방침</string>
 
+    <!--team-->
+    <string name="team_title">Circus 소개</string>
+
+    <!--notification-->
+    <string name="noti_title">알림</string>
 </resources>
