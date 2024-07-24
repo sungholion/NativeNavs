@@ -42,15 +42,22 @@ public class AuthController {
                     )
             )
             @RequestBody Map<String, String> credentials, HttpSession session){
+
+        Map<String, Object> response = new HashMap<>();
+
+        if(session.getAttribute("user") != null){
+            response.put("message", "이미 로그인된 유저입니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
+
         String email = credentials.get("email");
         String password = credentials.get("password");
         String device = credentials.get("device");
-        Map<String, Object> response = new HashMap<>();
+
         try {
             User user = authService.loginSessionWithEmail(email, password, device);
             if (user != null) {
                 session.setAttribute("user", user);
-//                session.setAttribute("device", device);
                 response.put("message", "로그인 성공");
                 return ResponseEntity.ok(response);
             } else {
@@ -64,23 +71,18 @@ public class AuthController {
         }
     }
 
-    @Tag(name = "auth API", description = "Authentication")
+
     @Operation(summary = "로그아웃", description = "사용자를 로그아웃 합니다.")
     @ApiResponse(responseCode = "200", description = "로그아웃에 성공하였습니다.")
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
+        Map<String, Object> response = authService.logout(session);
 
-        Map<String, Object> response = new HashMap<>();
-
-        if (session.getAttribute("user") != null) {
-            session.invalidate();
-            response.put("message", "로그아웃 성공");
+        if ("로그아웃 성공".equals(response.get("message"))) {
             return ResponseEntity.ok(response);
         } else {
-            response.put("message", "이미 로그아웃된 상태입니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-
     }
 
 

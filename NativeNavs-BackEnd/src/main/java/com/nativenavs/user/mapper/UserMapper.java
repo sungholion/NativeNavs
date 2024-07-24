@@ -12,7 +12,7 @@ public interface UserMapper {
     public boolean checkDuplicatedEmail(String email);
     public User searchOneUser(String email);
     public List<User> searchAllUser();
-    public User loginSessionWithEmail(@Param("email") String email, @Param("password") String password, @Param("device") String device);
+    public User loginSessionWithEmail(@Param("email") String email, @Param("password") String password);
     public void updateUser(@Param("existingId") int existingId, @Param("updateUser") User updateUser);
     public void deleteUser(int id);
 }
