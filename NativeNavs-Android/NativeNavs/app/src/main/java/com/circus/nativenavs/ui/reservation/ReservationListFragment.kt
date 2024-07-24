@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.reservation
+package com.circus.nativenavs.ui.reservation
 
 import android.os.Bundle
 import android.view.View
