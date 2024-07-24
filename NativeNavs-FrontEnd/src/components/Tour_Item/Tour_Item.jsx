@@ -1,6 +1,7 @@
 import { tour } from "../../dummy";
 import styles from "./Tour_Item.module.css";
 import Rating from "../Star/Rating(Basic)";
+import Heart from "../Heart/Heart";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
