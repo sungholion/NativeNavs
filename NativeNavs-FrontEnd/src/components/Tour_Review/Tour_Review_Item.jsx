@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./Tour_Review_Item.module.css";
-import Rating from "../Star/Rating";
+import Rating from "../Star/Rating(Basic)";
 
 // const info = {
 //   user: {
@@ -26,7 +26,6 @@ const Tour_Review_Item = ({
   created_at,
   image,
 }) => {
-  useEffect(() => {}, []);
   const createdDate = new Date(created_at);
   return (
     <div className={styles.Tour_Review_Item}>
