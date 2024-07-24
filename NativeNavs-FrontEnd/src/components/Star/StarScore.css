@@ -1,23 +1,29 @@
-/* src/components/Star/StarScore.css */
 .star-score-wrap {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 5px;
-}
-
-.star-score-icons {
+  }
+  
+  .star-score-icons {
     display: flex;
     align-items: center;
-}
-
-.star-score-icon {
-    display: inline-flex;
-    margin-right: 2px; /* 별 사이의 간격 조정 */
-}
-
-.star-score-text {
-    margin-left: 5px; /* 별과 점수 사이의 간격 조정 */
-    font-size: 16px; /* 점수의 폰트 크기 조정 */
-    font-weight: bold; /* 점수를 강조하기 위한 폰트 굵기 조정 */
-}
+  }
+  
+  .star-score-icon {
+    font-size: 24px; /* 별 크기 조정 */
+    cursor: default; /* 클릭 불가능 */
+    margin-right: 5px;
+    color: #cccccc; /* 기본 회색 */
+  }
+  
+  .star-score-icon.filled {
+    color: #ffc107; /* 노란색 */
+  }
+  
+  .star-score-text {
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
