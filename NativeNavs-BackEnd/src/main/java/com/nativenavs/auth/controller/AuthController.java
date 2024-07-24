@@ -79,6 +79,7 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @Tag(name = "auth API", description = "Authentication")
     @Operation(summary = "리프레시 토큰을 통한 액세스 토큰 갱신", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "액세스 토큰 갱신 성공")
     @PostMapping("/refresh")
