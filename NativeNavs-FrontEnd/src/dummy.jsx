@@ -21,8 +21,10 @@ export const tours = [
     regional_information: "대구",
     date: new Date(2024, 12, 31),
     review_average: 4.52,
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
-    language: "영어, 독일어"
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: "영어, 독일어",
+    created_at: new Date(2021, 2, 3),
   },
   {
     name: "홍길동",
@@ -37,7 +39,9 @@ export const tours = [
     regional_information: "서울",
     date: new Date(2024, 12, 1),
     review_average: 4.52,
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHmXW7ywqVPTG7oiomKDLaSZCXnwttiqYuw&s",
-    language: "영어, 프랑스어"
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHmXW7ywqVPTG7oiomKDLaSZCXnwttiqYuw&s",
+    language: "영어, 프랑스어",
+    created_at: new Date(2022, 3, 4),
   },
 ];

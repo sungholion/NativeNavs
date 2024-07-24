@@ -11,6 +11,7 @@ const Tour_Item2 = ({
   image,
   nickname,
   language,
+  created_at,
 }) => {
   return (
     <div className={styles.TotalContainer}>
@@ -26,7 +27,7 @@ const Tour_Item2 = ({
           </h6>
         </div>
         <div className={styles.NavDescription}>
-          <Profile image={image} nickname={nickname} language={language} />
+          <Profile image={image} nickname={nickname} language={language} created_at={created_at} />
         </div>
       </div>
     </div>

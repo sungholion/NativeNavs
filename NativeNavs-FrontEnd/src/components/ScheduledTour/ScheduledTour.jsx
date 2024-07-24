@@ -30,6 +30,7 @@ const ScheduledTour = () => {
                 image={tour.image}
                 nickname={tour.nickname}
                 language={tour.language}
+                created_at={tour.created_at}
                 onClick={onClickTour(tour.id)}
               />
             );
