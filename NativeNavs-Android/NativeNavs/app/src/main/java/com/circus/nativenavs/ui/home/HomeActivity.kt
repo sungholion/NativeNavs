@@ -1,6 +1,7 @@
 package com.circus.nativenavs.ui.home
 
 import android.os.Bundle
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.circus.nativenavs.R
@@ -32,7 +33,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
 
         NavigationUI.setupWithNavController(binding.mainBottomNav, navController)
-
+        binding.mainBottomNav.setOnClickListener {
+            findNavController(R.id.home_fcv).popBackStack()
+        }
     }
 
 }

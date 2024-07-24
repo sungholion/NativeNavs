@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.mypage.util
+package com.circus.nativenavs.ui.profile
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.data.mypage.ProfileReviewDto
 
-class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto,ProfileReviewListAdapter.ProfileReviewHolder>(ProfileReviewDiffUitl()) {
+class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto, ProfileReviewListAdapter.ProfileReviewHolder>(
+    ProfileReviewDiffUitl()
+) {
 
     companion object {
         class ProfileReviewDiffUitl : DiffUtil.ItemCallback<ProfileReviewDto>() {
@@ -39,7 +41,7 @@ class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto,ProfileReviewListA
             itemView.apply {
                 findViewById<RatingBar>(R.id.profile_review_ratingBar).rating = dto.rating.toFloat()
                 findViewById<TextView>(R.id.profile_review_date).text = dto.data
-                findViewById<ImageView>(R.id.profile_review_user_img).setImageURI(dto.img.toUri())
+                findViewById<ImageView>(R.id.profile_review_user_img).setImageResource(R.drawable.profile_review_sample_img)
                 findViewById<TextView>(R.id.profile_reivew_content).text = dto.content
                 findViewById<TextView>(R.id.profile_reivew_user_name).text =dto.userName
                 findViewById<TextView>(R.id.profile_review_user_language).text = dto.userLanguage

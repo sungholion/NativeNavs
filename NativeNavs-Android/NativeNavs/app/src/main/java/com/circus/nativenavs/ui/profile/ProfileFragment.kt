@@ -1,12 +1,13 @@
-package com.circus.nativenavs.ui.home.mypage
+package com.circus.nativenavs.ui.profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.mypage.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
-import com.circus.nativenavs.ui.home.mypage.util.ProfileReviewListAdapter
+import com.circus.nativenavs.util.navigate
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 
@@ -30,7 +31,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             4,
             "2024년1월",
             "두 번째 방문입니다. 올 때 마다 힐링하고 가요. \uD83D\uDE0A가이드님이 잘 챙겨주셨어요!",
-            "res/drawable/logo_nativenavs.png",
+            "R.drawable.profile_review_sample",
             "아린",
             "영어"
         )
@@ -46,7 +47,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             }
         }
 
+        binding.profileModifyBtn.setOnClickListener {
+            navigate(R.id.action_profileFragment_to_profileModifylFragment)
+        }
 
+        binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.profileReviewTitle.setOnClickListener {
+            navigate(R.id.action_profileFragment_to_reviewListFragment)
+        }
+
+        binding.profileStampTitle.setOnClickListener {
+            navigate(R.id.action_profileFragment_to_stampFragment)
+        }
     }
 
 }

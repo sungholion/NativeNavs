@@ -6,7 +6,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.mypage.ProfileFragment">
+        tools:context=".ui.profile.ProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -71,6 +71,7 @@
                             android:layout_weight="1">
 
                             <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/profile_modify_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="top|center"
@@ -174,6 +175,7 @@
                 android:id="@+id/profile_stamp_lt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

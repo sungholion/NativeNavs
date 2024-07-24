@@ -70,7 +70,7 @@
     <!--edit text-->
     <style name="et_default" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">@dimen/font_size_et_default</item>
-        <item name="android:background">@drawable/stroke_round_10_light_grey</item>
+        <item name="android:background">@drawable/selector_et</item>
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textColor">@color/gray_5858</item>
         <item name="android:paddingHorizontal">@dimen/padding_horizontal_et</item>
