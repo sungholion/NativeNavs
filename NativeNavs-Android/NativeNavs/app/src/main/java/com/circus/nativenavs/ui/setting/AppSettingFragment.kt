@@ -23,6 +23,11 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
         homeActivity = context as HomeActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
