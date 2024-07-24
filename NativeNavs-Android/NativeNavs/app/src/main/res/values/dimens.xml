@@ -3,14 +3,19 @@
 
     <!--font-->
     <dimen name="font_size_title_page">25sp</dimen>
+    <dimen name="font_size_title_fragment">44sp</dimen>
     <dimen name="font_size_title_et">15sp</dimen>
     <dimen name="font_size_content_help">12sp</dimen>
     <dimen name="font_size_btn_long">20sp</dimen>
     <dimen name="font_size_btn_short">20sp</dimen>
     <dimen name="font_size_et_default">16sp</dimen>
+    <dimen name="font_size_dropdown_default">16sp</dimen>
     <dimen name="font_size_search_title_btn">16sp</dimen>
     <dimen name="font_size_search_content_btn">12sp</dimen>
     <dimen name="font_size_profile_title">20sp</dimen>
+    <dimen name="font_size_mypage_content">18sp</dimen>
+    <dimen name="font_size_setting_title">20sp</dimen>
+    <dimen name="font_size_setting_help">14sp</dimen>
 
     <!--margin-->
     <dimen name="margin_horizontal_btn">15dp</dimen>

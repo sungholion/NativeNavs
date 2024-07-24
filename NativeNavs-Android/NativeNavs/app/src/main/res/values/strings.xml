@@ -18,7 +18,14 @@
 
     <string name="tour_wish_list_title">WishList</string>
 
-    <!-- 프로필 -->
+    <!--마이페이지-->
+    <string name="mypage_title">프로필</string>
+    <string name="mypage_setting_title">환경 설정</string>
+    <string name="mypage_logout">로그아웃</string>
+    <string name="mypage_setting">설정</string>
+    <string name="mypage_team">NativeNavs 소개</string>
+    <string name="mypage_tos">개인 정보 약관</string>
+    <string name="mypage_withdrawal">회원탈퇴</string>
 
     <!--sign-->
     <string name="sign_next">다음</string>
@@ -75,5 +82,18 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--setting-->
+    <string name="setting_language">언어</string>
+    <string name="setting_language_help">앱에 사용될 언어를 선택해주세요.</string>
+    <string name="setting_noti">알림</string>
+    <string name="setting_noti_help">예약, 메시지, 계정 활동에 관한 중요한 알림을 받아보세요.</string>
 
+    <!--tos-->
+    <string name="tos_title">개인정보 취급 방침</string>
+
+    <!--team-->
+    <string name="team_title">Circus 소개</string>
+
+    <!--notification-->
+    <string name="noti_title">알림</string>
 </resources>

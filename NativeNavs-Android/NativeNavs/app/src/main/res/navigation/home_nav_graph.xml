@@ -43,8 +43,20 @@
         android:label="MypageFragment"
         tools:layout="@layout/fragment_mypage" >
         <action
+            android:id="@+id/action_mypageFragment_to_appSettingFragment"
+            app:destination="@id/appSettingFragment" />
+        <action
             android:id="@+id/action_mypageFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_teamIntroFragment"
+            app:destination="@id/teamIntroFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_tosFragment"
+            app:destination="@id/tosFragment" />
     </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
@@ -76,7 +88,7 @@
         tools:layout="@layout/fragment_tour_detail" />
     <fragment
         android:id="@+id/appSettingFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.AppSettingFragment"
+        android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"
         android:label="AppSettingFragment"
         tools:layout="@layout/fragment_app_setting" />
     <fragment
@@ -86,7 +98,7 @@
         tools:layout="@layout/fragment_chatting_room" />
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.NotificationFragment"
+        android:name="com.circus.nativenavs.ui.notification.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/fragment_notification" />
     <fragment
@@ -136,12 +148,12 @@
         tools:layout="@layout/fragment_stamp" />
     <fragment
         android:id="@+id/teamIntroFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.TeamIntroFragment"
+        android:name="com.circus.nativenavs.ui.team.TeamIntroFragment"
         android:label="TeamIntroFragment"
         tools:layout="@layout/fragment_team_intro" />
     <fragment
         android:id="@+id/tosFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.TosFragment"
+        android:name="com.circus.nativenavs.ui.tos.TosFragment"
         android:label="TosFragment"
         tools:layout="@layout/fragment_tos" />
     <activity

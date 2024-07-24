@@ -1,16 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.mypage.AppSettingFragment">
+        android:background="@color/white"
+        tools:context=".ui.setting.AppSettingFragment">
+
+        <include
+            android:id="@+id/setting_title_layout"
+            layout="@layout/layout_title_back"
+            app:titleText="@{`설정`}" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="여기는 앱 설정 프래그먼트 입니다." />
+            android:id="@+id/setting_language_tv"
+            style="@style/setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_page"
+            android:text="@string/setting_language"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_title_layout" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/setting_language_help_tv"
+            style="@style/setting_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_language_help"
+            app:layout_constraintStart_toStartOf="@+id/setting_language_tv"
+            app:layout_constraintTop_toBottomOf="@+id/setting_language_tv" />
+
+        <Spinner
+            android:id="@+id/setting_language_sp"
+            style="@style/dropdown_default"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+            android:layout_marginTop="10dp"
+            android:popupBackground="@drawable/spinner_dropdown_pop"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_language_help_tv"
+            tools:listitem="@layout/item_dropdown_selected" />
+
+        <View
+            android:id="@+id/setting_line_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/stroke_default"
+            android:layout_marginTop="20dp"
+            android:background="@color/gray_d9d9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_language_sp" />
+
+        <TextView
+            android:id="@+id/setting_noti_tv"
+            style="@style/setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_page"
+            android:text="@string/setting_noti"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/setting_line_view" />
+
+        <TextView
+            android:id="@+id/setting_noti_help_tv"
+            style="@style/setting_help"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/setting_noti_help"
+            app:layout_constraintEnd_toStartOf="@+id/setting_noti_tb"
+            app:layout_constraintStart_toStartOf="@+id/setting_noti_tv"
+            app:layout_constraintTop_toBottomOf="@+id/setting_noti_tv" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/setting_noti_tb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_horizontal_page"
+            android:background="@null"
+            android:gravity="center"
+            android:thumb="@drawable/shape_thumb"
+            app:layout_constraintBottom_toBottomOf="@+id/setting_noti_help_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/setting_noti_help_tv"
+            app:thumbTint="@null"
+            app:track="@drawable/selector_switch"
+            app:trackTint="@null" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
