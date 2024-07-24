@@ -96,4 +96,8 @@
 
     <!--notification-->
     <string name="noti_title">알림</string>
+
+    <!--reservation-->
+    <string name="reservation_register_title">예약하기</string>
+    <string name="reservation_detail_title">예약 상세보기</string>
 </resources>
