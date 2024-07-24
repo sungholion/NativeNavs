@@ -5,23 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89354355-16b1-4bd9-86a4-41b4a09cc99c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/jwt/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/jwt/JwtTokenProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/CustomUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/UserDetailsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/NativeNavs-BackEnd">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2jfZbNcZuL2DKrKOWuJqrrIiQ7m" />
   <component name="ProjectViewState">
     <option name="flattenModules" value="true" />
@@ -36,7 +53,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.NativeNavsBackEndApplication.executor": "Run",
-    "git-widget-placeholder": "Feat/BE/user",
+    "git-widget-placeholder": "Feat/BE/JWT__provider",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -49,6 +66,16 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="NativeNavsBackEndApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="NativeNavs-BackEnd.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.navtivenavs.NativeNavs_BackEnd.NativeNavsBackEndApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
