@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
-        android:name="com.circus.nativenavs.ui.home.reservation.ReservationListFragment"
+        android:name="com.circus.nativenavs.ui.reservation.ReservationListFragment"
         android:label="ReservationListFragment"
         tools:layout="@layout/fragment_reservation_list">
         <action
@@ -78,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/reservationDetailFragment"
-        android:name="com.circus.nativenavs.ui.home.reservation.ReservationDetailFragment"
+        android:name="com.circus.nativenavs.ui.reservation.ReservationDetailFragment"
         android:label="ReservationDetailFragment"
         tools:layout="@layout/fragment_reservation_detail" />
     <fragment
@@ -123,7 +123,7 @@
         tools:layout="@layout/fragment_profile_modify" />
     <fragment
         android:id="@+id/reservationRegisterFragment"
-        android:name="com.circus.nativenavs.ui.home.reservation.ReservationRegisterFragment"
+        android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
         tools:layout="@layout/fragment_reservation_register" />
     <fragment

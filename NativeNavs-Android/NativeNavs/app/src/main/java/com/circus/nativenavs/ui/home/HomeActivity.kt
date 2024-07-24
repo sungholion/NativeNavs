@@ -10,7 +10,7 @@ import com.circus.nativenavs.config.BaseActivity
 import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.home.chat.ChatListFragment
 import com.circus.nativenavs.ui.home.mypage.MypageFragment
-import com.circus.nativenavs.ui.home.reservation.ReservationListFragment
+import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.home.tour.TourListFragment
 import com.circus.nativenavs.ui.home.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment

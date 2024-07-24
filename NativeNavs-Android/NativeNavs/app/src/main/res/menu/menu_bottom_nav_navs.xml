@@ -6,7 +6,7 @@
         android:title="@string/nav_user_tour"
         android:enabled="true"/>
     <item
-        android:id="@+id/reservationListFragment"
+        android:id="@+id/myTripFragment"
         android:icon="@drawable/icon_booking"
         android:title="@string/nav_navs_booking" />
     <item

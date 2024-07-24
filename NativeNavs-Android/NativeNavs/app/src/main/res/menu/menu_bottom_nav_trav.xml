@@ -12,7 +12,7 @@
         android:title="@string/nav_trav_wishlist"
         />
     <item
-        android:id="@+id/myTripFragment"
+        android:id="@+id/reservationListFragment"
         android:icon="@drawable/icon_trips"
         android:title="@string/nav_trav_trip"
         />
