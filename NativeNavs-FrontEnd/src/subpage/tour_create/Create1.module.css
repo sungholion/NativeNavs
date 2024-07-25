@@ -1,0 +1,28 @@
+.Create1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+.thumbnailPart {
+  display: flex;
+  flex-direction: column;
+}
+
+.thumbnailPart p {
+  flex: 1;
+}
+
+.thumbnail input {
+  width: 15vw;
+  height: 15vw;
+  background-color: rgb(240, 240, 240);
+  border-radius: 5px;
+  position: relative;
+}
+
+.thumbnail > input::file-selector-button {
+  display: none;
+}
