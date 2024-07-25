@@ -8,7 +8,7 @@ import Tour from "./page/Tour";
 import Trav from "./page/Trav";
 import Team from "./page/Team";
 import Detail from "./subpage/Detail";
-
+import Edit from "./subpage/Edit";
 function App() {
   const param = useSearchParams();
   return (
@@ -17,6 +17,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/tour" element={<Tour />}>
           <Route path="create" element={<div>create</div>}></Route>
+          <Route path="edit/:tour_id" element={<Edit />} />
           <Route path="detail/:tour_id" element={<Detail />}>
             <Route path="" element={<div>상세내용</div>}></Route>
             <Route path="reviews" element={<div>투어 리뷰 페이지</div>} />
