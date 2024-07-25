@@ -7,8 +7,8 @@ import Reservation from "./page/Reservation";
 import Tour from "./page/Tour";
 import Trav from "./page/Trav";
 import Team from "./page/Team";
-import Detail from "./subpage/Detail";
-import Edit from "./subpage/Edit";
+import Detail from "./page/Detail";
+import Edit from "./page/Edit";
 function App() {
   const param = useSearchParams();
   return (
