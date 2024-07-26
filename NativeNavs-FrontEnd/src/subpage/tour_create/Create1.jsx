@@ -44,6 +44,7 @@ const Create1 = () => {
         <p>날짜</p>
         <div className={styles.dateSelect}>
           <input type="date" />
+          <span> ~ </span>
           <input type="date" />
         </div>
       </div>
