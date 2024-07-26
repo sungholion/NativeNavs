@@ -1,0 +1,22 @@
+.item_img {
+  width: 50vw;
+  height: 50vw;
+  overflow: hidden;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.item_img_one {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+.item_img_one img {
+  width: 50vw;
+  height: 50vw;
+  overflow: hidden;
+  object-fit: cover;
+  border-radius: 5px;
+}

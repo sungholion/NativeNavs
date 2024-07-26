@@ -1,0 +1,33 @@
+/* 전체 컨테이너 스타일 */
+.star-score-wrap {
+  display: flex; /* 플렉스 박스 레이아웃 사용 */
+  align-items: center; /* 아이템을 수직 중앙 정렬 */
+  width: 100%; /* 컨테이너 너비를 100%로 설정 */
+  padding: 5px; /* 내부 여백 설정 */
+}
+
+/* 별 아이콘들을 플렉스로 가로 배치 */
+.star-score-icons {
+  display: flex;
+  align-items: center;
+}
+
+/* 별 아이콘 기본 스타일 */
+.star-score-icon {
+  font-size: 24px; /* 별 크기 조정 */
+  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하게 설정 */
+  margin-right: 5px;
+  color: #cccccc; /* 기본 회색 색상 */
+}
+
+/* 채워진 별 스타일 */
+.star-score-icon.filled {
+  color: #ffc107;
+}
+
+/* 점수를 표시하는 텍스트 스타일 */
+.star-score-text {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}

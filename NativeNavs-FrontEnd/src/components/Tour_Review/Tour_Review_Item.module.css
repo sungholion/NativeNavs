@@ -1,0 +1,88 @@
+.Tour_Review_Item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+  width: 80vw;
+}
+
+.review_header {
+  display: flex;
+  justify-content: start;
+  margin: 2px;
+}
+
+.review_date {
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.review_content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.review_content_img > img {
+  width: 25vw;
+  height: 25vw;
+  border-radius: 5%;
+}
+
+/* 
+display: -webkit-box; 해당 영역을 box 형태로 관리된다.
+-webkit-line-clamp:컨텐츠의 최대 라인수
+-webkit-box-orient: vertical 속성은 영역 박스의 내의 정렬을 수직으로 만든다.
+*/
+
+.review_content_text {
+  display: -webkit-box;
+  height: 25vw;
+  color: #585858;
+  margin-left: 2px;
+  margin-right: 4px;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1%;
+  font-size: 15px;
+  flex: 1;
+}
+
+.review_writer {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.review_writer_img {
+  margin: 2px 4px;
+}
+.review_writer_img > img {
+  width: 10vw;
+  height: 10vw;
+  border-radius: 70%;
+}
+
+.review_writer_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.review_writer_info > h5,
+p {
+  margin: 2px;
+}
+
+.review_writer_info > h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.review_writer_info > p {
+  font-size: 13px;
+  font-weight: 500;
+}
