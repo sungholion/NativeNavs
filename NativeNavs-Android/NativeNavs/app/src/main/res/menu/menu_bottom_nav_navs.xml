@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tourListFragment"
+        android:icon="@drawable/icon_search"
+        android:title="@string/nav_user_tour"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/myTripFragment"
+        android:icon="@drawable/icon_booking"
+        android:title="@string/nav_navs_booking" />
+    <item
+        android:id="@+id/tourRegisterFragment"
+        android:icon="@drawable/icon_new_tour"
+        android:title="@string/nav_navs_new_tour" />
+    <item
+        android:id="@+id/chatListFragment"
+        android:icon="@drawable/icon_chat"
+        android:title="@string/nav_user_chat" />
+    <item
+        android:id="@+id/mypageFragment"
+        android:icon="@drawable/icon_profile"
+        android:title="@string/nav_user_profile" />
+</menu>

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.iml" filepath="$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.main.iml" filepath="$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.test.iml" filepath="$PROJECT_DIR$/.idea/modules/NativeNavs-BackEnd.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/circus.iml" filepath="$PROJECT_DIR$/.idea/circus.iml" />
     </modules>
   </component>
 </project>
