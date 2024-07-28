@@ -12,7 +12,7 @@ import com.circus.nativenavs.databinding.ItemLanguageBinding
 
 private const val TAG = "싸피_LanguageListAdapter"
 
-class LanguageListAdapter :
+class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean) -> Unit) :
     ListAdapter<String, LanguageListAdapter.LanguageViewHolder>(LanguageComparator) {
 
     companion object LanguageComparator : DiffUtil.ItemCallback<String>() {
@@ -34,6 +34,7 @@ class LanguageListAdapter :
 
             binding.root.setOnClickListener {
                 binding.languageCb.isChecked = !binding.languageCb.isChecked
+                onLanguageCheckedChange(language, binding.languageCb.isChecked)
             }
         }
 
