@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.signup.SignUpActivityViewModel
 import com.circus.nativenavs.databinding.FragmentSignUpLanguageBinding
 import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
 import com.circus.nativenavs.util.navigate
@@ -18,13 +20,31 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     R.layout.fragment_sign_up_language
 ) {
 
-    val languageListAdapter = LanguageListAdapter()
+    private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
+
+    private val languageListAdapter = LanguageListAdapter{ language, isChecked ->
+        val updatedLanguages = signUpViewModel.signUpDTO.value?.language?.toMutableList()?.apply {
+            if (isChecked) add(language) else remove(language)
+        }
+        updatedLanguages?.let { signUpViewModel.updateLanguage(it) }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         initEvent()
+
+        // 선택된 언어를 observe
+        signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
+            val selectedLanguages = signUpDTO.language
+
+            languageListAdapter.currentList.forEachIndexed { index, language ->
+                val isChecked = selectedLanguages.contains(language)
+                val holder = binding.signupLanguageRv.findViewHolderForAdapterPosition(index) as? LanguageListAdapter.LanguageViewHolder
+                holder?.binding?.languageCb?.isChecked = isChecked
+            }
+        }
     }
 
     private fun initAdapter() {
