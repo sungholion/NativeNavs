@@ -30,7 +30,7 @@
         tools:layout="@layout/activity_video" />
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="com.circus.nativenavs.ui.home.chat.ChatListFragment"
+        android:name="com.circus.nativenavs.ui.chat.ChatListFragment"
         android:label="ChatListFragment"
         tools:layout="@layout/fragment_chat_list">
         <action
@@ -93,9 +93,13 @@
         tools:layout="@layout/fragment_app_setting" />
     <fragment
         android:id="@+id/chattingRoomFragment"
-        android:name="com.circus.nativenavs.ui.home.chat.ChattingRoomFragment"
+        android:name="com.circus.nativenavs.ui.chat.ChattingRoomFragment"
         android:label="ChattingRoomFragment"
-        tools:layout="@layout/fragment_chatting_room" />
+        tools:layout="@layout/fragment_chatting_room" >
+        <argument
+            android:name="chatId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.circus.nativenavs.ui.notification.NotificationFragment"

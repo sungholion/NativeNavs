@@ -105,4 +105,7 @@
     <!--reservation-->
     <string name="reservation_register_title">예약하기</string>
     <string name="reservation_detail_title">예약 상세보기</string>
+
+    <!--chat-->
+    <string name="chat_list_title">채팅</string>
 </resources>

@@ -26,6 +26,8 @@
 
     <!--padding-->
     <dimen name="padding_horizontal_btn_short">30dp</dimen>
+    <dimen name="padding_horizontal_item">20dp</dimen>
+    <dimen name="padding_vertical_item">10dp</dimen>
     <dimen name="padding_horizontal_et">20dp</dimen>
     <dimen name="padding_vertical_et">15dp</dimen>
 
