@@ -1,7 +1,9 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
+import android.util.Patterns
 import com.circus.nativenavs.util.SharedPreferenceController
+import java.util.regex.Pattern
 
 class ApplicationClass : Application() {
     companion object {
@@ -10,6 +12,7 @@ class ApplicationClass : Application() {
         const val FRAGMENT_TOUR_LIST = 10
         const val FRAGMENT_TOUR_DETAIL = 11
         const val FRAGMENT_TOUR_REGISTER = 12
+
     }
 
     override fun onCreate() {

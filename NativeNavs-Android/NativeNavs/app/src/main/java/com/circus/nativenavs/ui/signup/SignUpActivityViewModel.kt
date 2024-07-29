@@ -1,8 +1,9 @@
-package com.circus.nativenavs.data.signup
+package com.circus.nativenavs.ui.signup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.circus.nativenavs.data.SignUpDTO
 
 class SignUpActivityViewModel : ViewModel() {
 
@@ -21,6 +22,13 @@ class SignUpActivityViewModel : ViewModel() {
         )
     )
     val signUpDTO: LiveData<SignUpDTO> = _signUpDTO
+
+    private val _nicknameCheck = MutableLiveData<Boolean>(false)
+    val nicknameCheck : LiveData<Boolean> = _nicknameCheck
+
+    fun updateNicknameCheck(isChecked : Boolean){
+        _nicknameCheck.value = isChecked
+    }
 
     fun updateEmail(email: String) {
         _signUpDTO.value = _signUpDTO.value?.copy(email = email)
@@ -61,10 +69,19 @@ class SignUpActivityViewModel : ViewModel() {
     fun updateLanguage(language: List<String>){
         _signUpDTO.value = _signUpDTO.value?.copy(language = language)
     }
-
     @Override
     override fun toString(): String {
-        return "이름 : " + _signUpDTO.value?.name + " 전화번호 : " + _signUpDTO.value?.phone + " 언어 : " + _signUpDTO.value?.language
+        return "이메일 : " + _signUpDTO.value?.email +
+                "\n 비밀번호 : " + _signUpDTO.value?.password +
+                "\n 유저타입 : " + _signUpDTO.value?.isNav +
+                "\n 닉네임 : " + _signUpDTO.value?.nickname +
+                "\n 구사가능언어 : " + _signUpDTO.value?.language +
+                "\n 이름 : " + _signUpDTO.value?.name +
+                "\n 휴대폰 : " + _signUpDTO.value?.phone +
+                "\n 국가 : " + _signUpDTO.value?.nation +
+                "\n 생년월일 : " + _signUpDTO.value?.birth +
+                "\n 앱 설정 언어 : " + _signUpDTO.value?.isKorean
     }
+
 
 }

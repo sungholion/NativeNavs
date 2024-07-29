@@ -1,17 +1,12 @@
 package com.circus.nativenavs.ui.signup
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.data.signup.SignUpActivityViewModel
+import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.databinding.FragmentSignUpLanguageBinding
-import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
-import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
 
@@ -21,7 +16,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 ) {
 
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
-
+    val languageList = COUNTRIES.map { LanguageDTO(it, isChecked = false) }
     private val languageListAdapter = LanguageListAdapter{ language, isChecked ->
         val updatedLanguages = signUpViewModel.signUpDTO.value?.language?.toMutableList()?.apply {
             if (isChecked) add(language) else remove(language)
@@ -39,17 +34,19 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
         signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
             val selectedLanguages = signUpDTO.language
 
-            languageListAdapter.currentList.forEachIndexed { index, language ->
-                val isChecked = selectedLanguages.contains(language)
-                val holder = binding.signupLanguageRv.findViewHolderForAdapterPosition(index) as? LanguageListAdapter.LanguageViewHolder
-                holder?.binding?.languageCb?.isChecked = isChecked
+            // 기존 리스트에서 체크 상태를 업데이트
+            val updatedList = languageListAdapter.currentList.map { language ->
+                language.copy(isChecked = selectedLanguages.contains(language.language))
             }
+
+            // 업데이트된 리스트를 어댑터에 제출
+            languageListAdapter.submitList(updatedList)
         }
     }
 
     private fun initAdapter() {
         binding.signupLanguageRv.adapter = languageListAdapter
-        languageListAdapter.submitList(COUNTRIES)
+        languageListAdapter.submitList(languageList)
     }
 
     private fun initEvent() {
