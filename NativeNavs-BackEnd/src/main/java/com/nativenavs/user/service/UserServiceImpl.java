@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         String subject = "Please verify your email address";
         String text = "To verify your email address, please click the link below:\n" +
-                "http://localhost:8080/api/users/verify?token=" + authenticationCode;
+                "http://localhost:8080/api/users/authenticateEmail?authenticationCode=" + authenticationCode;
         emailService.sendAuthenticationCodeEmail(user.getEmail(), subject, text);
     }
 

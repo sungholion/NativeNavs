@@ -13,10 +13,10 @@ springdoc:
 
 spring:
   mail:
-    host: ssafyd110@gmail.com # 1
+    host: smtp.gmail.com # 1
     port: 587 # 2
-    username: eoblue23@gmail.com # 3
-    password: strx ucbb pelf hynv # 4
+    username: ssafyd110@gmail.com # 3
+    password: gstjhpufrgmtendb # 4
     properties:
       mail:
         smtp:
