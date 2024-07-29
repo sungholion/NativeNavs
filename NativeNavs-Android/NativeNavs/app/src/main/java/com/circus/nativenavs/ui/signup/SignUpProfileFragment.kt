@@ -1,9 +1,11 @@
 package com.circus.nativenavs.ui.signup
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.AdapterView
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -12,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
+import com.circus.nativenavs.ui.setting.CustomSpinnerAdapter
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import java.util.Calendar
@@ -21,6 +24,14 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     FragmentSignUpProfileBinding::bind,
     R.layout.fragment_sign_up_profile
 ) {
+
+    private lateinit var signUpActivity: SignUpActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        signUpActivity = context as SignUpActivity
+    }
+
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     private fun isValidDay(year: Int, month: Int, day: Int): Boolean {
         val calendar = Calendar.getInstance()
@@ -42,6 +53,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         }
 
         initEvent()
+        initSpinner()
 
         binding.signupNicknameEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
@@ -93,7 +105,24 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         binding.signupNameHelpTv.visibility = VISIBLE
         binding.signupPhoneHelpTv.visibility = VISIBLE
     }
+    private fun initSpinner() {
+        val spinnerAdapter = CustomSpinnerAdapter(signUpActivity, SignUpLanguageFragment.COUNTRIES)
+        binding.signupNationalitySp.adapter = spinnerAdapter
+        binding.signupNationalitySp.setSelection(0)
 
+        val spinnerItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                spinnerAdapter.setSelectedItemPosition(position)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                spinnerAdapter.setSelectedItemPosition(0)
+            }
+
+        }
+
+        binding.signupNationalitySp.onItemSelectedListener = spinnerItemSelectedListener
+    }
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
