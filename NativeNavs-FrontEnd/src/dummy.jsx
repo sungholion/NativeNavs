@@ -9,9 +9,10 @@ export const nav = {
 
 export const tours = [
   {
+    user_id: 1,
+    tour_id: 1,
     name: "김세미",
     nickname: "아이린",
-    id: 1,
     img_url:
       "https://api.cdn.visitjeju.net/photomng/imgpath/201911/29/48bdb99e-20ba-4fb6-82f2-6ea79ceefb0d.jpg",
     title: "남산타워 케이블카 및 맛집 체험 투어",
@@ -27,9 +28,10 @@ export const tours = [
     created_at: new Date(2021, 2, 3),
   },
   {
+    id: 2,
+    tour_id: 2,
     name: "홍길동",
     nickname: "고길동",
-    id: 2,
     img_url:
       "https://api.cdn.visitjeju.net/photomng/imgpath/201911/29/48bdb99e-20ba-4fb6-82f2-6ea79ceefb0d.jpg",
     title: "지리산 계곡 투어",

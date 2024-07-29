@@ -1,7 +1,7 @@
-import { tour } from "../../dummy";
 import styles from "./Tour_Item.module.css";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
+import { useNavigate } from "react-router-dom";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
@@ -12,6 +12,7 @@ import Heart from "../Heart/Heart";
 // nav_nickname : 가이드 닉네임 : string
 // nav_language : 가이드가 사용가능한 언어 목록 : string[]
 const Tour_Item = ({
+  tour_id,
   user_id,
   title,
   thumbnail_image,
@@ -22,28 +23,47 @@ const Tour_Item = ({
   nav_nickname,
   nav_language,
 }) => {
+  const navigate = useNavigate();
+
+  const onClickTour = (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지 - <img> 태그와 <section> 태그 모두에 클릭 이벤트가 있을 때, 
+                         // 이미지 클릭 시 이미지의 클릭 이벤트만 발생하고, 상위 요소인 섹션의 클릭 이벤트가 발생하지 않게 하기 위해
+    console.log(`${tour_id}번 여행 상세 페이지로 이동`);
+    navigate(`/detail/${tour_id}`);
+  };
+
+  const onClickNav = (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
+    console.log(`${nav_nickname} 프로필 페이지로 이동`);
+    navigate(`/nav/${user_id}`);
+  };
+
   return (
     <div className={styles.tour_item}>
-      <img src={thumbnail_image} alt="" className={styles.tour_thumnail} />
+      <img onClick={onClickTour} src={thumbnail_image} alt="" className={styles.tour_thumnail} />
       <section className={styles.tour_info}>
         <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{title}</p>
-          <p className={styles.tour_duration}>
+          <p onClick={onClickTour} className={styles.tour_title}>{title}</p>
+          <p onClick={onClickTour} className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
           <Rating avg={review_average} />
         </div>
         <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav}>
-            <img src={nav_profile_img} alt="" className={styles.nav_img} />
-            <p>{nav_nickname}</p>
+          <div className={styles.tour_nav} onClick={onClickNav}>
+            <img 
+              src={nav_profile_img} 
+              alt={nav_nickname} 
+              className={styles.nav_img} 
+              style={{ cursor: "pointer" }}
+            />
+            <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
           </div>
           <div className={styles.tour_nav_language}>
-            <img src="src/assets/language.png" alt="dd" />
+            <img src="/src/assets/language.png" alt="언어 이미지" />
             {nav_language.length > 1 ? (
               <p>
-                {nav_language[0]}외 {nav_language.length - 1}
-                개국어
+                {nav_language[0]} 외 {nav_language.length - 1} 개 국어
               </p>
             ) : (
               <p>{nav_language[0]}</p>
