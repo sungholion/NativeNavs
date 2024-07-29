@@ -1,12 +1,11 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
-import com.circus.nativenavs.util.SharedPreferenceController
+import com.circus.nativenavs.util.PREF
+import com.circus.nativenavs.util.SharedPref
 
 class ApplicationClass : Application() {
     companion object {
-        lateinit var sharedPreferences: SharedPreferenceController
-
         const val FRAGMENT_TOUR_LIST = 10
         const val FRAGMENT_TOUR_DETAIL = 11
         const val FRAGMENT_TOUR_REGISTER = 12
@@ -15,7 +14,7 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        sharedPreferences = SharedPreferenceController(applicationContext)
+        SharedPref.sharedPrefs = applicationContext.getSharedPreferences(PREF, MODE_PRIVATE)
 
 //        initRetrofitInstance()
     }
