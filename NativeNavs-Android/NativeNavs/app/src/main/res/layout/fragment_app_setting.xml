@@ -37,7 +37,6 @@
             style="@style/dropdown_default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_horizontal_page"
             android:layout_marginTop="10dp"
             android:popupBackground="@drawable/spinner_dropdown_pop"
             android:spinnerMode="dropdown"
