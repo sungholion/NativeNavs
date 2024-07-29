@@ -44,29 +44,16 @@
         <TextView
             android:id="@+id/chat_opponent_nickname_tv"
             style="@style/regular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{chat.opponentNickname}"
+            android:text="@{chat.senderNickname}"
             android:textColor="@color/gray_5858"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
-            app:layout_constraintEnd_toStartOf="@+id/chat_tour_region_tv"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/chat_tour_title_tv"
             app:layout_constraintTop_toBottomOf="@+id/chat_tour_title_tv"
             tools:text="아린" />
-
-        <TextView
-            android:id="@+id/chat_tour_region_tv"
-            style="@style/regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{`, ` + chat.tourRegion}"
-            android:textColor="@color/gray_5858"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
-            app:layout_constraintStart_toEndOf="@+id/chat_opponent_nickname_tv"
-            app:layout_constraintTop_toBottomOf="@+id/chat_tour_title_tv"
-            tools:text=", 서울" />
 
         <TextView
             android:id="@+id/chat_message_tv"

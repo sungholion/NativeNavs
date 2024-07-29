@@ -44,17 +44,17 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
             ChatListDto(
                 1, "남산투어 남산투어 남산투어 남산투어 남산투어",
                 "아린", "문의드립니다~",
-                "서울", System.currentTimeMillis(), "imgurl"
+                System.currentTimeMillis(), "imgurl"
             ),
             ChatListDto(
                 2, "남산투어 남산투어 남산투어 남산투어 남산투어",
                 "아린", "문의드립니다~",
-                "서울", System.currentTimeMillis(), "imgurl"
+                System.currentTimeMillis(), "imgurl"
             ),
             ChatListDto(
                 3, "남산투어 남산투어 남산투어 남산투어 남산투어",
                 "아린", "문의드립니다~",
-                "서울", System.currentTimeMillis(), "imgurl"
+                System.currentTimeMillis(), "imgurl"
             )
         )
 
