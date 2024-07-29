@@ -1,6 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="message"
+            type="com.circus.nativenavs.data.MessageDto" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_horizontal_item">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/chat_my_message_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_chat_message">
+
+            <TextView
+                android:id="@+id/chat_my_message_tv"
+                style="@style/chat_my_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{message.content}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/chat_my_time_tv"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="안녕하세요" />
+
+            <TextView
+                android:id="@+id/chat_my_time_tv"
+                style="@style/chat_message_time"
+                time="@{message.sendTime}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:textAlignment="textEnd"
+                app:layout_constraintBottom_toBottomOf="@+id/chat_my_message_tv"
+                app:layout_constraintEnd_toStartOf="@+id/chat_my_message_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="오후 10:10" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/chat_sender_message_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_chat_message">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chat_sender_img_cv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/chat_sender_img_iv"
+                    imgUrl="@{message.senderImgUrl}"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:src="@drawable/logo_nativenavs" />
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/chat_sender_nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:text="@{message.senderNickname}"
+                app:layout_constraintStart_toEndOf="@+id/chat_sender_img_cv"
+                app:layout_constraintTop_toTopOf="@+id/chat_sender_img_cv"
+                tools:text="아린" />
+
+            <TextView
+                android:id="@+id/chat_sender_message_tv"
+                style="@style/chat_sender_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@{message.content}"
+                app:layout_constraintEnd_toStartOf="@+id/chat_sender_time_tv"
+                app:layout_constraintStart_toStartOf="@+id/chat_sender_nickname_tv"
+                app:layout_constraintTop_toBottomOf="@id/chat_sender_nickname_tv"
+                tools:text="안녕하세요" />
+
+            <TextView
+                android:id="@+id/chat_sender_time_tv"
+                style="@style/chat_message_time"
+                time="@{message.sendTime}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textAlignment="textStart"
+                app:layout_constraintBottom_toBottomOf="@+id/chat_sender_message_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/chat_sender_message_tv"
+                tools:text="오후 10:10" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

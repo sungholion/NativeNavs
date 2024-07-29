@@ -99,6 +99,9 @@
         <argument
             android:name="chatId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_chattingRoomFragment_to_reservationRegisterFragment"
+            app:destination="@id/reservationRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"

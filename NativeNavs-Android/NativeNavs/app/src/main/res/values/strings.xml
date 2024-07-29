@@ -108,4 +108,6 @@
 
     <!--chat-->
     <string name="chat_list_title">채팅</string>
+    <string name="video_call">화상통화</string>
+    <string name="booking">예약하기</string>
 </resources>
