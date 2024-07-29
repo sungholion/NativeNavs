@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.databinding.ItemDropdownBinding
 import com.circus.nativenavs.databinding.ItemDropdownSelectedBinding
@@ -35,8 +34,6 @@ class CustomSpinnerAdapter(context: Context, list: ArrayList<String>) :
         } else {
             ItemDropdownBinding.bind(convertView)
         }
-
-        (parent as? ListView)?.overScrollMode = View.OVER_SCROLL_NEVER
 
         getItem(position)?.let {
             binding.itemTv.text = it

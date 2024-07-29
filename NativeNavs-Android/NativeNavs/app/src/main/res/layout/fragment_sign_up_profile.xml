@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -110,15 +110,13 @@
 
                 <Spinner
                     android:id="@+id/signup_nationality_sp"
-                    style="@style/dropdown_default"
+                    style="@style/et_default"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:popupBackground="@drawable/spinner_dropdown_pop"
-                    android:spinnerMode="dropdown"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signup_nationality_tv"
-                    tools:listitem="@layout/item_dropdown_selected" />
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nationality_tv" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/signup_language_cl"
