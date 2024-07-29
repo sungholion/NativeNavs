@@ -9,26 +9,3 @@
     flex-direction: column;
     gap: 10px;
 }
-
-.searchBar {
-
-    
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
-    margin: 20px 0;
-    width: 280px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #d9d9d9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.searchIcon {
-    width: 20px;
-    height: 20px;
-}
-
-.inputBar {
-    border: none;
-}

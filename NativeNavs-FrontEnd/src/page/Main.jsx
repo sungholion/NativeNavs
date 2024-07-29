@@ -5,17 +5,9 @@ import styles from './Main.module.css';
 import searchIcon from '../assets/search-icon.png';
 
 const Main = () => {
-  const onClickSearchBar = () => {
-    console.log('검색창 클릭');
-    // 앱으로 이벤트 전달
-  };
 
   return (
     <div className={styles.main}>
-      <div className={styles.searchBar} onClick={onClickSearchBar}>
-        <img src={searchIcon} className={styles.searchIcon} />
-        <input className={styles.inputBar} type="text" placeholder="원하는 Travel이 있나요?" />
-      </div>
       <div className={styles.tourList}>
         {tours.map((tour) => (
           <Tour_Item
