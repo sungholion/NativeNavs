@@ -1,0 +1,10 @@
+.PlanAdd {
+  z-index: 3;
+  position: fixed;
+  width: 100vw;
+  height: 70vh;
+  margin-top: 30vh;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: white;
+}

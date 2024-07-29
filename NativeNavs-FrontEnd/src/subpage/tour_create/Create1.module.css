@@ -1,32 +1,161 @@
 .Create1 {
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  align-items: center;
+  height: 100vh;
+
+  p {
+    flex: 1;
+    font-weight: bold;
+    margin-left: 10vw;
+    font-size: 20px;
+    margin: 0 0 3vw 10vw;
+  }
+}
+
+.Thumbnail {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 90vw;
+}
+
+.Thumbnail label {
+  display: inline-block;
+  cursor: pointer;
+  margin: 0px auto;
+}
+
+.Thumbnail label img {
+  width: 35vw;
+  height: 35vw;
+  background-color: rgb;
+}
+
+.Thumbnail input {
+  width: 35vw;
+  height: 35vw;
+  background-color: rgb(240, 240, 240);
+  border-radius: 5px;
+  display: none;
+}
+
+.emptythumbnail {
+  width: 35vw;
+  height: 35vw;
+  background-color: rgb(240, 240, 240);
+  border-radius: 5%;
+  font-size: small;
+  text-align: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.thumbnailPart {
+.Date {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 90vw;
   display: flex;
   flex-direction: column;
 }
 
-.thumbnailPart p {
-  flex: 1;
+.Date .DateSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    font-weight: 600;
+    font-size: 5vw;
+    margin: 5px;
+  }
 }
 
-.thumbnail input {
-  width: 15vw;
-  height: 15vw;
-  background-color: rgb(240, 240, 240);
-  border-radius: 5px;
+/* 날짜 입력 필드의 스타일링 */
+.DateInput {
   position: relative;
+  display: inline-block;
+  width: 20vw;
+  height: 5vw;
 }
 
-.thumbnail > input::file-selector-button {
-  display: none;
+/* 캘린더 아이콘을 클릭할 수 있는 영역을 넓힙니다 */
+.DateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+  z-index: 2; /* 실제 클릭 영역이 입력 필드 위에 있도록 설정 */
 }
 
-.dateSelect
-  &input[type="date"]::-webkit-clear-button
-  &input[type="date"]::-webkit-inner-spin-button {
-  display: none;
+/* 기본 placeholder 스타일을 설정합니다 */
+.DateInput::placeholder {
+  content: attr(placeholder);
+  color: #aaa; /* 원하는 색상으로 설정 */
+  font-size: 1em; /* 원하는 폰트 크기로 설정 */
+}
+
+/* 유효성 검사가 완료된 후 placeholder를 숨깁니다 */
+.DateInput input:valid::placeholder {
+  color: transparent;
+}
+
+.MaxPeople {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 90vw;
+}
+
+.MaxPeopleInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 6vw;
+    height: 6vw;
+    margin: 0px 2vw;
+  }
+  div {
+    font-weight: 500;
+    font-size: 5vw;
+    margin: 0px 3vw;
+    width: 3vw;
+    text-align: center;
+  }
+}
+
+.Cost {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 90vw;
+}
+
+.Cost input[type="number"] {
+  width: 40vw;
+  height: 5vw;
+  margin: 0px auto;
+}
+
+.Cost input[type="number"]::-webkit-outer-spin-button,
+.Cost input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Theme {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid blue;
+  width: 90vw;
 }

@@ -12,7 +12,7 @@ const Tour_Create = () => {
   const [data, setData] = useState({});
   return (
     <div>
-      <Create1 />
+      {/* <Create1 /> */}
       <Create2 />
       <Create3 />
       <Create4 />
