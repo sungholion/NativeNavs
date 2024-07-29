@@ -5,9 +5,13 @@
 <mapper namespace="com.nativenavs.user.mapper.UserMapper">
 
     <insert id="signUp" parameterType="user">
-        INSERT INTO user(email, password, name, nickname, is_nav, birth, user_language, nation, image, phone, created_at, updated_at)
-        VALUES (#{email}, #{password}, #{name}, #{nickname}, #{is_nav}, #{birth}, #{user_language}, #{nation}, #{image}, #{phone}, NOW(), NOW())
+        INSERT INTO user(email, password, name, nickname, is_nav, birth, user_language, nation, image, phone, created_at, updated_at, authentication_code, isAuthenticated)
+        VALUES (#{email}, #{password}, #{name}, #{nickname}, #{is_nav}, #{birth}, #{user_language}, #{nation}, #{image}, #{phone}, NOW(), NOW(), #{authenticationCode}, #{isAuthenticated})
     </insert>
+
+    <select id="findByAuthenticationCode" parameterType="string" resultType="user">
+        SELECT * FROM user WHERE authentication_code = #{authenticationCode}
+    </select>
 
     <select id="checkDuplicatedEmail" parameterType="string" resultType="boolean">
         SELECT COUNT(email) > 0 FROM user WHERE email = #{email}

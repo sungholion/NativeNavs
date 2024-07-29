@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signUp(User user) {
         String authenticationCode = UUID.randomUUID().toString();
-        user.setAuthentificationCode(authenticationCode);
+        user.setAuthenticationCode(authenticationCode);
         userMapper.signUp(user);
 
         String subject = "Please verify your email address";
