@@ -3,7 +3,6 @@ import styles from "./Button.module.css";
 const Button = ({ size, text, onClickEvent }) => {
   
   const onClickButton = () => {
-    console.log("클릭 이벤트 발생");
     onClickEvent();
   };
 

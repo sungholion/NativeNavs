@@ -2,7 +2,6 @@ import React from 'react';
 import { tours } from '../dummy';
 import Tour_Item from '../components/Tour_Item/Tour_Item';
 import styles from './Main.module.css';
-import searchIcon from '../assets/search-icon.png';
 
 const Main = () => {
 

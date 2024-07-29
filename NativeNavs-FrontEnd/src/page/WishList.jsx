@@ -1,13 +1,13 @@
+import React from 'react';
 import styles from './WishList.module.css';
-import ScheduledTour from '../components/ScheduledTour/ScheduledTour';
+import WishListItem from '../components/WishListItem/WishListItem';
 
 function WishList() {
-
-
     return (
-        <div>
-        <ScheduledTour />dd</div>
-    )
+        <div className={styles.container}>
+            <WishListItem />
+        </div>
+    );
 }
 
 export default WishList;
