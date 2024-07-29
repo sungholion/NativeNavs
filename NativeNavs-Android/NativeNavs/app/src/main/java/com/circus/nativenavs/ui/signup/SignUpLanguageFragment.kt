@@ -33,6 +33,8 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
         // 선택된 언어를 observe
         signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
             val selectedLanguages = signUpDTO.language
+            var languageText = ""
+
 
             // 기존 리스트에서 체크 상태를 업데이트
             val updatedList = languageListAdapter.currentList.map { language ->
@@ -42,6 +44,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
             // 업데이트된 리스트를 어댑터에 제출
             languageListAdapter.submitList(updatedList)
         }
+
     }
 
     private fun initAdapter() {

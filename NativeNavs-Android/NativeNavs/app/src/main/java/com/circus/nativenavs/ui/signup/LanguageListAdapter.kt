@@ -53,22 +53,7 @@ class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean)
                 }
             }
 
-            binding.languageCb.setOnCheckedChangeListener { _, isChecked ->
-                if (binding.languageCb.isChecked != isChecked) {
-                    if (isChecked && checkedItemCount < MAX_COUNT) {
-                        languageItem.isChecked = isChecked
-                        checkedItemCount++
-                        onLanguageCheckedChange(languageItem.language, isChecked)
-                    } else if (!isChecked) {
-                        languageItem.isChecked = isChecked
-                        checkedItemCount--
-                        onLanguageCheckedChange(languageItem.language, isChecked)
-                    } else {
-                        // Reset the checkbox to its previous state if the maximum is reached
-                        binding.languageCb.isChecked = !isChecked
-                    }
-                }
-            }
+
         }
 
     }

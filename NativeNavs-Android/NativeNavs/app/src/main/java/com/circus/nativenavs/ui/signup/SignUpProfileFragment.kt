@@ -17,6 +17,9 @@ import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
 import com.circus.nativenavs.ui.setting.CustomSpinnerAdapter
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Calendar
 import java.util.Locale
 
@@ -33,16 +36,25 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     }
 
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
-    private fun isValidDay(year: Int, month: Int, day: Int): Boolean {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month - 1, day)
-        return calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == month - 1 && calendar.get(Calendar.DAY_OF_MONTH) == day
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+
+        initEvent()
+        initSpinner()
+        signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
+
+            binding.signupSelectedLanguageTv.text = signUpDTO.language.joinToString(", ")
+        }
+    }
+
+    private fun initView(){
+
         if(signUpViewModel.nicknameCheck.value == true){
             binding.signupDupliOk.visibility = VISIBLE
+            binding.signupDupliBad.visibility = INVISIBLE
+            binding.signupDupliNone.visibility = INVISIBLE
             binding.signupNicknameHelpTv.visibility = INVISIBLE
         }
         else{
@@ -51,9 +63,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             binding.signupDupliNone.visibility = INVISIBLE
             binding.signupNicknameHelpTv.visibility = VISIBLE
         }
-
-        initEvent()
-        initSpinner()
 
         binding.signupNicknameEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
@@ -95,24 +104,15 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         )
     }
 
-    private fun initValid(){
-        binding.signupDupliNone.visibility = GONE
-        binding.signupNameValidTv.visibility = GONE
-        binding.signupBirthValidTv.visibility = GONE
-        binding.signupPhoneValidTv.visibility = GONE
-
-        binding.signupDupliOk.visibility = VISIBLE
-        binding.signupNameHelpTv.visibility = VISIBLE
-        binding.signupPhoneHelpTv.visibility = VISIBLE
-    }
     private fun initSpinner() {
         val spinnerAdapter = CustomSpinnerAdapter(signUpActivity, SignUpLanguageFragment.COUNTRIES)
         binding.signupNationalitySp.adapter = spinnerAdapter
-        binding.signupNationalitySp.setSelection(0)
+        binding.signupNationalitySp.setSelection(138)
 
         val spinnerItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 spinnerAdapter.setSelectedItemPosition(position)
+                signUpViewModel.updateNation(SignUpLanguageFragment.COUNTRIES[position])
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -123,22 +123,50 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
         binding.signupNationalitySp.onItemSelectedListener = spinnerItemSelectedListener
     }
+    private fun initValid(){
+        binding.signupNameHelpTv.visibility = VISIBLE
+        binding.signupNameValidTv.visibility = INVISIBLE
+        binding.signupBirthValidTv.visibility = INVISIBLE
+        binding.signupPhoneHelpTv.visibility = VISIBLE
+        binding.signupPhoneValidTv.visibility = INVISIBLE
+    }
+    fun isValidDate(dateString: String): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        return try {
+            val date = LocalDate.parse(dateString, formatter)
+
+            // 월이 1월부터 12월 사이인지 확인합니다.
+            val isCorrectMonth = date.monthValue in 1..12
+            // 일이 1일부터 해당 월의 마지막 날까지 유효한지 확인합니다.
+            val isCorrectDay = date.dayOfMonth in 1..date.lengthOfMonth()
+
+            isCorrectMonth && isCorrectDay
+        } catch (e: DateTimeParseException) {
+            // 날짜 파싱에 실패하면 false를 반환합니다.
+            false
+        }
+    }
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
 
-        binding.signupNicknameCheckBtn.setOnClickListener {
 
+        binding.signupNicknameCheckBtn.setOnClickListener {
+            initValid()
             val nickname = binding.signupNicknameEt.text.toString()
             if(nickname == "") {
                 binding.signupDupliNone.visibility = VISIBLE
                 binding.signupDupliOk.visibility = INVISIBLE
+                binding.signupDupliBad.visibility = INVISIBLE
                 binding.signupNicknameHelpTv.visibility = INVISIBLE
             }
             else{
                 signUpViewModel.updateNicknameCheck(true)
                 binding.signupDupliOk.visibility = VISIBLE
+                binding.signupDupliNone.visibility = INVISIBLE
+                binding.signupDupliBad.visibility = INVISIBLE
                 binding.signupNicknameHelpTv.visibility = INVISIBLE
                 signUpViewModel.updateNickname(nickname)
             }
@@ -150,16 +178,12 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             val birth = binding.signupBirthEt.text.toString()
             val phone = binding.signupPhoneEt.text.toString()
 
-
             val locale: Locale = Locale.getDefault()
             val language: String = locale.language
 
             if(language == "ko") signUpViewModel.updateIsKorean(true)
             else signUpViewModel.updateIsKorean(false)
 
-            initValid()
-
-            println(signUpViewModel.nicknameCheck.value)
             if(signUpViewModel.nicknameCheck.value != true){
                 Toast.makeText(requireContext(),"닉네임 중복 확인을 클릭해주세요",Toast.LENGTH_SHORT).show()
             }
@@ -167,7 +191,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 binding.signupNameHelpTv.visibility = INVISIBLE
                 binding.signupNameValidTv.visibility = VISIBLE
             }
-            else if(birth == ""){
+            else if(birth == "" || !isValidDate(birth)){
                 binding.signupBirthValidTv.visibility = VISIBLE
             }
             else if(phone == ""){
