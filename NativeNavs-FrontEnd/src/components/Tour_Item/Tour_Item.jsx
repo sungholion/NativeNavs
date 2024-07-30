@@ -92,9 +92,6 @@ const Tour_Item = ({
           <p onClick={onClickTour} className={styles.tour_title}>
             {title}
           </p>
-          <p onClick={onClickTour} className={styles.tour_title}>
-            {title}
-          </p>
           <p onClick={onClickTour} className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
