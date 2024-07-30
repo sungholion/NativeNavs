@@ -44,14 +44,9 @@ const Tour_Item = ({
   const onClickNav = (e) => {
     e.stopPropagation();
     // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
-    if (
-      window.TourListBridge &&
-      typeof window.TourListBridge.showToast === "function"
-    ) {
-      window.TourListBridge.showToast(`${nav_nickname} 프로필 페이지로 이동`);
-    } else {
-      console.log("TourListBridge.showToast is not defined");
-    }
+
+    window.TourListBridge.showToast(`${nav_nickname} 프로필 페이지로 이동`);
+
     navigate(`/nav/${user_id}`);
   };
 
