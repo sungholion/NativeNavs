@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         String subject = "Please verify your email address";
         String text = "To verify your email address, please click the link below:\n" +
-                "http://localhost:8080/api/users/authenticateEmail?authenticationCode=" + authenticationCode;
+                "http://localhost:8080/api/users/authenticate?authenticationCode=" + authenticationCode;
         emailService.sendAuthenticationCodeEmail(user.getEmail(), subject, text);
     }
 
@@ -58,9 +58,9 @@ public class UserServiceImpl implements UserService {
     public boolean authenticateEmail(String authenticationCode) {
         User user = userMapper.findByAuthenticationCode(authenticationCode);
         if (user != null) {
-            user.setAuthenticated(true);
-            user.setAuthenticationCode(null);
-            userMapper.updateUser(user.getId(), user);
+//            user.setAuthenticated(true);
+//            user.setAuthenticationCode(null);
+            userMapper.updateEmailAuthentication(user.getEmail());
             return true;
         }
 

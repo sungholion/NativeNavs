@@ -14,6 +14,7 @@ public interface UserMapper {
     public List<User> searchAllUser();
     public User loginSessionWithEmail(@Param("email") String email, @Param("password") String password);
     public void updateUser(@Param("existingId") int existingId, @Param("updateUser") User updateUser);
+    public void updateEmailAuthentication(String email);
     public void deleteUser(int id);
     public User findByAuthenticationCode(String authenticationCode);
 }

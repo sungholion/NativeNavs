@@ -41,6 +41,15 @@
         </set>
     </update>
 
+    <update id="updateEmailAuthentication" parameterType="string">
+        UPDATE user
+        <set>
+            isAuthenticated = true,
+            authentication_Code = ''
+        </set>
+        WHERE email = #{email}
+    </update>
+
     <delete id="deleteUser" parameterType="int">
         DELETE FROM user
         where id = #{id}
