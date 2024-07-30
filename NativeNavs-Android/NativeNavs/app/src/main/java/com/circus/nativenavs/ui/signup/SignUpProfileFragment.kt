@@ -43,27 +43,14 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
         initEvent()
         initSpinner()
-        signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
+        initTextWatcher()
 
+        signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
             binding.signupSelectedLanguageTv.text = signUpDTO.language.joinToString(", ")
         }
     }
 
-    private fun initView(){
-
-        if(signUpViewModel.nicknameCheck.value == true){
-            binding.signupDupliOk.visibility = VISIBLE
-            binding.signupDupliBad.visibility = INVISIBLE
-            binding.signupDupliNone.visibility = INVISIBLE
-            binding.signupNicknameHelpTv.visibility = INVISIBLE
-        }
-        else{
-            binding.signupDupliOk.visibility = INVISIBLE
-            binding.signupDupliBad.visibility = INVISIBLE
-            binding.signupDupliNone.visibility = INVISIBLE
-            binding.signupNicknameHelpTv.visibility = VISIBLE
-        }
-
+    private fun initTextWatcher(){
         binding.signupNicknameEt.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -102,6 +89,24 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             }
         }
         )
+    }
+
+    private fun initView(){
+
+        if(signUpViewModel.nicknameCheck.value == true){
+            binding.signupDupliOk.visibility = VISIBLE
+            binding.signupDupliBad.visibility = INVISIBLE
+            binding.signupDupliNone.visibility = INVISIBLE
+            binding.signupNicknameHelpTv.visibility = INVISIBLE
+        }
+        else{
+            binding.signupDupliOk.visibility = INVISIBLE
+            binding.signupDupliBad.visibility = INVISIBLE
+            binding.signupDupliNone.visibility = INVISIBLE
+            binding.signupNicknameHelpTv.visibility = VISIBLE
+        }
+        binding.signupBirthValidTv.visibility = INVISIBLE
+
     }
 
     private fun initSpinner() {
@@ -154,7 +159,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
 
         binding.signupNicknameCheckBtn.setOnClickListener {
-            initValid()
+
             val nickname = binding.signupNicknameEt.text.toString()
             if(nickname == "") {
                 binding.signupDupliNone.visibility = VISIBLE
@@ -174,6 +179,8 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         }
 
         binding.signupRegisterBtn.setOnClickListener {
+            initValid()
+
             val name = binding.signupNameEt.text.toString()
             val birth = binding.signupBirthEt.text.toString()
             val phone = binding.signupPhoneEt.text.toString()

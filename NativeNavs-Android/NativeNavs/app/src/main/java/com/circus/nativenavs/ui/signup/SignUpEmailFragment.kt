@@ -77,6 +77,8 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                     binding.signupCodeAuthBtn.isEnabled = true
                     binding.signupEmailHint.visibility = GONE
 
+                    binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
+
                     emailBtnType = true
                 }
             }
@@ -86,6 +88,9 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 binding.signupEmailEt.isEnabled = true
                 binding.signupCodeEt.isEnabled = false
                 binding.signupCodeAuthBtn.isEnabled = false
+
+                binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
+                binding.signupEmailNextBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
                 emailBtnType = false
             }
         }
@@ -97,6 +102,8 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
             binding.signupEmailNextBtn.isEnabled = true
             binding.signupPwCheckEt.isEnabled = true
             binding.signupPwEt.isEnabled = true
+            binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
+            binding.signupEmailNextBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
         }
 
         binding.signupEmailNextBtn.setOnClickListener {
