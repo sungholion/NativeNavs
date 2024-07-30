@@ -6,7 +6,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.tour.TourListFragment">
+        tools:context=".ui.tour.TourListFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tour_fragment_constraint"

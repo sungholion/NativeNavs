@@ -12,8 +12,8 @@ import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
 import com.circus.nativenavs.ui.home.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
-import com.circus.nativenavs.ui.home.tour.TourListFragment
-import com.circus.nativenavs.ui.home.tour.TourRegisterFragment
+import com.circus.nativenavs.ui.tour.TourListFragment
+import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {

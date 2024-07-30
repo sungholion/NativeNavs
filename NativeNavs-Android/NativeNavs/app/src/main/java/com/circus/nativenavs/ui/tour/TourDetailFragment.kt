@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.tour
+package com.circus.nativenavs.ui.tour
 
 import android.content.Context
 import android.content.Intent

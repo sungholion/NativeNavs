@@ -6,7 +6,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.home.tour.TourListFragment
+import com.circus.nativenavs.ui.tour.TourListFragment
 import com.google.gson.Gson
 
 private const val TAG = "TourListBridge"
@@ -29,12 +29,26 @@ class TourListBridge(
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
+//        val json = gson.toJson(user).replace("'", "\\'")
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
+        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
             Log.d(TAG, "sendUserData: $result")
         }
 
+    }
+
+    suspend fun showWebViewAlert(text: String) {
+        val script = "window.showWebViewAlert('$text');"
+        Log.d("싸피", script)
+        evaluateWebViewFunction(script) { result ->
+            Log.d("tag_test", result)
+        }
+    }
+
+    fun showAlert(text: String){
+        webView.evaluateJavascript("alert('$text');", null)
     }
 
     private fun evaluateWebViewFunction(
