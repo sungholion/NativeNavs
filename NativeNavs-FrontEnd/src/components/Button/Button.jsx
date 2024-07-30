@@ -7,7 +7,7 @@ const Button = ({ size, text, onClickEvent }) => {
   };
 
   return (
-    <button className={styles[`button_${size}`]} onClick={onClickButton}>
+    <button className={styles[`button_${size}`]} onClick={onClickEvent}>
       {text}
     </button>
   );

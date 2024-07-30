@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
+import styles from "./Tour_Item.module.css";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
@@ -26,8 +27,19 @@ const Tour_Item = ({
 }) => {
   const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
+  const [isWishListed, setIsWishListed] = useState(false);
 
   const onClickTour = (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
+    // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
+    if (
+      window.TourListBridge &&
+      typeof window.TourListBridge.showToast === "function"
+    ) {
+      window.TourListBridge.showToast(`${tour_id}번 여행 상세 페이지로 이동`);
+    } else {
+      console.log("TourListBridge.showToast is not defined");
+    }
     e.stopPropagation(); // 이벤트 전파 방지
     // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
     if (
@@ -82,6 +94,9 @@ const Tour_Item = ({
           <p onClick={onClickTour} className={styles.tour_title}>
             {title}
           </p>
+          <p onClick={onClickTour} className={styles.tour_title}>
+            {title}
+          </p>
           <p onClick={onClickTour} className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
@@ -89,6 +104,10 @@ const Tour_Item = ({
         </div>
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_nav} onClick={onClickNav}>
+            <img
+              src={nav_profile_img}
+              alt={nav_nickname}
+              className={styles.nav_img}
             <img
               src={nav_profile_img}
               alt={nav_nickname}

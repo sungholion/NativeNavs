@@ -25,6 +25,12 @@
   right: 10px;
 }
 
+.heart_container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 .tour_info {
   display: flex;
   flex-direction: row;
@@ -34,6 +40,7 @@
 }
 
 .tour_leftinfo {
+  width: 70%;
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -52,10 +59,12 @@
   margin: 1px;
   margin-bottom: 3px;
   color: #585858;
+  color: #585858;
   margin-top: 4px;
 }
 
 .tour_rightinfo {
+  width: 30%;
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -74,11 +83,13 @@
   height: 35px;
   border-radius: 70%;
   border: 1px solid #d9d9d9;
+  border: 1px solid #d9d9d9;
 }
 
 .tour_nav_language {
   margin: 1px 0px;
   font-size: 15px;
+  font-weight: 500;
   font-weight: 500;
   display: flex;
   justify-content: end;
