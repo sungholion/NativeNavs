@@ -18,7 +18,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     val languageList = COUNTRIES.map { LanguageDTO(it, isChecked = false) }
     private val languageListAdapter = LanguageListAdapter{ language, isChecked ->
-        val updatedLanguages = signUpViewModel.signUpDTO.value?.language?.toMutableList()?.apply {
+        val updatedLanguages = signUpViewModel.signUpDTO.value?.userLanguage?.toMutableList()?.apply {
             if (isChecked) add(language) else remove(language)
         }
         updatedLanguages?.let { signUpViewModel.updateLanguage(it) }
@@ -32,7 +32,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 
         // 선택된 언어를 observe
         signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
-            val selectedLanguages = signUpDTO.language
+            val selectedLanguages = signUpDTO.userLanguage
             var languageText = ""
 
 

@@ -3,7 +3,11 @@ package com.circus.nativenavs.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.SignUpDTO
+import com.circus.nativenavs.data.service.UserService
+import kotlinx.coroutines.launch
 
 class SignUpActivityViewModel : ViewModel() {
 
@@ -25,6 +29,31 @@ class SignUpActivityViewModel : ViewModel() {
 
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
+
+    private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
+
+    fun signUp() {
+        viewModelScope.launch {
+            val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
+
+            // HTTP 상태 코드 출력
+            println("HTTP 상태 코드: ${response?.code()}")
+
+        }
+    }
+
+    fun getEmailCode(email : String){
+        viewModelScope.launch {
+
+            val response = retrofit.getEmailVerifyCode(email)
+
+        }
+    }
+
+    fun setEmailCode(email: String, code: String){
+
+    }
+
 
     fun updateNicknameCheck(isChecked : Boolean){
         _nicknameCheck.value = isChecked
@@ -67,7 +96,7 @@ class SignUpActivityViewModel : ViewModel() {
     }
 
     fun updateLanguage(language: List<String>){
-        _signUpDTO.value = _signUpDTO.value?.copy(language = language)
+        _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
     @Override
     override fun toString(): String {
@@ -75,7 +104,7 @@ class SignUpActivityViewModel : ViewModel() {
                 "\n 비밀번호 : " + _signUpDTO.value?.password +
                 "\n 유저타입 : " + _signUpDTO.value?.isNav +
                 "\n 닉네임 : " + _signUpDTO.value?.nickname +
-                "\n 구사가능언어 : " + _signUpDTO.value?.language +
+                "\n 구사가능언어 : " + _signUpDTO.value?.userLanguage +
                 "\n 이름 : " + _signUpDTO.value?.name +
                 "\n 휴대폰 : " + _signUpDTO.value?.phone +
                 "\n 국가 : " + _signUpDTO.value?.nation +

@@ -46,7 +46,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         initTextWatcher()
 
         signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
-            binding.signupSelectedLanguageTv.text = signUpDTO.language.joinToString(", ")
+            binding.signupSelectedLanguageTv.text = signUpDTO.userLanguage.joinToString(", ")
         }
     }
 
@@ -213,7 +213,11 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
+
                 println(signUpViewModel.toString())
+
+                signUpViewModel.signUp()
+
                 navigate(R.id.action_signUpProfileFragment_to_signUpCompleteFragment)
             }
         }
