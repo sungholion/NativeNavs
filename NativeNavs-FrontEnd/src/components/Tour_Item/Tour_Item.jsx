@@ -56,14 +56,24 @@ const Tour_Item = ({
     setIsWishListed((current) => !current);
   };
 
+  const [testUser, setTestUser] = useState();
+
   useEffect(() => {
     if (window.TourListBridge && window.TourListBridge.showToast) {
       window.TourListBridge.showToast("테스트 글 작성해보기");
     }
+    window.getUserData = (user) => {
+      console.log("해당 함수가 실행되어짐");
+      window.TourListBridge.showToast(`User 정보 ${user.userToken}`);
+      alert(`Received user: ${user.userId}, ${user.isNav}`);
+      setTestUser(user);
+    };
   }, []);
 
   return (
     <div className={styles.tour_item}>
+      {testUser ? <div>결과 : {testUser.name} </div> : null}
+
       <div className={styles.thumbnail_container} onClick={onClickTour}>
         <img src={thumbnail_image} alt="" className={styles.tour_thumbnail} />
         <div className={styles.heart_container}>
