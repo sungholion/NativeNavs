@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import styles from "./Tour_Item.module.css";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
@@ -26,7 +25,6 @@ const Tour_Item = ({
   nav_language,
 }) => {
   const navigate = useNavigate();
-  const [isWishListed, setIsWishListed] = useState(false);
   const [isWishListed, setIsWishListed] = useState(false);
 
   const onClickTour = (e) => {
@@ -108,11 +106,6 @@ const Tour_Item = ({
               src={nav_profile_img}
               alt={nav_nickname}
               className={styles.nav_img}
-            <img
-              src={nav_profile_img}
-              alt={nav_nickname}
-              className={styles.nav_img}
-              style={{ cursor: "pointer" }}
             />
             <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
           </div>
