@@ -13,4 +13,5 @@ public interface UserService {
     public List<User> searchAllUser();
     public void updateUser(int existingId, User updateUser);
     public void deleteUser(int id);
+    public boolean authenticateEmail(String authenticationCode);
 }

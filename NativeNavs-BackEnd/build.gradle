@@ -48,6 +48,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // or jjwt-gson, jjwt-orgjson
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // gogole STMP
+	implementation 'jakarta.mail:jakarta.mail-api:2.0.1'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1' // 사용 중인 버전으로 설정
 }
 
 tasks.named('test') {

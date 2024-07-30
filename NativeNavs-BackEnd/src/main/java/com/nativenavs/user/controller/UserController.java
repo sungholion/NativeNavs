@@ -54,6 +54,23 @@ public class UserController {
         }
     }
 
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "이메일 인증 API", description = "이메일 인증을 처리하는 API")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/authenticate")
+    public ResponseEntity<?> authenticateEmail(@RequestParam("authenticationCode") String authenticationCode) {
+        try {
+            if (userService.authenticateEmail(authenticationCode)) {
+                return ResponseEntity.ok("이메일 인증 성공");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 인증 토큰");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 인증 실패");
+        }
+    }
+
 
 
     @Tag(name = "user API", description = "user")
