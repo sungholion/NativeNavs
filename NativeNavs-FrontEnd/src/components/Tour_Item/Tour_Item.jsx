@@ -27,6 +27,11 @@ const Tour_Item = ({
   const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
 
+  window.getUserData = (user) => {
+    console.log("Received user:", user);
+    alert(`Received user: ${user.userId}`);
+  };
+
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
