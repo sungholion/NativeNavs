@@ -1,0 +1,26 @@
+import add from "@/assets/add.png";
+import close from "@/assets/close.png";
+import heart_off from "@/assets/heart_off.png";
+import heart_on from "@/assets/heart_on.png";
+import language from "@/assets/language.png";
+import minus from "@/assets/minus.png";
+import NativeNavs from "@/assets/NativeNavs.png";
+
+export function getStaticImage(type = "") {
+  switch (type) {
+    case "add":
+      return add;
+    case "minus":
+      return minus;
+    case "close":
+      return close;
+    case "heart_off":
+      return heart_off;
+    case "heart_on":
+      return heart_on;
+    case "language":
+      return language;
+    default:
+      return type;
+  }
+}
