@@ -1,7 +1,8 @@
-import styles from "./Tour_Item.module.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
-import { useNavigate } from "react-router-dom";
+import styles from "./Tour_Item.module.css";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
@@ -24,23 +25,43 @@ const Tour_Item = ({
   nav_language,
 }) => {
   const navigate = useNavigate();
+  const [isWishListed, setIsWishListed] = useState(false);
 
   const onClickTour = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지 - <img> 태그와 <section> 태그 모두에 클릭 이벤트가 있을 때, 
-                         // 이미지 클릭 시 이미지의 클릭 이벤트만 발생하고, 상위 요소인 섹션의 클릭 이벤트가 발생하지 않게 하기 위해
+    e.stopPropagation(); // 이벤트 전파 방지
     console.log(`${tour_id}번 여행 상세 페이지로 이동`);
     navigate(`/detail/${tour_id}`);
   };
 
   const onClickNav = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
+    e.stopPropagation();
     console.log(`${nav_nickname} 프로필 페이지로 이동`);
     navigate(`/nav/${user_id}`);
   };
 
+  const toggleWishlist = async (e) => {
+    e.stopPropagation();
+    setIsWishListed((current) => !current);
+  
+
+  };
+
   return (
     <div className={styles.tour_item}>
-      <img onClick={onClickTour} src={thumbnail_image} alt="" className={styles.tour_thumnail} />
+      <div className={styles.thumbnail_container} onClick={onClickTour}>
+        <img
+          src={thumbnail_image}
+          alt=""
+          className={styles.tour_thumbnail}
+        />
+        <div className={styles.heart_container}>
+          <Heart
+            isWishListed={isWishListed}
+            setIsWishListed={setIsWishListed}
+            onClickEvent={toggleWishlist}
+          />
+        </div>
+      </div>
       <section className={styles.tour_info}>
         <div className={styles.tour_leftinfo}>
           <p onClick={onClickTour} className={styles.tour_title}>{title}</p>

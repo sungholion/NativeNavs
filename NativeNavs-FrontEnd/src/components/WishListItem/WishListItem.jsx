@@ -6,6 +6,7 @@ import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import thumbnail_image from "../../assets/thumbnail_image.png";
 import { useNavigate } from "react-router-dom";
+import Heart from "../Heart/Heart.jsx";
 
 // tour_id : 투어 고유 키값
 // user_id : 유저 고유 키값
