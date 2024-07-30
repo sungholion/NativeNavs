@@ -38,7 +38,6 @@ const Tour_Item = ({
     } else {
       console.log("TourListBridge.showToast is not defined");
     }
-    navigate(`/nav/${user_id}`);
     navigate(`/detail/${tour_id}`);
   };
 
@@ -56,8 +55,9 @@ const Tour_Item = ({
     navigate(`/nav/${user_id}`);
   };
 
-  const toggleWishlist = async (e) => {
-    e.stopPropagation();
+  const toggleWishlist = async () => {
+    // 서버 요청을 여기에 추가할 수 있습니다.
+    // 예: await fetch('API_ENDPOINT', { method: 'POST', body: JSON.stringify({ tour_id, user_id, isWishListed: !isWishListed }) });
     setIsWishListed((current) => !current);
   };
 
