@@ -60,7 +60,7 @@ const Create2 = () => {
     );
   };
   return (
-    <div>
+    <>
       {modalOpen ? (
         <div>
           <PlanAdd
@@ -126,7 +126,7 @@ const Create2 = () => {
           )}
         </section>
       </div>
-    </div>
+    </>
   );
 };
 
