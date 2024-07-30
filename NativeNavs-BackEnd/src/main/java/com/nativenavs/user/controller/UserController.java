@@ -92,6 +92,7 @@ public class UserController {
         }
     }
 
+    //
     @Tag(name = "user API", description = "user")
     @Operation(summary = "전체 회원 조회 API", description = "전체 회원을 조회할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
