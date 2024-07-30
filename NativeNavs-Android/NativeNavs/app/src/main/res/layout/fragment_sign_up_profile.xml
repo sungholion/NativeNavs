@@ -98,6 +98,38 @@
                     app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
 
                 <TextView
+                    android:id="@+id/signup_dupli_ok"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_green"
+                    android:text="사용가능한 닉네임입니다."
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+
+                <TextView
+                    android:id="@+id/signup_dupli_bad"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_red"
+                    android:text="이미 존재하는 닉네임입니다."
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+                <TextView
+                    android:id="@+id/signup_dupli_none"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="중복 확인을 해주세요."
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+
+                <TextView
                     android:id="@+id/signup_nationality_tv"
                     style="@style/title_et"
                     android:layout_width="wrap_content"
@@ -195,6 +227,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/signup_name_et" />
 
                 <TextView
+                    android:id="@+id/signup_name_valid_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/content_help"
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    android:text="이름을 입력해주세요"
+                    app:layout_constraintStart_toStartOf="@+id/signup_name_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_name_et" />
+
+                <TextView
                     android:id="@+id/signup_birth_tv"
                     style="@style/title_et"
                     android:layout_width="wrap_content"
@@ -211,10 +254,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:hint="0000-00-00"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/signup_birth_tv" />
 
+                <TextView
+                    android:id="@+id/signup_birth_valid_tv"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="생년월일을 형식을 맞춰주세요."
+                    android:textColor="@color/nn_red"
+                    app:layout_constraintStart_toStartOf="@+id/signup_birth_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_birth_et" />
                 <TextView
                     android:id="@+id/signup_phone_tv"
                     style="@style/title_et"
@@ -248,14 +301,28 @@
                     app:layout_constraintStart_toStartOf="@id/signup_phone_et"
                     app:layout_constraintTop_toBottomOf="@+id/signup_phone_et" />
 
+                <TextView
+                    android:id="@+id/signup_phone_valid_tv"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="전화번호를 입력해주세요"
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/signup_phone_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_phone_et"/>
                 <CheckBox
                     android:id="@+id/signup_terms_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
                     android:padding="0dp"
+                    android:background="@drawable/selector_checked_box"
+                    android:button="@null"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv"/>
 
                 <TextView
                     android:id="@+id/signup_terms_tv"
