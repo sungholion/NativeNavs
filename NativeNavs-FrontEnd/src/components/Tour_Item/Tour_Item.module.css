@@ -3,8 +3,6 @@
   flex-direction: column;
   margin: 5px auto;
   align-items: center;
-  max-width: 600px;
-  width: 80vw;
 }
 
 .thumbnail_container {
