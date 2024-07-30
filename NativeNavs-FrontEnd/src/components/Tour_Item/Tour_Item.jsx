@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
@@ -55,6 +55,12 @@ const Tour_Item = ({
     // 예: await fetch('API_ENDPOINT', { method: 'POST', body: JSON.stringify({ tour_id, user_id, isWishListed: !isWishListed }) });
     setIsWishListed((current) => !current);
   };
+
+  useEffect(() => {
+    if (window.TourListBridge && window.TourListBridge.showToast) {
+      window.TourListBridge.showToast("테스트 글 작성해보기");
+    }
+  }, []);
 
   return (
     <div className={styles.tour_item}>
