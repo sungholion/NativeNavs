@@ -50,7 +50,7 @@ const WishListItem = () => {
                   review_average={tour.review_average}
                   nav_profile_img={tour.img_url}
                   nav_nickname={tour.nickname}
-                  nav_language={tour.language ? tour.language.split(", ") : []}
+                  nav_language={tour.language ? tour.language : []}
                 />
               );
             })}

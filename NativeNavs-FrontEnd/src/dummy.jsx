@@ -24,7 +24,7 @@ export const tours = [
     review_average: 4.52,
     image:
       "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
-    language: "영어, 독일어",
+    language: ["영어", "독일어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
   },
   {
@@ -43,7 +43,7 @@ export const tours = [
     review_average: 4.52,
     image:
       "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
-    language: "영어, 독일어",
+    language: ["영어", "독일어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
   },
 ];
