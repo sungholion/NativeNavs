@@ -21,15 +21,15 @@ interface UserService {
         @Body loginDTO: LoginDTO
     ) : Response<LoginResponse>
 
-    @GET("users/authenticate")
+    @GET("users/authenticateEmail")
     suspend fun setEmailVerifyCode(
         @Query("email") email:String,
         @Query("authenticationCode") authenticationCode:String
     ): Response<Void>
 
-    @POST("users/authenticate")
+    @POST("users/sendEmail")
     suspend fun getEmailVerifyCode(
-        @Body email: String
+        @Query("email") email: String
     ) : Response<Void>
 
 }
