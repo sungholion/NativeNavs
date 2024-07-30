@@ -29,18 +29,29 @@ const Tour_Item = ({
 
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
-    console.log(`${tour_id}번 여행 상세 페이지로 이동`);
+    // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
+    if (
+      window.TourListBridge &&
+      typeof window.TourListBridge.showToast === "function"
+    ) {
+      window.TourListBridge.showToast(`${tour_id}번 여행 상세 페이지로 이동`);
+    } else {
+      console.log("TourListBridge.showToast is not defined");
+    }
+    navigate(`/nav/${user_id}`);
     navigate(`/detail/${tour_id}`);
   };
 
   const onClickNav = (e) => {
     e.stopPropagation();
-    console.log(`${nav_nickname} 프로필 페이지로 이동`);
     // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
-    if (window.TourListBridge && typeof window.TourListBridge.showToast === 'function') {
+    if (
+      window.TourListBridge &&
+      typeof window.TourListBridge.showToast === "function"
+    ) {
       window.TourListBridge.showToast(`${nav_nickname} 프로필 페이지로 이동`);
     } else {
-      console.log('TourListBridge.showToast is not defined');
+      console.log("TourListBridge.showToast is not defined");
     }
     navigate(`/nav/${user_id}`);
   };
@@ -53,11 +64,7 @@ const Tour_Item = ({
   return (
     <div className={styles.tour_item}>
       <div className={styles.thumbnail_container} onClick={onClickTour}>
-        <img
-          src={thumbnail_image}
-          alt=""
-          className={styles.tour_thumbnail}
-        />
+        <img src={thumbnail_image} alt="" className={styles.tour_thumbnail} />
         <div className={styles.heart_container}>
           <Heart
             isWishListed={isWishListed}
@@ -68,7 +75,9 @@ const Tour_Item = ({
       </div>
       <section className={styles.tour_info}>
         <div className={styles.tour_leftinfo}>
-          <p onClick={onClickTour} className={styles.tour_title}>{title}</p>
+          <p onClick={onClickTour} className={styles.tour_title}>
+            {title}
+          </p>
           <p onClick={onClickTour} className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
@@ -76,10 +85,10 @@ const Tour_Item = ({
         </div>
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_nav} onClick={onClickNav}>
-            <img 
-              src={nav_profile_img} 
-              alt={nav_nickname} 
-              className={styles.nav_img} 
+            <img
+              src={nav_profile_img}
+              alt={nav_nickname}
+              className={styles.nav_img}
               style={{ cursor: "pointer" }}
             />
             <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
