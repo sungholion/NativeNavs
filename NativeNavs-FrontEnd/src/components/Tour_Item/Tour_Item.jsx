@@ -1,7 +1,8 @@
-import { tour } from "../../dummy";
-import styles from "./Tour_Item.module.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
+import styles from "./Tour_Item.module.css";
 
 // user_id : 유저 고유 키값
 // title : 투어 제목 :String
@@ -12,6 +13,7 @@ import Heart from "../Heart/Heart";
 // nav_nickname : 가이드 닉네임 : string
 // nav_language : 가이드가 사용가능한 언어 목록 : string[]
 const Tour_Item = ({
+  tour_id,
   user_id,
   title,
   thumbnail_image,
@@ -22,28 +24,81 @@ const Tour_Item = ({
   nav_nickname,
   nav_language,
 }) => {
+  const navigate = useNavigate();
+  const [isWishListed, setIsWishListed] = useState(false);
+
+  const onClickTour = (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
+    // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
+    if (
+      window.TourListBridge &&
+      typeof window.TourListBridge.showToast === "function"
+    ) {
+      window.TourListBridge.showToast(`${tour_id}번 여행 상세 페이지로 이동`);
+    } else {
+      console.log("TourListBridge.showToast is not defined");
+    }
+    navigate(`/detail/${tour_id}`);
+  };
+
+  const onClickNav = (e) => {
+    e.stopPropagation();
+    // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
+
+    window.TourListBridge.showToast(`${nav_nickname} 프로필 페이지로 이동`);
+
+    navigate(`/nav/${user_id}`);
+  };
+
+  const toggleWishlist = async () => {
+    // 서버 요청을 여기에 추가할 수 있습니다.
+    // 예: await fetch('API_ENDPOINT', { method: 'POST', body: JSON.stringify({ tour_id, user_id, isWishListed: !isWishListed }) });
+    setIsWishListed((current) => !current);
+  };
+
+  useEffect(() => {
+    if (window.TourListBridge && window.TourListBridge.showToast) {
+      window.TourListBridge.showToast("테스트 글 작성해보기");
+    }
+  }, []);
+
   return (
     <div className={styles.tour_item}>
-      <img src={thumbnail_image} alt="" className={styles.tour_thumnail} />
+      <div className={styles.thumbnail_container} onClick={onClickTour}>
+        <img src={thumbnail_image} alt="" className={styles.tour_thumbnail} />
+        <div className={styles.heart_container}>
+          <Heart
+            isWishListed={isWishListed}
+            setIsWishListed={setIsWishListed}
+            onClickEvent={toggleWishlist}
+          />
+        </div>
+      </div>
       <section className={styles.tour_info}>
         <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{title}</p>
-          <p className={styles.tour_duration}>
+          <p onClick={onClickTour} className={styles.tour_title}>
+            {title}
+          </p>
+          <p onClick={onClickTour} className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
           <Rating avg={review_average} />
         </div>
         <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav}>
-            <img src={nav_profile_img} alt="" className={styles.nav_img} />
-            <p>{nav_nickname}</p>
+          <div className={styles.tour_nav} onClick={onClickNav}>
+            <img
+              src={nav_profile_img}
+              alt={nav_nickname}
+              className={styles.nav_img}
+              style={{ cursor: "pointer" }}
+            />
+            <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
           </div>
           <div className={styles.tour_nav_language}>
-            <img src="src/assets/language.png" alt="dd" />
+            <img src="/src/assets/language.png" alt="언어 이미지" />
             {nav_language.length > 1 ? (
               <p>
-                {nav_language[0]}외 {nav_language.length - 1}
-                개국어
+                {nav_language[0]} 외 {nav_language.length - 1} 개 국어
               </p>
             ) : (
               <p>{nav_language[0]}</p>

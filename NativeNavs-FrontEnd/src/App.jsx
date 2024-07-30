@@ -10,6 +10,7 @@ import Team from "./page/Team";
 import Detail from "./page/Detail";
 import Edit from "./page/Edit";
 import Tour_Create from "./subpage/tour_create/Tour_Create";
+import WishList from "./page/WishList";
 function App() {
   const param = useSearchParams();
   return (
@@ -37,7 +38,7 @@ function App() {
             path="reviews"
             element={<div>Trav_내가작성한 리뷰 페이지</div>}
           />
-          <Route path="wishlist" element={<div>위시리시트</div>} />
+          <Route path="wishlist" element={<WishList />} />
           <Route
             path="reservation_list"
             element={<div>예약리스트 및 완료된 Tour</div>}
