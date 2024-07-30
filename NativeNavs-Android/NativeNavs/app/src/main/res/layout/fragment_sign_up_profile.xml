@@ -254,6 +254,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:hint="0000-00-00"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/signup_birth_tv" />
@@ -263,7 +264,7 @@
                     style="@style/content_help"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="생년월일을 입력해주세요"
+                    android:text="생년월일을 형식을 맞춰주세요."
                     android:textColor="@color/nn_red"
                     app:layout_constraintStart_toStartOf="@+id/signup_birth_et"
                     app:layout_constraintTop_toBottomOf="@+id/signup_birth_et" />
@@ -316,9 +317,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
                     android:minWidth="0dp"
+                    android:minHeight="0dp"
                     android:padding="0dp"
+                    android:background="@drawable/selector_checked_box"
+                    android:button="@null"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv"/>
 
                 <TextView
                     android:id="@+id/signup_terms_tv"
