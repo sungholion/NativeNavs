@@ -131,7 +131,19 @@ public class UserController {
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping
-    public ResponseEntity<?> updateUser(HttpSession session, @RequestBody User updateUser) {
+    public ResponseEntity<?> updateUser(HttpSession session,
+                                        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                                                description = ".",
+                                                required = true,
+                                                content = @Content(
+                                                        mediaType = "application/json",
+                                                        schema = @Schema(
+                                                                example = "{\"image\": \"myprofile.png\", \"password\": \"1234\", " +
+                                                                        "\"nickname\": \"IloveBTS\",\"user_language\": \"english\"," +
+                                                                        "\"phone\": \"01012345678\"}"
+                                                        )
+                                                )
+                                        )@RequestBody User updateUser) {
         try{
             User existingUser= (User) session.getAttribute("user");
 
