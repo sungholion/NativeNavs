@@ -1,0 +1,67 @@
+.Modal {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  height: 70vh;
+  left: 0px;
+  bottom: 0px;
+  border-top-left-radius: 5%;
+  border-top-right-radius: 5%;
+  padding: 3%;
+  z-index: 10000;
+}
+
+.ModalBackground {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0px;
+  bottom: 0px;
+  background-color: rgba(240, 240, 240, 0.8);
+}
+
+.ModalHeader {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  margin: 5px;
+  margin-top: 4vw;
+}
+
+.ModalHeader img {
+  display: inline-block;
+  width: min(25vw, 25vh);
+  height: min(25vw, 25vh);
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.ModalHeaderTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  flex: 1;
+
+  h3 {
+    margin-bottom: min(3vw, 3vh);
+    font-weight: 800;
+  }
+
+  input[type="text"] {
+    width: 80%;
+    height: min(8vw, 8vh);
+  }
+}
+
+.ModalMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.ModalContent {
+  display: flex;
+  flex-direction: column;
+}

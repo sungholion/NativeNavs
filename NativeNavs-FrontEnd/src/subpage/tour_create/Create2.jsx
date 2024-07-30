@@ -2,7 +2,9 @@ import { useState } from "react";
 import styles from "./Create2.module.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStaticImage } from "@/utils/get-static-image";
-import PlanAdd from "./PlanAdd";
+import PlanModal from "@/components/PlanModal/PlanModal";
+import { createPortal } from "react-dom";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const plan_info = {
   plan_id: 2,
@@ -49,7 +51,7 @@ const onClickEvent = () => {
 // };
 
 const Create2 = () => {
-  const [planList, setPlanList] = useState([]); //[plan_info, plan_info2, plan_info3]
+  const [planList, setPlanList] = useState([plan_info]); //[plan_info, plan_info2, plan_info3]
   const [modalOpen, setModalOpen] = useState(false);
 
   const onDeleteEvent = (plan_id) => {
@@ -61,24 +63,6 @@ const Create2 = () => {
   };
   return (
     <>
-      {modalOpen ? (
-        <div>
-          <PlanAdd
-            toggleEvent={() => {
-              setModalOpen(false);
-            }}
-          />
-          <div
-            style={{
-              backgroundColor: modalOpen ? "rgb(240,240,240)" : "",
-              opacity: 0.2,
-              zIndex: 2,
-              width: "110vw",
-              height: "110vh",
-            }}
-          />
-        </div>
-      ) : undefined}
       <div className={styles.Create2}>
         <section className={styles.Header}>
           <p>일정 목록</p>
@@ -86,14 +70,23 @@ const Create2 = () => {
             src={getStaticImage("add")}
             alt=""
             onClick={() => {
-              setModalOpen((cur) => !cur);
+              setModalOpen(true);
               console.log("Modal State :" + modalOpen);
             }}
           />
+          {modalOpen &&
+            createPortal(
+              <PlanModal
+                onClose={() => {
+                  setModalOpen(false);
+                }}
+              />,
+              document.body
+            )}
         </section>
         <section className={styles.PlanList}>
           {planList.length ? (
-            planList.planList.map((planItem) => {
+            planList.map((planItem) => {
               return <Plan_Item key={planItem.plan_id} {...planItem} />;
             })
           ) : (
