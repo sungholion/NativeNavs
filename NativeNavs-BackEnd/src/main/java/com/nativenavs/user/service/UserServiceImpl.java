@@ -4,6 +4,7 @@ import com.nativenavs.user.mapper.UserMapper;
 import com.nativenavs.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.security.SecureRandom;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,13 +19,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signUp(User user) {
-        String authenticationCode = UUID.randomUUID().toString();
+        String authenticationCode = generateAuthenticationCode();
         user.setAuthenticationCode(authenticationCode);
         userMapper.signUp(user);
-
         String subject = "Please verify your email address";
-        String text = "To verify your email address, please click the link below:\n" +
-                "http://localhost:8080/api/users/authenticate?authenticationCode=" + authenticationCode;
+        String text = "To verify your email address, please enter the following code: " + authenticationCode;
         emailService.sendAuthenticationCodeEmail(user.getEmail(), subject, text);
     }
 
@@ -65,5 +64,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return false;
+    }
+
+    private String generateAuthenticationCode() {
+        SecureRandom random = new SecureRandom();
+        int num = random.nextInt(1000000);
+        return String.format("%06d", num);
     }
 }
