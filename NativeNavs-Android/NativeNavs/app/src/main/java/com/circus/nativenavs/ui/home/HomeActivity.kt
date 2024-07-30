@@ -2,6 +2,7 @@ package com.circus.nativenavs.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -23,7 +24,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         super.onCreate(savedInstanceState)
 
         initView()
-
     }
 
     private fun initView() {

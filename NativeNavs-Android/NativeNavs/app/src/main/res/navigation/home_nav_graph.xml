@@ -85,7 +85,11 @@
         android:id="@+id/tourDetailFragment"
         android:name="com.circus.nativenavs.ui.home.tour.TourDetailFragment"
         android:label="TourDetailFragment"
-        tools:layout="@layout/fragment_tour_detail" />
+        tools:layout="@layout/fragment_tour_detail" >
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"

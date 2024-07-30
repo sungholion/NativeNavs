@@ -1,6 +1,7 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
+import android.webkit.WebView
 import com.circus.nativenavs.util.PREF
 import com.circus.nativenavs.util.SharedPref
 
@@ -15,6 +16,8 @@ class ApplicationClass : Application() {
         super.onCreate()
 
         SharedPref.sharedPrefs = applicationContext.getSharedPreferences(PREF, MODE_PRIVATE)
+
+        WebView.setWebContentsDebuggingEnabled(true)
 
 //        initRetrofitInstance()
     }
