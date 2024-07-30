@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chat"
+            type="com.circus.nativenavs.data.ChatListDto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/padding_horizontal_item"
+        android:paddingVertical="@dimen/margin_vertical_title_page">
+
+        <ImageView
+            android:id="@+id/chat_tour_img_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/logo_nativenavs" />
+
+        <TextView
+            android:id="@+id/chat_tour_title_tv"
+            style="@style/regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{chat.tourTitle}"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/chat_opponent_nickname_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chat_tour_img_iv"
+            app:layout_constraintTop_toTopOf="@+id/chat_tour_img_iv"
+            tools:text="남산타워 케이블카 및 맛집 체험 투어" />
+
+        <TextView
+            android:id="@+id/chat_opponent_nickname_tv"
+            style="@style/regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{chat.senderNickname}"
+            android:textColor="@color/gray_5858"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/chat_tour_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/chat_tour_title_tv"
+            tools:text="아린" />
+
+        <TextView
+            android:id="@+id/chat_message_tv"
+            style="@style/regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{chat.recentMessage}"
+            android:textColor="@color/gray_5858"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_tour_img_iv"
+            app:layout_constraintEnd_toStartOf="@+id/chat_message_time_tv"
+            app:layout_constraintStart_toStartOf="@+id/chat_tour_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/chat_opponent_nickname_tv"
+            tools:text="안녕하세요~" />
+
+        <TextView
+            android:id="@+id/chat_message_time_tv"
+            style="@style/regular"
+            time="@{chat.recentMessageTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_5858"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_message_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/chat_message_tv"
+            tools:text="오후 12:30" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
