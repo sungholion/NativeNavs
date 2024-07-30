@@ -36,14 +36,18 @@ const Tour_Item = ({
   const onClickNav = (e) => {
     e.stopPropagation();
     console.log(`${nav_nickname} 프로필 페이지로 이동`);
+    // 네이티브 안드로이드 브릿지를 사용해 토스트 메시지 호출
+    if (window.AndroidBridge && typeof window.AndroidBridge.showToast === 'function') {
+      window.AndroidBridge.showToast(`${nav_nickname} 프로필 페이지로 이동`);
+    } else {
+      console.log('AndroidBridge.showToast is not defined');
+    }
     navigate(`/nav/${user_id}`);
   };
 
   const toggleWishlist = async (e) => {
     e.stopPropagation();
     setIsWishListed((current) => !current);
-  
-
   };
 
   return (
