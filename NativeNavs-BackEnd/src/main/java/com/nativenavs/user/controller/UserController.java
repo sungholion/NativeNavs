@@ -1,6 +1,7 @@
 package com.nativenavs.user.controller;
 
 import com.nativenavs.user.model.User;
+import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Tag(name = "user API", description = "user")
     @Operation(summary = "회원가입 API", description = "유저가 회원가입할 때 사용하는 API")
@@ -55,36 +60,34 @@ public class UserController {
         }
     }
 
-//    @Tag(name = "user API", description = "user")
-//    @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 보냅니다")
-//    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-//    @PostMapping("/sendEmail")
-//    public ResponseEntity<?> sendEmail(@RequestParam("email") String email) {
-//        try {
-//            User user = userService.searchOneUser(email);
-//
-//            if(user != null) {
-//                return ResponseEntity.accepted().body(user);
-//            } else {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-//        }
-//    }
+    @Tag(name = "user API", description = "user")
+    @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 보냅니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @PostMapping("/sendEmail")
+    public ResponseEntity<?> sendEmail(@RequestParam("email") String email) {
+        try {
+            if (userService.checkDuplicatedEmail(email)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일");
+            } else {
+                emailService.sendAuthenticationCodeEmail(email);
+                return ResponseEntity.accepted().body("이메일 발송 성공");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 발송 실패");
+        }
+    }
 
     @Tag(name = "user API", description = "user")
     @Operation(summary = "이메일 인증 API", description = "이메일 인증을 처리하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/authenticate")
-    public ResponseEntity<?> authenticateEmail(@RequestParam("authenticationCode") String authenticationCode) {
+    @GetMapping("/authenticateEmail")
+    public ResponseEntity<?> authenticateEmail(@RequestParam("email") String email, @RequestParam("authenticationCode") String authenticationCode) {
         try {
-            if (userService.authenticateEmail(authenticationCode)) {
+            if(emailService.authenticateEmail(email  , authenticationCode)) {
                 return ResponseEntity.ok("이메일 인증 성공");
-            } else {
-                System.out.println(authenticationCode);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 인증 토큰");
+            } else{
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 인증 번호");
             }
         } catch (Exception e) {
             e.printStackTrace();

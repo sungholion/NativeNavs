@@ -1,4 +1,4 @@
-package com.navtivenavs.NativeNavs_BackEnd;
+package com.nativenavs.NativeNavs_BackEnd;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
