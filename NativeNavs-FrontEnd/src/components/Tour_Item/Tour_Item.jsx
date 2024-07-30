@@ -35,6 +35,7 @@ const Tour_Item = ({
       typeof window.TourListBridge.showToast === "function"
     ) {
       window.TourListBridge.showToast(`${tour_id}번 여행 상세 페이지로 이동`);
+      window.TourListBridge.navigateToTourDetailFragment(tour_id);
     } else {
       console.log("TourListBridge.showToast is not defined");
     }
