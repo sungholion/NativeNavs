@@ -1,9 +1,6 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
-import android.util.Patterns
-import com.circus.nativenavs.util.SharedPreferenceController
-import java.util.regex.Pattern
 import com.circus.nativenavs.util.PREF
 import com.circus.nativenavs.util.SharedPref
 
