@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.SignUpDTO
 import com.circus.nativenavs.data.service.UserService
+import com.circus.nativenavs.util.SharedPref
 import kotlinx.coroutines.launch
 
 class SignUpActivityViewModel : ViewModel() {
@@ -30,6 +31,9 @@ class SignUpActivityViewModel : ViewModel() {
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
 
+    private val _emailStatusCode = MutableLiveData<Int>()
+    val emailStatusCode: LiveData<Int> get() = _emailStatusCode
+
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     fun signUp() {
@@ -46,12 +50,20 @@ class SignUpActivityViewModel : ViewModel() {
         viewModelScope.launch {
 
             val response = retrofit.getEmailVerifyCode(email)
-
+            println("email : $email")
+            println(response.body())
+            println(response.code())
         }
     }
 
     fun setEmailCode(email: String, code: String){
+        viewModelScope.launch {
+            val response = retrofit.setEmailVerifyCode(email,code)
 
+            // 상태 코드 업데이트
+            _emailStatusCode.postValue(response.code())
+
+        }
     }
 
 
