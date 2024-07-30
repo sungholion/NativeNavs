@@ -33,11 +33,12 @@ public class UserController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(
-                                    example = "{\"email\": \"test1@example.com\", \"password\": \"1234\", " +
+                                    example = "{\"email\": \"eoblue23@gmail.com\", \"password\": \"1234\", " +
                                             "\"image\": \"profile.png\",\"name\": \"kevin\"," +
                                             "\"birth\": \"1999-12-11\", \"phone\": \"01012345678\"," +
                                             "\"nation\": \"USA\", \"nickname\": \"nativeGood\"," +
-                                            "\"user_language\": \"english\"}"
+                                            "\"user_language\": \"english\", \"is_nav\": \"false\"," +
+                                            "\"device\": \"ios\"  }"
                             )
                     )
             )
@@ -54,6 +55,25 @@ public class UserController {
         }
     }
 
+//    @Tag(name = "user API", description = "user")
+//    @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 보냅니다")
+//    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+//    @PostMapping("/sendEmail")
+//    public ResponseEntity<?> sendEmail(@RequestParam("email") String email) {
+//        try {
+//            User user = userService.searchOneUser(email);
+//
+//            if(user != null) {
+//                return ResponseEntity.accepted().body(user);
+//            } else {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+//        }
+//    }
+
     @Tag(name = "user API", description = "user")
     @Operation(summary = "이메일 인증 API", description = "이메일 인증을 처리하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
@@ -63,6 +83,7 @@ public class UserController {
             if (userService.authenticateEmail(authenticationCode)) {
                 return ResponseEntity.ok("이메일 인증 성공");
             } else {
+                System.out.println(authenticationCode);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 인증 토큰");
             }
         } catch (Exception e) {
@@ -70,6 +91,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 인증 실패");
         }
     }
+
+
 
 
 
