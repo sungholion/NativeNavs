@@ -23,9 +23,6 @@ const WishListItem = () => {
 
   return (
     <div className={styles.TotalContainer}>
-      {/* 제목 표시 */}
-      <h1 className={styles.WishListTitle}>WishList</h1>
-
       {/* 위시리스트 */}
       <div className={styles.WishListContainer}>
         {/* 삼항 연산자 */}
