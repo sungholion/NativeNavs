@@ -6,12 +6,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class JwtTokenProvider {
-    private final String SECRET_KEY = "5ad900a5079ed71ab8bf24752f8cf3025a164ba352a8d85d23ff42973ee4cc53911d5e2d2b4543848265668243df7098d6076380a9bc50ce6d02d8687c3da881";
+    private static final String SECRET_KEY = "5ad900a5079ed71ab8bf24752f8cf3025a164ba352a8d85d23ff42973ee4cc53911d5e2d2b4543848265668243df7098d6076380a9bc50ce6d02d8687c3da881";
     private final long ACCESS_TOKEN_EXPIRATION_TIME = 3600000; // 1시간
     private final long REFRESH_TOKEN_EXPIRATION_TIME = 1209600000; // 2주
+
+    private Set<String> tokenBlacklist = new HashSet<>();
 
     // 액세스 토큰 생성
     public String generateAccessToken(String email) {
@@ -39,8 +43,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-
-    public String getEmailFromToken(String token) {
+    public static String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
@@ -56,5 +59,9 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void invalidateToken(String token) {
+        tokenBlacklist.add(token);
     }
 }
