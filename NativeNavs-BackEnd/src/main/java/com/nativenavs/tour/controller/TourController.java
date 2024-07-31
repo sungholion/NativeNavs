@@ -97,8 +97,42 @@ public class TourController {
         }
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> tourUpdate(@RequestBody TourDTO tourDTO, @PathVariable int id) {
-//        TourDTO tourDTO
-//    }
+
+    @Tag(name = "tour API", description = "tour")
+    @Operation(summary = "투어 수정 API", description = "투어 정보를 수정하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    @PutMapping("/{id}")
+    public ResponseEntity<?> tourModify(
+            @Parameter(description = "투어 ID", required = true, example = "1")
+            @PathVariable int id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = ".", required = true, content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                            example = "{\n" +
+                                    " \"title\": \"Summer Vacation Updated\",\n" +
+                                    " \"thumbnailImage\": \"http://example.com/image_updated.jpg\",\n" +
+                                    " \"description\": \"A relaxing summer vacation tour - updated\",\n" +
+                                    " \"location\": \"서울특별시 종로구\",\n" +
+                                    " \"price\": 550000,\n" +
+                                    " \"startDate\": \"2024-08-01\",\n" +
+                                    " \"endDate\": \"2024-08-15\",\n" +
+                                    " \"reviewAverage\": 0.0,\n" +
+                                    " \"reviewCount\": 0,\n" +
+                                    " \"maxParticipants\": 8,\n" +
+                                    "}"
+                    )
+            )
+            )
+            @RequestBody TourDTO tourDTO) {
+        try {
+            tourService.modifyTour(id, tourDTO);
+            return ResponseEntity.ok("투어 수정 완료");
+        } catch (Exception e) {
+            e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 수정 실패");
+        }
+    }
 }

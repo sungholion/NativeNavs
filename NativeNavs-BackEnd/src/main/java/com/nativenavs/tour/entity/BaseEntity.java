@@ -25,6 +25,6 @@ public class BaseEntity {
     private LocalDateTime createdAt;  // 투어 생성 일시
 
     @LastModifiedDate
-    @Column(name = "updated_at", updatable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;  // 투어 정보 수정 일시
 }

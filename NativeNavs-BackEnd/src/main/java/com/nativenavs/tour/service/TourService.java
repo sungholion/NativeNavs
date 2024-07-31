@@ -6,6 +6,7 @@ import com.nativenavs.tour.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +41,24 @@ public class TourService {
             return TourDTO.toTourDTO(tourEntity);
         }else{
             return null;
+        }
+    }
+
+    public void modifyTour(int id, TourDTO tourDTO){
+        Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
+        if(optionalTourEntity.isPresent()){
+            TourEntity tourEntity = optionalTourEntity.get();
+            tourEntity.setTitle(tourDTO.getTitle());
+            tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
+            tourEntity.setDescription(tourDTO.getDescription());
+            tourEntity.setLocation(tourDTO.getLocation());
+            tourEntity.setPrice(tourDTO.getPrice());
+            tourEntity.setStartDate(tourDTO.getStartDate());
+            tourEntity.setEndDate(tourDTO.getEndDate());
+            tourEntity.setReviewAverage(tourDTO.getReviewAverage());
+            tourEntity.setReviewCount(tourDTO.getReviewCount());
+            tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
+            tourRepository.save(tourEntity);
         }
     }
 }
