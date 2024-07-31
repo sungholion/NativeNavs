@@ -10,4 +10,16 @@ object SharedPref {
         set(value) {
             sharedPrefs?.edit()?.putInt(USER_ID, value)?.apply()
         }
+    var accessToken: String?
+        get() = sharedPrefs?.getString(ACCESSTOKEN, null)
+        set(value) {
+            sharedPrefs?.edit()?.putString(ACCESSTOKEN, value)?.apply()
+        }
+
+    var refreshToken: String?
+        get() = sharedPrefs?.getString(REFRESHTOKEN, null)
+        set(value) {
+            sharedPrefs?.edit()?.putString(REFRESHTOKEN, value)?.apply()
+        }
+
 }

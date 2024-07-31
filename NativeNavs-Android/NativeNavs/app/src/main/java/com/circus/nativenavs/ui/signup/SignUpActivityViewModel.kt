@@ -3,7 +3,13 @@ package com.circus.nativenavs.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.LanguageListDTO
 import com.circus.nativenavs.data.SignUpDTO
+import com.circus.nativenavs.data.service.UserService
+import com.circus.nativenavs.util.SharedPref
+import kotlinx.coroutines.launch
 
 class SignUpActivityViewModel : ViewModel() {
 
@@ -13,7 +19,7 @@ class SignUpActivityViewModel : ViewModel() {
             "",
             false,
             "",
-            emptyList(),
+            "",
             "",
             "",
             "",
@@ -23,8 +29,60 @@ class SignUpActivityViewModel : ViewModel() {
     )
     val signUpDTO: LiveData<SignUpDTO> = _signUpDTO
 
+    private val _languageList = MutableLiveData(LanguageListDTO(emptyList()))
+    val languageList: LiveData<LanguageListDTO> = _languageList
+
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
+
+    private val _emailStatusCode = MutableLiveData<Int>()
+    val emailStatusCode: LiveData<Int> get() = _emailStatusCode
+
+    private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
+
+    fun signUp() {
+        viewModelScope.launch {
+            val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
+
+            // HTTP 상태 코드 출력
+            println(_signUpDTO.value)
+            println(response)
+            println("Response code: ${response?.code()}")
+            println("Response headers: ${response?.headers()}")
+            println("Response error body: ${response?.errorBody()?.string()}")
+            println("HTTP 상태 코드: ${response?.code()}")
+            println("HTTP 상태: ${response?.body()}")
+        }
+    }
+
+    fun getEmailCode(email : String){
+        viewModelScope.launch {
+
+            val response = retrofit.getEmailVerifyCode(email)
+            println("email : $email")
+            println(response.body())
+            println(response.code())
+            println("Response code: ${response.code()}")
+            println("Response headers: ${response.headers()}")
+            println("Response error body: ${response.errorBody()?.string()}")
+        }
+    }
+
+    fun setEmailCode(email: String, code: String){
+        viewModelScope.launch {
+            val response = retrofit.setEmailVerifyCode(email,code)
+
+            // 상태 코드 업데이트
+            _emailStatusCode.postValue(response.code())
+            println("Response code: ${response.code()}")
+            println("Response headers: ${response.headers()}")
+            println("Response error body: ${response.errorBody()?.string()}")
+        }
+    }
+
+    fun updateLanguage(language : List<String>){
+        _languageList.value = LanguageListDTO(language)
+    }
 
     fun updateNicknameCheck(isChecked : Boolean){
         _nicknameCheck.value = isChecked
@@ -66,8 +124,8 @@ class SignUpActivityViewModel : ViewModel() {
         _signUpDTO.value = _signUpDTO.value?.copy(nation = nation)
     }
 
-    fun updateLanguage(language: List<String>){
-        _signUpDTO.value = _signUpDTO.value?.copy(language = language)
+    fun updateUserLanguage(language: String){
+        _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
     @Override
     override fun toString(): String {
@@ -75,7 +133,7 @@ class SignUpActivityViewModel : ViewModel() {
                 "\n 비밀번호 : " + _signUpDTO.value?.password +
                 "\n 유저타입 : " + _signUpDTO.value?.isNav +
                 "\n 닉네임 : " + _signUpDTO.value?.nickname +
-                "\n 구사가능언어 : " + _signUpDTO.value?.language +
+                "\n 구사가능언어 : " + _signUpDTO.value?.userLanguage +
                 "\n 이름 : " + _signUpDTO.value?.name +
                 "\n 휴대폰 : " + _signUpDTO.value?.phone +
                 "\n 국가 : " + _signUpDTO.value?.nation +
