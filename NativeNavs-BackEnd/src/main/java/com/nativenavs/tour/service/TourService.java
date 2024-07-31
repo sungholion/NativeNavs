@@ -1,11 +1,20 @@
 package com.nativenavs.tour.service;
 
+import com.nativenavs.tour.dto.PlanDTO;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.entity.CategoryEntity;
+import com.nativenavs.tour.entity.PlanEntity;
+import com.nativenavs.tour.entity.TourCategoryEntity;
 import com.nativenavs.tour.entity.TourEntity;
+import com.nativenavs.tour.repository.CategoryRepository;
+import com.nativenavs.tour.repository.PlanRepository;
+import com.nativenavs.tour.repository.TourCategoryRepository;
 import com.nativenavs.tour.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +26,48 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TourService {
+    @Autowired
     private final TourRepository tourRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private TourCategoryRepository tourCategoryRepository;
+    @Autowired
+    private PlanRepository planRepository;
+
     public void addTour(TourDTO tourDTO){
         TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
-        tourRepository.save(tourEntity);
+        TourEntity savedTour = tourRepository.save(tourEntity);
+
+        List<Integer> categoryIds = tourDTO.getCategoryIds();
+        // 카테고리 정보 처리
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            for (Integer categoryId : categoryIds) {
+                CategoryEntity category = categoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
+
+                TourCategoryEntity tourCategoryEntity = new TourCategoryEntity();
+                tourCategoryEntity.setTour(savedTour);
+                tourCategoryEntity.setCategory(category);
+                tourCategoryRepository.save(tourCategoryEntity);
+            }
+        }
+        // 일정 정보 처리
+        List<PlanDTO> planDTOs = tourDTO.getPlans();
+        if (planDTOs != null && !planDTOs.isEmpty()) {
+            for (PlanDTO planDTO : planDTOs) {
+                PlanEntity planEntity = new PlanEntity();
+                planEntity.setTourId(savedTour);
+                planEntity.setField(planDTO.getField());
+                planEntity.setDescription(planDTO.getDescription());
+                planEntity.setImage(planDTO.getImage());
+                planEntity.setLatitude(BigDecimal.valueOf(planDTO.getLatitude()));
+                planEntity.setLongitude(BigDecimal.valueOf(planDTO.getLongitude()));
+                planEntity.setAddressFull(planDTO.getAddressFull());
+                planRepository.save(planEntity);
+            }
+        }
+
     }
 
     //entity -> DTO 작업이 필요

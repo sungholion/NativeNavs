@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +29,9 @@ public class TourDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isRemoved;
+
+    private List<Integer> categoryIds;
+    private List<PlanDTO> plans;
 
 
     public static TourDTO toTourDTO(TourEntity tourEntity){

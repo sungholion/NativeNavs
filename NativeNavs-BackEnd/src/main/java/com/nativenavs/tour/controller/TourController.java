@@ -47,7 +47,27 @@ public class TourController {
                                             "  \"reviewAverage\": 0.0,\n" +
                                             "  \"reviewCount\": 0,\n" +
                                             "  \"maxParticipants\": 6,\n" +
-                                            "  \"removed\": false\n" +
+                                            "  \"removed\": false,\n" +
+                                            "  \"plans\": [\n" +
+                                            "    {\n" +
+                                            "      \"id\": 1,\n" +
+                                            "      \"field\": \"Field 1\",\n" +
+                                            "      \"description\": \"Description of plan 1\",\n" +
+                                            "      \"image\": \"http://example.com/plan1.jpg\",\n" +
+                                            "      \"latitude\": 37.5665,\n" +
+                                            "      \"longitude\": 126.978,\n" +
+                                            "      \"addressFull\": \"123 Example Street\"\n" +
+                                            "    },\n" +
+                                            "    {\n" +
+                                            "      \"id\": 2,\n" +
+                                            "      \"field\": \"Field 2\",\n" +
+                                            "      \"description\": \"Description of plan 2\",\n" +
+                                            "      \"image\": \"http://example.com/plan2.jpg\",\n" +
+                                            "      \"latitude\": 37.567,\n" +
+                                            "      \"longitude\": 126.979,\n" +
+                                            "      \"addressFull\": \"456 Example Avenue\"\n" +
+                                            "    }\n" +
+                                            "  ]\n" +
                                             "}"
                             )
                     )

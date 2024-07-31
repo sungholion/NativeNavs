@@ -63,7 +63,7 @@ public class TourEntity extends BaseEntity {
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     private Set<TourCategoryEntity> tourCategories;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tourId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanEntity> plans;
     //DTO -> Entity 로 옮겨닮기
     public static TourEntity toSaveEntity(TourDTO tourDTO){
