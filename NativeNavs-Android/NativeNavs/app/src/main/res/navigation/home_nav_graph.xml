@@ -89,6 +89,12 @@
         <argument
             android:name="tourId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
@@ -126,6 +132,8 @@
         <action
             android:id="@+id/action_profileFragment_to_stampFragment"
             app:destination="@id/stampFragment" />
+        <argument android:name="userId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/profileModifylFragment"
@@ -141,7 +149,11 @@
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.home.review.ReviewListFragment"
         android:label="ReviewListFragment"
-        tools:layout="@layout/fragment_review_list" />
+        tools:layout="@layout/fragment_review_list" >
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/reviewRegisterFragment"
         android:name="com.circus.nativenavs.ui.home.review.ReviewRegisterFragment"
@@ -174,12 +186,16 @@
         tools:layout="@layout/activity_style" />
     <fragment
         android:id="@+id/myTripFragment"
-        android:name="com.circus.nativenavs.ui.home.trip.MyTripFragment"
+        android:name="com.circus.nativenavs.ui.trip.MyTripFragment"
         android:label="MyTripFragment"
         tools:layout="@layout/fragment_my_trip" />
     <fragment
         android:id="@+id/tourWishListFragment"
         android:name="com.circus.nativenavs.ui.tour.TourWishListFragment"
         android:label="TourWishListFragment"
-        tools:layout="@layout/fragment_tour_wish_list" />
+        tools:layout="@layout/fragment_tour_wish_list" >
+        <action
+            android:id="@+id/action_tourWishListFragment_to_tourDetailFragment"
+            app:destination="@id/tourDetailFragment" />
+    </fragment>
 </navigation>

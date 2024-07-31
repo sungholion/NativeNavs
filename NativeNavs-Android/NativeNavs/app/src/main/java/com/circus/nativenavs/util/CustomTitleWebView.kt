@@ -13,7 +13,7 @@ import com.circus.nativenavs.databinding.CustomTitleWebviewBinding
 
 class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
-    private lateinit var binding: CustomTitleWebviewBinding
+    lateinit var binding: CustomTitleWebviewBinding
 
     init {
         initView()

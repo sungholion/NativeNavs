@@ -14,7 +14,6 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.video.VideoActivity
-import com.circus.nativenavs.util.TourListBridge
 import com.circus.nativenavs.util.navigate
 
 class TourListFragment : BaseFragment<FragmentTourListBinding>(
@@ -35,13 +34,13 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         initEvent()
-        initWebView()
         initBridge()
+        initWebView()
     }
 
     private fun initBridge() {
         bridge = TourListBridge(homeActivity, this, binding.tourListWv)
-        binding.tourListWv.addJavascriptInterface(bridge, "TourListBridge")
+        binding.tourListWv.addJavascriptInterface(bridge, "Android")
     }
 
     private fun initEvent() {
@@ -84,5 +83,6 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(true)
+        isPageLoaded = false
     }
 }
