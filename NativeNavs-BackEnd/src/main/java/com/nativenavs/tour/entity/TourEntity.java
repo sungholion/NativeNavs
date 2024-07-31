@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -59,6 +60,11 @@ public class TourEntity extends BaseEntity {
     @Column(name = "is_removed", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean isRemoved; // 투어 삭제 여부
 
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    private Set<TourCategoryEntity> tourCategories;
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PlanEntity> plans;
     //DTO -> Entity 로 옮겨닮기
     public static TourEntity toSaveEntity(TourDTO tourDTO){
         TourEntity tourEntity = new TourEntity();
