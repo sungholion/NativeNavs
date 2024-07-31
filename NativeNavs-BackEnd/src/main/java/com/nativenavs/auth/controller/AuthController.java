@@ -57,6 +57,8 @@ public class AuthController {
                 response.put("message", "로그인 성공");
                 response.put("accessToken", accessToken);
                 response.put("refreshToken", refreshToken);
+                response.put("id", user.getId());
+                response.put("is_nav", user.getIsNav());
                 return ResponseEntity.ok(response);
             } else {
                 response.put("message", "로그인 실패: 잘못된 이메일 또는 비밀번호");
