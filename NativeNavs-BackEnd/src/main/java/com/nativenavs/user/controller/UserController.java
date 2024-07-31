@@ -32,8 +32,6 @@ public class UserController {
 //    @Autowired
 //    private JwtTokenProvider jwtTokenProvider;
 
-
-
     @Operation(summary = "1. 이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping("/sendEmail")
