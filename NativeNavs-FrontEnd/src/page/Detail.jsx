@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { tours } from "../dummy";
 import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
@@ -12,7 +12,6 @@ import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 
 const Detail = ({ userJson }) => {
-  const navigate = useNavigate();
   const params = useParams();
   const tour = tours[params.tour_id - 1];
   const images = [mountain1, mountain2, mountain3];

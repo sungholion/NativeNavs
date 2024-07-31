@@ -17,7 +17,10 @@ const Review = ({ tour_id }) => {
     <div className={styles.Review}>
       <div className={styles.header}>
         {/* 별점 */}
-        <StarScore score={reviews.averageScore * 20} /> {/* Assuming a score of 5 (100/20) */}
+        <div className={styles.StarScore}>
+          <StarScore score={reviews.averageScore * 20} />{" "}
+          {/* Assuming a score of 5 (100/20) */}
+        </div>
 
         {/* 상단 사진 장수 & 전체보기 버튼 */}
         <div className={styles.headerHeader}>
