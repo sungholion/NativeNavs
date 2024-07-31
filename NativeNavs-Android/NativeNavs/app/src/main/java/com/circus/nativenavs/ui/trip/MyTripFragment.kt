@@ -23,7 +23,8 @@ import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 
-class MyTripFragment : BaseFragment<FragmentMyTripBinding>(FragmentMyTripBinding::bind,R.layout.fragment_my_trip){
+class MyTripFragment :
+    BaseFragment<FragmentMyTripBinding>(FragmentMyTripBinding::bind, R.layout.fragment_my_trip) {
 
     private lateinit var homeActivity: HomeActivity
     private lateinit var bridge: MyTripListBridge
@@ -72,7 +73,8 @@ class MyTripFragment : BaseFragment<FragmentMyTripBinding>(FragmentMyTripBinding
     }
 
     fun navigateToMyTripDetailFragment(tourId: Int) {
-//        val action =
-//            navigate(action)
+        val action =
+            MyTripFragmentDirections.actionMyTripFragmentToMyTripReservationListFragment(tourId)
+        navigate(action)
     }
 }

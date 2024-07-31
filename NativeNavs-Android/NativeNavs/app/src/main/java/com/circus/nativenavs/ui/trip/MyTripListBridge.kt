@@ -14,8 +14,8 @@ class MyTripListBridge(
 ) {
 
     @JavascriptInterface
-    fun navigateToMyTripDetailFragment(navId: Int) {
-        fragment.navigateToMyTripDetailFragment(navId)
-        Log.d(TAG, "navigateToMyTripDetailFragment: $navId")
+    fun navigateToMyTripDetailFragment(tourId: Int) {
+        fragment.navigateToMyTripDetailFragment(tourId)
+        Log.d(TAG, "navigateToMyTripDetailFragment: $tourId")
     }
 }

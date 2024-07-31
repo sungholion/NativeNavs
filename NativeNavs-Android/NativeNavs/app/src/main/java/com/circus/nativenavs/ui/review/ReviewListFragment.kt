@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.review
+package com.circus.nativenavs.ui.review
 
 import android.content.Context
 import android.os.Bundle
@@ -17,6 +17,9 @@ import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
+import com.circus.nativenavs.util.navigate
+
+private const val TAG = "ReviewListFragment"
 
 class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     FragmentReviewListBinding::bind,
@@ -26,7 +29,7 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     private lateinit var homeActivity: HomeActivity
     private val args: ReviewListFragmentArgs by navArgs()
 
-    //    private lateinit var bridge: bridge class 지정
+    private lateinit var bridge: ReviewListBridge
     private var isPageLoaded = false
 
     override fun onAttach(context: Context) {
@@ -43,27 +46,49 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     private fun initBridge() {
-//        bridge =
-//
-//        binding.reviewCustomWv.binding.customWebviewTitleWv.addJavascriptInterface(bridge, "Android")
+        bridge = ReviewListBridge(
+            homeActivity,
+            this,
+            binding.reviewCustomWv.binding.customWebviewTitleWv
+        )
+
+        binding.reviewCustomWv.binding.customWebviewTitleWv.addJavascriptInterface(
+            bridge,
+            "Android"
+        )
     }
 
     private fun initWebView() {
-//        binding.reviewCustomWv.binding.customWebviewTitleWv.webViewClient = object : WebViewClient() {
-//            override fun onPageFinished(view: WebView?, url: String?) {
-//                super.onPageFinished(view, url)
-//                if (!isPageLoaded) {
-//                    isPageLoaded = true
-//                    bridge.sendUserData(UserDto(1, "use token", true))
-//                }
-//            }
-//
-//        }
-//
-//        val url = "~~~~"
-//        Log.d(TAG, "initCustomView: $url")
-//        binding.reviewCustomWv.loadWebViewUrl(url)
+        var url = ""
+        if (args.tourId != -1) {
+            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/review"
+        } else if (args.travId != -1) {
+            url = "https://i11d110.p.ssafy.io/trav가 작성한 리뷰 목록 url"
+        } else if (args.navId != -1) {
+            url = "https://i11d110.p.ssafy.io/nav의 리뷰 목록 url"
+        }
 
+        Log.d(TAG, "initCustomView: $url")
+        binding.reviewCustomWv.loadWebViewUrl(url)
+
+    }
+
+    fun navigateToTourReviewPhotoFragment(tourId: Int) {
+        val action =
+            ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(tourId = tourId)
+        navigate(action)
+    }
+
+    fun navigateToNavReviewPhotoFragment(navId: Int) {
+        val action =
+            ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(navId = navId)
+        navigate(action)
+    }
+
+    fun navigateToTravReviewPhotoFragment(travId: Int) {
+        val action =
+            ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(travId = travId)
+        navigate(action)
     }
 
     private fun initCustomView() {

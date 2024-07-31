@@ -5,13 +5,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.review.ReviewRegisterFragment">
+        tools:context=".ui.review.ReviewPhotoFragment">
 
         <com.circus.nativenavs.util.CustomTitleWebView
-            android:id="@+id/review_register_custom_wv"
+            android:id="@+id/review_photo_custom_wv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="@string/app_bar_review_register"
+            app:title="@string/app_bar_review_photos"
             app:img="@drawable/icon_back"/>
 
     </FrameLayout>

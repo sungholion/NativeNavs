@@ -10,4 +10,10 @@ object SharedPref {
         set(value) {
             sharedPrefs?.edit()?.putInt(USER_ID, value)?.apply()
         }
+
+    var isNav: Boolean
+        get() = sharedPrefs?.getBoolean(IS_NAV, false) ?: false
+        set(value) {
+            sharedPrefs?.edit()?.putBoolean(IS_NAV, value)?.apply()
+        }
 }
