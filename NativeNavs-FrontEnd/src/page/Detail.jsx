@@ -135,7 +135,7 @@ const Detail = ({ userJson }) => {
           </div>
         </div>
       </div>
-      투어 일정
+      {/* 투어 일정 */}
       <div className={styles.tourPlan}>
         <h1 className={styles.tourPlanTitle}>Plan</h1>
         <p>plan1</p>

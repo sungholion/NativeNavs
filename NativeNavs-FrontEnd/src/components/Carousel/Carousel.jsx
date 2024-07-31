@@ -23,7 +23,6 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     padding: 0;
   }
-
 `;
 
 export default function Carousel({ images }) {
@@ -31,6 +30,7 @@ export default function Carousel({ images }) {
     centerMode: false,
     infinite: true,
     dots: true,
+    arrows: false, // 슬라이더 화살표 버튼 비활성화
     speed: 750,
     slidesToShow: 1,
     slidesToScroll: 1,
