@@ -4,43 +4,42 @@ import com.nativenavs.user.mapper.UserMapper;
 import com.nativenavs.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.security.SecureRandom;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private EmailService emailService;
-
-    @Override
-    public void signUp(User user) {
-        String authenticationCode = generateAuthenticationCode();
-        user.setAuthenticationCode(authenticationCode);
-        userMapper.signUp(user);
-        String subject = "Please verify your email address";
-        String text = "To verify your email address, please enter the following code: " + authenticationCode;
-        emailService.sendAuthenticationCodeEmail(user.getEmail(), subject, text);
-    }
+    private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();   // 인증 회원을 임시 저장
 
     @Override
     public boolean checkDuplicatedEmail(String email) {
-        User user = userMapper.searchOneUser(email);
-        return user != null;
+        return userMapper.checkDuplicatedEmail(email);
     }
 
     @Override
-    public User searchOneUser(String email) {
-        return userMapper.searchOneUser(email);
+    public void signUp(User user) {
+        if(!authenticatedUsers.contains(user.getEmail())){  // 이메일 미인증시
+            throw new IllegalStateException("이메일 인증이 완료되지 않았습니다.");
+        }
+
+        userMapper.signUp(user);
+        authenticatedUsers.remove(user.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
     }
 
     @Override
     public List<User> searchAllUser() {
         return userMapper.searchAllUser();
+    }
+
+    @Override
+    public User searchOneUser(String email) {
+        return userMapper.searchOneUser(email);
     }
 
     @Override
@@ -53,22 +52,10 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteUser(id);
     }
 
+
     @Override
-    public boolean authenticateEmail(String authenticationCode) {
-        User user = userMapper.findByAuthenticationCode(authenticationCode);
-        if (user != null) {
-//            user.setAuthenticated(true);
-//            user.setAuthenticationCode(null);
-            userMapper.updateEmailAuthentication(user.getEmail());
-            return true;
-        }
-
-        return false;
+    public void addAuthenticatedUser(String email){
+        authenticatedUsers.add(email);
     }
 
-    private String generateAuthenticationCode() {
-        SecureRandom random = new SecureRandom();
-        int num = random.nextInt(1000000);
-        return String.format("%06d", num);
-    }
 }

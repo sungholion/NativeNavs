@@ -80,7 +80,7 @@ public class TourController {
 
     }
 //
-//    @GetMapping("/{tour_id}")
+//    @GetMapping("/{tout_id}")
 
 
 }
