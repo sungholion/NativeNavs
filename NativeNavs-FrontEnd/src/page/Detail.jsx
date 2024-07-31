@@ -37,6 +37,25 @@ const Detail = () => {
     ? tour.start_date.toLocaleDateString()
     : "N/A";
 
+  // 예시 리뷰 데이터
+  const reviewData = {
+    user: {
+      user_id: 1,
+      image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTZfMTMx%2FMDAxNjcxMTg2NTM1MDYx.0vuGB7rfq1YZPV1kA8Wbuz51yLAS5Tvs0Zeuhiz-kswg.0iqBKg3vLwCvwnln6AqxZpV67RYgvEQ8qV7Y2wnqoI4g.JPEG.loivme%2F%25B8%25F1%25B5%25B5%25B8%25AE.jpg&type=sc960_832",
+      nickname: "찌그렁오리",
+      nation: "미국"
+    },
+    score: 4.2,
+    description: "설명 설명~~",
+    created_at: new Date(2024, 3, 2),
+    tour: {
+      tour_id: 2,
+      title: "무진장 투어",
+    },
+    needToShowTourTitle: true,
+    imageList: ["https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MTlfMTgg%2FMDAxNzE4NzkzODA1MTQ5.5WZpqKWvIOCPc_v8V9tqTKZbQxC-cegb4Ql6zjOVdGgg.kOY5ndrPZE1VI_qj_5Mdoq0vjqAkx8bxEuzv0etqb-Ag.JPEG%2FIMG_9138.JPG&type=sc960_832", "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20140922_33%2Fholaha00_1411349776141T4rkI_JPEG%2F%25B9%25D9%25B4%25D9_%25B9%25E8%25B0%25E6%25BB%25E7%25C1%25F8_%25B8%25F0%25C0%25BD_%25281%2529.jpg&type=sc960_832", "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MThfNDkg%2FMDAxNjI5Mjk0ODk2MTE3.9xQesy494fYu0DXNAk50hFRL3feTyiQAjP3FB5agcgog.s-21YxuWQNkPWcFv46a_i9krhMFZohStNgomCpu1E_gg.GIF.cooolsydney%2F%25BF%25C0%25B8%25AE%25BA%25D2%25B0%25ED%25B1%25E2.gif&type=a340"]
+  };
+
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
@@ -107,7 +126,14 @@ const Detail = () => {
 
       {/* 투어 리뷰 */}
       <div className={styles.tourReview}>
-        {/* <Review_Item /> */}
+      <Review_Item 
+          user={reviewData.user}
+          score={reviewData.score}
+          description={reviewData.description}
+          created_at={reviewData.created_at}
+          tour={reviewData.tour}
+          needToShowTourTitle={reviewData.needToShowTourTitle}
+          imageList={reviewData.imageList} />
       </div>
     </div>
   );
