@@ -45,6 +45,9 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         initSpinner()
         initTextWatcher()
 
+        signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
+            binding.signupSelectedLanguageTv.text = languageList.language.joinToString(", ")
+        }
     }
 
     private fun initTextWatcher(){
@@ -107,14 +110,14 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     }
 
     private fun initSpinner() {
-        val spinnerAdapter = CustomSpinnerAdapter(signUpActivity, COUNTRIES)
+        val spinnerAdapter = CustomSpinnerAdapter(signUpActivity, SignUpLanguageFragment.COUNTRIES)
         binding.signupNationalitySp.adapter = spinnerAdapter
-        binding.signupNationalitySp.setSelection(138)
+        binding.signupNationalitySp.setSelection(0)
 
         val spinnerItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 spinnerAdapter.setSelectedItemPosition(position)
-                signUpViewModel.updateNation(COUNTRIES[position])
+                signUpViewModel.updateNation(SignUpLanguageFragment.COUNTRIES[position])
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -210,6 +213,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
+                signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
 
                 signUpViewModel.signUp()
@@ -227,20 +231,4 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         }
     }
 
-    companion object {
-        val COUNTRIES= arrayListOf(
-            "Korea",
-            "USA",
-            "Japan",
-            "China",
-            "France",
-            "Italian",
-            "Italy",
-            "Germany",
-            "Russia",
-            "Saudi Arabia",
-            "Spain"
-        )
-
-    }
 }

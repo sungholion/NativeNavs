@@ -123,31 +123,35 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
         }
 
+        binding.signupEmailNextBtn.isEnabled = true
         binding.signupEmailNextBtn.setOnClickListener {
-            email = binding.signupEmailEt.text.toString()
-            password = binding.signupPwEt.text.toString()
-            val passwordCheck = binding.signupPwCheckEt.text.toString()
 
-            binding.signupPwValidTv.visibility = INVISIBLE
-            binding.signupPwHelpTv.visibility = VISIBLE
-            binding.signupPwCheckHelpTv.visibility = VISIBLE
-            binding.signupPwCheckValidTv.visibility = INVISIBLE
-
-            if(!isPasswordValid(password)){
-                binding.signupPwValidTv.visibility = VISIBLE
-                binding.signupPwHelpTv.visibility = INVISIBLE
-            }
-            else{
-                if(password != passwordCheck){
-                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
-                    binding.signupPwCheckValidTv.visibility = VISIBLE
-                }
-                else{
-                    signUpViewModel.updateEmail(email)
-                    signUpViewModel.updatePassword(password)
-                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
-                }
-            }
+            navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
+//
+//            email = binding.signupEmailEt.text.toString()
+//            password = binding.signupPwEt.text.toString()
+//            val passwordCheck = binding.signupPwCheckEt.text.toString()
+//
+//            binding.signupPwValidTv.visibility = INVISIBLE
+//            binding.signupPwHelpTv.visibility = VISIBLE
+//            binding.signupPwCheckHelpTv.visibility = VISIBLE
+//            binding.signupPwCheckValidTv.visibility = INVISIBLE
+//
+//            if(!isPasswordValid(password)){
+//                binding.signupPwValidTv.visibility = VISIBLE
+//                binding.signupPwHelpTv.visibility = INVISIBLE
+//            }
+//            else{
+//                if(password != passwordCheck){
+//                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
+//                    binding.signupPwCheckValidTv.visibility = VISIBLE
+//                }
+//                else{
+//                    signUpViewModel.updateEmail(email)
+//                    signUpViewModel.updatePassword(password)
+//                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
+//                }
+//            }
         }
     }
 

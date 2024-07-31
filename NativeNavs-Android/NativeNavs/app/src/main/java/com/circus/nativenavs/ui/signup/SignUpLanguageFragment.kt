@@ -16,14 +16,12 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 ) {
 
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
-    var languageList = emptyList<LanguageDTO>()
-
-
+    val languageList = COUNTRIES.map { LanguageDTO(it, isChecked = false) }
     private val languageListAdapter = LanguageListAdapter{ language, isChecked ->
-        val updatedLanguages = signUpViewModel.languageSelectList.value?.toMutableList()?.apply {
+        val updatedLanguages = signUpViewModel.languageList.value?.language?.toMutableList()?.apply {
             if (isChecked) add(language) else remove(language)
         }
-        updatedLanguages?.let { signUpViewModel.updateUserLanguage(it) }
+        updatedLanguages?.let { signUpViewModel.updateLanguage(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,13 +29,19 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 
         initAdapter()
         initEvent()
-        signUpViewModel.getLanguage()
 
-        signUpViewModel.languageList.observe(viewLifecycleOwner) { getList ->
-            languageList = getList.map { LanguageDTO(it.language, isChecked = false) }
+        // 선택된 언어를 observe
+        signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
+            val selectedLanguages = languageList.language
+
+
+            // 기존 리스트에서 체크 상태를 업데이트
+            val updatedList = languageListAdapter.currentList.map { language ->
+                language.copy(isChecked = selectedLanguages.contains(language.language))
+            }
 
             // 업데이트된 리스트를 어댑터에 제출
-            languageListAdapter.submitList(languageList)
+            languageListAdapter.submitList(updatedList)
         }
 
     }
@@ -58,6 +62,18 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     }
 
     companion object {
+        val COUNTRIES = arrayListOf(
+            "English",
+            "Korean",
+            "Japanese",
+            "Chinese",
+            "French",
+            "Italian",
+            "German",
+            "Russian",
+            "Arabic",
+            "Spanish"
+        )
 
     }
 }

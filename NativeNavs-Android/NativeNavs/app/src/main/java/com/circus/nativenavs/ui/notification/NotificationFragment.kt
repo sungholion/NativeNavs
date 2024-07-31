@@ -7,7 +7,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentNotificationBinding
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.signup.SignUpProfileFragment.Companion.COUNTRIES
+import com.circus.nativenavs.ui.signup.SignUpLanguageFragment.Companion.COUNTRIES
 import com.circus.nativenavs.util.popBackStack
 
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>(

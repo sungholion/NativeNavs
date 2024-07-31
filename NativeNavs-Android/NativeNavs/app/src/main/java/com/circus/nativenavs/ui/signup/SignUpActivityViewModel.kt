@@ -29,20 +29,8 @@ class SignUpActivityViewModel : ViewModel() {
     )
     val signUpDTO: LiveData<SignUpDTO> = _signUpDTO
 
-    private val _languageSelectList = MutableLiveData<List<String>>()
-    val languageSelectList: LiveData<List<String>> get() = _languageSelectList
-
-    private val _languageList = MutableLiveData<List<LanguageListDTO>>()
-    val languageList: LiveData<List<LanguageListDTO>> get() = _languageList
-
-    fun getLanguage(){
-        viewModelScope.launch {
-            retrofit.getLanguageList().let {
-                _languageList.value = it
-            }
-        }
-    }
-
+    private val _languageList = MutableLiveData(LanguageListDTO(emptyList()))
+    val languageList: LiveData<LanguageListDTO> = _languageList
 
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
@@ -92,6 +80,10 @@ class SignUpActivityViewModel : ViewModel() {
         }
     }
 
+    fun updateLanguage(language : List<String>){
+        _languageList.value = LanguageListDTO(language)
+    }
+
     fun updateNicknameCheck(isChecked : Boolean){
         _nicknameCheck.value = isChecked
     }
@@ -132,8 +124,8 @@ class SignUpActivityViewModel : ViewModel() {
         _signUpDTO.value = _signUpDTO.value?.copy(nation = nation)
     }
 
-    fun updateUserLanguage(language: List<String>){
-        _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language.joinToString(", "))
+    fun updateUserLanguage(language: String){
+        _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
     @Override
     override fun toString(): String {
