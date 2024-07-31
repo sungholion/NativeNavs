@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // DTO -> Entity (Entity Class)
 // Entity -> DTO (DTO Class)
@@ -61,8 +62,8 @@ public class TourService {
                 planEntity.setField(planDTO.getField());
                 planEntity.setDescription(planDTO.getDescription());
                 planEntity.setImage(planDTO.getImage());
-                planEntity.setLatitude(BigDecimal.valueOf(planDTO.getLatitude()));
-                planEntity.setLongitude(BigDecimal.valueOf(planDTO.getLongitude()));
+                planEntity.setLatitude(planDTO.getLatitude());
+                planEntity.setLongitude(planDTO.getLongitude());
                 planEntity.setAddressFull(planDTO.getAddressFull());
                 planRepository.save(planEntity);
             }
@@ -75,6 +76,11 @@ public class TourService {
         List<TourEntity> tourEntityList = tourRepository.findAll();
         List<TourDTO> tourDTOList = new ArrayList<>();
         for (TourEntity tourEntity: tourEntityList){
+
+
+
+
+
             tourDTOList.add(TourDTO.toTourDTO(tourEntity));
         }
         return tourDTOList;
@@ -85,7 +91,28 @@ public class TourService {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-            return TourDTO.toTourDTO(tourEntity);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
+
+            // Fetching categories
+            List<Integer> categoryIds = tourEntity.getTourCategories().stream()
+                    .map(tc -> tc.getCategory().getId())
+                    .collect(Collectors.toList());
+            tourDTO.setCategoryIds(categoryIds);
+
+            // Fetching plans
+            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+                    .map(plan -> new PlanDTO(
+                            plan.getId(),
+                            plan.getField(),
+                            plan.getDescription(),
+                            plan.getImage(),
+                            plan.getLatitude(),
+                            plan.getLongitude(),
+                            plan.getAddressFull()))
+                    .collect(Collectors.toList());
+            tourDTO.setPlans(planDTOs);
+
+            return tourDTO;
         }else{
             return null;
         }
