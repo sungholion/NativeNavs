@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Plan_Item.module.css";
+import { getStaticImage } from "@/utils/get-static-image";
 
 // const plan_info = {
 //   plan_id: 2,
@@ -35,8 +36,13 @@ const Plan_Item = ({
 }) => {
   return (
     <div className={styles.Plan_Item}>
-      <div className={styles.delete_button} onClick={onDeleteEvent}>
-        <img src="src/assets/close.png" alt="close" />
+      <div
+        className={styles.delete_button}
+        onClick={() => {
+          onDeleteEvent(plan_id);
+        }}
+      >
+        <img src={getStaticImage("close")} alt="close" />
       </div>
 
       <div className={styles.content} onClick={onClickEvent}>

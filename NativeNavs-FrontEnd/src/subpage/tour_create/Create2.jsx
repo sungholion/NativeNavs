@@ -1,65 +1,83 @@
-import { useState } from "react";
+import { act, useReducer, useRef, useState } from "react";
 import styles from "./Create2.module.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStaticImage } from "@/utils/get-static-image";
 import PlanModal from "@/components/PlanModal/PlanModal";
 import { createPortal } from "react-dom";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import Button from "@/components/Button/Button";
 
-const plan_info = {
-  plan_id: 2,
-  tour_id: 1,
-  title: "Plan제목",
-  description:
-    "Plan에 대한 내용임 Plan에 대한 내용임 Plan에 대한 내용임Plan에 대한 내용임  Plan에 대한 내용임Plan에 대한 내용임Plan에 대한 내용임 Plan에 대한 내용임 Plan에 대한 내용임 Plan에 대한 내용임 Plan에 대한 내용임 ",
-  latitude: 37.5642135,
-  longitude: 127.0016958,
-  address_full: "서울특별시 중심지",
-  image:
-    "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/ba663a6c2e8446b6ae79f076a33a8b88/d4107e3bf8cd46c5b0ca9b7a11ce9087_1652305717.png",
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "DELETE": {
+      return state.filter((item) => item.plan_id !== action.plan_id);
+    }
+    case "ADD": {
+      return [...state, action.data];
+    }
+    case "EDIT": {
+      return state.map((item) =>
+        item.plan_id != action.data.plan_id ? item : action.data
+      );
+    }
+  }
 };
 
-const plan_info2 = {
-  plan_id: 3,
-  tour_id: 2,
-  title: "Plan제목222",
-  description: "Plan에 대한 다른것 내용 ",
-  latitude: 37.5642135,
-  longitude: 127.0016958,
-  address_full: "서울특별시 중심지",
-  image:
-    "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/ba663a6c2e8446b6ae79f076a33a8b88/d4107e3bf8cd46c5b0ca9b7a11ce9087_1652305717.png",
-};
+const Create2 = ({ BeforePage, AfterPage, onTourDataChange }) => {
+  const [planList, dispatch] = useReducer(reducer, []); //[plan_info, plan_info2, plan_info3]
+  const [addmodalOpen, setAddModalOpen] = useState(false);
+  const [editmodalOpen, setEditModalOpen] = useState(false);
+  const planCount = useRef(3);
+  const [editPlanData, setEditPlanData] = useState();
+  const onPlanDeleteEvent = (plan_id) => {
+    dispatch({
+      type: "DELETE",
+      plan_id,
+    });
+  };
+  const onPlanAddEvent = ({
+    title,
+    description,
+    latitude,
+    longitude,
+    address_full,
+    image,
+  }) => {
+    dispatch({
+      type: "ADD",
+      data: {
+        plan_id: ++planCount.current,
+        title,
+        description,
+        latitude,
+        longitude,
+        address_full,
+        image,
+      },
+    });
+  };
 
-const plan_info3 = {
-  plan_id: 5,
-  tour_id: 4,
-  title: "제목3",
-  description: "ABC초콜릿 ",
-  latitude: 37.5642135,
-  longitude: 127.0016958,
-  address_full: "서울특별시 중심지",
-  image:
-    "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/ba663a6c2e8446b6ae79f076a33a8b88/d4107e3bf8cd46c5b0ca9b7a11ce9087_1652305717.png",
-};
-
-const onClickEvent = () => {
-  console.log("와 클릭이벤트!");
-};
-// const onDeleteEvent = () => {
-//   console.log("와 삭제이벤트!");
-// };
-
-const Create2 = () => {
-  const [planList, setPlanList] = useState([plan_info]); //[plan_info, plan_info2, plan_info3]
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const onDeleteEvent = (plan_id) => {
-    setPlanList((cur) =>
-      cur.filter((plan) => {
-        return plan.plan_id != plan_id;
-      })
-    );
+  const onPlanEditEvent = ({
+    plan_id,
+    title,
+    description,
+    latitude,
+    longitude,
+    address_full,
+    image,
+  }) => {
+    dispatch({
+      type: "EDIT",
+      data: {
+        plan_id,
+        title,
+        description,
+        latitude,
+        longitude,
+        address_full,
+        image,
+      },
+    });
   };
   return (
     <>
@@ -70,16 +88,20 @@ const Create2 = () => {
             src={getStaticImage("add")}
             alt=""
             onClick={() => {
-              setModalOpen(true);
-              console.log("Modal State :" + modalOpen);
+              if (planList.length > 20) {
+                window.alert("최대 20개 계획만 가능해요!");
+                return;
+              }
+              setAddModalOpen(true);
             }}
           />
-          {modalOpen &&
+          {addmodalOpen &&
             createPortal(
               <PlanModal
                 onClose={() => {
-                  setModalOpen(false);
+                  setAddModalOpen(false);
                 }}
+                onSubmit={onPlanAddEvent}
               />,
               document.body
             )}
@@ -87,7 +109,18 @@ const Create2 = () => {
         <section className={styles.PlanList}>
           {planList.length ? (
             planList.map((planItem) => {
-              return <Plan_Item key={planItem.plan_id} {...planItem} />;
+              return (
+                <Plan_Item
+                  key={planItem.plan_id}
+                  {...planItem}
+                  onDeleteEvent={onPlanDeleteEvent}
+                  onClickEvent={() => {
+                    console.log(planItem);
+                    setEditModalOpen(true);
+                    setEditPlanData({ ...planItem });
+                  }}
+                />
+              );
             })
           ) : (
             <div className={styles.PlanListEmpty}>
@@ -117,7 +150,33 @@ const Create2 = () => {
               </p>
             </div>
           )}
+
+          <div>
+            {editmodalOpen &&
+              createPortal(
+                <PlanModal
+                  onClose={() => {
+                    setEditModalOpen(false);
+                  }}
+                  onSubmit={onPlanEditEvent}
+                  initData={{ ...editPlanData }}
+                />,
+                document.body
+              )}
+          </div>
         </section>
+        <Button
+          size={3}
+          text={"다음"}
+          onClickEvent={() => {
+            if (planList.length > 0) {
+              onTourDataChange("plans", planList);
+              AfterPage();
+            } else {
+              window.alert("최소 1개이상 계획을 새워주세요");
+            }
+          }}
+        />
       </div>
     </>
   );
