@@ -25,7 +25,7 @@ class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean)
             return oldItem == newItem
         }
 
-        const val MAX_COUNT = 5
+        const val MAX_COUNT = 3
 
     }
 

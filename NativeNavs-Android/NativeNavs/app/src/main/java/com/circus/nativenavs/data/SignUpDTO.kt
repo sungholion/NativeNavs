@@ -17,6 +17,6 @@ data class SignUpDTO(
 
 }
 
-data class LanguageListDTO (val language: List<String>){
+data class LanguageListDTO (val id:Int, val language: String){
 
 }
