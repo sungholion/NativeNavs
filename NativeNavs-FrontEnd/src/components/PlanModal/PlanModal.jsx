@@ -4,10 +4,6 @@ import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 
-const PlanData = {
-  image:
-    "https://i.namu.wiki/i/u253q5zv58zJ1twYkeea-czVz8SQsvX-a1jVZ8oYsTVDH_TRC8-bpcVa4aKYQs5lI55B9srLYF9JJFUPbkI8MA.webp",
-};
 const PlanModal = ({ onClose, onSubmit, initData }) => {
   const [planData, setPlanData] = useState({
     title: "",
@@ -17,6 +13,18 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     address_full: "",
     image: "",
   });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [mapCenter, setMapCenter] = useState({ lat: 37.5642, lng: 127.00169 });
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    const handleSearchClick = () => {
+      // 여기에 실제 위치 검색 로직을 추가하세요
+      // 예를 들어, geocoding API를 사용하여 검색어를 좌표로 변환합니다.
+      // 검색 결과를 기반으로 mapCenter를 업데이트합니다.
+      const newCenter = { lat: 37.5665, lng: 126.978 }; // 예시 좌표
+      setMapCenter(newCenter);
+    };
+  };
 
   useEffect(() => {
     if (initData) {
@@ -26,15 +34,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     }
   }, [initData]);
 
-  // const onImgChange = (e) => {
-  //   const { files } = e.target;
-  //   const uploadFile = files[0];
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(uploadFile);
-  //   reader.onloadend = () => {
-  //     setUploadImgUrl(reader.result);
-  //   };
-  // };
   const onChangeEvent = (e) => {
     if (e.target.name === "image") {
       const { files } = e.target;
@@ -72,7 +71,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           <div className={styles.ModalImg}>
             <label htmlFor="image">
               {planData.image !== "" ? (
-                <img src={planData.image} alt="+" name="image" id="image" />
+                <img src={planData.image} alt="+" />
               ) : (
                 <div className={styles.emptyModalImg}>+</div>
               )}
@@ -100,6 +99,13 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
         <section className={styles.ModalMap}>
           <div className={styles.ModalMapSearch}>
             <h3>위치 검색</h3>
+            <input
+              type="text"
+              placeholder="위치를 입력해 주세요"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+            <button onClick={handleSearchClick}>검색</button>
 
             <APIProvider apiKey={apiKey}>
               <Map
@@ -122,15 +128,32 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           />
         </section>
         <section className={styles.ButtonSection}>
-          <Button text={"뒤로"} size={5} onClickEvent={onClose} />
-          <Button
-            text={"등록"}
-            size={5}
-            onClickEvent={() => {
+          <button onClick={onClose}>뒤로</button>
+          <button
+            disabled={
+              planData.title === "" ||
+              planData.image === "" ||
+              planData.description === ""
+            }
+            onClick={() => {
+              if (planData.title === "") {
+                window.alert("제목을 입력하세요");
+                return;
+              }
+              if (planData.image === "") {
+                window.alert("해당 일정에 대한 이미지를 업로드 하세요");
+                return;
+              }
+              if (planData.description === "") {
+                window.alert("해당 일정에 대한 글을 써주세요");
+                return;
+              }
               onSubmit({ ...planData });
               onClose();
             }}
-          />
+          >
+            계획 등록
+          </button>
         </section>
       </div>
     </div>

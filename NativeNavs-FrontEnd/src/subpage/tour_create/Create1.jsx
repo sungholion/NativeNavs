@@ -1,33 +1,47 @@
 import { getStaticImage } from "../../utils/get-static-image";
 import styles from "./Create1.module.css";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getStringedDate } from "@utils/get-stringed-date";
 import Button from "./../../components/Button/Button";
+import { TourDataContext, TourDispatchContext } from "./Tour_Create";
 
-const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
-  const [uploadImgUrl, setUploadImgUrl] = useState("");
-  const [duration, setDuration] = useState({
-    start: new Date().getTime(),
-    end: new Date().getTime(),
-  });
-  const [MaxPeople, setMaxPeople] = useState(1);
-  const [expectedMoney, setExpectedMoney] = useState(0);
+const Create1 = ({ BeforePage, goAfterPage }) => {
+  const {
+    title,
+    thumbnail_image,
+    start_date,
+    end_date,
+    price,
+    max_participant,
+    themes,
+  } = useContext(TourDataContext);
+
+  const { onTourDataChange } = useContext(TourDispatchContext);
+
+  // onTourDataChange가 함수인지 확인
+  if (typeof onTourDataChange !== "function") {
+    throw new Error("onTourDataChange is not a function");
+  }
+
   const onImgChange = (e) => {
     const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setUploadImgUrl(reader.result);
-    };
+    if (files && files.length > 0) {
+      const uploadFile = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadFile);
+      reader.onloadend = () => {
+        onTourDataChange("thumbnail_image", reader.result);
+      };
+    }
   };
+
   return (
     <section className={styles.Create1}>
       <div className={styles.Thumbnail}>
         <p>썸네일 사진</p>
         <label htmlFor="thumbnail">
-          {uploadImgUrl !== "" ? (
-            <img src={uploadImgUrl} alt="이미지 미리보기" />
+          {thumbnail_image !== "" ? (
+            <img src={thumbnail_image} alt="이미지 미리보기" />
           ) : (
             <div className={styles.emptythumbnail}>
               여기를 눌러
@@ -44,17 +58,23 @@ const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
           onChange={onImgChange}
         />
       </div>
+      <div className={styles.Title}>
+        <p>제목</p>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => onTourDataChange("title", e.target.value)}
+        />
+      </div>
       <div className={styles.Date}>
         <p className={styles.title}>기간</p>
         <div className={styles.DateSection}>
           <input
             type="date"
             placeholder="시작날짜"
-            value={getStringedDate(new Date(duration.start))}
+            value={getStringedDate(new Date(start_date))}
             onChange={(e) =>
-              setDuration((cur) => {
-                return { ...cur, start: new Date(e.target.value).getTime() };
-              })
+              onTourDataChange("start_date", new Date(e.target.value).getTime())
             }
             className={styles.DateInput}
           />
@@ -63,11 +83,9 @@ const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
             type="date"
             placeholder="끝 날짜"
             className={styles.DateInput}
-            value={getStringedDate(new Date(duration.end))}
+            value={getStringedDate(new Date(end_date))}
             onChange={(e) =>
-              setDuration((cur) => {
-                return { ...cur, end: new Date(e.target.value).getTime() };
-              })
+              onTourDataChange("start_date", new Date(e.target.value).getTime())
             }
           />
         </div>
@@ -79,15 +97,19 @@ const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
             src={getStaticImage("minus")}
             alt=""
             onClick={() => {
-              setMaxPeople((cur) => (cur > 1 ? cur - 1 : cur));
+              if (max_participant > 1) {
+                onTourDataChange("max_participant", max_participant - 1);
+              }
             }}
           />
-          <div>{MaxPeople}</div>
+          <div>{max_participant}</div>
           <img
             src={getStaticImage("add")}
             alt=""
             onClick={() => {
-              setMaxPeople((cur) => (cur < 8 ? cur + 1 : cur));
+              if (max_participant < 20) {
+                onTourDataChange("max_participant", max_participant + 1);
+              }
             }}
           />
         </div>
@@ -96,12 +118,11 @@ const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
         <p>예상 비용</p>
         <input
           type="number"
-          value={expectedMoney}
+          value={price.toString()}
           onChange={(e) => {
-            try {
-              setExpectedMoney(Number(e.target.value));
-            } catch (err) {
-              setExpectedMoney(0);
+            const newValue = e.target.value;
+            if (!isNaN(newValue) && Number(newValue) >= 0) {
+              onTourDataChange("price", Number(newValue));
             }
           }}
         />
@@ -119,33 +140,43 @@ const Create1 = ({ BeforePage, AfterPage, onTourDataChange }) => {
           >
             테마
           </div>
-          <div>추가</div>
+          <div>
+            {themes.map((theme) => {
+              return (
+                <button
+                  key={theme.idx}
+                  className={`${styles.themeButton} ${
+                    theme.state ? styles.selectedthemeButton : ""
+                  }`}
+                  onClick={() => {
+                    const newThemes = themes.map((t) => {
+                      if (t.idx === theme.idx) {
+                        return { ...t, state: !t.state };
+                      } else {
+                        return t;
+                      }
+                    });
+                    onTourDataChange("themes", newThemes);
+                  }}
+                >
+                  {theme.name}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
-      <Button
-        size={3}
-        text={"다음"}
-        onClickEvent={() => {
-          console.log(MaxPeople, duration.start, duration.end, expectedMoney);
-          if (
-            uploadImgUrl !== "" &&
-            MaxPeople &&
-            expectedMoney > 0 &&
-            duration.start &&
-            duration.end &&
-            duration.start <= duration.end
-          ) {
-            onTourDataChange("thumbnail_image", uploadImgUrl);
-            onTourDataChange("start_date", duration.start);
-            onTourDataChange("end_date", duration.end);
-            onTourDataChange("max_participant", MaxPeople);
-            onTourDataChange("price", expectedMoney);
-            AfterPage();
-          } else {
-            window.alert("잘못되거나 누락된 정보가 있어요!\n확인해 주세요");
-          }
-        }}
-      />
+
+      <div className={styles.ButtonSection}>
+        <button
+          onClick={() => {
+            onTourDataChange("themes", themes);
+            goAfterPage();
+          }}
+        >
+          다음
+        </button>
+      </div>
     </section>
   );
 };
