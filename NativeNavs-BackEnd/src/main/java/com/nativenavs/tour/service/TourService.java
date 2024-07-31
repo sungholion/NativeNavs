@@ -61,4 +61,8 @@ public class TourService {
             tourRepository.save(tourEntity);
         }
     }
+
+    public void removeTour(int id){
+        tourRepository.deleteById(id);
+    }
 }

@@ -112,16 +112,18 @@ public class TourController {
                     mediaType = "application/json",
                     schema = @Schema(
                             example = "{\n" +
-                                    " \"title\": \"Summer Vacation Updated\",\n" +
-                                    " \"thumbnailImage\": \"http://example.com/image_updated.jpg\",\n" +
-                                    " \"description\": \"A relaxing summer vacation tour - updated\",\n" +
-                                    " \"location\": \"서울특별시 종로구\",\n" +
-                                    " \"price\": 550000,\n" +
-                                    " \"startDate\": \"2024-08-01\",\n" +
-                                    " \"endDate\": \"2024-08-15\",\n" +
-                                    " \"reviewAverage\": 0.0,\n" +
-                                    " \"reviewCount\": 0,\n" +
-                                    " \"maxParticipants\": 8,\n" +
+                                    "  \"userId\": 10,\n" +
+                                    "  \"title\": \"Summer Vacation updated\",\n" +
+                                    "  \"thumbnailImage\": \"http://example.com/image.jpg2\",\n" +
+                                    "  \"description\": \"A relaxing summer vacation tour2\",\n" +
+                                    "  \"location\": \"서울특별시 종로구\",\n" +
+                                    "  \"price\": 7777,\n" +
+                                    "  \"startDate\": \"2024-08-02\",\n" +
+                                    "  \"endDate\": \"2024-08-16\",\n" +
+                                    "  \"reviewAverage\": 0.0,\n" +
+                                    "  \"reviewCount\": 0,\n" +
+                                    "  \"maxParticipants\": 10,\n" +
+                                    "  \"removed\": false\n" +
                                     "}"
                     )
             )
@@ -133,6 +135,25 @@ public class TourController {
         } catch (Exception e) {
             e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 수정 실패");
+        }
+    }
+
+
+    @Tag(name = "tour API", description = "tour")
+    @Operation(summary = "투어 삭제 API", description = "투어를 삭제하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "404", description = "투어를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> tourRemove(
+            @Parameter(description = "투어 ID", required = true, example = "2")
+            @PathVariable int id) {
+        try {
+            tourService.removeTour(id);
+            return ResponseEntity.ok("투어 삭제 완료");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 삭제 실패");
         }
     }
 }

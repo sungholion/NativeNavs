@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.nativenavs"})
-@MapperScan("com.nativenavs.user.mapper")
 @EntityScan("com.nativenavs.tour.entity")
 @EnableJpaRepositories("com.nativenavs.tour.repository")
 @EnableJpaAuditing
+@MapperScan("com.nativenavs.**.mapper")
+
 public class NativeNavsBackEndApplication {
 
 	public static void main(String[] args) {
