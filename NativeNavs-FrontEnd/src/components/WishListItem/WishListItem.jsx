@@ -22,6 +22,18 @@ import Heart from "../Heart/Heart.jsx";
 const WishListItem = () => {
   const navigate = useNavigate();
 
+  const onClickTour = (tour_id) => {
+    if (
+      window.Android &&
+      typeof window.Android.navigateToWishDetailFragment === "function"
+    ) {
+      window.Android.navigateToWishDetailFragment(tour_id);
+    } else {
+      console.log("Android.navigateToWishDetailFragment is not defined");
+    }
+    navigate(`/tour/detail/${tour_id}`);
+  };
+
   return (
     <div className={styles.TotalContainer}>
       {/* 위시리스트 */}
@@ -39,25 +51,28 @@ const WishListItem = () => {
                 : "N/A";
 
               return (
-                <Tour_Item
+                <div
                   key={tour.tour_id}
-                  tour_id={tour.tour_id}
-                  user_id={tour.user_id}
-                  title={tour.title}
-                  thumbnail_image={tour.image || thumbnail_image}
-                  start_date={formattedStartDate}
-                  end_date={formattedEndDate}
-                  review_average={tour.review_average}
-                  nav_profile_img={tour.img_url}
-                  nav_nickname={tour.nickname}
-                  nav_language={tour.language ? tour.language : []}
-                />
+                  onClick={() => onClickTour(tour.tour_id)}
+                >
+                  <Tour_Item
+                    key={tour.tour_id}
+                    tour_id={tour.tour_id}
+                    user_id={tour.user_id}
+                    title={tour.title}
+                    thumbnail_image={tour.image || thumbnail_image}
+                    start_date={formattedStartDate}
+                    end_date={formattedEndDate}
+                    review_average={tour.review_average}
+                    nav_profile_img={tour.img_url}
+                    nav_nickname={tour.nickname}
+                    nav_language={tour.language ? tour.language : []}
+                  />
+                </div>
               );
             })}
           </div>
-        ) 
-        
-        : (
+        ) : (
           // 예정된 여행이 없는 경우
           <div className={styles.TopContainer}>
             <img

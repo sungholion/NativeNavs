@@ -23,9 +23,7 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     padding: 0;
   }
-  .slick-dots li {
-    margin: 0 5px;
-  }
+
 `;
 
 export default function Carousel({ images }) {
