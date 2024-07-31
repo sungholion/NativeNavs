@@ -20,7 +20,7 @@ const Main = () => {
             review_average={tour.review_average}
             nav_profile_img={tour.image}
             nav_nickname={tour.nickname}
-            nav_language={tour.language.split(", ")} // 문자열을 배열로 변환
+            nav_language={tour.language} // 문자열을 배열로 변환
           />
         ))}
       </div>
