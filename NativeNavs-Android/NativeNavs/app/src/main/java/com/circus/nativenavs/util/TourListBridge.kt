@@ -15,12 +15,6 @@ class TourListBridge(
     private val fragment: TourListFragment,
     private val webView: WebView
 ) {
-
-    @JavascriptInterface
-    fun showToast(toast: String) {
-        homeActivity.showToast(toast)
-    }
-
     @JavascriptInterface
     fun navigateToTourDetailFragment(tourId: Int) {
         fragment.moveToTourDetailFragment(tourId)
@@ -29,7 +23,6 @@ class TourListBridge(
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
-//        val json = gson.toJson(user).replace("'", "\\'")
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
         Log.d(TAG, "sendUserData: $script")
@@ -37,18 +30,6 @@ class TourListBridge(
             Log.d(TAG, "sendUserData: $result")
         }
 
-    }
-
-    suspend fun showWebViewAlert(text: String) {
-        val script = "window.showWebViewAlert('$text');"
-        Log.d("싸피", script)
-        evaluateWebViewFunction(script) { result ->
-            Log.d("tag_test", result)
-        }
-    }
-
-    fun showAlert(text: String){
-        webView.evaluateJavascript("alert('$text');", null)
     }
 
     private fun evaluateWebViewFunction(
