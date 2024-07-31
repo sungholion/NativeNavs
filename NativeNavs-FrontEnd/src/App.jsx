@@ -11,6 +11,7 @@ import Detail from "./page/Detail";
 import Edit from "./page/Edit";
 import Tour_Create from "./subpage/tour_create/Tour_Create";
 import WishList from "./page/WishList";
+import { getStaticImage } from "./utils/get-static-image";
 function App() {
   const param = useSearchParams();
   return (
@@ -50,7 +51,15 @@ function App() {
         </Route>
         <Route path="/privacy_terms" element={<Privacy_Terms />} />
         <Route path="/team" element={<Team />} />
-        <Route path="*" element={<div>잘못된 접근</div>} />
+        <Route
+          path="*"
+          element={
+            <div>
+              <div>잘못된 경로 혹은 미구현된 페이지</div>
+              <img src={getStaticImage("router-img")} alt="" />
+            </div>
+          }
+        />
       </Routes>
     </>
   );
