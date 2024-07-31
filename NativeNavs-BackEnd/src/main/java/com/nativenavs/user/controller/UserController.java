@@ -1,5 +1,6 @@
 package com.nativenavs.user.controller;
 
+import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.user.model.User;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
@@ -27,6 +28,11 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
+
+//    @Autowired
+//    private JwtTokenProvider jwtTokenProvider;
+
+
 
     @Operation(summary = "1. 이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
@@ -143,11 +149,11 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정합니다")
+    @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping
     public ResponseEntity<?> updateUser(
-            HttpSession session,
+            @RequestHeader("Authorization") String token,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = ".",
                     required = true,
@@ -159,44 +165,52 @@ public class UserController {
                                             "\"password\": \"4567\"}"
                             )
                     )
-            )@RequestBody User updateUser) {
-        try{
-            User existingUser= (User) session.getAttribute("user");
+            )
+            @RequestBody User updateUser) {
+        try {
+            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
 
+            User existingUser = userService.searchOneUser(email);
             if (existingUser == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
 
             userService.updateUser(existingUser.getId(), updateUser);
             return ResponseEntity.ok("회원 정보 수정 성공");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 업데이트 중 서버 오류 발생");
         }
     }
 
-    @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴할 때 사용하는 API")
+    @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다.")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @DeleteMapping
-    public ResponseEntity<?> deleteUser(HttpSession session) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(
+            @RequestHeader("Authorization") String token) {
         try {
-            User existingUser= (User) session.getAttribute("user");
+            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
+
+            User existingUser = userService.searchOneUser(email);
             if (existingUser == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
 
             userService.deleteUser(existingUser.getId());
             return ResponseEntity.ok("회원 탈퇴 성공");
+
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 삭제 서버 오류");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴 중 서버 오류 발생");
         }
-//            if(result != 0) {
-//                session.removeAttribute("member");
-//                return ResponseEntity.accepted().body("회원 삭제 성공");
-//            }
-
     }
 
 }
+
+
+
+
+

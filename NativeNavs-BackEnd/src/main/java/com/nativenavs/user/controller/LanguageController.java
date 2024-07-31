@@ -19,17 +19,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/language")
-@CrossOrigin("*") // 아직 고민..
+@CrossOrigin("*") //
+@Tag(name = "language API", description = "언어 관련 API ")
 public class LanguageController {
 
     @Autowired
     private LanguageService languageService;
 
-    @Tag(name = "Language API", description = "language")
-    @Operation(summary = "전체 언어 조회 API", description = "전체 언어 목록을 조회할 때 사용하는 API")
+    @Operation(summary = "전체 언어 조회 API", description = "전체 언어 목록을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping
     public ResponseEntity<?> searchAllLanguage() {
-        return new ResponseEntity<List<Language>>(languageService.searchAllLanguage(), HttpStatus.OK);
+        return new ResponseEntity<>(languageService.searchAllLanguage(), HttpStatus.OK);
     }
 }

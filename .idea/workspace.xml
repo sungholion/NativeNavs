@@ -5,23 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46587a30-9e64-439e-9806-360aa7a1cf43" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/LanguageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/LanguageMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/model/Language.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/LanguageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/LanguageServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/language.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mybatis-config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/mapper/AuthMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/auth.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/NativeNavs_BackEnd/NativeNavsBackEndApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/NativeNavs_BackEnd/NativeNavsBackEndApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/jwt/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/jwt/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/auth/service/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/LanguageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/LanguageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/EmailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/EmailServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/NativeNavs-BackEnd/src/main/resources/mapper/user.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +137,7 @@
       <workItem from="1722386346987" duration="3725000" />
       <workItem from="1722395058184" duration="6564000" />
       <workItem from="1722401689958" duration="979000" />
-      <workItem from="1722402684516" duration="755000" />
+      <workItem from="1722402684516" duration="11215000" />
     </task>
     <servers />
   </component>
@@ -158,6 +154,18 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/NativeNavs-BackEnd/src/main/java/com/nativenavs/user/model/User.java</url>
+          <line>18</line>
+          <properties field="isNav" class="com.nativenavs.user.model.User" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

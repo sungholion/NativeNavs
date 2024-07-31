@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.nativenavs"})
-@MapperScan("com.nativenavs.user.mapper")
+@MapperScan("com.nativenavs.**.mapper")
 public class NativeNavsBackEndApplication {
 
 	public static void main(String[] args) {
