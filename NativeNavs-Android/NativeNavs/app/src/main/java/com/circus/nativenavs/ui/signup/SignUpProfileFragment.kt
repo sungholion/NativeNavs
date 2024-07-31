@@ -45,8 +45,8 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         initSpinner()
         initTextWatcher()
 
-        signUpViewModel.signUpDTO.observe(viewLifecycleOwner) { signUpDTO ->
-            binding.signupSelectedLanguageTv.text = signUpDTO.userLanguage.joinToString(", ")
+        signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
+            binding.signupSelectedLanguageTv.text = languageList.language.joinToString(", ")
         }
     }
 
@@ -184,7 +184,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             val name = binding.signupNameEt.text.toString()
             val birth = binding.signupBirthEt.text.toString()
             val phone = binding.signupPhoneEt.text.toString()
-
+            val userLanguage = binding.signupSelectedLanguageTv.text.toString()
             val locale: Locale = Locale.getDefault()
             val language: String = locale.language
 
@@ -213,7 +213,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
-
+                signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
 
                 signUpViewModel.signUp()

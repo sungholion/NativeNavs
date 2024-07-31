@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.LanguageListDTO
 import com.circus.nativenavs.data.SignUpDTO
 import com.circus.nativenavs.data.service.UserService
 import com.circus.nativenavs.util.SharedPref
@@ -18,7 +19,7 @@ class SignUpActivityViewModel : ViewModel() {
             "",
             false,
             "",
-            emptyList(),
+            "",
             "",
             "",
             "",
@@ -27,6 +28,9 @@ class SignUpActivityViewModel : ViewModel() {
         )
     )
     val signUpDTO: LiveData<SignUpDTO> = _signUpDTO
+
+    private val _languageList = MutableLiveData(LanguageListDTO(emptyList()))
+    val languageList: LiveData<LanguageListDTO> = _languageList
 
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
@@ -41,8 +45,13 @@ class SignUpActivityViewModel : ViewModel() {
             val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
 
             // HTTP 상태 코드 출력
+            println(_signUpDTO.value)
+            println(response)
+            println("Response code: ${response?.code()}")
+            println("Response headers: ${response?.headers()}")
+            println("Response error body: ${response?.errorBody()?.string()}")
             println("HTTP 상태 코드: ${response?.code()}")
-
+            println("HTTP 상태: ${response?.body()}")
         }
     }
 
@@ -53,6 +62,9 @@ class SignUpActivityViewModel : ViewModel() {
             println("email : $email")
             println(response.body())
             println(response.code())
+            println("Response code: ${response.code()}")
+            println("Response headers: ${response.headers()}")
+            println("Response error body: ${response.errorBody()?.string()}")
         }
     }
 
@@ -62,10 +74,15 @@ class SignUpActivityViewModel : ViewModel() {
 
             // 상태 코드 업데이트
             _emailStatusCode.postValue(response.code())
-
+            println("Response code: ${response.code()}")
+            println("Response headers: ${response.headers()}")
+            println("Response error body: ${response.errorBody()?.string()}")
         }
     }
 
+    fun updateLanguage(language : List<String>){
+        _languageList.value = LanguageListDTO(language)
+    }
 
     fun updateNicknameCheck(isChecked : Boolean){
         _nicknameCheck.value = isChecked
@@ -107,7 +124,7 @@ class SignUpActivityViewModel : ViewModel() {
         _signUpDTO.value = _signUpDTO.value?.copy(nation = nation)
     }
 
-    fun updateLanguage(language: List<String>){
+    fun updateUserLanguage(language: String){
         _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
     @Override

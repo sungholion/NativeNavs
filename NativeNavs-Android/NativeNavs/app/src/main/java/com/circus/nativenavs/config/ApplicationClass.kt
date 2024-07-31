@@ -31,10 +31,13 @@ class ApplicationClass : Application() {
         SharedPref.sharedPrefs = applicationContext.getSharedPreferences(PREF, MODE_PRIVATE)
         initRetrofitInstance()
     }
-
+    val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
     private fun initRetrofitInstance() {
         val client = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .addInterceptor(loggingInterceptor)
             .readTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .build()
