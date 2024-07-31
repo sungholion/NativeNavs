@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.signup.SignUpEmailFragment">
@@ -58,6 +59,18 @@
                 app:layout_constraintTop_toTopOf="@+id/signup_email_et" />
 
             <TextView
+                android:id="@+id/signup_email_hint"
+                style="@style/content_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                android:text="@string/sign_email_valid"
+                android:textColor="@color/nn_red"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/signup_email_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_email_et" />
+
+            <TextView
                 android:id="@+id/signup_code_tv"
                 style="@style/title_et"
                 android:layout_width="wrap_content"
@@ -76,6 +89,7 @@
                 android:layout_marginStart="@dimen/margin_horizontal_page"
                 android:layout_marginEnd="0dp"
                 android:inputType="number"
+                android:enabled="false"
                 app:layout_constraintEnd_toStartOf="@+id/signup_code_auth_btn"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +115,7 @@
                 android:layout_marginEnd="@dimen/margin_horizontal_page"
                 android:background="@drawable/shape_round_10_gray_d9d9"
                 android:text="@string/sign_auth"
+                android:enabled="false"
                 app:layout_constraintBottom_toBottomOf="@+id/signup_code_et"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/signup_code_et"
@@ -135,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_page"
                 android:inputType="textPassword"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signup_pw_tv" />
@@ -168,9 +184,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_page"
                 android:inputType="textPassword"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signup_pw_check_tv" />
+
+            <TextView
+                android:id="@+id/signup_pw_valid_tv"
+                style="@style/content_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_pw_valid"
+                android:textColor="@color/nn_red"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/signup_pw_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_pw_et" />
 
             <TextView
                 android:id="@+id/signup_pw_check_help_tv"
@@ -181,6 +209,17 @@
                 android:text="@string/sign_pw_check_help"
                 app:layout_constraintEnd_toEndOf="@id/signup_code_auth_btn"
                 app:layout_constraintStart_toStartOf="@id/signup_pw_check_et"
+                app:layout_constraintTop_toBottomOf="@+id/signup_pw_check_et" />
+
+            <TextView
+                android:id="@+id/signup_pw_check_valid_tv"
+                style="@style/content_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_pw_check_valid"
+                android:textColor="@color/nn_red"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/signup_pw_check_et"
                 app:layout_constraintTop_toBottomOf="@+id/signup_pw_check_et" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -196,6 +235,7 @@
             android:layout_marginBottom="@dimen/margin_bottom_next_btn"
             android:background="@drawable/shape_round_10_gray_d9d9"
             android:text="@string/sign_next"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

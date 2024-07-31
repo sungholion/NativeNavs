@@ -2,6 +2,8 @@ package com.circus.nativenavs.config
 
 import android.app.Application
 import android.webkit.WebView
+import android.util.Patterns
+import java.util.regex.Pattern
 import com.circus.nativenavs.util.PREF
 import com.circus.nativenavs.util.SharedPref
 
@@ -10,6 +12,7 @@ class ApplicationClass : Application() {
         const val FRAGMENT_TOUR_LIST = 10
         const val FRAGMENT_TOUR_DETAIL = 11
         const val FRAGMENT_TOUR_REGISTER = 12
+
     }
 
     override fun onCreate() {

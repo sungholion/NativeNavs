@@ -1,6 +1,4 @@
-package com.circus.nativenavs.data.mypage
-
-import org.intellij.lang.annotations.Language
+package com.circus.nativenavs.data
 
 data class ProfileReviewDto(
     val rating:Int,
