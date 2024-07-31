@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -7,9 +8,11 @@ import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpEmailBinding
+import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import java.util.regex.Pattern
@@ -27,6 +30,21 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         super.onViewCreated(view, savedInstanceState)
         initView()
         initEvent()
+        signUpViewModel.emailStatusCode.observe(this, Observer { statusCode ->
+            // 상태 코드 처리
+            if (statusCode == 200) {
+                // 코드 인증을 마쳐야 비밀 번호 활성화
+                binding.signupCodeEt.isEnabled = false
+                binding.signupEmailNextBtn.isEnabled = true
+                binding.signupPwCheckEt.isEnabled = true
+                binding.signupPwEt.isEnabled = true
+                binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
+                binding.signupEmailNextBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
+            } else {
+                showToast("인증코드를 다시 확인해주세요")
+            }
+        })
+
     }
 
     private fun initView(){
@@ -38,7 +56,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
             binding.signupEmailNextBtn.isEnabled = true
         }
         else {
-            binding.signupCodeSendBtn.text = "전송"
+            binding.signupCodeSendBtn.text = getString(R.string.sign_send)
             binding.signupEmailEt.isEnabled = true
         }
     }
@@ -58,6 +76,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
     private fun initEvent() {
         var email = ""
+        var code = ""
         var password = ""
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
@@ -79,12 +98,14 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
                     binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
 
+                    signUpViewModel.getEmailCode(email)
+
                     emailBtnType = true
                 }
             }
             else{
                 allBtnUnEnabled()
-                binding.signupCodeSendBtn.text = "전송"
+                binding.signupCodeSendBtn.text = getString(R.string.sign_send)
                 binding.signupEmailEt.isEnabled = true
                 binding.signupCodeEt.isEnabled = false
                 binding.signupCodeAuthBtn.isEnabled = false
@@ -96,14 +117,10 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         }
         /** 코드 인증 **/
         binding.signupCodeAuthBtn.setOnClickListener {
+            email = binding.signupEmailEt.text.toString()
+            code = binding.signupCodeEt.text.toString()
+            signUpViewModel.setEmailCode(email, code)
 
-            // 코드 인증을 마쳐야 비밀 번호 활성화
-            binding.signupCodeEt.isEnabled = false
-            binding.signupEmailNextBtn.isEnabled = true
-            binding.signupPwCheckEt.isEnabled = true
-            binding.signupPwEt.isEnabled = true
-            binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
-            binding.signupEmailNextBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
         }
 
         binding.signupEmailNextBtn.setOnClickListener {
