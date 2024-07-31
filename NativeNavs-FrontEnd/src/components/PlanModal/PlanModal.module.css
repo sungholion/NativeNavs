@@ -2,15 +2,15 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
+  align-items: center;
   position: fixed;
   width: 100vw;
-  height: 70vh;
+  height: 85vh;
   left: 0px;
   bottom: 0px;
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
-  padding: 3%;
   z-index: 10000;
 }
 
@@ -25,43 +25,118 @@
 
 .ModalHeader {
   display: flex;
-  flex: 1;
   flex-direction: row;
-  margin: 5px;
-  margin-top: 4vw;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh 0;
+  height: auto;
 }
 
-.ModalHeader img {
+.ModalImg {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1vw;
+}
+
+.ModalImg label {
   display: inline-block;
-  width: min(25vw, 25vh);
-  height: min(25vw, 25vh);
+  cursor: pointer;
+  margin: 0px auto;
+}
+
+.ModalImg img {
+  width: 10vw;
+  height: 10vw;
+  min-width: 90px;
+  min-height: 90px;
+  background-color: rgb;
+  object-fit: cover;
+}
+
+.ModalImg input {
+  width: 10vw;
+  height: 10vw;
+  min-width: 90px;
+  min-height: 90px;
+  background-color: rgb(240, 240, 240);
   border-radius: 5px;
-  margin-left: 10px;
+  display: none;
+}
+
+.emptyModalImg {
+  width: 10vw;
+  height: 10vw;
+  min-width: 90px;
+  min-height: 90px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 5%;
+  font-size: small;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ModalHeaderTitle {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  flex: 1;
-
+  width: 100%;
+  height: auto;
   h3 {
-    margin-bottom: min(3vw, 3vh);
-    font-weight: 800;
+    padding: 0%;
+    margin: 0;
+    font-weight: 700;
   }
 
   input[type="text"] {
-    width: 80%;
-    height: min(8vw, 8vh);
+    width: 60vw;
+    height: 6vw;
+    font-size: 2vw;
   }
 }
 
 .ModalMap {
   display: flex;
   flex-direction: column;
+  margin-bottom: 2vh;
+}
+
+.ModalMapSearch {
+  margin: 0 auto;
+}
+
+.ModalMapSearch > h3 {
+  margin: 10px 0px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .ModalContent {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: 0px auto;
+  padding: 0px;
+}
+
+.ModalContent > h3 {
+  margin: 10px 0px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ModalContent > textarea {
+  width: 80vw;
+  max-height: 30vh;
+  height: 10vh;
+  resize: vertical;
+  border: 2px solid #595959;
+}
+
+.ButtonSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
