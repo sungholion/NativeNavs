@@ -2,6 +2,7 @@ package com.circus.nativenavs.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -11,8 +12,8 @@ import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
 import com.circus.nativenavs.ui.home.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
-import com.circus.nativenavs.ui.home.tour.TourListFragment
-import com.circus.nativenavs.ui.home.tour.TourRegisterFragment
+import com.circus.nativenavs.ui.tour.TourListFragment
+import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
@@ -23,7 +24,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         super.onCreate(savedInstanceState)
 
         initView()
-
     }
 
     private fun initView() {

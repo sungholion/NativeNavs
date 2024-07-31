@@ -11,7 +11,7 @@
         tools:layout="@layout/activity_login" />
     <fragment
         android:id="@+id/tourListFragment"
-        android:name="com.circus.nativenavs.ui.home.tour.TourListFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourListFragment"
         android:label="TourListFragment"
         tools:layout="@layout/fragment_tour_list">
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/tourRegisterFragment"
-        android:name="com.circus.nativenavs.ui.home.tour.TourRegisterFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourRegisterFragment"
         android:label="TourRegisterFragment"
         tools:layout="@layout/fragment_tour_register">
         <action
@@ -83,9 +83,13 @@
         tools:layout="@layout/fragment_reservation_detail" />
     <fragment
         android:id="@+id/tourDetailFragment"
-        android:name="com.circus.nativenavs.ui.home.tour.TourDetailFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourDetailFragment"
         android:label="TourDetailFragment"
-        tools:layout="@layout/fragment_tour_detail" />
+        tools:layout="@layout/fragment_tour_detail" >
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"
@@ -175,7 +179,7 @@
         tools:layout="@layout/fragment_my_trip" />
     <fragment
         android:id="@+id/tourWishListFragment"
-        android:name="com.circus.nativenavs.ui.home.tour.TourWishListFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourWishListFragment"
         android:label="TourWishListFragment"
         tools:layout="@layout/fragment_tour_wish_list" />
 </navigation>
