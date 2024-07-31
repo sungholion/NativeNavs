@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <module external.linked.project.id="NativeNavs-BackEnd:main" external.linked.project.path="$MODULE_DIR$/../../NativeNavs-BackEnd" external.root.project.path="$MODULE_DIR$/../../NativeNavs-BackEnd" external.system.id="GRADLE" external.system.module.group="com.nativenavs" external.system.module.type="sourceSet" external.system.module.version="0.0.1-SNAPSHOT" type="JAVA_MODULE" version="4">
+=======
+<module version="4">
+>>>>>>> 5ae49ae2e367c2ddfb4ba13592247ab4548a240b
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$/../../NativeNavs-BackEnd/build/generated/sources/annotationProcessor/java/main">
       <sourceFolder url="file://$MODULE_DIR$/../../NativeNavs-BackEnd/build/generated/sources/annotationProcessor/java/main" isTestSource="false" generated="true" />
     </content>
   </component>
+<<<<<<< HEAD
   <component name="FacetManager">
     <facet external-system-id="GRADLE" type="web" name="Web">
       <configuration>
@@ -109,4 +114,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.mysql:mysql-connector-j:8.3.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.eclipse.angus:angus-activation:2.0.2" level="project" />
   </component>
+=======
+>>>>>>> 5ae49ae2e367c2ddfb4ba13592247ab4548a240b
 </module>

@@ -4,51 +4,68 @@
 
 <mapper namespace="com.nativenavs.user.mapper.UserMapper">
 
-    <insert id="signUp" parameterType="user">
-        INSERT INTO user(email, password, name, nickname, is_nav, birth, user_language, nation, image, phone, created_at, updated_at)
-        VALUES (#{email}, #{password}, #{name}, #{nickname}, #{is_nav}, #{birth}, #{user_language}, #{nation}, #{image}, #{phone}, NOW(), NOW())
-    </insert>
-
-    <select id="findByAuthenticationCode" parameterType="string" resultType="user">
-        SELECT * FROM user WHERE authentication_code = #{authenticationCode}
-    </select>
+    <resultMap id="userResultMap" type="user">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="isNav" column="is_nav"/>
+        <result property="image" column="image"/>
+        <result property="name" column="name"/>
+        <result property="birth" column="birth"/>
+        <result property="phone" column="phone"/>
+        <result property="nation" column="nation"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userLanguage" column="user_language"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="isRemoved" column="is_removed"/>
+        <result property="navReviewCount" column="nav_review_count"/>
+        <result property="navReviewAverage" column="nav_review_average"/>
+        <result property="travReservationCount" column="trav_reservation_count"/>
+        <result property="isKorean" column="is_korean"/>
+        <result property="device" column="device"/>
+    </resultMap>
 
     <select id="checkDuplicatedEmail" parameterType="string" resultType="boolean">
         SELECT COUNT(email) > 0 FROM user WHERE email = #{email}
     </select>
 
-    <select id="searchOneUser" parameterType="string" resultType="user">
+    <insert id="signUp" parameterType="user">
+        INSERT INTO user(email, password, is_nav, image, nickname, nation, user_language, name, birth, phone, device, created_at, updated_at)
+        VALUES (#{email}, #{password}, #{isNav}, #{image}, #{nickname}, #{nation}, #{userLanguage}, #{name}, #{birth}, #{phone}, #{device}, NOW(), NOW())
+    </insert>
+
+    <select id="searchAllUser" resultMap="userResultMap">
+        SELECT * FROM user
+    </select>
+
+    <select id="searchOneUser" parameterType="string" resultMap="userResultMap">
         SELECT * FROM user
         WHERE email = #{email}
-    </select>
-
-    <select id="searchAllUser" parameterType="string" resultType="user">
-        SELECT * FROM user
-    </select>
-
-    <select id="loginSessionWithEmail" parameterType="map" resultType="user">
-        SELECT * FROM user WHERE email = #{email} AND password = #{password}
     </select>
 
     <update id="updateUser" parameterType="map">
         UPDATE user
         <set>
             <if test="updateUser.image != null and updateUser.image != ''">image = #{updateUser.image},</if>
-            <if test="updateUser.phone != null and updateUser.phone != ''">phone = #{updateUser.phone},</if>
             <if test="updateUser.nickname != null and updateUser.nickname != ''">nickname = #{updateUser.nickname},</if>
+            <if test="updateUser.userLanguage != null and updateUser.userLanguage != ''">user_language = #{updateUser.userLanguage},</if>
+            <if test="updateUser.phone != null and updateUser.phone != ''">phone = #{updateUser.phone},</if>
             <if test="updateUser.password != null and updateUser.password != ''">password = #{updateUser.password},</if>
-            <if test="updateUser.user_language != null and updateUser.user_language != ''">user_language = #{updateUser.user_language},</if>
         </set>
+        WHERE id = #{existingId}
     </update>
 
-    <update id="updateEmailAuthentication" parameterType="string">
-        UPDATE user
-        <set>
-            isAuthenticated = true,
-            authentication_Code = ''
-        </set>
-        WHERE email = #{email}
-    </update>
+
+
+<!--    <update id="updateEmailAuthentication" parameterType="string">-->
+<!--        UPDATE user-->
+<!--        <set>-->
+<!--            isAuthenticated = true,-->
+<!--            authentication_Code = ''-->
+<!--        </set>-->
+<!--        WHERE email = #{email}-->
+<!--    </update>-->
 
     <delete id="deleteUser" parameterType="int">
         DELETE FROM user
