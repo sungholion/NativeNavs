@@ -53,7 +53,6 @@ const Tour_Item = ({
     } else {
       console.log("Android.navigateToTourDetailFragment is not defined");
     }
-    navigate(`/tour/detail/${tour_id}`);
   };
 
   // 위시리스트 이벤트

@@ -40,7 +40,6 @@ const Detail = ({ userJson }) => {
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
-    navigate(`/nav/${tour.user_id}`);
   };
 
   // 리뷰 상세 페이지로 이동
@@ -54,7 +53,6 @@ const Detail = ({ userJson }) => {
     } else {
       console.log("Android.navigateToReviewListFragment is not defined");
     }
-    navigate(`/tour/detail/${tour.tour_id}/review`);
   };
 
   // Date 객체를 문자열로 변환

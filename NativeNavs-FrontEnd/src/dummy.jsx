@@ -49,7 +49,7 @@ export const tours = [
 ];
 
 export const reviews = {
-  averageScore: 4.89,
+  averageScore: 3.65,
   totalPhotos: 199,
   img_urls: [
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAyMDhfNjQg%2FMDAxNjEyNzQ3Mzc0MDM2.TJAo-r84EtFPqZU8l_sGV9cUj2JRKA-QL7wBGJEFG28g.edRIgBDXSV3umHUrE3Q5utzOoQGzZLocn9KlUkP5q3sg.JPEG.v992800%2FKakaoTalk_20210208_101154175.jpg&type=a340",
@@ -72,7 +72,7 @@ export const reviews = {
         nickname: "Karina",
         nation: "USA",
       },
-      score: 4,
+      score: 3.6,
       description: "바닷물 실컷 마시고 가요😊",
       created_at: "2일 전",
       tour: {
@@ -93,7 +93,7 @@ export const reviews = {
         nickname: "Winter",
         nation: "Canada",
       },
-      score: 5,
+      score: 1.3,
       description: "상처에 소금물이 들어가서 너무 좋았어요😊",
       created_at: "3일 전",
       tour: {
