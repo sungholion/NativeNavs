@@ -6,6 +6,9 @@ import com.nativenavs.tour.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // DTO -> Entity (Entity Class)
 // Entity -> DTO (DTO Class)
 
@@ -16,5 +19,15 @@ public class TourService {
     public void addTour(TourDTO tourDTO){
         TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
         tourRepository.save(tourEntity);
+    }
+
+    //entity -> DTO 작업이 필요
+    public List<TourDTO> findAllTours(){
+        List<TourEntity> tourEntityList = tourRepository.findAll();
+        List<TourDTO> tourDTOList = new ArrayList<>();
+        for (TourEntity tourEntity: tourEntityList){
+            tourDTOList.add(TourDTO.toTourDTO(tourEntity));
+        }
+        return tourDTOList;
     }
 }

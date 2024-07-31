@@ -1,6 +1,8 @@
 package com.nativenavs.tour.dto;
 
+import com.nativenavs.tour.entity.TourEntity;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,8 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor //기본생성자
-@AllArgsConstructor //모든 필드를 매개변수로 하는 생성자
+@NoArgsConstructor
+@AllArgsConstructor
 public class TourDTO {
     private int id;
     private int userId;
@@ -27,4 +29,24 @@ public class TourDTO {
     private LocalDateTime updatedAt;
     private boolean isRemoved;
 
+
+    public static TourDTO toTourDTO(TourEntity tourEntity){
+        TourDTO tourDTO = new TourDTO();
+        tourDTO.setId(tourEntity.getId());
+        tourDTO.setUserId(tourEntity.getUserId());
+        tourDTO.setTitle(tourEntity.getTitle());
+        tourDTO.setThumbnailImage(tourEntity.getThumbnailImage());
+        tourDTO.setDescription(tourEntity.getDescription());
+        tourDTO.setLocation(tourEntity.getLocation());
+        tourDTO.setPrice(tourEntity.getPrice());
+        tourDTO.setStartDate(tourEntity.getStartDate());
+        tourDTO.setEndDate(tourEntity.getEndDate());
+        tourDTO.setReviewAverage(tourEntity.getReviewAverage());
+        tourDTO.setReviewCount(tourEntity.getReviewCount());
+        tourDTO.setCreatedAt(tourEntity.getCreatedAt());
+        tourDTO.setUpdatedAt(tourEntity.getUpdatedAt());
+        tourDTO.setMaxParticipants(tourEntity.getMaxParticipant());
+        tourDTO.setRemoved(tourEntity.isRemoved());
+        return tourDTO;
+    }
 }

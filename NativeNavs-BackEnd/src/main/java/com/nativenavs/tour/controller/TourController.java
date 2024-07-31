@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/tours")
@@ -51,7 +53,7 @@ public class TourController {
             )
             @RequestBody TourDTO tourDTO){
 
-        // System.out.println("tourDTO : " + tourDTO);
+        System.out.println("tourDTO : " + tourDTO);
         try {
             tourService.addTour(tourDTO);
             return ResponseEntity.ok("여행 등록 완료");
@@ -60,6 +62,25 @@ public class TourController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 등록 실패");
         }
     }
+
+    @Tag(name = "tour API", description = "tour")
+    @Operation(summary = "투어 리스트 조회 API", description = "전체 투어 리스트를 조회하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping
+    public ResponseEntity<?> tourList(){
+        try{
+            List<TourDTO> tourDTOList = tourService.findAllTours();
+            return ResponseEntity.ok(tourDTOList);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어리스트 조회 실패");
+        }
+
+
+    }
+//
+//    @GetMapping("/{tour_id}")
 
 
 }
