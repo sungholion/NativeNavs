@@ -1,28 +1,60 @@
 import styles from "./PlanModal.module.css";
 import { useSearchParams } from "react-router-dom";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Button from "../Button/Button";
 
 const PlanData = {
   image:
     "https://i.namu.wiki/i/u253q5zv58zJ1twYkeea-czVz8SQsvX-a1jVZ8oYsTVDH_TRC8-bpcVa4aKYQs5lI55B9srLYF9JJFUPbkI8MA.webp",
 };
-const PlanModal = ({ onClose }) => {
-  const [uploadImgUrl, setUploadImgUrl] = useState("");
-  const onImgChange = (e) => {
-    const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setUploadImgUrl(reader.result);
-    };
+const PlanModal = ({ onClose, onSubmit, initData }) => {
+  const [planData, setPlanData] = useState({
+    title: "",
+    description: "",
+    latitude: 0,
+    longitude: 0,
+    address_full: "",
+    image: "",
+  });
+
+  useEffect(() => {
+    if (initData) {
+      setPlanData({
+        ...initData,
+      });
+    }
+  }, [initData]);
+
+  // const onImgChange = (e) => {
+  //   const { files } = e.target;
+  //   const uploadFile = files[0];
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(uploadFile);
+  //   reader.onloadend = () => {
+  //     setUploadImgUrl(reader.result);
+  //   };
+  // };
+  const onChangeEvent = (e) => {
+    if (e.target.name === "image") {
+      const { files } = e.target;
+      const uploadFile = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadFile);
+      reader.onloadend = () => {
+        setPlanData({ ...planData, [e.target.name]: reader.result });
+      };
+    } else {
+      setPlanData({ ...planData, [e.target.name]: e.target.value });
+    }
   };
+
   const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
   const onClickEvent = (e) => {
     e.stopPropagation;
     onClose();
   };
+
   return (
     <div
       className={styles.ModalBackground}
@@ -38,9 +70,9 @@ const PlanModal = ({ onClose }) => {
       >
         <section className={styles.ModalHeader}>
           <div className={styles.ModalImg}>
-            <label htmlFor="PlanImg">
-              {uploadImgUrl !== "" ? (
-                <img src={uploadImgUrl} alt="+" />
+            <label htmlFor="image">
+              {planData.image !== "" ? (
+                <img src={planData.image} alt="+" name="image" id="image" />
               ) : (
                 <div className={styles.emptyModalImg}>+</div>
               )}
@@ -48,9 +80,9 @@ const PlanModal = ({ onClose }) => {
             <input
               type="file"
               accept="image/*"
-              name="PlanImg"
-              id="PlanImg"
-              onChange={onImgChange}
+              name="image"
+              id="image"
+              onChange={onChangeEvent}
             />
           </div>
           <div className={styles.ModalHeaderTitle}>
@@ -59,6 +91,9 @@ const PlanModal = ({ onClose }) => {
               type="text"
               placeholder="일정 제목 입력해 주세요"
               maxLength="20"
+              name="title"
+              value={planData.title}
+              onChange={onChangeEvent}
             />
           </div>
         </section>
@@ -79,7 +114,23 @@ const PlanModal = ({ onClose }) => {
         </section>
         <section className={styles.ModalContent}>
           <h3>내용</h3>
-          <textarea />
+          <textarea
+            maxLength={200}
+            value={planData.description}
+            onChange={onChangeEvent}
+            name="description"
+          />
+        </section>
+        <section className={styles.ButtonSection}>
+          <Button text={"뒤로"} size={5} onClickEvent={onClose} />
+          <Button
+            text={"등록"}
+            size={5}
+            onClickEvent={() => {
+              onSubmit({ ...planData });
+              onClose();
+            }}
+          />
         </section>
       </div>
     </div>
