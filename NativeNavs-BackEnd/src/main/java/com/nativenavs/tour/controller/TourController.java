@@ -3,6 +3,7 @@ package com.nativenavs.tour.controller;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.service.TourService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -76,11 +77,28 @@ public class TourController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어리스트 조회 실패");
         }
-
-
     }
-//
-//    @GetMapping("/{tout_id}")
 
+    @Tag(name = "tour API", description = "tour")
+    @Operation(summary = "투어 상세조회 API", description = "투어 상세정보를 조회하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "404", description = "투어를 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/{id}")
+    public ResponseEntity<?> tourDeatils(
+            @Parameter(description = "투어 ID", required = true, example = "1")
+            @PathVariable int id) {
+        try {
+            TourDTO tourDTO = tourService.findTourById(id);
+            return ResponseEntity.ok(tourDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 상세조회 실패");
+        }
+    }
 
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> tourUpdate(@RequestBody TourDTO tourDTO, @PathVariable int id) {
+//        TourDTO tourDTO
+//    }
 }
