@@ -3,6 +3,7 @@ package com.circus.nativenavs.ui.profile
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
@@ -10,6 +11,7 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
@@ -73,8 +75,18 @@ class ProfileFragment :
         }
 
         binding.profileReviewTitle.setOnClickListener {
+            lateinit var action: NavDirections
+            if(args.userId == -1){
+                if(SharedPref.isNav!!){
+                     action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment()
+                }else{
+
+                }
+            }else{
+
+            }
             //만약 nav이면
-            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
+//            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
             //만약 trav이면
 //            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
 
