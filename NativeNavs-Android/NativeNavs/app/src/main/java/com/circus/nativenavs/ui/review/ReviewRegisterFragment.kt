@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.review
+package com.circus.nativenavs.ui.review
 
 import android.content.Context
 import android.os.Bundle

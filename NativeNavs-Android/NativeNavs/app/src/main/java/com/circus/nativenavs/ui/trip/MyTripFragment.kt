@@ -1,29 +1,33 @@
-package com.circus.nativenavs.ui.tour
+package com.circus.nativenavs.ui.trip
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
-import com.circus.nativenavs.databinding.FragmentTourWishListBinding
+import com.circus.nativenavs.databinding.FragmentMyTripBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.tour.TourListBridge
+import com.circus.nativenavs.ui.tour.TourListFragmentDirections
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 
-class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
-    FragmentTourWishListBinding::bind,
-    R.layout.fragment_tour_wish_list
-) {
+class MyTripFragment :
+    BaseFragment<FragmentMyTripBinding>(FragmentMyTripBinding::bind, R.layout.fragment_my_trip) {
 
     private lateinit var homeActivity: HomeActivity
-    private lateinit var bridge: WishListBridge
+    private lateinit var bridge: MyTripListBridge
     private var isPageLoaded = false
 
     override fun onAttach(context: Context) {
@@ -31,20 +35,27 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
         homeActivity = context as HomeActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(true)
+        isPageLoaded = false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initBridge()
         initWebView()
+
     }
 
     private fun initBridge() {
-        bridge = WishListBridge(homeActivity, this, binding.tourWishListWv)
-        binding.tourWishListWv.addJavascriptInterface(bridge, "Android")
+        bridge = MyTripListBridge(homeActivity, this, binding.myTripWv)
+        binding.myTripWv.addJavascriptInterface(bridge, "Android")
     }
 
     private fun initWebView() {
-        binding.tourWishListWv.settings.apply {
+        binding.myTripWv.settings.apply {
             javaScriptEnabled = true
             javaScriptCanOpenWindowsAutomatically = true
             setSupportMultipleWindows(true)
@@ -54,23 +65,16 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
             domStorageEnabled = true
         }
 
-        binding.tourWishListWv.webViewClient = WebViewClient()
-        binding.tourWishListWv.webChromeClient = WebChromeClient()
+        binding.myTripWv.webViewClient = WebViewClient()
+        binding.myTripWv.webChromeClient = WebChromeClient()
 
-        val url = "https://i11d110.p.ssafy.io/trav/${SharedPref.userId}/wishlist"
-        binding.tourWishListWv.loadUrl(url)
+        val url = "https://i11d110.p.ssafy.io/nav/${SharedPref.userId}/tourlist"
+        binding.myTripWv.loadUrl(url)
     }
 
-    fun navigateToWishDetailFragment(tourId: Int) {
+    fun navigateToMyTripDetailFragment(tourId: Int) {
         val action =
-            TourWishListFragmentDirections.actionTourWishListFragmentToTourDetailFragment(tourId)
+            MyTripFragmentDirections.actionMyTripFragmentToMyTripReservationListFragment(tourId)
         navigate(action)
     }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(true)
-        isPageLoaded = false
-    }
-
 }

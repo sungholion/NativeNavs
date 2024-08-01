@@ -1,24 +1,29 @@
-package com.circus.nativenavs.util
+package com.circus.nativenavs.ui.tour
 
-import android.content.Context
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourListFragment
 import com.google.gson.Gson
 
-private const val TAG = "TourListBridge"
-class TourListBridge(
+private const val TAG = "싸피_TourDetailBridge"
+
+class TourDetailBridge(
     private val homeActivity: HomeActivity,
-    private val fragment: TourListFragment,
+    private val fragment: TourDetailFragment,
     private val webView: WebView
 ) {
     @JavascriptInterface
-    fun navigateToTourDetailFragment(tourId: Int) {
-        fragment.moveToTourDetailFragment(tourId)
-        Log.d(TAG, "navigateToTourDetailFragment: $tourId")
+    fun navigateToNavProfileFragment(navId: Int) {
+        fragment.navigateToNavProfileFragment(navId)
+        Log.d(TAG, "navigateToNavProfileFragment: $navId")
+    }
+
+    @JavascriptInterface
+    fun navigateToReviewListFragment(tourId: Int) {
+        fragment.navigateToReviewListFragment(tourId)
+        Log.d(TAG, "navigateToReviewListFragment: $tourId")
     }
 
     fun sendUserData(user: UserDto) {

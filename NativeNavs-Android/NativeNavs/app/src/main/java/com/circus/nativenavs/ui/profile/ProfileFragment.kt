@@ -4,14 +4,17 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.navigate
+import com.circus.nativenavs.util.popBackStack
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
+class ProfileFragment :
+    BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 
     private val dummy = arrayListOf<ProfileReviewDto>(
         ProfileReviewDto(
@@ -40,6 +43,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     )
 
     private lateinit var homeActivity: HomeActivity
+    private val args: ProfileFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -65,11 +69,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
-            findNavController().popBackStack()
+            popBackStack()
         }
 
         binding.profileReviewTitle.setOnClickListener {
-            navigate(R.id.action_profileFragment_to_reviewListFragment)
+            //만약 nav이면
+            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
+            //만약 trav이면
+//            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
+
+            navigate(action)
         }
 
         binding.profileStampTitle.setOnClickListener {

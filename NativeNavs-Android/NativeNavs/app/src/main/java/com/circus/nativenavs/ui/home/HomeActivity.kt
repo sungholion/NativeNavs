@@ -17,6 +17,7 @@ import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
