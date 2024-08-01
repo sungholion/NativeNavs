@@ -14,31 +14,41 @@ import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
 import ReviewPhotos from "./page/ReviewPhotos";
+import { getStaticImage } from "./utils/get-static-image";
 
 function App() {
   const param = useSearchParams();
 
   const navigateToTourReviewPhotoFragment = (tourId) => {
-    if (window.Android && typeof window.Android.navigateToTourReviewPhotoFragment === 'function') {
+    if (
+      window.Android &&
+      typeof window.Android.navigateToTourReviewPhotoFragment === "function"
+    ) {
       window.Android.navigateToTourReviewPhotoFragment(tourId);
     } else {
-      console.log('navigateToTourReviewPhotoFragment function is not defined');
+      console.log("navigateToTourReviewPhotoFragment function is not defined");
     }
   };
 
   const navigateToNavReviewPhotoFragment = (navId) => {
-    if (window.Android && typeof window.Android.navigateToNavReviewPhotoFragment === 'function') {
+    if (
+      window.Android &&
+      typeof window.Android.navigateToNavReviewPhotoFragment === "function"
+    ) {
       window.Android.navigateToNavReviewPhotoFragment(navId);
     } else {
-      console.log('navigateToNavReviewPhotoFragment function is not defined');
+      console.log("navigateToNavReviewPhotoFragment function is not defined");
     }
   };
 
   const navigateToTravReviewPhotoFragment = (travId) => {
-    if (window.Android && typeof window.Android.navigateToTravReviewPhotoFragment === 'function') {
+    if (
+      window.Android &&
+      typeof window.Android.navigateToTravReviewPhotoFragment === "function"
+    ) {
       window.Android.navigateToTravReviewPhotoFragment(travId);
     } else {
-      console.log('navigateToTravReviewPhotoFragment function is not defined');
+      console.log("navigateToTravReviewPhotoFragment function is not defined");
     }
   };
 
@@ -53,7 +63,13 @@ function App() {
             <Route index element={<Detail />} />
             <Route
               path="reviews"
-              element={<Review navigateToReviewPhotoFragment={navigateToTourReviewPhotoFragment} />}
+              element={
+                <Review
+                  navigateToReviewPhotoFragment={
+                    navigateToTourReviewPhotoFragment
+                  }
+                />
+              }
             />
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
@@ -65,7 +81,11 @@ function App() {
         <Route path="/nav/:user_id" element={<Nav />}>
           <Route
             path="reviews"
-            element={<Review navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment} />}
+            element={
+              <Review
+                navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment}
+              />
+            }
           />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="tourlist" element={<div>투어목록</div>} />
@@ -73,7 +93,13 @@ function App() {
         <Route path="/trav/:user_id" element={<Trav />}>
           <Route
             path="reviews"
-            element={<Review navigateToReviewPhotoFragment={navigateToTravReviewPhotoFragment} />}
+            element={
+              <Review
+                navigateToReviewPhotoFragment={
+                  navigateToTravReviewPhotoFragment
+                }
+              />
+            }
           />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="wishlist" element={<WishList />} />
@@ -93,7 +119,7 @@ function App() {
           element={
             <div>
               <div>잘못된 경로 혹은 미구현된 페이지</div>
-              {/* <img src={getStaticImage("router-img")} alt="" /> */}
+              <img src={getStaticImage("router-img")} alt="" />
             </div>
           }
         />

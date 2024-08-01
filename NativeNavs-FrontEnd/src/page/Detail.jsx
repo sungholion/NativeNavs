@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { tours } from "../dummy";
 import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
@@ -147,7 +147,7 @@ const Detail = ({ userJson }) => {
         <p>당부3</p>
       </div>
       {/* 투어 리뷰 */}
-      <div className={styles.tourReview} onClick={onClickReview}>
+      <div className="" onClick={onClickReview}>
         <Review_Item
           user={reviewData.user}
           tour_id={tour.tour_id}
