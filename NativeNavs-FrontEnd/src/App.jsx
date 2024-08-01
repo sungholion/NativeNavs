@@ -90,7 +90,7 @@ function App() {
           element={
             <div>
               <div>잘못된 경로 혹은 미구현된 페이지</div>
-              <img src={getStaticImage("router-img")} alt="" />
+              {/* <img src={getStaticImage("router-img")} alt="" /> */}
             </div>
           }
         />
