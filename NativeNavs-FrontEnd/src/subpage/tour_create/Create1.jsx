@@ -85,7 +85,7 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
             className={styles.DateInput}
             value={getStringedDate(new Date(end_date))}
             onChange={(e) =>
-              onTourDataChange("start_date", new Date(e.target.value).getTime())
+              onTourDataChange("end_date", new Date(e.target.value).getTime())
             }
           />
         </div>
