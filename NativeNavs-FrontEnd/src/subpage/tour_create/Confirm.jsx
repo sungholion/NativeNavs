@@ -6,10 +6,55 @@ import { TourDataContext } from "./Tour_Create";
 import { useContext } from "react";
 import axios from "axios";
 import { API_Tour_Create } from "@/utils/apis";
+const NO_NEED_IMAGE = true;
+
+const testJSON = {
+  userId: 10,
+  title: "Summer Vacation",
+  thumbnailImage: "http://example.com/image.jpg",
+  description: "A relaxing summer vacation tour",
+  location: "서울특별시 종로구",
+  price: 500000,
+  startDate: "2024-08-01",
+  endDate: "2024-08-15",
+  reviewAverage: 0,
+  reviewCount: 0,
+  maxParticipants: 1,
+  removed: false,
+  categoryIds: [1, 2],
+  plans: [
+    {
+      id: 1,
+      field: "Field 1",
+      description: "Description of plan 1",
+      image: "http://example.com/plan1.jpg",
+      latitude: 37.5665,
+      longitude: 126.978,
+      addressFull: "123 Example Street",
+    },
+    {
+      id: 2,
+      field: "Field 2",
+      description: "Description of plan 2",
+      image: "http://example.com/plan2.jpg",
+      latitude: 37.567,
+      longitude: 126.979,
+      addressFull: "456 Example Avenue",
+    },
+  ],
+};
 
 const Tour_Create_Request = async (data) => {
   try {
-    const response = await axios.post(API_Tour_Create, data);
+    const response = await axios.post(
+      "http://i11d110.p.ssafy.io:8081/api/tours",
+      data,
+      {
+        headers: {
+          AccessToken: "strx ucbb pelf hynv",
+        },
+      }
+    );
     console.log(response);
     window.alert("성공했어요!");
     return response;
@@ -23,22 +68,22 @@ const Tour_Create_Request = async (data) => {
 const Confirm = ({ goBeforePage }) => {
   const {
     title,
-    thumbnail_image,
+    thumbnailImage,
     description,
     location,
     price,
-    start_date,
-    end_date,
-    max_participant,
+    startDate,
+    endDate,
+    maxParticipants,
     plans,
-    themes,
+    categoryIds,
   } = useContext(TourDataContext);
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
         <p>썸네일 사진</p>
-        {thumbnail_image.length > 0 ? (
-          <img src={thumbnail_image} alt="썸네일이미지" />
+        {thumbnailImage.length > 0 ? (
+          <img src={thumbnailImage} alt="썸네일이미지" />
         ) : (
           <div style={{ color: "red", fontSize: "20px" }}>
             이미지 업로드 해주세요
@@ -58,16 +103,16 @@ const Confirm = ({ goBeforePage }) => {
         <p>기간</p>
         <div className="TourDateShow">
           <span className="DateBox">
-            {getStringedDate(new Date(start_date))}
+            {getStringedDate(new Date(startDate))}
           </span>
           <span>~</span>
-          <span className="DateBox">{getStringedDate(new Date(end_date))}</span>
+          <span className="DateBox">{getStringedDate(new Date(endDate))}</span>
         </div>
       </section>
       <hr />
       <section className="TourMaxPeople">
         <p>최대 허용 인원</p>
-        <div>{max_participant} 명</div>
+        <div>{maxParticipants} 명</div>
       </section>
       <section className="TourExpectPrice">
         <p>예상 비용</p>
@@ -76,7 +121,7 @@ const Confirm = ({ goBeforePage }) => {
       <section className="TourTheme">
         <p>테마</p>
         <div className="TourThemeList">
-          {themes
+          {categoryIds
             .filter((theme) => theme.state)
             .map((theme) => {
               return (
@@ -92,11 +137,7 @@ const Confirm = ({ goBeforePage }) => {
         <div className="TourPlanItem">
           {plans.map((item) => {
             return (
-              <Plan_Item
-                key={item.plan_id}
-                {...item}
-                enableDeleteOption={false}
-              />
+              <Plan_Item key={item.id} {...item} enableDeleteOption={false} />
             );
           })}
         </div>
@@ -112,21 +153,34 @@ const Confirm = ({ goBeforePage }) => {
         <Button
           text={"추가"}
           size={0}
-          onClickEvent={async () => {
-            await Tour_Create_Request({
+          onClickEvent={() => {
+            const data = {
               title,
-              thumbnail_image,
+              thumbnailImage,
               description,
-              location,
+              location: "",
               price,
-              startDate: getStringedDate(new Date(start_date)),
-              endDate: getStringedDate(new Date(end_date)),
-              max_participant,
-              plans,
-              categoryIds: themes
+              startDate,
+              endDate,
+              maxParticipants,
+              categoryIds: categoryIds
                 .filter((theme) => theme.state)
                 .map((theme) => theme.idx),
-            });
+              plans,
+            };
+            if (NO_NEED_IMAGE) {
+              data.thumbnailImage =
+                "https://previews.123rf.com/images/skynetphoto/skynetphoto1310/skynetphoto131000007/22778130-%EC%8B%9C%EA%B3%A8%EA%B3%BC-%EC%82%B0-%EB%B0%B0%EA%B2%BD%EC%9D%98-%ED%92%8D%EA%B2%BD.jpg";
+              data.plans = data.plans.map((plan) => {
+                return {
+                  ...plan,
+                  image:
+                    "https://previews.123rf.com/images/skynetphoto/skynetphoto1310/skynetphoto131000007/22778130-%EC%8B%9C%EA%B3%A8%EA%B3%BC-%EC%82%B0-%EB%B0%B0%EA%B2%BD%EC%9D%98-%ED%92%8D%EA%B2%BD.jpg",
+                };
+              });
+            }
+            console.log(data);
+            Tour_Create_Request(data);
           }}
         />
       </section>

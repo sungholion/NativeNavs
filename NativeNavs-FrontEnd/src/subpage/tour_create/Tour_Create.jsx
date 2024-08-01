@@ -3,6 +3,7 @@ import Create1 from "./Create1";
 import Create2 from "./Create2";
 import Create3 from "./Create3";
 import Confirm from "./Confirm";
+import { getStringedDate } from "@/utils/get-stringed-date";
 
 const themeList = [
   { key: "시장", state: false, idx: 0 },
@@ -19,54 +20,85 @@ const themeList = [
   { key: "사진", state: false, idx: 11 },
 ];
 
+const testJSON = {
+  userId: 10,
+  title: "Summer Vacation",
+  thumbnailImage: "http://example.com/image.jpg",
+  description: "A relaxing summer vacation tour",
+  location: "서울특별시 종로구",
+  price: 500000,
+  startDate: "2024-08-01",
+  endDate: "2024-08-15",
+  reviewAverage: 0,
+  reviewCount: 0,
+  maxParticipants: 6,
+  removed: false,
+  categoryIds: [1, 2],
+  plans: [
+    {
+      id: 1,
+      field: "Field 1",
+      description: "Description of plan 1",
+      image: "http://example.com/plan1.jpg",
+      latitude: 37.5665,
+      longitude: 126.978,
+      addressFull: "123 Example Street",
+    },
+    {
+      id: 2,
+      field: "Field 2",
+      description: "Description of plan 2",
+      image: "http://example.com/plan2.jpg",
+      latitude: 37.567,
+      longitude: 126.979,
+      addressFull: "456 Example Avenue",
+    },
+  ],
+};
+
 const initTourData = {
-  title: "", // 투어 제목
-  thumbnail_image: "", //투어 썸네일
-  description: "", //투어에 대한 설명
-  location: "", // 투어에 대한 위치 장소
-  price: 0, // 투어 에상 비용
-  start_date: 0, // 투어 시작 날짜
-  end_date: 0, //투어 종료 날짜
-  max_participant: 1, // 최대 투어 참가 수
-  plans: [], //투어에 대한 계획 정보들
-  themes: [
-    { name: "시장", state: false, idx: 0 },
-    { name: "액티비티", state: false, idx: 1 },
-    { name: "자연", state: false, idx: 2 },
-    { name: "역사", state: false, idx: 3 },
-    { name: "문화", state: false, idx: 4 },
-    { name: "축제", state: false, idx: 5 },
-    { name: "음식", state: false, idx: 6 },
-    { name: "트렌디", state: false, idx: 7 },
-    { name: "랜드마크", state: false, idx: 8 },
-    { name: "쇼핑", state: false, idx: 9 },
-    { name: "미용", state: false, idx: 10 },
-    { name: "사진", state: false, idx: 11 },
-  ], //투어에 대한 테마 정보들
+  userId: 10,
+  title: "",
+  thumbnailImage: "",
+  description: "",
+  location: "",
+  price: 0,
+  startDate: getStringedDate(new Date()),
+  endDate: getStringedDate(new Date()),
+  reviewAverage: 0,
+  reviewCount: 0,
+  maxParticipants: 1,
+  removed: false,
+  categoryIds: [],
+  plans: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "title":
       return { ...state, title: action.value };
-    case "thumbnail_image":
-      return { ...state, thumbnail_image: action.value };
+    case "thumbnailImage":
+      return { ...state, thumbnailImage: action.value };
     case "description":
       return { ...state, description: action.value };
     case "location":
       return { ...state, location: action.value };
     case "price":
       return { ...state, price: action.value };
-    case "start_date":
-      return { ...state, start_date: action.value };
-    case "end_date":
-      return { ...state, end_date: action.value };
-    case "max_participant":
-      return { ...state, max_participant: action.value };
+    case "startDate":
+      return { ...state, startDate: action.value };
+    case "endDate":
+      return { ...state, endDate: action.value };
+    case "reviewAverage":
+      return { ...state, reviewAverage: action.value };
+    case "reviewCount":
+      return { ...state, reviewCount: action.value };
+    case "maxParticipants":
+      return { ...state, maxParticipants: action.value };
+    case "categoryIds":
+      return { ...state, categoryIds: action.value };
     case "plans":
       return { ...state, plans: action.value };
-    case "themes":
-      return { ...state, themes: action.value };
     default:
       return state;
   }

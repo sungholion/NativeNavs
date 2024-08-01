@@ -1,1 +1,1 @@
-export const API_Tour_Create = "http://localhost:8000/tour/create";
+export const API_Tour_Create = "http://i11d110.p.ssafy.io:8081/api/tours";

@@ -25,7 +25,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     description: "",
     latitude: 0,
     longitude: 0,
-    address_full: "",
+    addressFull: "",
     image: "",
   });
   const [searchQuery, setSearchQuery] = useState("");

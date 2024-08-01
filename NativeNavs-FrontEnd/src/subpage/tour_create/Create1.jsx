@@ -3,17 +3,18 @@ import styles from "./Create1.module.css";
 import { useEffect, useState, useContext } from "react";
 import { getStringedDate } from "@utils/get-stringed-date";
 import Button from "./../../components/Button/Button";
+import { categoryItem } from "@/utils/constant";
 import { TourDataContext, TourDispatchContext } from "./Tour_Create";
 
 const Create1 = ({ BeforePage, goAfterPage }) => {
   const {
     title,
-    thumbnail_image,
-    start_date,
-    end_date,
+    thumbnailImage,
+    startDate,
+    endDate,
     price,
-    max_participant,
-    themes,
+    maxParticipants,
+    categoryIds,
   } = useContext(TourDataContext);
 
   const { onTourDataChange } = useContext(TourDispatchContext);
@@ -30,7 +31,7 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);
       reader.onloadend = () => {
-        onTourDataChange("thumbnail_image", reader.result);
+        onTourDataChange("thumbnailImage", reader.result);
       };
     }
   };
@@ -40,8 +41,8 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
       <div className={styles.Thumbnail}>
         <p>썸네일 사진</p>
         <label htmlFor="thumbnail">
-          {thumbnail_image !== "" ? (
-            <img src={thumbnail_image} alt="이미지 미리보기" />
+          {thumbnailImage !== "" ? (
+            <img src={thumbnailImage} alt="이미지 미리보기" />
           ) : (
             <div className={styles.emptythumbnail}>
               여기를 눌러
@@ -72,9 +73,12 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
           <input
             type="date"
             placeholder="시작날짜"
-            value={getStringedDate(new Date(start_date))}
+            value={getStringedDate(new Date(startDate))}
             onChange={(e) =>
-              onTourDataChange("start_date", new Date(e.target.value).getTime())
+              onTourDataChange(
+                "startDate",
+                getStringedDate(new Date(e.target.value))
+              )
             }
             className={styles.DateInput}
           />
@@ -83,9 +87,12 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
             type="date"
             placeholder="끝 날짜"
             className={styles.DateInput}
-            value={getStringedDate(new Date(end_date))}
+            value={getStringedDate(new Date(endDate))}
             onChange={(e) =>
-              onTourDataChange("end_date", new Date(e.target.value).getTime())
+              onTourDataChange(
+                "endDate",
+                getStringedDate(new Date(e.target.value))
+              )
             }
           />
         </div>
@@ -97,18 +104,19 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
             src={getStaticImage("minus")}
             alt=""
             onClick={() => {
-              if (max_participant > 1) {
-                onTourDataChange("max_participant", max_participant - 1);
+              if (maxParticipants > 1) {
+                onTourDataChange("maxParticipants", maxParticipants - 1);
               }
             }}
           />
-          <div>{max_participant}</div>
+          <div>{maxParticipants}</div>
           <img
             src={getStaticImage("add")}
             alt=""
             onClick={() => {
-              if (max_participant < 20) {
-                onTourDataChange("max_participant", max_participant + 1);
+              console.log(maxParticipants);
+              if (maxParticipants < 20) {
+                onTourDataChange("maxParticipants", maxParticipants + 1);
               }
             }}
           />
@@ -130,26 +138,27 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
       <div className={styles.Theme}>
         <p>테마</p>
         <div className={styles.themeList}>
-          {themes.map((theme) => {
+          {categoryItem.map((item) => {
             return (
               <button
-                key={theme.idx}
+                key={item.idx}
                 className={`${styles.themeButton} ${
-                  theme.state ? styles.selected : styles.notselected
+                  categoryIds.includes(item.idx)
+                    ? styles.selected
+                    : styles.notselected
                 }`}
                 onClick={() => {
-                  const newThemes = themes.map((t) => {
-                    if (t.idx === theme.idx) {
-                      return { ...t, state: !t.state };
-                    } else {
-                      return t;
-                    }
-                  });
-                  onTourDataChange("themes", newThemes);
-                  console.log(theme.state);
+                  if (categoryIds.includes(item.idx)) {
+                    onTourDataChange(
+                      "categoryIds",
+                      categoryIds.filter((id) => id !== item.idx)
+                    );
+                  } else {
+                    onTourDataChange("categoryIds", [...categoryIds, item.idx]);
+                  }
                 }}
               >
-                {theme.name}
+                {item.key}
               </button>
             );
           })}
@@ -159,7 +168,7 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
       <div className={styles.ButtonSection}>
         <button
           onClick={() => {
-            onTourDataChange("themes", themes);
+            onTourDataChange("themes");
             goAfterPage();
           }}
         >
