@@ -6,33 +6,15 @@ import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import thumbnail_image from "../../assets/thumbnail_image.png";
 import { useNavigate } from "react-router-dom";
-import Heart from "../Heart/Heart.jsx";
-
-// tour_id : 투어 고유 키값
-// user_id : 유저 고유 키값
-// title : 투어 제목 :String
-// thumbnail_image : 투어 썸네일 이미지 : String
-// start_date : 시작날짜 (yyyy-mm-dd) : string
-// end_date : 끝 날짜 (yyyy-mm-dd) : string
-// review_average : 리뷰 평균 점수 : number
-// nav_profile_img : 해당 가이드의 프로필 이미지 링크 : string
-// nav_nickname : 가이드 닉네임 : string
-// nav_language : 가이드가 사용가능한 언어 목록 : string[]
+import { navigateToWishDetailFragment } from "../../utils/get-android-function"; // 함수 임포트
 
 const WishListItem = () => {
   const navigate = useNavigate();
 
-  const onClickTour = (tour_id) => {
-    if (
-      window.Android &&
-      typeof window.Android.navigateToWishDetailFragment === "function"
-    ) {
-      window.Android.navigateToWishDetailFragment(tour_id);
-    } else {
-      console.log("Android.navigateToWishDetailFragment is not defined");
-    }
-    navigate(`/tour/detail/${tour_id}`);
-  };
+  // const onClickTour = (tour_id) => {
+  //   console.log("hello");
+  //   navigateToWishDetailFragment(tour_id); // 함수 호출
+  // };
 
   return (
     <div className={styles.TotalContainer}>
@@ -44,19 +26,18 @@ const WishListItem = () => {
           <div>
             {tours.map((tour) => {
               const formattedStartDate = tour.start_date
-                ? tour.start_date.toLocaleDateString()
+                ? new Date(tour.start_date).toLocaleDateString("en-CA")
                 : "N/A";
               const formattedEndDate = tour.end_date
-                ? tour.end_date.toLocaleDateString()
+                ? new Date(tour.end_date).toLocaleDateString("en-CA")
                 : "N/A";
 
               return (
-                <div
-                  key={tour.tour_id}
-                  onClick={() => onClickTour(tour.tour_id)}
-                >
+                <div key={tour.tour_id}>
                   <Tour_Item
+                  navigateToTourDetailFragment={() => {navigateToWishDetailFragment(tour.id)}}
                     key={tour.tour_id}
+                    // onClick={() => onClickTour(tour.tour_id)}
                     tour_id={tour.tour_id}
                     user_id={tour.user_id}
                     title={tour.title}

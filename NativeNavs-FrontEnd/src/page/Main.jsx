@@ -1,15 +1,16 @@
-import React from 'react';
-import { tours } from '../dummy';
-import Tour_Item from '../components/Tour_Item/Tour_Item';
-import styles from './Main.module.css';
+import React from "react";
+import { tours } from "../dummy";
+import Tour_Item from "../components/Tour_Item/Tour_Item";
+import styles from "./Main.module.css";
+import { navigateToTourDetailFragment } from "../utils/get-android-function";
 
 const Main = () => {
-
   return (
     <div className={styles.main}>
       <div className={styles.tourList}>
         {tours.map((tour) => (
           <Tour_Item
+            navigateToTourDetailFragment={navigateToTourDetailFragment}
             key={tour.tour_id}
             tour_id={tour.tour_id}
             user_id={tour.user_id}

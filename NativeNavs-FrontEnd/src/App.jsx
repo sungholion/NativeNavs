@@ -1,4 +1,4 @@
-import "./App.css";
+import React from "react";
 import { Routes, Route, useSearchParams } from "react-router-dom";
 import Main from "./page/Main";
 import Nav from "./page/Nav";
@@ -14,43 +14,15 @@ import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
 import ReviewPhotos from "./page/ReviewPhotos";
+import {
+  navigateToTourReviewPhotoFragment,
+  navigateToNavReviewPhotoFragment,
+  navigateToTravReviewPhotoFragment,
+} from "./utils/get-android-function";
 import { getStaticImage } from "./utils/get-static-image";
 
 function App() {
   const param = useSearchParams();
-
-  const navigateToTourReviewPhotoFragment = (tourId) => {
-    if (
-      window.Android &&
-      typeof window.Android.navigateToTourReviewPhotoFragment === "function"
-    ) {
-      window.Android.navigateToTourReviewPhotoFragment(tourId);
-    } else {
-      console.log("navigateToTourReviewPhotoFragment function is not defined");
-    }
-  };
-
-  const navigateToNavReviewPhotoFragment = (navId) => {
-    if (
-      window.Android &&
-      typeof window.Android.navigateToNavReviewPhotoFragment === "function"
-    ) {
-      window.Android.navigateToNavReviewPhotoFragment(navId);
-    } else {
-      console.log("navigateToNavReviewPhotoFragment function is not defined");
-    }
-  };
-
-  const navigateToTravReviewPhotoFragment = (travId) => {
-    if (
-      window.Android &&
-      typeof window.Android.navigateToTravReviewPhotoFragment === "function"
-    ) {
-      window.Android.navigateToTravReviewPhotoFragment(travId);
-    } else {
-      console.log("navigateToTravReviewPhotoFragment function is not defined");
-    }
-  };
 
   return (
     <>
