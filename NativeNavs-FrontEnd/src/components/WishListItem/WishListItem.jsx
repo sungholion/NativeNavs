@@ -6,7 +6,10 @@ import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import thumbnail_image from "../../assets/thumbnail_image.png";
 import { useNavigate } from "react-router-dom";
-import { navigateToWishDetailFragment, navigateFromWishToTourListFragment } from "../../utils/get-android-function"; // 함수 임포트
+import {
+  navigateToWishDetailFragment,
+  navigateFromWishToTourListFragment,
+} from "../../utils/get-android-function"; // 함수 임포트
 
 const WishListItem = () => {
   const navigate = useNavigate();
@@ -30,7 +33,7 @@ const WishListItem = () => {
               return (
                 <div key={tour.tour_id}>
                   <Tour_Item
-                    onClick={navigateToWishDetailFragment}
+                    navigateToTourDetailFragment={navigateToWishDetailFragment}
                     key={tour.tour_id}
                     tour_id={tour.tour_id}
                     user_id={tour.user_id}
