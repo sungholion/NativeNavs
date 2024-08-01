@@ -25,6 +25,14 @@ object SharedPref {
                 sharedPrefs?.edit()?.putBoolean(IS_NAV, value)?.apply()
             }
         }
+
+
+    var language: String?
+        get() = sharedPrefs?.getString(LANGUAGE, null) ?: "ko"
+        set(value) {
+            sharedPrefs?.edit()?.putString(LANGUAGE, value)?.apply()
+        }
+
     var accessToken: String?
         get() = sharedPrefs?.getString(ACCESSTOKEN, null)
         set(value) {

@@ -84,7 +84,7 @@
                                 android:layout_marginTop="5dp"
                                 android:background="@drawable/stroke_round_25_blue"
                                 android:fontFamily="@font/pretendard_regular"
-                                android:text="프로필 수정"
+                                android:text="@string/app_bar_profile_modify"
                                 android:textColor="@color/nn_blue"
                                 android:textSize="15sp" />
                         </FrameLayout>
@@ -152,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="내가  남긴  리뷰"
+                        android:text="@string/profile_myreview"
                         android:textSize="@dimen/font_size_profile_title" />
 
                     <ImageView
@@ -191,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="나의 Stamp"
+                        android:text="@string/profile_mystamp"
                         android:textSize="@dimen/font_size_profile_title" />
 
                     <ImageView

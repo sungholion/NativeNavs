@@ -107,7 +107,13 @@
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"
         android:label="AppSettingFragment"
-        tools:layout="@layout/fragment_app_setting" />
+        tools:layout="@layout/fragment_app_setting" >
+        <action
+            android:id="@+id/action_appSettingFragment_self"
+            app:destination="@id/appSettingFragment"
+            app:popUpTo="@id/mypageFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/chattingRoomFragment"
         android:name="com.circus.nativenavs.ui.chat.ChattingRoomFragment"
