@@ -1,11 +1,4 @@
-import {
-  act,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import styles from "./Create2.module.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStaticImage } from "@/utils/get-static-image";
@@ -20,14 +13,14 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "DELETE": {
-      return state.filter((item) => item.plan_id !== action.plan_id);
+      return state.filter((item) => item.id !== action.id);
     }
     case "ADD": {
       return [...state, action.data];
     }
     case "EDIT": {
       return state.map((item) =>
-        item.plan_id != action.data.plan_id ? item : action.data
+        item.id != action.data.id ? item : action.data
       );
     }
   }
@@ -51,57 +44,57 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
       });
 
       plans.forEach((plan) => {
-        planCount.current = Math.max(planCount.current, plan.plan_id);
+        planCount.current = Math.max(planCount.current, plan.id);
       });
     }
   }, [plans]);
 
-  const onPlanDeleteEvent = (plan_id) => {
+  const onPlanDeleteEvent = (id) => {
     dispatch({
       type: "DELETE",
-      plan_id,
+      id,
     });
   };
   const onPlanAddEvent = ({
-    title,
+    field,
     description,
     latitude,
     longitude,
-    address_full,
+    addressFull,
     image,
   }) => {
     dispatch({
       type: "ADD",
       data: {
-        plan_id: ++planCount.current,
-        title,
+        id: ++planCount.current,
+        field,
         description,
         latitude,
         longitude,
-        address_full,
+        addressFull,
         image,
       },
     });
   };
 
   const onPlanEditEvent = ({
-    plan_id,
-    title,
+    id,
+    field,
     description,
     latitude,
     longitude,
-    address_full,
+    addressFull,
     image,
   }) => {
     dispatch({
       type: "EDIT",
       data: {
-        plan_id,
-        title,
+        id,
+        field,
         description,
         latitude,
         longitude,
-        address_full,
+        addressFull,
         image,
       },
     });
@@ -139,7 +132,7 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
             planList.map((planItem) => {
               return (
                 <Plan_Item
-                  key={planItem.plan_id}
+                  key={planItem.id}
                   {...planItem}
                   onDeleteEvent={onPlanDeleteEvent}
                   onClickEvent={() => {

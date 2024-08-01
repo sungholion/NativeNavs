@@ -21,7 +21,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     setMarkers([...markers, newMarker]);
   };
   const [planData, setPlanData] = useState({
-    title: "",
+    field: "",
     description: "",
     latitude: 0,
     longitude: 0,
@@ -97,8 +97,8 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               type="text"
               placeholder="일정 제목 입력해 주세요"
               maxLength="20"
-              name="title"
-              value={planData.title}
+              name="field"
+              value={planData.field}
               onChange={onChangeEvent}
             />
           </div>
@@ -138,12 +138,12 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           <button onClick={onClose}>뒤로</button>
           <button
             disabled={
-              planData.title === "" ||
+              planData.field === "" ||
               planData.image === "" ||
               planData.description === ""
             }
             onClick={() => {
-              if (planData.title === "") {
+              if (planData.field === "") {
                 window.alert("제목을 입력하세요");
                 return;
               }

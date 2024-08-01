@@ -4,6 +4,21 @@ import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStringedDate } from "@utils/get-stringed-date";
 import { TourDataContext } from "./Tour_Create";
 import { useContext } from "react";
+import axios from "axios";
+import { API_Tour_Create } from "@/utils/apis";
+
+const Tour_Create_Request = async (data) => {
+  try {
+    const response = await axios.post(API_Tour_Create, data);
+    console.log(response);
+    window.alert("성공했어요!");
+    return response;
+  } catch (error) {
+    console.error(error);
+    window.alert("실패했어요 ㅠㅠ");
+    return error;
+  }
+};
 
 const Confirm = ({ goBeforePage }) => {
   const {
@@ -97,8 +112,21 @@ const Confirm = ({ goBeforePage }) => {
         <Button
           text={"추가"}
           size={0}
-          onClickEvent={() => {
-            console.log("누른것");
+          onClickEvent={async () => {
+            await Tour_Create_Request({
+              title,
+              thumbnail_image,
+              description,
+              location,
+              price,
+              startDate: getStringedDate(new Date(start_date)),
+              endDate: getStringedDate(new Date(end_date)),
+              max_participant,
+              plans,
+              categoryIds: themes
+                .filter((theme) => theme.state)
+                .map((theme) => theme.idx),
+            });
           }}
         />
       </section>
