@@ -68,7 +68,7 @@ export const reviews = {
       user: {
         user_id: 1,
         image:
-        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA1MjVfMjM0%2FMDAxNjg0OTQ4MzcxMDMw.TEKt3oDlkND2TKAbBqfgRq4s55AvYPlta0MjpSMC1E8g._-Z2iQXbnjXSpXUHN4Fl6UcaHeHjedPISOE6cttC9qEg.JPEG.cwmylee%2Foutput_2977925787.jpg&type=sc960_832",
+          "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA1MjVfMjM0%2FMDAxNjg0OTQ4MzcxMDMw.TEKt3oDlkND2TKAbBqfgRq4s55AvYPlta0MjpSMC1E8g._-Z2iQXbnjXSpXUHN4Fl6UcaHeHjedPISOE6cttC9qEg.JPEG.cwmylee%2Foutput_2977925787.jpg&type=sc960_832",
         nickname: "Karina",
         nation: "USA",
       },
