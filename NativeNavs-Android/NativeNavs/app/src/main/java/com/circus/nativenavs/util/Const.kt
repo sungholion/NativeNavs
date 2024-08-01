@@ -8,4 +8,4 @@ const val LANGUAGE = "language"
 const val ACCESSTOKEN = "accessToken"
 const val REFRESHTOKEN = "refreshToken"
 
-const val NATIVENAVS_URL = "http://i11d110.p.ssafy.io:8080/api/"
+const val NATIVENAVS_URL = "https://i11d110.p.ssafy.io/api/"

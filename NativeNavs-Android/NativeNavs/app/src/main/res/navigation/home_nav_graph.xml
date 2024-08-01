@@ -97,7 +97,9 @@
         tools:layout="@layout/fragment_app_setting" >
         <action
             android:id="@+id/action_appSettingFragment_self"
-            app:destination="@id/appSettingFragment" />
+            app:destination="@id/appSettingFragment"
+            app:popUpTo="@id/mypageFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/chattingRoomFragment"
