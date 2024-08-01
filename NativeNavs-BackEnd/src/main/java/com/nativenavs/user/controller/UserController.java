@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*") // 아직 고민..
-@Tag(name = "user API", description = "회원 관련 API ")
 public class UserController {
 
     @Autowired
@@ -32,9 +31,8 @@ public class UserController {
 //    @Autowired
 //    private JwtTokenProvider jwtTokenProvider;
 
-
-
-    @Operation(summary = "1. 이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
+    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
+    @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping("/sendEmail")
     public ResponseEntity<?> sendEmail(
@@ -57,7 +55,8 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "2. 이메일 인증 API", description = "이메일과 인증 코드를 입력하여 이메일 인증을 합니다.")
+    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
+    @Operation(summary = "이메일 인증 API", description = "이메일과 인증 코드를 입력하여 이메일 인증을 합니다.")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/authenticateEmail")
     public ResponseEntity<?> authenticateEmail(
@@ -83,7 +82,8 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "3. 회원가입 API", description = "회원가입을 합니다. (이메일 발송, 인증 필수)")
+    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
+    @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송, 인증 필수)")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
     public ResponseEntity<?> signUp (
@@ -118,37 +118,8 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "전체 회원 조회 API", description = "가입된 전체 회원 목록을 불러옵니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping
-    public ResponseEntity<?> searchAllUser() {
-        return new ResponseEntity<>(userService.searchAllUser(), HttpStatus.OK);
-    }
-
-    @Operation(summary = "특정 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/{email}")
-    public ResponseEntity<?> searchOneUser(
-            @Parameter(
-                    description = "이메일 주소",
-                    required = true,
-                    example = "eoblue23@gmail.com"
-            )
-            @PathVariable("email") String email) {
-        try {
-            User user = userService.searchOneUser(email);
-
-            if(user != null) {
-                return ResponseEntity.accepted().body(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-        }
-    }
-
+    //------------------------------------------------------------------------------------------------------------
+    @Tag(name = "update/delete API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정할 때 사용하는 API")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping
@@ -171,7 +142,7 @@ public class UserController {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
 
-            User existingUser = userService.searchOneUser(email);
+            User existingUser = userService.searchByEmail(email);
             if (existingUser == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
@@ -185,6 +156,7 @@ public class UserController {
         }
     }
 
+    @Tag(name = "update/delete API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다.")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @DeleteMapping("/delete")
@@ -194,7 +166,7 @@ public class UserController {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
 
-            User existingUser = userService.searchOneUser(email);
+            User existingUser = userService.searchByEmail(email);
             if (existingUser == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
@@ -207,6 +179,160 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴 중 서버 오류 발생");
         }
     }
+
+
+    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
+    @Operation(summary = "전체 회원 조회 API", description = "가입된 전체 회원 목록을 불러옵니다.")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/all")
+    public ResponseEntity<?> searchAllUser() {
+        return new ResponseEntity<>(userService.searchAllUser(), HttpStatus.OK);
+    }
+
+    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
+    @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/email/{email}")
+    public ResponseEntity<?> searchByEmail(
+            @Parameter(
+                    description = "이메일 주소",
+                    required = true,
+                    example = "eoblue23@gmail.com"
+            )
+            @PathVariable("email") String email) {
+        try {
+            User user = userService.searchByEmail(email);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+        }
+    }
+
+    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
+    @Operation(summary = "Id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/id/{id}")
+    public ResponseEntity<?> searchById(
+            @Parameter(
+                    description = "Id",
+                    required = true,
+                    example = "5"
+            )
+            @PathVariable("id") int id) {
+        try {
+            User user = userService.searchById(id);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+        }
+    }
+
+    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
+    @Operation(summary = "nickname으로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/nickname/{nickname}")
+    public ResponseEntity<?> searchByNickname(
+            @Parameter(
+                    description = "Nickname",
+                    required = true,
+                    example = "bluebird"
+            )
+            @PathVariable("nickname") String nickname) {
+        try {
+            User user = userService.searchByNickname(nickname);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+        }
+    }
+
+    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
+    @Operation(summary = "name으로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<?> searchByName(
+            @Parameter(
+                    description = "Name",
+                    required = true,
+                    example = "kevin"
+            )
+            @PathVariable("name") String name) {
+        try {
+            User user = userService.searchByName(name);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+        }
+    }
+
+    @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
+    @Operation(summary = "eamil으로 중복 체크 API", description = "email 중복 검사를 합니다.")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/checkDuplicated/email/{email}")
+    public ResponseEntity<String> checkDuplicatedEmail(
+            @Parameter(
+                    description = "Email",
+                    required = true,
+                    example = "eoblue23@gmail.com"
+            )
+            @PathVariable("email") String email) {
+        try {
+            boolean isDuplicated = userService.checkDuplicatedEmail(email);
+            String message = isDuplicated ? "중복입니다" : "중복이 아닙니다";
+            return ResponseEntity.ok(message + ". 결과값: " + isDuplicated);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복 확인 실패");
+        }
+    }
+
+    @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
+    @Operation(summary = "nickname으로 중복 체크 API", description = "nickname 중복 검사를 합니다.")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/checkDuplicated/nickname/{nickname}")
+    public ResponseEntity<String> checkDuplicatedNickname(
+            @Parameter(
+                    description = "Nickname",
+                    required = true,
+                    example = "bts"
+            )
+            @PathVariable("nickname") String nickname) {
+        try {
+            boolean isDuplicated = userService.checkDuplicatedNickname(nickname);
+            String message = isDuplicated ? "중복입니다" : "중복이 아닙니다";
+            return ResponseEntity.ok(message + ". 결과값: " + isDuplicated);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복 확인 실패");
+        }
+    }
+
+
+
 
 }
 
