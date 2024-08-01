@@ -8,7 +8,44 @@ export const nav = {
 };
 
 export const tours = [
-
+  {
+    user_id: 1,
+    tour_id: 1,
+    name: "김세미",
+    nickname: "아이린",
+    img_url:
+      "https://api.cdn.visitjeju.net/photomng/imgpath/201911/29/48bdb99e-20ba-4fb6-82f2-6ea79ceefb0d.jpg",
+    title: "남산타워 케이블카 및 맛집 체험 투어1",
+    content: "내용1",
+    start_date: new Date(2024, 12, 21),
+    plans: [{}],
+    regional_information: "대구",
+    date: new Date(2024, 12, 31),
+    review_average: 4.52,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "독일어", "프랑스어"],
+    created_at: new Date(2021, 2, 3),
+  },
+  {
+    user_id: 2,
+    tour_id: 2,
+    name: "김세미",
+    nickname: "아이린",
+    img_url:
+      "https://api.cdn.visitjeju.net/photomng/imgpath/201911/29/48bdb99e-20ba-4fb6-82f2-6ea79ceefb0d.jpg",
+    title: "남산타워 케이블카 및 맛집 체험 투어2",
+    content: "내용2",
+    start_date: new Date(2024, 12, 21),
+    plans: [{}],
+    regional_information: "대구",
+    date: new Date(2024, 12, 31),
+    review_average: 4.52,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "독일어", "프랑스어"],
+    created_at: new Date(2021, 2, 3),
+  },
 ];
 
 export const reviews = {
