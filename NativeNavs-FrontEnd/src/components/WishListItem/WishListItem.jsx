@@ -30,7 +30,7 @@ const WishListItem = () => {
               return (
                 <div key={tour.tour_id}>
                   <Tour_Item
-                    onClick={() => navigateToWishDetailFragment(tour.tour_id, tour.user_id)}
+                    onClick={navigateToWishDetailFragment}
                     key={tour.tour_id}
                     tour_id={tour.tour_id}
                     user_id={tour.user_id}

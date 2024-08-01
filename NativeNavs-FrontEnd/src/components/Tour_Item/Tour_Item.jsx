@@ -17,7 +17,7 @@ const Tour_Item = ({
   nav_nickname,
   nav_language,
   userJson, // 추가: userJson을 props로 전달
-  navigateToTourDetailFragment
+  navigateToTourDetailFragment,
 }) => {
   const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
