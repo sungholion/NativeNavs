@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ProfileUserDto
+import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
 import kotlinx.coroutines.launch
 
@@ -21,5 +22,14 @@ class HomeActivityViewModel : ViewModel() {
             _profileUser.value = userRetrofit.searchUser(userId)
         }
     }
+
+    private val _profileModifyUser = MutableLiveData<SignUpDto>()
+    val profileUserDto : LiveData<SignUpDto> get() = _profileModifyUser
+
+    fun getProfileModifyUser(userId : Int){
+        viewModelScope.launch {
+        }
+    }
+
 
 }

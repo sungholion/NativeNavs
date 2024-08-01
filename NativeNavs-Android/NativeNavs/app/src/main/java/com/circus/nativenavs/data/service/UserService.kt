@@ -8,6 +8,7 @@ import com.circus.nativenavs.data.SignUpDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -47,4 +48,9 @@ interface UserService {
     suspend fun searchUser(
         @Path(value = "id") userId: Int
     ): ProfileUserDto
+
+    @PATCH("users")
+    suspend fun updateUser(
+        @Body signUpDTO: SignUpDto
+    ):Response<Void>
 }

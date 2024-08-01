@@ -268,6 +268,48 @@
                     app:layout_constraintStart_toStartOf="@id/profile_modify_phone_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_phone_et" />
 
+                <TextView
+                    android:id="@+id/profile_modify_password_tv"
+                    style="@style/title_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start_title_et"
+                    android:layout_marginTop="30dp"
+                    android:text="비밀번호"
+                    app:layout_constraintStart_toStartOf="@id/profile_modify_phone_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_phone_et" />
+
+                <EditText
+                    android:id="@+id/profile_modify_password_et"
+                    style="@style/et_default"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_modify_password_tv" />
+
+                <TextView
+                    android:id="@+id/profile_modify_password_check_tv"
+                    style="@style/title_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start_title_et"
+                    android:layout_marginTop="20dp"
+                    android:text="비밀번호 재입력"
+                    app:layout_constraintStart_toStartOf="@id/profile_modify_password_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_password_et" />
+
+                <EditText
+                    android:id="@+id/profile_modify_password_check_et"
+                    style="@style/et_default"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_modify_password_check_tv" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
