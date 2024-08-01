@@ -10,8 +10,10 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
   const photos = reviews.img_urls; // 전체 사진 배열
   const navigate = useNavigate();
 
+  console.log(params);
+
   const onClickButton = () => {
-    navigateToReviewPhotoFragment(params.tour_id);
+    navigateToReviewPhotoFragment(JSON.stringify(params));
   };
 
   return (
