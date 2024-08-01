@@ -10,6 +10,7 @@ import com.nativenavs.tour.repository.CategoryRepository;
 import com.nativenavs.tour.repository.PlanRepository;
 import com.nativenavs.tour.repository.TourCategoryRepository;
 import com.nativenavs.tour.repository.TourRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,10 +78,6 @@ public class TourService {
         List<TourDTO> tourDTOList = new ArrayList<>();
         for (TourEntity tourEntity: tourEntityList){
 
-
-
-
-
             tourDTOList.add(TourDTO.toTourDTO(tourEntity));
         }
         return tourDTOList;
@@ -118,21 +115,66 @@ public class TourService {
         }
     }
 
+    @Transactional
     public void modifyTour(int id, TourDTO tourDTO){
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-            tourEntity.setTitle(tourDTO.getTitle());
-            tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
-            tourEntity.setDescription(tourDTO.getDescription());
-            tourEntity.setLocation(tourDTO.getLocation());
-            tourEntity.setPrice(tourDTO.getPrice());
-            tourEntity.setStartDate(tourDTO.getStartDate());
-            tourEntity.setEndDate(tourDTO.getEndDate());
-            tourEntity.setReviewAverage(tourDTO.getReviewAverage());
-            tourEntity.setReviewCount(tourDTO.getReviewCount());
-            tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
+            updateTourEntityFields(tourEntity, tourDTO);
+            updateTourCategories(tourEntity, tourDTO.getCategoryIds());
+            updateTourPlans(tourEntity, tourDTO.getPlans());
             tourRepository.save(tourEntity);
+        }
+    }
+    public void deleteTour(int id){
+
+    }
+    private void updateTourEntityFields(TourEntity tourEntity, TourDTO tourDTO) {
+        tourEntity.setTitle(tourDTO.getTitle());
+        tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
+        tourEntity.setDescription(tourDTO.getDescription());
+        tourEntity.setLocation(tourDTO.getLocation());
+        tourEntity.setPrice(tourDTO.getPrice());
+        tourEntity.setStartDate(tourDTO.getStartDate());
+        tourEntity.setEndDate(tourDTO.getEndDate());
+        tourEntity.setReviewAverage(tourDTO.getReviewAverage());
+        tourEntity.setReviewCount(tourDTO.getReviewCount());
+        tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
+    }
+
+    private void updateTourCategories(TourEntity tourEntity, List<Integer> categoryIds) {
+        // 기존 카테고리 삭제
+        tourCategoryRepository.deleteByTourId(tourEntity.getId());
+
+        // 새로운 카테고리 추가
+        if (categoryIds != null) {
+            for (Integer categoryId : categoryIds) {
+                Optional<CategoryEntity> categoryEntity = categoryRepository.findById(categoryId);
+                if (categoryEntity.isPresent()) {
+                    TourCategoryEntity tourCategoryEntity = new TourCategoryEntity();
+                    tourCategoryEntity.setTour(tourEntity);
+                    tourCategoryEntity.setCategory(categoryEntity.get());
+                    tourCategoryRepository.save(tourCategoryEntity);
+                }
+            }
+        }
+    }
+
+    private void updateTourPlans(TourEntity tourEntity, List<PlanDTO> plans) {
+        // 기존 플랜 삭제
+        planRepository.deleteByTourId(tourEntity.getId());
+        // 새로운 플랜 추가
+        if (plans != null) {
+            for (PlanDTO planDTO : plans) {
+                PlanEntity planEntity = new PlanEntity();
+                planEntity.setTourId(tourEntity);
+                planEntity.setField(planDTO.getField());
+                planEntity.setDescription(planDTO.getDescription());
+                planEntity.setImage(planDTO.getImage());
+                planEntity.setLatitude(planDTO.getLatitude());
+                planEntity.setLongitude(planDTO.getLongitude());
+                planRepository.save(planEntity);
+            }
         }
     }
 

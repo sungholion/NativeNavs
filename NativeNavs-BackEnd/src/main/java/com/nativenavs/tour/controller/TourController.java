@@ -48,6 +48,7 @@ public class TourController {
                                             "  \"reviewCount\": 0,\n" +
                                             "  \"maxParticipants\": 6,\n" +
                                             "  \"removed\": false,\n" +
+                                            "  \"categoryIds\": [1, 2],\n" +
                                             "  \"plans\": [\n" +
                                             "    {\n" +
                                             "      \"id\": 1,\n" +
@@ -125,7 +126,7 @@ public class TourController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> tourModify(
-            @Parameter(description = "투어 ID", required = true, example = "1")
+            @Parameter(description = "투어 ID", required = true, example = "10")
             @PathVariable int id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = ".", required = true, content = @Content(
@@ -133,17 +134,38 @@ public class TourController {
                     schema = @Schema(
                             example = "{\n" +
                                     "  \"userId\": 10,\n" +
-                                    "  \"title\": \"Summer Vacation updated\",\n" +
+                                    "  \"title\": \"Summer Vacation2\",\n" +
                                     "  \"thumbnailImage\": \"http://example.com/image.jpg2\",\n" +
                                     "  \"description\": \"A relaxing summer vacation tour2\",\n" +
                                     "  \"location\": \"서울특별시 종로구\",\n" +
                                     "  \"price\": 7777,\n" +
-                                    "  \"startDate\": \"2024-08-02\",\n" +
-                                    "  \"endDate\": \"2024-08-16\",\n" +
+                                    "  \"startDate\": \"2024-08-01\",\n" +
+                                    "  \"endDate\": \"2024-08-15\",\n" +
                                     "  \"reviewAverage\": 0.0,\n" +
                                     "  \"reviewCount\": 0,\n" +
                                     "  \"maxParticipants\": 10,\n" +
-                                    "  \"removed\": false\n" +
+                                    "  \"removed\": false,\n" +
+                                    "  \"categoryIds\": [2, 3],\n" +
+                                    "  \"plans\": [\n" +
+                                    "    {\n" +
+                                    "      \"id\": 3,\n" +
+                                    "      \"field\": \"Field 3\",\n" +
+                                    "      \"description\": \"Description of plan 3\",\n" +
+                                    "      \"image\": \"http://example.com/plan1.jpg\",\n" +
+                                    "      \"latitude\": 37.5665,\n" +
+                                    "      \"longitude\": 126.978,\n" +
+                                    "      \"addressFull\": \"123 Example Street\"\n" +
+                                    "    },\n" +
+                                    "    {\n" +
+                                    "      \"id\": 4,\n" +
+                                    "      \"field\": \"Field 4\",\n" +
+                                    "      \"description\": \"Description of plan 4\",\n" +
+                                    "      \"image\": \"http://example.com/plan2.jpg\",\n" +
+                                    "      \"latitude\": 37.567,\n" +
+                                    "      \"longitude\": 126.979,\n" +
+                                    "      \"addressFull\": \"456 Example Avenue\"\n" +
+                                    "    }\n" +
+                                    "  ]\n" +
                                     "}"
                     )
             )
