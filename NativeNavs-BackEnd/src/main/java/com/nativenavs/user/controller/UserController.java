@@ -287,11 +287,15 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
         }
+
+
     }
 
     @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
     @Operation(summary = "eamil으로 중복 체크 API", description = "email 중복 검사를 합니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "409", description = "중복된 nickname 입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "중복 확인 실패", content = @Content(mediaType = "application/json"))
     @GetMapping("/checkDuplicated/email/{email}")
     public ResponseEntity<String> checkDuplicatedEmail(
             @Parameter(
@@ -302,35 +306,46 @@ public class UserController {
             @PathVariable("email") String email) {
         try {
             boolean isDuplicated = userService.checkDuplicatedEmail(email);
-            String message = isDuplicated ? "중복입니다" : "중복이 아닙니다";
-            return ResponseEntity.ok(message + ". 결과값: " + isDuplicated);
+
+            if (!isDuplicated) {
+                return ResponseEntity.ok("중복이 아닙니다");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복입니다.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복 확인 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("중복 확인 실패");
         }
     }
 
-    @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
-    @Operation(summary = "nickname으로 중복 체크 API", description = "nickname 중복 검사를 합니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/checkDuplicated/nickname/{nickname}")
-    public ResponseEntity<String> checkDuplicatedNickname(
-            @Parameter(
-                    description = "Nickname",
-                    required = true,
-                    example = "bts"
-            )
-            @PathVariable("nickname") String nickname) {
-        try {
-            boolean isDuplicated = userService.checkDuplicatedNickname(nickname);
-            String message = isDuplicated ? "중복입니다" : "중복이 아닙니다";
-            return ResponseEntity.ok(message + ". 결과값: " + isDuplicated);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복 확인 실패");
-        }
-    }
 
+@Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
+@Operation(summary = "nickname으로 중복 체크 API", description = "nickname 중복 검사를 합니다.")
+@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+@ApiResponse(responseCode = "409", description = "중복된 nickname 입니다.", content = @Content(mediaType = "application/json"))
+@ApiResponse(responseCode = "500", description = "중복 확인 실패", content = @Content(mediaType = "application/json"))
+@GetMapping("/checkDuplicated/nickname/{nickname}")
+public ResponseEntity<String> checkDuplicatedNickname(
+        @Parameter(
+                description = "Nickname",
+                required = true,
+                example = "bts"
+        )
+        @PathVariable("nickname") String nickname) {
+
+    try {
+        boolean isDuplicated = userService.checkDuplicatedNickname(nickname);
+
+        if (!isDuplicated) {
+            return ResponseEntity.ok("중복이 아닙니다");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("중복입니다.");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("중복 확인 실패");
+    }
+}
 
 
 
