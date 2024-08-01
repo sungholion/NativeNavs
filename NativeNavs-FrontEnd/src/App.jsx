@@ -17,6 +17,31 @@ import ReviewPhotos from "./page/ReviewPhotos";
 
 function App() {
   const param = useSearchParams();
+
+  const navigateToTourReviewPhotoFragment = (tourId) => {
+    if (window.Android && typeof window.Android.navigateToTourReviewPhotoFragment === 'function') {
+      window.Android.navigateToTourReviewPhotoFragment(tourId);
+    } else {
+      console.log('navigateToTourReviewPhotoFragment function is not defined');
+    }
+  };
+
+  const navigateToNavReviewPhotoFragment = (navId) => {
+    if (window.Android && typeof window.Android.navigateToNavReviewPhotoFragment === 'function') {
+      window.Android.navigateToNavReviewPhotoFragment(navId);
+    } else {
+      console.log('navigateToNavReviewPhotoFragment function is not defined');
+    }
+  };
+
+  const navigateToTravReviewPhotoFragment = (travId) => {
+    if (window.Android && typeof window.Android.navigateToTravReviewPhotoFragment === 'function') {
+      window.Android.navigateToTravReviewPhotoFragment(travId);
+    } else {
+      console.log('navigateToTravReviewPhotoFragment function is not defined');
+    }
+  };
+
   return (
     <>
       <Routes>
@@ -26,7 +51,10 @@ function App() {
           <Route path="edit/:tour_id" element={<Edit />} />
           <Route path="detail/:tour_id" element={<Outlet />}>
             <Route index element={<Detail />} />
-            <Route path="reviews" element={<Review />} />
+            <Route
+              path="reviews"
+              element={<Review navigateToReviewPhotoFragment={navigateToTourReviewPhotoFragment} />}
+            />
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
               path="reviews/create"
@@ -35,12 +63,18 @@ function App() {
           </Route>
         </Route>
         <Route path="/nav/:user_id" element={<Nav />}>
-          <Route path="reviews" element={<Review />} />
+          <Route
+            path="reviews"
+            element={<Review navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment} />}
+          />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="tourlist" element={<div>투어목록</div>} />
         </Route>
         <Route path="/trav/:user_id" element={<Trav />}>
-          <Route path="reviews" element={<Review />} />
+          <Route
+            path="reviews"
+            element={<Review navigateToReviewPhotoFragment={navigateToTravReviewPhotoFragment} />}
+          />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="wishlist" element={<WishList />} />
           <Route

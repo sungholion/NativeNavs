@@ -1,16 +1,17 @@
+import React from "react";
 import styles from "./Review.module.css";
 import { reviews } from "../dummy";
 import StarScore from "@/components/Star/StarScore";
 import Review_Item from "@/components/Review_Item/Review_Item";
 import { useParams, useNavigate } from "react-router-dom";
 
-const Review = ({ tour_id }) => {
+const Review = ({ navigateToReviewPhotoFragment }) => {
   const params = useParams();
   const photos = reviews.img_urls; // 전체 사진 배열
   const navigate = useNavigate();
 
   const onClickButton = () => {
-    navigate(`/tour/detail/${params.tour_id}/reviewphotos`);
+    navigateToReviewPhotoFragment(params.tour_id);
   };
 
   return (
