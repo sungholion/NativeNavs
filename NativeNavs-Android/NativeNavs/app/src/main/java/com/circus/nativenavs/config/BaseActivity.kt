@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.circus.nativenavs.util.LocaleUtils
+import com.circus.nativenavs.util.SharedPref
 
 abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflater) -> B) :
     AppCompatActivity() {
@@ -13,6 +15,10 @@ abstract class BaseActivity<B : ViewBinding>(private val inflate: (LayoutInflate
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        SharedPref.language?.let {
+            LocaleUtils.setLocale(this, it)
+        }
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
         setContentView(binding.root)

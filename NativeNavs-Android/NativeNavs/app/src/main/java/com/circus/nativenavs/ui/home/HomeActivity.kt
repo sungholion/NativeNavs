@@ -3,6 +3,7 @@ package com.circus.nativenavs.ui.home
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -15,15 +16,21 @@ import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment
+import com.circus.nativenavs.ui.login.LoginActivityViewModel
+import com.circus.nativenavs.util.LocaleUtils
+import com.circus.nativenavs.util.SharedPref
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
-    var type = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        SharedPref.language?.let {
+            LocaleUtils.setLocale(this, it)
+        }
         super.onCreate(savedInstanceState)
 
         initView()
+
     }
 
     private fun initView() {

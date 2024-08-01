@@ -10,12 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentAppSettingBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.LocaleUtils
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
@@ -29,7 +31,7 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
-    private val appSettingViewModel: AppSettingViewModel by viewModels()
+    private val appSettingViewModel: HomeActivityViewModel by activityViewModels()
     private var start = true
 
     override fun onAttach(context: Context) {
@@ -48,13 +50,6 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
 
         initEvent()
         initSpinner()
-
-        appSettingViewModel.localeChanged.observe(viewLifecycleOwner) {it ->
-            if(it != SharedPref.language){
-                SharedPref.language = it
-                restartActivity()
-            }
-        }
 
     }
 
@@ -75,18 +70,9 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
                     1 -> "en"  // 영어
                     else -> "ko"  // 기본 언어
                 }
-                println("------AA")
-                println(appSettingViewModel.localeChanged.value)
-                println(SharedPref.language)
-                println("------")
-                if (appSettingViewModel.localeChanged.value != selectedLanguage) {
-                    println("------")
-                    println(selectedLanguage)
-                    println(appSettingViewModel.localeChanged.value)
-                    println(SharedPref.language)
-                    println("------")
-                    LocaleUtils.setLocale(homeActivity, selectedLanguage)
-                    appSettingViewModel.updateLocaleChange(selectedLanguage)
+                if (SharedPref.language != selectedLanguage) {
+                    SharedPref.language = selectedLanguage
+                    navigate(R.id.action_appSettingFragment_self)
                 }
             }
 
@@ -102,14 +88,6 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
     private fun initEvent() {
         binding.settingTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
-        }
-    }
-    private fun restartActivity() {
-        activity?.let {
-            val intent = it.intent
-            it.finish()
-            it.startActivity(intent)
-            it.overridePendingTransition(0, 0)
         }
     }
 

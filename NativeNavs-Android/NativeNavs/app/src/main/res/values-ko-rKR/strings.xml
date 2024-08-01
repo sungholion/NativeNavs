@@ -34,6 +34,7 @@
     <string name="mypage_withdrawal">회원탈퇴</string>
 
     <!--sign-->
+    <string name="profile_myreview">내가 남긴 리뷰</string>
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
     <string name="sign_pw">비밀번호</string>
@@ -114,4 +115,7 @@
     <string name="chat_list_title">채팅</string>
     <string name="video_call">화상통화</string>
     <string name="booking">예약하기</string>
+    <string name="profile_mystamp">나의 스탬프</string>
+    <string name="profile_modify_update_btn">수정 완료</string>
+    <string name="sign_useable_nickname">사용 가능한 닉네임 입니다</string>
 </resources>

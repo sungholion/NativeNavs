@@ -13,7 +13,7 @@ object SharedPref {
 
 
     var language: String?
-        get() = sharedPrefs?.getString(LANGUAGE, "ko") ?: "ko"
+        get() = sharedPrefs?.getString(LANGUAGE, null) ?: "ko"
         set(value) {
             sharedPrefs?.edit()?.putString(LANGUAGE, value)?.apply()
         }

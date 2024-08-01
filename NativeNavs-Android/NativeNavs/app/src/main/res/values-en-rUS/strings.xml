@@ -33,6 +33,7 @@
     <string name="mypage_withdrawal">Delete Account</string>
 
     <!--sign-->
+    <string name="profile_myreview">My Review</string>
     <string name="sign_next">Next</string>
     <string name="sign_email">Email</string>
     <string name="sign_pw">Password</string>
@@ -113,4 +114,7 @@
     <string name="chat_list_title">Chat</string>
     <string name="video_call">Video Call</string>
     <string name="booking">Booking</string>
+    <string name="profile_mystamp">My Stamp</string>
+    <string name="profile_modify_update_btn">Update</string>
+    <string name="sign_useable_nickname">This niclname is available</string>
 </resources>
