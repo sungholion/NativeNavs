@@ -1,6 +1,5 @@
 package com.circus.nativenavs.ui.signup
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,20 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
-import com.circus.nativenavs.data.LanguageDTO
+import com.circus.nativenavs.data.LanguageDto
 import com.circus.nativenavs.databinding.ItemLanguageBinding
 
 private const val TAG = "싸피_LanguageListAdapter"
 
 class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean) -> Unit,val count : Int) :
-    ListAdapter<LanguageDTO, LanguageListAdapter.LanguageViewHolder>(LanguageComparator) {
+    ListAdapter<LanguageDto, LanguageListAdapter.LanguageViewHolder>(LanguageComparator) {
 
-    companion object LanguageComparator : DiffUtil.ItemCallback<LanguageDTO>() {
-        override fun areItemsTheSame(oldItem: LanguageDTO, newItem: LanguageDTO): Boolean {
+    companion object LanguageComparator : DiffUtil.ItemCallback<LanguageDto>() {
+        override fun areItemsTheSame(oldItem: LanguageDto, newItem: LanguageDto): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: LanguageDTO, newItem: LanguageDTO): Boolean {
+        override fun areContentsTheSame(oldItem: LanguageDto, newItem: LanguageDto): Boolean {
             return oldItem == newItem
         }
 
@@ -34,7 +33,7 @@ class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean)
     inner class LanguageViewHolder(val binding: ItemLanguageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(languageItem: LanguageDTO) {
+        fun bind(languageItem: LanguageDto) {
 
             binding.languageTv.text = languageItem.language
             binding.languageCb.isChecked = languageItem.isChecked

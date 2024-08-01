@@ -1,6 +1,6 @@
 package com.circus.nativenavs.data
 
-data class LoginDTO(
+data class LoginDto(
     val email: String,
     val password : String,
     val device : String

@@ -39,6 +39,10 @@
     <string name="profile_myreview">내가 남긴 리뷰</string>
     <string name="profile_mystamp">나의 스탬프</string>
     <string name="profile_modify_update_btn">수정 완료</string>
+    <string name="profile_nation">거주지:</string>
+    <string name="profile_user_language">언어:</string>
+    <string name="profile_user_use">이용횟수:</string>
+    
     
     <!--sign-->
     <string name="sign_next">다음</string>
