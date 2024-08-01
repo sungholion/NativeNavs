@@ -65,11 +65,12 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
         val action =
             TourWishListFragmentDirections.actionTourWishListFragmentToTourDetailFragment(
                 tourId = tourId,
-                navId = navId)
+                navId = navId
+            )
         navigate(action)
     }
 
-    fun navigateToTourListFragment(){
+    fun navigateFromWishToTourListFragment() {
         navigate(R.id.action_tourWishListFragment_to_tourListFragment)
     }
 

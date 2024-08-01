@@ -20,8 +20,8 @@ class WishListBridge(
     }
 
     @JavascriptInterface
-    fun navigateToTourListFragment() {
-        fragment.navigateToTourListFragment()
-        Log.d(TAG, "navigateToTourListFragment: ")
+    fun navigateFromWishToTourListFragment() {
+        fragment.navigateFromWishToTourListFragment()
+        Log.d(TAG, "navigateFromWishToTourListFragment: ")
     }
 }
