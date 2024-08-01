@@ -26,7 +26,7 @@ function App() {
           <Route path="edit/:tour_id" element={<Edit />} />
           <Route path="detail/:tour_id" element={<Outlet />}>
             <Route index element={<Detail />} />
-            <Route path="review" element={<Review />} />
+            <Route path="reviews" element={<Review />} />
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
               path="reviews/create"
@@ -35,15 +35,12 @@ function App() {
           </Route>
         </Route>
         <Route path="/nav/:user_id" element={<Nav />}>
-          <Route path="reviews" element={<div>리뷰들</div>} />
+          <Route path="reviews" element={<Review />} />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="tourlist" element={<div>투어목록</div>} />
         </Route>
         <Route path="/trav/:user_id" element={<Trav />}>
-          <Route
-            path="reviews"
-            element={<div>Trav_내가작성한 리뷰 페이지</div>}
-          />
+          <Route path="reviews" element={<Review />} />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="wishlist" element={<WishList />} />
           <Route
