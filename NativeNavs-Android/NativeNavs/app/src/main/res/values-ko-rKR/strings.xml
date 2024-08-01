@@ -118,4 +118,9 @@
     <string name="profile_mystamp">나의 스탬프</string>
     <string name="profile_modify_update_btn">수정 완료</string>
     <string name="sign_useable_nickname">사용 가능한 닉네임 입니다</string>
+    <string name="sign_already_exist_nickname">이미 존재하는 닉네임 입니다</string>
+    <string name="sign_check_nickname_btn">중복 확인을 해주세요</string>
+    <string name="sign_check_name">이름을 입력해주세요</string>
+    <string name="sign_check_birth">생년월일을 확인해주세요</string>
+    <string name="sign_check_phone">전화번호를 입력해주세요</string>
 </resources>

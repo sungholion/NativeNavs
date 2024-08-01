@@ -33,11 +33,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun initEvent() {
         binding.loginBtn.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-//            val email = binding.loginEmailEt.text.toString()
-//            val password = binding.loginPwEt.text.toString()
-            val email = "eoblue23@gmail.com"
-            val password = "1234"
+//            startActivity(Intent(this, HomeActivity::class.java))
+            val email = binding.loginEmailEt.text.toString()
+            val password = binding.loginPwEt.text.toString()
+//            val email = "eoblue23@gmail.com"
+//            val password = "1234"
             val device = ""
 
             activityViewModel.Login(LoginDTO(email, password, device))

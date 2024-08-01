@@ -117,4 +117,9 @@
     <string name="profile_mystamp">My Stamp</string>
     <string name="profile_modify_update_btn">Update</string>
     <string name="sign_useable_nickname">This niclname is available</string>
+    <string name="sign_already_exist_nickname">This nickname is already in use</string>
+    <string name="sign_check_nickname_btn">Check Duplicate nickName</string>
+    <string name="sign_check_name">Check your name</string>
+    <string name="sign_check_birth">Check your birth</string>
+    <string name="sign_check_phone">Check your phone number</string>
 </resources>
