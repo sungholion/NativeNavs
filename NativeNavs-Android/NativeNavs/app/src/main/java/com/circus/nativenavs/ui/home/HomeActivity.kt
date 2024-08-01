@@ -15,7 +15,6 @@ import com.circus.nativenavs.ui.home.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
-import com.circus.nativenavs.ui.home.trip.MyTripFragment
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.ui.trip.MyTripFragment
 

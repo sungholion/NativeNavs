@@ -83,10 +83,10 @@
         tools:layout="@layout/fragment_reservation_detail">
         <argument
             android:name="reservationId"
-            app:argType="Integer" />
+            app:argType="integer" />
         <argument
             android:name="tourId"
-            app:argType="Integer" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/tourDetailFragment"

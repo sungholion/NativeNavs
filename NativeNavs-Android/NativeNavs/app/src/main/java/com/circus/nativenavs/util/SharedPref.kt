@@ -17,6 +17,7 @@ object SharedPref {
         set(value) {
             sharedPrefs?.edit()?.putString(EMAIL, value)?.apply()
         }
+
     var isNav: Boolean?
         get() = sharedPrefs?.getBoolean(IS_NAV, false)
         set(value) {
