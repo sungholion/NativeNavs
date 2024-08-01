@@ -12,7 +12,6 @@ data class LoginResponse(
     val message: String,
     val accessToken: String,
     val refreshToken: String,
-    val userId: Int,
-    val email: String,
+    val id: Int,
     val isNav : Boolean
 )

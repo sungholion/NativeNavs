@@ -41,9 +41,9 @@ interface UserService {
     @GET("language")
     suspend fun getLanguageList():LanguageServerDTO
 
-    @GET("users/checkDuplicated/nickName/{email}")
+    @GET("users/checkDuplicated/nickname/{nickname}")
     suspend fun isDupliNick(
-        @Path(value = "email") email : String
+        @Path(value = "nickname") nickname : String
     ):Response<Void>
 
 }

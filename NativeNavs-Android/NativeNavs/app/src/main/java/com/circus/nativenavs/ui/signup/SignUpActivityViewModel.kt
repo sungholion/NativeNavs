@@ -84,7 +84,7 @@ class SignUpActivityViewModel : ViewModel() {
     fun isDupli(nickname:String){
        viewModelScope.launch {
            val response = retrofit.isDupliNick(nickname)
-           _dupliState.postValue(Pair(response.code(),response.message()))
+           _dupliState.postValue(Pair(response.code(),response.body().toString()))
        }
     }
 
