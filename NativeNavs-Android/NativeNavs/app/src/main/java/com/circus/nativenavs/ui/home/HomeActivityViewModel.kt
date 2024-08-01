@@ -22,4 +22,14 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
+    private val _withdrawalStatus = MutableLiveData<Int>()
+    val withdrawalStatus : LiveData<Int> get() = _withdrawalStatus
+
+    fun withdrawal(){
+        viewModelScope.launch {
+            val response = userRetrofit.deleteUser()
+            _withdrawalStatus.value = response.code()
+        }
+    }
+
 }

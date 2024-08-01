@@ -7,6 +7,7 @@ import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.SignUpDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -47,4 +48,7 @@ interface UserService {
     suspend fun searchUser(
         @Path(value = "id") userId: Int
     ): ProfileUserDto
+
+    @DELETE("users/delete")
+    suspend fun deleteUser():Response<Void>
 }
