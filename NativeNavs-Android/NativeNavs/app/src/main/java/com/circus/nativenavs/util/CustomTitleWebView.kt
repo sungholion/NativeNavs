@@ -63,6 +63,10 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
         binding.customWebviewTitleWv.loadUrl(url)
     }
 
+    fun setTitle(title: String) {
+        binding.customWebviewTitleTv.text = title
+    }
+
     private fun getAttrs(attrs: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleWebView)
 

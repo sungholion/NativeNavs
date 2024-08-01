@@ -15,6 +15,7 @@ import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 
 private const val TAG = "ReviewPhotoFragment"
+
 class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
     FragmentReviewPhotoBinding::bind,
     R.layout.fragment_review_photo
@@ -32,44 +33,49 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         showToast(args.toString())
-//        initCustomView()
-//        initWebView()
+        initCustomView()
+        initWebView()
     }
 
-//    private fun initWebView() {
-//        var url = ""
-//        if (args.tourId != -1) {
-//            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/review"
-//        } else if (args.travId != -1) {
-//            url = "https://i11d110.p.ssafy.io/trav가 작성한 리뷰 목록 url"
-//        } else if (args.navId != -1) {
-//            url = "https://i11d110.p.ssafy.io/nav의 리뷰 목록 url"
-//        }
-//
-//        Log.d(TAG, "initCustomView: $url")
-//        binding.reviewCustomWv.loadWebViewUrl(url)
-//
-//    }
-//
-//    private fun initCustomView() {
-//        binding.reviewCustomWv.setOnBackListener(object : CustomTitleWebView.OnBackClickListener {
-//            override fun onClick() {
-//                popBackStack()
-//            }
-//
-//        })
-//
-//        homeActivity.onBackPressedDispatcher.addCallback(
-//            this,
-//            object : OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    if (!binding.reviewCustomWv.backWebView()) {
-//                        popBackStack()
-//                    }
-//                }
-//            })
-//
-//    }
+    private fun initWebView() {
+        var url = ""
+        if (args.tourId != -1) {
+            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviewphotos"
+        } else if (args.navId != -1) {
+            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviewphotos"
+        } else if (args.travId != -1) {
+            url = "https://i11d110.p.ssafy.io/trav/${args.travId}/reviewphotos"
+        }
+
+        Log.d(TAG, "initCustomView: $url")
+        binding.reviewPhotoCustomWv.loadWebViewUrl(url)
+
+    }
+
+    private fun initCustomView() {
+        if (args.travId != -1) {
+            binding.reviewPhotoCustomWv.setTitle("")
+        }
+
+        binding.reviewPhotoCustomWv.setOnBackListener(object :
+            CustomTitleWebView.OnBackClickListener {
+            override fun onClick() {
+                popBackStack()
+            }
+
+        })
+
+        homeActivity.onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (!binding.reviewPhotoCustomWv.backWebView()) {
+                        popBackStack()
+                    }
+                }
+            })
+
+    }
 
     override fun onResume() {
         super.onResume()

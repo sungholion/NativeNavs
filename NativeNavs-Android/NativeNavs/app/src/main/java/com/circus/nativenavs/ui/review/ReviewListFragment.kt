@@ -61,11 +61,11 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     private fun initWebView() {
         var url = ""
         if (args.tourId != -1) {
-            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/review"
+            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviews"
         } else if (args.travId != -1) {
-            url = "https://i11d110.p.ssafy.io/trav가 작성한 리뷰 목록 url"
+            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviews"
         } else if (args.navId != -1) {
-            url = "https://i11d110.p.ssafy.io/nav의 리뷰 목록 url"
+            url = "https://i11d110.p.ssafy.io/trav/${args.navId}/reviews"
         }
 
         Log.d(TAG, "initCustomView: $url")

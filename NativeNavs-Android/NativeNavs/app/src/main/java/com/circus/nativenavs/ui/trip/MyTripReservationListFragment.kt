@@ -55,9 +55,10 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
 
             }
 
-//        val url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}"
-//        Log.d(TAG, "initCustomView: $url")
-//        binding.myTripReservationListWv.loadWebViewUrl(url)
+        val url = ""
+//            "https://i11d110.p.ssafy.io/reservation/${args.tourId}/detail/${args.reservationId}"
+        Log.d(TAG, "initCustomView: $url")
+        binding.myTripReservationListWv.loadWebViewUrl(url)
 
     }
 

@@ -11,6 +11,7 @@ import com.circus.nativenavs.data.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.navigate
+import com.circus.nativenavs.util.popBackStack
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
@@ -68,11 +69,16 @@ class ProfileFragment :
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
-            findNavController().popBackStack()
+            popBackStack()
         }
 
         binding.profileReviewTitle.setOnClickListener {
-            navigate(R.id.action_profileFragment_to_reviewListFragment)
+            //만약 nav이면
+            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
+            //만약 trav이면
+//            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
+
+            navigate(action)
         }
 
         binding.profileStampTitle.setOnClickListener {

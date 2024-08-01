@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.review
 
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
