@@ -2,6 +2,7 @@ package com.circus.nativenavs.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.View.GONE
@@ -30,7 +31,36 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         super.onViewCreated(view, savedInstanceState)
         initView()
         initEvent()
-        signUpViewModel.emailStatusCode.observe(this, Observer { statusCode ->
+
+        signUpViewModel.emailStatus.observe(this) { statusCode ->
+
+            binding.signupCodeSendBtn.isEnabled = true
+
+            if (statusCode == 202) {
+                binding.signupCodeSendBtn.text = "재입력"
+                binding.signupEmailEt.isEnabled = false
+                binding.signupCodeEt.isEnabled = true
+                binding.signupCodeAuthBtn.isEnabled = true
+                binding.signupEmailHint.visibility = GONE
+
+                binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
+            }
+            else if (statusCode == 200) {
+                Log.d("여기", "onViewCreated: ㅁㅁㅁㅡ")
+                binding.signupCodeSendBtn.text = "재입력"
+                binding.signupEmailEt.isEnabled = false
+                binding.signupCodeEt.isEnabled = true
+                binding.signupCodeAuthBtn.isEnabled = true
+                binding.signupEmailHint.visibility = GONE
+
+                binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
+            }
+            else {
+                showToast("이미 존재하는 이메일 입니다.")
+            }
+        }
+
+        signUpViewModel.emailStatusCode.observe(viewLifecycleOwner) { statusCode ->
             // 상태 코드 처리
             if (statusCode == 200) {
                 // 코드 인증을 마쳐야 비밀 번호 활성화
@@ -40,10 +70,12 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 binding.signupPwEt.isEnabled = true
                 binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_gray_d9d9)
                 binding.signupEmailNextBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
+
+                emailBtnType = true
             } else {
                 showToast("인증코드를 다시 확인해주세요")
             }
-        })
+        }
 
     }
 
@@ -84,23 +116,13 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         /** 이메일 전송 **/
         binding.signupCodeSendBtn.setOnClickListener {
             email = binding.signupEmailEt.text.toString()
-
             if(!emailBtnType){
                 if(!emailPattern.matcher(email).matches()){
                     binding.signupEmailHint.visibility = VISIBLE
                 }
                 else{
-                    binding.signupCodeSendBtn.text = "재입력"
-                    binding.signupEmailEt.isEnabled = false
-                    binding.signupCodeEt.isEnabled = true
-                    binding.signupCodeAuthBtn.isEnabled = true
-                    binding.signupEmailHint.visibility = GONE
-
-                    binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
-
+                    binding.signupCodeSendBtn.isEnabled = false
                     signUpViewModel.getEmailCode(email)
-
-                    emailBtnType = true
                 }
             }
             else{
@@ -126,32 +148,30 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         binding.signupEmailNextBtn.isEnabled = true
         binding.signupEmailNextBtn.setOnClickListener {
 
-            navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
-//
-//            email = binding.signupEmailEt.text.toString()
-//            password = binding.signupPwEt.text.toString()
-//            val passwordCheck = binding.signupPwCheckEt.text.toString()
-//
-//            binding.signupPwValidTv.visibility = INVISIBLE
-//            binding.signupPwHelpTv.visibility = VISIBLE
-//            binding.signupPwCheckHelpTv.visibility = VISIBLE
-//            binding.signupPwCheckValidTv.visibility = INVISIBLE
-//
-//            if(!isPasswordValid(password)){
-//                binding.signupPwValidTv.visibility = VISIBLE
-//                binding.signupPwHelpTv.visibility = INVISIBLE
-//            }
-//            else{
-//                if(password != passwordCheck){
-//                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
-//                    binding.signupPwCheckValidTv.visibility = VISIBLE
-//                }
-//                else{
-//                    signUpViewModel.updateEmail(email)
-//                    signUpViewModel.updatePassword(password)
-//                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
-//                }
-//            }
+            email = binding.signupEmailEt.text.toString()
+            password = binding.signupPwEt.text.toString()
+            val passwordCheck = binding.signupPwCheckEt.text.toString()
+
+            binding.signupPwValidTv.visibility = INVISIBLE
+            binding.signupPwHelpTv.visibility = VISIBLE
+            binding.signupPwCheckHelpTv.visibility = VISIBLE
+            binding.signupPwCheckValidTv.visibility = INVISIBLE
+
+            if(!isPasswordValid(password)){
+                binding.signupPwValidTv.visibility = VISIBLE
+                binding.signupPwHelpTv.visibility = INVISIBLE
+            }
+            else{
+                if(password != passwordCheck){
+                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
+                    binding.signupPwCheckValidTv.visibility = VISIBLE
+                }
+                else{
+                    signUpViewModel.updateEmail(email)
+                    signUpViewModel.updatePassword(password)
+                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
+                }
+            }
         }
     }
 
