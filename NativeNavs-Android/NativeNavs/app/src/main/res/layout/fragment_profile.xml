@@ -149,6 +149,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_cv">
                 <LinearLayout
+                    android:id="@+id/profile_review_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -188,6 +189,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/profile_review_lt">
 
                 <LinearLayout
+                    android:id="@+id/profile_stamp_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.trip.MyTripFragment
+import kotlin.math.log
 
 private const val TAG = "ReviewListBridge"
 
@@ -29,6 +30,7 @@ class ReviewListBridge(
 
     @JavascriptInterface
     fun navigateToTravReviewPhotoFragment(travId: Int) {
+        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
         fragment.navigateToTravReviewPhotoFragment(travId)
         Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
     }
