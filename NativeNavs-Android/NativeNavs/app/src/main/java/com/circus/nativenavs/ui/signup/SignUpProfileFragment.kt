@@ -48,6 +48,19 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             binding.signupSelectedLanguageTv.text = languageList.language.joinToString(", ")
         }
+
+        signUpViewModel.signStatus.observe(viewLifecycleOwner){ statusCode ->
+            when(statusCode){
+                202 -> {
+                    Toast.makeText(requireContext(),"회원 가입이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+
+                    navigate(R.id.action_signUpProfileFragment_to_signUpCompleteFragment)
+                }
+                else -> showToast("회원 가입 실패")
+            }
+
+        }
+
     }
 
     private fun initTextWatcher(){
@@ -209,16 +222,13 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 Toast.makeText(requireContext(),"이용 동의를 해주세요",Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(requireContext(),"회원 가입이 완료되었습니다.",Toast.LENGTH_SHORT).show()
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
                 signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
-
                 signUpViewModel.signUp()
 
-                navigate(R.id.action_signUpProfileFragment_to_signUpCompleteFragment)
             }
         }
 

@@ -38,6 +38,12 @@ class SignUpActivityViewModel : ViewModel() {
     private val _emailStatusCode = MutableLiveData<Int>()
     val emailStatusCode: LiveData<Int> get() = _emailStatusCode
 
+    private val _emailStatus = MutableLiveData<Int>()
+    val emailStatus: LiveData<Int> get() = _emailStatus
+
+    private val _signStatus = MutableLiveData<Int>()
+    val signStatus: LiveData<Int> get() = _signStatus
+
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     fun signUp() {
@@ -46,10 +52,7 @@ class SignUpActivityViewModel : ViewModel() {
 
             // HTTP 상태 코드 출력
             println(_signUpDTO.value)
-            println(response)
-            println("Response code: ${response?.code()}")
-            println("Response headers: ${response?.headers()}")
-            println("Response error body: ${response?.errorBody()?.string()}")
+            _signStatus.postValue(response?.code())
             println("HTTP 상태 코드: ${response?.code()}")
             println("HTTP 상태: ${response?.body()}")
         }
@@ -60,11 +63,11 @@ class SignUpActivityViewModel : ViewModel() {
 
             val response = retrofit.getEmailVerifyCode(email)
             println("email : $email")
-            println(response.body())
-            println(response.code())
-            println("Response code: ${response.code()}")
-            println("Response headers: ${response.headers()}")
-            println("Response error body: ${response.errorBody()?.string()}")
+            println("이메일 전송 Response code: ${response.code()}")
+            println("이메일 전송 Response headers: ${response.headers()}")
+            println("이메일 전송 Response error body: ${response.errorBody()}")
+            _emailStatus.postValue(response.code())
+
         }
     }
 
@@ -74,9 +77,9 @@ class SignUpActivityViewModel : ViewModel() {
 
             // 상태 코드 업데이트
             _emailStatusCode.postValue(response.code())
-            println("Response code: ${response.code()}")
-            println("Response headers: ${response.headers()}")
-            println("Response error body: ${response.errorBody()?.string()}")
+            println("이메일 인증 Response code: ${response.code()}")
+            println("이메일 인증 Response headers: ${response.headers()}")
+            println("이메일 인증 Response error body: ${response.errorBody()?.string()}")
         }
     }
 

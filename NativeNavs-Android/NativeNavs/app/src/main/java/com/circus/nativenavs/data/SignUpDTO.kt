@@ -13,9 +13,7 @@ data class SignUpDTO(
     val isKorean : Boolean,
     val image : String = "",
     val device : String = ""
-){
-
-}
+)
 
 data class LanguageListDTO (val language : List<String>){
 
