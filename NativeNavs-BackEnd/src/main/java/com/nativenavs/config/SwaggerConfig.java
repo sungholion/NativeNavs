@@ -13,23 +13,27 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI()
-                .components(new Components()
-                        .addSecuritySchemes("JSESSIONID",
-                                new SecurityScheme()
-                                        .type(SecurityScheme.Type.APIKEY)
-                                        .in(In.COOKIE)
-                                        .name("JSESSIONID"))
-                )
-                .info(apiInfo())
-                .addSecurityItem(new SecurityRequirement().addList("JSESSIONID"));
+    public OpenAPI OpenAPI() {
+        Info info = new Info()
+                .title("Native Navs")
+                .version("1.0")
+                .description("Native Navs");
+
+        String jwtSchemeName = "jwtAuth";
+
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
+
+        Components components = new Components()
+                .addSecuritySchemes(jwtSchemeName, new SecurityScheme().name(jwtSchemeName)
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("Bearer").bearerFormat("JWT"));
+
+        return new OpenAPI().components(new Components())
+                .info(info)
+                .addSecurityItem(securityRequirement)
+                .components(components);
     }
 
-    private Info apiInfo() {
-        return new Info()
-                .title("API Test") // API의 제목
-                .description("Let's practice Swagger UI") // API에 대한 설명
-                .version("1.0.0"); // API의 버전
-    }
+
+
 }
