@@ -96,12 +96,18 @@
         <argument
             android:name="tourId"
             app:argType="integer" />
+        <argument
+            android:name="navId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_tourDetailFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_tourDetailFragment_to_reviewListFragment"
             app:destination="@id/reviewListFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_myTripReservationListFragment"
+            app:destination="@id/myTripReservationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
@@ -209,9 +215,10 @@
         android:name="com.circus.nativenavs.ui.trip.MyTripFragment"
         android:label="MyTripFragment"
         tools:layout="@layout/fragment_my_trip">
+
         <action
-            android:id="@+id/action_myTripFragment_to_myTripReservationListFragment"
-            app:destination="@id/myTripReservationListFragment" />
+            android:id="@+id/action_myTripFragment_to_tourDetailFragment"
+            app:destination="@id/tourDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourWishListFragment"
@@ -221,6 +228,9 @@
         <action
             android:id="@+id/action_tourWishListFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
+        <action
+            android:id="@+id/action_tourWishListFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment" />
     </fragment>
     <fragment
         android:id="@+id/myTripReservationListFragment"
@@ -230,6 +240,9 @@
         <argument
             android:name="tourId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_myTripReservationListFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewPhotoFragment"

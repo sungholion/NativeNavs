@@ -5,6 +5,8 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.ui.home.HomeActivity
 
+private const val TAG = "MyTripReservationListBr"
+
 class MyTripReservationListBridge(
     private val homeActivity: HomeActivity,
     private val fragment: MyTripReservationListFragment,
@@ -13,7 +15,7 @@ class MyTripReservationListBridge(
 
     @JavascriptInterface
     fun navigateToReservationDetailFragment(reservationId: Int) {
-//        fragment.navigateToReservationDetailFragment(reservationId)
-//        Log.d(TAG, "navigateToReservationDetailFragment: reservationId")
+        fragment.navigateToReservationDetailFragment(reservationId)
+        Log.d(TAG, "navigateToReservationDetailFragment: reservationId")
     }
 }

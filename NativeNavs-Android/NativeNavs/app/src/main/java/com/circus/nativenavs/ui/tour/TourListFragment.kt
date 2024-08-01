@@ -75,8 +75,11 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         binding.tourListWv.loadUrl("https://i11d110.p.ssafy.io/main")
     }
 
-    fun moveToTourDetailFragment(tourId: Int) {
-        val action = TourListFragmentDirections.actionTourListFragmentToTourDetailFragment(tourId)
+    fun moveToTourDetailFragment(tourId: Int, navId: Int) {
+        val action = TourListFragmentDirections.actionTourListFragmentToTourDetailFragment(
+            tourId = tourId,
+            navId = navId
+        )
         navigate(action)
     }
 

@@ -61,10 +61,16 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
         binding.tourWishListWv.loadUrl(url)
     }
 
-    fun navigateToWishDetailFragment(tourId: Int) {
+    fun navigateToWishDetailFragment(tourId: Int, navId: Int) {
         val action =
-            TourWishListFragmentDirections.actionTourWishListFragmentToTourDetailFragment(tourId)
+            TourWishListFragmentDirections.actionTourWishListFragmentToTourDetailFragment(
+                tourId = tourId,
+                navId = navId)
         navigate(action)
+    }
+
+    fun navigateToTourListFragment(){
+        navigate(R.id.action_tourWishListFragment_to_tourListFragment)
     }
 
     override fun onResume() {
