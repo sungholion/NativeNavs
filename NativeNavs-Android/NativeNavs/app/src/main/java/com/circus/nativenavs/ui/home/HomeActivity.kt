@@ -34,6 +34,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     }
 
     private fun initView() {
+        binding.mainBottomNav.menu.clear()
         if(SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
         else binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_trav)
 
