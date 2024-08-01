@@ -4,14 +4,6 @@ import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
 
-// user_id : 유저 고유 키값
-// title : 투어 제목 :String
-// thumbnail_image : 투어 썸네일 이미지 : String
-// start_date : 시작날짜 (yyyy-mm-dd) : string
-// end_date : 끝 날짜 (yyyy-mm-dd) : string
-// nav_profile_img : 해당 가이드의 프로필 이미지 링크 : string
-// nav_nickname : 가이드 닉네임 : string
-// nav_language : 가이드가 사용가능한 언어 목록 : string[]
 const Tour_Item = ({
   tour_id,
   user_id,
@@ -24,6 +16,7 @@ const Tour_Item = ({
   nav_nickname,
   nav_language,
   userJson, // 추가: userJson을 props로 전달
+  navigateToTourDetailFragment
 }) => {
   const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
@@ -45,14 +38,7 @@ const Tour_Item = ({
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
-    if (
-      window.Android &&
-      typeof window.Android.navigateToTourDetailFragment === "function"
-    ) {
-      window.Android.navigateToTourDetailFragment(tour_id);
-    } else {
-      console.log("Android.navigateToTourDetailFragment is not defined");
-    }
+    navigateToTourDetailFragment(tour_id);
   };
 
   // 위시리스트 이벤트
