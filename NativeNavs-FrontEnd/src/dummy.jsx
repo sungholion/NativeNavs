@@ -82,6 +82,7 @@ export const reviews = {
       imageList: [
         "https://search.pstatic.net/common/?src=http%3A%2F%2Fcafefiles.naver.net%2FMjAxOTA4MTJfNTYg%2FMDAxNTY1NjAxNjMxMTQy.Se-_znbXixGvyijXG_OWPp0sczHxlxzu9qXrp6yiVMwg.xlmbOg9t_27aTqGC7OYjMWLnmi447guy8Az_RuDoY9gg.JPEG%2FIMG_20190801_135839_522.jpg&type=a340",
         "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MjlfOSAg%2FMDAxNjk1OTU0MzI2MjU4.GUJQoR1N2scTxBOxj4ljI41E0qAirRNSxZ75q8VlGmQg.WKElmvfOa1bhzdBflLC0cXJpjKxByHe7Yvo1oaK5RKYg.JPEG.wks5183%2F%25B4%25D9%25BF%25EE%25B7%25CE%25B5%25E5_-_2023-09-29T111042.402.jpg&type=a340",
+        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MjlfOSAg%2FMDAxNjk1OTU0MzI2MjU4.GUJQoR1N2scTxBOxj4ljI41E0qAirRNSxZ75q8VlGmQg.WKElmvfOa1bhzdBflLC0cXJpjKxByHe7Yvo1oaK5RKYg.JPEG.wks5183%2F%25B4%25D9%25BF%25EE%25B7%25CE%25B5%25E5_-_2023-09-29T111042.402.jpg&type=a340",
       ],
     },
     {

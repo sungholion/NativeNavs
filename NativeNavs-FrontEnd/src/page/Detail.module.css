@@ -1,155 +1,153 @@
 .Detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    height: 100%;
-    box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
-    margin: 0; /* 외부 여백 제거 */
-    padding: 0; /* 내부 여백 제거 */
-  }
-
-.tour_img {  
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
+  margin: 0; /* 외부 여백 제거 */
+  padding: 0; /* 내부 여백 제거 */
 }
 
+.tour_img {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 360px;
+}
 
 .tour_info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5px 0;
-    border-bottom: 1px solid #d9d9d9;
-}
-  
-.tour_leftinfo {
-    width: 70%;
-    width: 70%;
-    display: flex;
-    padding-left: 5px;
-    flex-direction: column;
-    justify-content: start;
-}
-  
-.tour_title {
-    margin: 0; /* 수정 */
-    font-weight: 600;
-    font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 0;
+  border-bottom: 1px solid #d9d9d9;
 }
 
-  
-.tour_duration {
-    font-size: 14px;
-    margin: 1px 0; /* 수정 */
-    color: #585858;
+.tour_leftinfo {
+  width: 70%;
+  width: 70%;
+  display: flex;
+  padding-left: 5px;
+  flex-direction: column;
+  justify-content: start;
 }
-  
-.tour_leftinfo, .tour_rightinfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
+
+.tour_title {
+  margin: 0; /* 수정 */
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.tour_duration {
+  font-size: 14px;
+  margin: 1px 0; /* 수정 */
+  color: #585858;
+}
+
+.tour_leftinfo,
+.tour_rightinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 .tour_rating {
-    display: flex;
-    justify-content: end;
-    padding-right: 5px;
+  display: flex;
+  justify-content: end;
+  padding-right: 5px;
 }
-  
+
 .tour_nav {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    margin: 1px 0px;
-    padding-right: 5px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 1px 0px;
+  padding-right: 5px;
 }
 
 .tour_nav_language {
-    display: flex;
-    justify-content: end;
-    padding-right: 0px;
+  display: flex;
+  justify-content: end;
+  padding-right: 0px;
 }
-    
+
 .tour_nav_language_inner {
-    margin: 1px 0px;
-    font-size: 15px;
-    font-weight: 500;
-    display: flex;
-    justify-content: end;
-    align-items: center;
+  margin: 1px 0px;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
-    
+
 .tour_nav_language_inner > img {
-        width: 18px;
-        height: 18px;
-        margin-right: 2px;
+  width: 18px;
+  height: 18px;
+  margin-right: 2px;
 }
-    
+
 .tour_nav_language_inner > p {
-        text-align: end;
-        margin-right: 5px;
-        font-size: 12px;
+  text-align: end;
+  margin-right: 5px;
+  font-size: 12px;
 }
-    
+
 .navInfo {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #d9d9d9;
 }
 
 .navInfo_inner {
-    display: flex;
-    margin: 20px;
-    width: 250px;
+  display: flex;
+  margin: 20px;
+  width: 250px;
 }
 
 .navInfoImage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 
 .nav_img {
-    width: 50px;
-    height: 55px;
-    border-radius: 70%;
-    border: 1px solid #d9d9d9;
+  width: 50px;
+  height: 55px;
+  border-radius: 70%;
+  border: 1px solid #d9d9d9;
 }
- 
-.navInfoText *{
-    width: 200px;
-    font-weight: bold;
+
+.navInfoText * {
+  width: 200px;
+  font-weight: bold;
 }
 
 .navNickname {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .navLanguage {
-    margin-top: 2px;
-    font-size: 15px;
+  margin-top: 2px;
+  font-size: 15px;
 }
 
 /* 투어 일정 */
 .tourPlan {
-    width: 100%; /* 추가 */
-    text-align: left; /* 추가 */
-    padding-left: 20px; /* 추가 */
-    border-bottom: 1px solid #d9d9d9;
+  width: 100%; /* 추가 */
+  text-align: left; /* 추가 */
+  padding-left: 20px; /* 추가 */
+  border-bottom: 1px solid #d9d9d9;
 }
-
 
 /* 투어 당부사항 */
 .tourReminder {
-    width: 100%; /* 추가 */
-    text-align: left; /* 추가 */
-    padding-left: 20px; /* 추가 */
-    border-bottom: 1px solid #d9d9d9;
+  width: 100%; /* 추가 */
+  text-align: left; /* 추가 */
+  padding-left: 20px; /* 추가 */
+  border-bottom: 1px solid #d9d9d9;
 }
 
 .tour_info,
@@ -157,7 +155,7 @@
 .tourPlan,
 .tourReminder,
 .tourReview {
-  width: 100%; /* 전체 너비 사용 */
+  width: 100vw; /* 전체 너비 사용 */
   box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
   padding: 0 20px; /* 좌우 여백 추가 */
 }
