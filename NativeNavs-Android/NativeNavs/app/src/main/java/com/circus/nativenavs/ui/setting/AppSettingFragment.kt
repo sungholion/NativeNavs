@@ -72,7 +72,8 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
                 }
                 if (SharedPref.language != selectedLanguage) {
                     SharedPref.language = selectedLanguage
-                    navigate(R.id.action_appSettingFragment_self)
+                    startActivity(Intent(requireContext(), HomeActivity::class.java))
+                    activity?.finish()
                 }
             }
 
