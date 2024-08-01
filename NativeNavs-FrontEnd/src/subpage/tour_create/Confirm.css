@@ -110,14 +110,62 @@
   }
 }
 
-.ButtonSection {
-  width: 100vw;
+.TourTheme {
+  width: 80vw;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  > p {
+    align-self: left;
+    font-weight: bold;
+    font-size: 22px;
+  }
+}
+
+.TourThemeList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
+
+  .TourThemeItem {
+    border: 1px solid #595959;
+    font-size: 20px;
+    border-radius: 5%;
+    padding: 2px;
+    display: inline-block;
+    width: 20vw;
+    text-align: center;
+    margin: 10px 10px;
+  }
+}
+
+.ButtonSection {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  align-items: center;
   position: fixed;
-  bottom: 0px;
-  height: 5vh;
-  background-color: white;
+  bottom: 2vh;
+
+  button {
+    width: 20vw;
+    height: 5vh;
+    color: white;
+    background-color: #20bec9;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 20vw;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+  button:focus {
+    outline: none;
+  }
 }
 
 .Tourdescription {

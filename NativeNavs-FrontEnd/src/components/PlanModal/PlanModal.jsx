@@ -1,10 +1,25 @@
 import styles from "./PlanModal.module.css";
 import { useSearchParams } from "react-router-dom";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 
+const center = {
+  lat: 37.5642,
+  lng: 127.00169,
+};
+
 const PlanModal = ({ onClose, onSubmit, initData }) => {
+  const [markers, setMarkers] = useState([]);
+
+  const handleMapClick = (event) => {
+    const newMarker = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    };
+    setMarkers([...markers, newMarker]);
+  };
   const [planData, setPlanData] = useState({
     title: "",
     description: "",
@@ -15,16 +30,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [mapCenter, setMapCenter] = useState({ lat: 37.5642, lng: 127.00169 });
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    const handleSearchClick = () => {
-      // 여기에 실제 위치 검색 로직을 추가하세요
-      // 예를 들어, geocoding API를 사용하여 검색어를 좌표로 변환합니다.
-      // 검색 결과를 기반으로 mapCenter를 업데이트합니다.
-      const newCenter = { lat: 37.5665, lng: 126.978 }; // 예시 좌표
-      setMapCenter(newCenter);
-    };
-  };
 
   useEffect(() => {
     if (initData) {
@@ -53,6 +58,8 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     e.stopPropagation;
     onClose();
   };
+
+  const handleSearchChange = (e) => {};
 
   return (
     <div
@@ -105,7 +112,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               value={searchQuery}
               onChange={handleSearchChange}
             />
-            <button onClick={handleSearchClick}>검색</button>
+            <button>검색</button>
 
             <APIProvider apiKey={apiKey}>
               <Map

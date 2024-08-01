@@ -194,8 +194,22 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
           </div>
         </section>
         <section className={styles.ButtonSection}>
-          <button onClick={goBeforePage}>뒤로</button>
-          <button onClick={goAfterPage}>앞으로</button>
+          <button
+            onClick={() => {
+              onTourDataChange("plans", [...planList]);
+              goBeforePage();
+            }}
+          >
+            뒤로
+          </button>
+          <button
+            onClick={() => {
+              onTourDataChange("plans", [...planList]);
+              goAfterPage();
+            }}
+          >
+            다음
+          </button>
         </section>
       </div>
     </>

@@ -66,7 +66,7 @@ const reducer = (state, action) => {
     case "plans":
       return { ...state, plans: action.value };
     case "themes":
-      return { ...state, theme: action.value };
+      return { ...state, themes: action.value };
     default:
       return state;
   }

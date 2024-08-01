@@ -128,42 +128,31 @@ const Create1 = ({ BeforePage, goAfterPage }) => {
         />
       </div>
       <div className={styles.Theme}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            marginLeft: "10vw",
-          }}
-        >
-          <div
-            style={{ fontWeight: "bold", marginRight: "2vw", fontSize: "20px" }}
-          >
-            테마
-          </div>
-          <div>
-            {themes.map((theme) => {
-              return (
-                <button
-                  key={theme.idx}
-                  className={`${styles.themeButton} ${
-                    theme.state ? styles.selectedthemeButton : ""
-                  }`}
-                  onClick={() => {
-                    const newThemes = themes.map((t) => {
-                      if (t.idx === theme.idx) {
-                        return { ...t, state: !t.state };
-                      } else {
-                        return t;
-                      }
-                    });
-                    onTourDataChange("themes", newThemes);
-                  }}
-                >
-                  {theme.name}
-                </button>
-              );
-            })}
-          </div>
+        <p>테마</p>
+        <div className={styles.themeList}>
+          {themes.map((theme) => {
+            return (
+              <button
+                key={theme.idx}
+                className={`${styles.themeButton} ${
+                  theme.state ? styles.selected : styles.notselected
+                }`}
+                onClick={() => {
+                  const newThemes = themes.map((t) => {
+                    if (t.idx === theme.idx) {
+                      return { ...t, state: !t.state };
+                    } else {
+                      return t;
+                    }
+                  });
+                  onTourDataChange("themes", newThemes);
+                  console.log(theme.state);
+                }}
+              >
+                {theme.name}
+              </button>
+            );
+          })}
         </div>
       </div>
 

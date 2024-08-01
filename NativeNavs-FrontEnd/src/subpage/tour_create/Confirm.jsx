@@ -5,7 +5,7 @@ import { getStringedDate } from "@utils/get-stringed-date";
 import { TourDataContext } from "./Tour_Create";
 import { useContext } from "react";
 
-const Confirm = ({ BeforePage }) => {
+const Confirm = ({ goBeforePage }) => {
   const {
     title,
     thumbnail_image,
@@ -16,17 +16,28 @@ const Confirm = ({ BeforePage }) => {
     end_date,
     max_participant,
     plans,
+    themes,
   } = useContext(TourDataContext);
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
         <p>썸네일 사진</p>
-        <img src={thumbnail_image} alt="" />
+        {thumbnail_image.length > 0 ? (
+          <div>{thumbnail_image}</div>
+        ) : (
+          <div style={{ color: "red", fontSize: "20px" }}>
+            이미지 업로드 해주세요
+          </div>
+        )}
       </section>
       <hr />
       <section className="TourTitle">
         <p>제목</p>
-        <div>{title}</div>
+        {title.length > 0 ? (
+          <div>{title}</div>
+        ) : (
+          <div style={{ color: "red" }}>제목 입력해 주세요</div>
+        )}
       </section>
       <section className="TourDuration">
         <p>기간</p>
@@ -42,6 +53,20 @@ const Confirm = ({ BeforePage }) => {
       <section className="TourMaxPeople">
         <p>최대 허용 인원</p>
         <div>{max_participant} 명</div>
+      </section>
+      <section className="TourTheme">
+        <p>테마</p>
+        <div className="TourThemeList">
+          {themes
+            .filter((theme) => theme.state)
+            .map((theme) => {
+              return (
+                <div key={theme.idx} className="TourThemeItem">
+                  {theme.name}
+                </div>
+              );
+            })}
+        </div>
       </section>
       <section className="TourPlanList">
         <p>Plans</p>
@@ -64,8 +89,14 @@ const Confirm = ({ BeforePage }) => {
         <div>{description}</div>
       </section>
       <section className="ButtonSection">
-        <Button text={"이전"} size={0} onClickEvent={BeforePage} />
-        <Button text={"추가"} size={0} />
+        <Button text={"이전"} size={0} onClickEvent={goBeforePage} />
+        <Button
+          text={"추가"}
+          size={0}
+          onClickEvent={() => {
+            console.log("누른것");
+          }}
+        />
       </section>
     </div>
   );
