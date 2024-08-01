@@ -34,6 +34,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     }
 
     private fun initView() {
+        if(SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
+        else binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_trav)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.home_fcv) as NavHostFragment
