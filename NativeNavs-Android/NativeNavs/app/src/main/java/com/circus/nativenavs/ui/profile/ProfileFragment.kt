@@ -3,6 +3,7 @@ package com.circus.nativenavs.ui.profile
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
@@ -10,6 +11,7 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ProfileReviewDto
 import com.circus.nativenavs.databinding.FragmentProfileBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
@@ -42,6 +44,8 @@ class ProfileFragment :
         )
     )
 
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
+
     private lateinit var homeActivity: HomeActivity
     private val args: ProfileFragmentArgs by navArgs()
 
@@ -58,12 +62,25 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+        initAdapter()
+        initEvent()
+
+
+    }
+    private fun initView(){
+        homeActivityViewModel.profileUser.observe(viewLifecycleOwner){
+
+        }
+    }
+    private fun initAdapter(){
         binding.profileReviewRv.apply {
             this.adapter = ProfileReviewListAdapter().apply {
                 submitList(dummy)
             }
         }
-
+    }
+    private fun initEvent(){
         binding.profileModifyBtn.setOnClickListener {
             navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
@@ -85,5 +102,4 @@ class ProfileFragment :
             navigate(R.id.action_profileFragment_to_stampFragment)
         }
     }
-
 }
