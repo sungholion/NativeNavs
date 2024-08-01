@@ -1,6 +1,7 @@
 package com.circus.nativenavs.ui.signup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
@@ -14,18 +15,31 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     FragmentSignUpLanguageBinding::bind,
     R.layout.fragment_sign_up_language
 ) {
-
+    private var count = 0
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
-    val languageList = COUNTRIES.map { LanguageDTO(it, isChecked = false) }
-    private val languageListAdapter = LanguageListAdapter{ language, isChecked ->
-        val updatedLanguages = signUpViewModel.languageList.value?.language?.toMutableList()?.apply {
-            if (isChecked) add(language) else remove(language)
-        }
-        updatedLanguages?.let { signUpViewModel.updateLanguage(it) }
+    private val languageListAdapter by lazy {
+        LanguageListAdapter({ language, isChecked ->
+            val updatedLanguages =
+                signUpViewModel.languageList.value?.language?.toMutableList()?.apply {
+                    if (isChecked) {
+                        add(language)
+                    } else {
+                        remove(language)
+                    }
+                }
+            signUpViewModel.updateCheckList(language, isChecked)
+            updatedLanguages?.let { signUpViewModel.updateLanguage(it) }
+
+        }, count)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        signUpViewModel.languageCheckList.value?.forEach {
+            if (it.isChecked) count++
+        }
 
         initAdapter()
         initEvent()
@@ -33,7 +47,11 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
         // 선택된 언어를 observe
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             val selectedLanguages = languageList.language
-
+            count.apply {
+                signUpViewModel.languageCheckList.value?.forEach {
+                    if (it.isChecked) count++
+                }
+            }
 
             // 기존 리스트에서 체크 상태를 업데이트
             val updatedList = languageListAdapter.currentList.map { language ->
@@ -48,7 +66,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 
     private fun initAdapter() {
         binding.signupLanguageRv.adapter = languageListAdapter
-        languageListAdapter.submitList(languageList)
+        languageListAdapter.submitList(signUpViewModel.languageCheckList.value)
     }
 
     private fun initEvent() {
@@ -62,17 +80,18 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     }
 
     companion object {
+
         val COUNTRIES = arrayListOf(
-            "English",
-            "Korean",
-            "Japanese",
-            "Chinese",
-            "French",
-            "Italian",
-            "German",
-            "Russian",
-            "Arabic",
-            "Spanish"
+            "USA",
+            "Korea",
+            "Japan",
+            "China",
+            "France",
+            "Italy",
+            "Germany",
+            "Russia",
+            "Saudi Arabia",
+            "Spain"
         )
 
     }

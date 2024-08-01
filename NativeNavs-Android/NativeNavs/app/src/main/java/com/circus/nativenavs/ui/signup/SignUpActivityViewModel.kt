@@ -3,9 +3,12 @@ package com.circus.nativenavs.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.data.LanguageListDTO
+import com.circus.nativenavs.data.LanguageServerDTO
 import com.circus.nativenavs.data.SignUpDTO
 import com.circus.nativenavs.data.service.UserService
 import com.circus.nativenavs.util.SharedPref
@@ -43,6 +46,34 @@ class SignUpActivityViewModel : ViewModel() {
 
     private val _signStatus = MutableLiveData<Int>()
     val signStatus: LiveData<Int> get() = _signStatus
+
+    private val _languageServerList = MutableLiveData(LanguageServerDTO())
+    val languageServerList : LiveData<LanguageServerDTO> get() = _languageServerList
+
+    private val _languageCheckList = MutableLiveData<List<LanguageDTO>>()
+    val languageCheckList : LiveData<List<LanguageDTO>> get() = _languageCheckList
+
+    private val _checkCount = MutableLiveData<Int>(0)
+    val checkCount : LiveData<Int> get() = _checkCount
+
+    fun updateCheckList(language : String, isChecked: Boolean){
+        var count = 0
+        _languageCheckList.value?.onEach {
+            if(it.language == language) {
+                it.isChecked = isChecked
+            }
+            if(isChecked) count++
+        }
+        _checkCount.value = count
+    }
+
+    fun updateLanguageList(){
+        viewModelScope.launch {
+            _languageServerList.value = retrofit.getLanguageList()
+            _languageCheckList.value = languageServerList.value?.map { LanguageDTO(it.name, isChecked = false) }
+        }
+    }
+
 
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 

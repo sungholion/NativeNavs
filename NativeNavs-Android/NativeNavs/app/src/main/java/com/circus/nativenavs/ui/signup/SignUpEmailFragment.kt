@@ -145,9 +145,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
         }
 
-        binding.signupEmailNextBtn.isEnabled = true
         binding.signupEmailNextBtn.setOnClickListener {
-
             email = binding.signupEmailEt.text.toString()
             password = binding.signupPwEt.text.toString()
             val passwordCheck = binding.signupPwCheckEt.text.toString()

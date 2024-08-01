@@ -13,7 +13,7 @@ import com.circus.nativenavs.databinding.ItemLanguageBinding
 
 private const val TAG = "싸피_LanguageListAdapter"
 
-class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean) -> Unit) :
+class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean) -> Unit,val count : Int) :
     ListAdapter<LanguageDTO, LanguageListAdapter.LanguageViewHolder>(LanguageComparator) {
 
     companion object LanguageComparator : DiffUtil.ItemCallback<LanguageDTO>() {
@@ -29,15 +29,15 @@ class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean)
 
     }
 
-    private var checkedItemCount = 0
+    private var checkedItemCount = count
 
     inner class LanguageViewHolder(val binding: ItemLanguageBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(languageItem: LanguageDTO) {
+
             binding.languageTv.text = languageItem.language
             binding.languageCb.isChecked = languageItem.isChecked
-
 
             binding.root.setOnClickListener {
                 // Only proceed if checkedItemCount is less than maxCheckedCount

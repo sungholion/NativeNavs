@@ -2,6 +2,7 @@ package com.circus.nativenavs.data.service
 
 import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.data.LanguageListDTO
+import com.circus.nativenavs.data.LanguageServerDTO
 import com.circus.nativenavs.data.LoginDTO
 import com.circus.nativenavs.data.LoginResponse
 import com.circus.nativenavs.data.SignUpDTO
@@ -36,6 +37,6 @@ interface UserService {
     ) : Response<Void>
 
     @GET("language")
-    suspend fun getLanguageList():List<LanguageListDTO>
+    suspend fun getLanguageList():LanguageServerDTO
 
 }
