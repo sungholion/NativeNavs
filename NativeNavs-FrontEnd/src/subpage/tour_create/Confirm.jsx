@@ -23,7 +23,7 @@ const Confirm = ({ goBeforePage }) => {
       <section className="TourThumbnailCheck">
         <p>썸네일 사진</p>
         {thumbnail_image.length > 0 ? (
-          <div>{thumbnail_image}</div>
+          <img src={thumbnail_image} alt="썸네일이미지" />
         ) : (
           <div style={{ color: "red", fontSize: "20px" }}>
             이미지 업로드 해주세요
@@ -53,6 +53,10 @@ const Confirm = ({ goBeforePage }) => {
       <section className="TourMaxPeople">
         <p>최대 허용 인원</p>
         <div>{max_participant} 명</div>
+      </section>
+      <section className="TourExpectPrice">
+        <p>예상 비용</p>
+        <div>{price} 원</div>
       </section>
       <section className="TourTheme">
         <p>테마</p>
