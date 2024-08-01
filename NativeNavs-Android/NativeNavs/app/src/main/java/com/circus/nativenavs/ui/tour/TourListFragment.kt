@@ -19,7 +19,6 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.LocaleUtils
 import com.circus.nativenavs.util.SharedPref
-import com.circus.nativenavs.util.TourListBridge
 import com.circus.nativenavs.util.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
