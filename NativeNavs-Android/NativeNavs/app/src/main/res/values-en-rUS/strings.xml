@@ -122,4 +122,9 @@
     <string name="sign_check_name">Check your name</string>
     <string name="sign_check_birth">Check your birth</string>
     <string name="sign_check_phone">Check your phone number</string>
+    <string name="app_bar_review_photos">All Photos</string>
+    <string name="app_bar_my_trip_reservation_list">Booking List</string>
+    <string name="profile_nation">Nation:</string>
+    <string name="profile_user_language">Language:</string>
+    <string name="profile_user_use">Number of Use:</string>
 </resources>

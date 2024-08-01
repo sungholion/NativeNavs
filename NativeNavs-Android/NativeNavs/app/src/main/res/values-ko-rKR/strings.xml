@@ -123,4 +123,9 @@
     <string name="sign_check_name">이름을 입력해주세요</string>
     <string name="sign_check_birth">생년월일을 확인해주세요</string>
     <string name="sign_check_phone">전화번호를 입력해주세요</string>
+    <string name="app_bar_review_photos">사진 전체보기</string>
+    <string name="app_bar_my_trip_reservation_list">예약 목록</string>
+    <string name="profile_nation">거주지:</string>
+    <string name="profile_user_language">언어:</string>
+    <string name="profile_user_use">이용횟수:</string>
 </resources>
