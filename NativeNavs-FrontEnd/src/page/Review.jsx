@@ -13,7 +13,11 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
   console.log(params);
 
   const onClickButton = () => {
-    navigateToReviewPhotoFragment(JSON.stringify(params));
+    if (params.tour_id) {
+      navigateToReviewPhotoFragment(params.tour_id);
+    } else {
+      navigateToReviewPhotoFragment(params.user_id);
+    }
   };
 
   return (
