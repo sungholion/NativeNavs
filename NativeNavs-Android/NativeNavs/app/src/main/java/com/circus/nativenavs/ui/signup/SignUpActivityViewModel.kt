@@ -3,22 +3,19 @@ package com.circus.nativenavs.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.circus.nativenavs.config.ApplicationClass
-import com.circus.nativenavs.data.LanguageDTO
-import com.circus.nativenavs.data.LanguageListDTO
-import com.circus.nativenavs.data.LanguageServerDTO
-import com.circus.nativenavs.data.SignUpDTO
+import com.circus.nativenavs.data.LanguageDto
+import com.circus.nativenavs.data.LanguageListDto
+import com.circus.nativenavs.data.LanguageServerDto
+import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
-import com.circus.nativenavs.util.SharedPref
 import kotlinx.coroutines.launch
 
 class SignUpActivityViewModel : ViewModel() {
 
     private val _signUpDTO = MutableLiveData(
-        SignUpDTO(
+        SignUpDto(
             "",
             "",
             false,
@@ -31,10 +28,10 @@ class SignUpActivityViewModel : ViewModel() {
             false
         )
     )
-    val signUpDTO: LiveData<SignUpDTO> = _signUpDTO
+    val signUpDTO: LiveData<SignUpDto> = _signUpDTO
 
-    private val _languageList = MutableLiveData(LanguageListDTO(emptyList()))
-    val languageList: LiveData<LanguageListDTO> = _languageList
+    private val _languageList = MutableLiveData(LanguageListDto(emptyList()))
+    val languageList: LiveData<LanguageListDto> = _languageList
 
     private val _nicknameCheck = MutableLiveData<Boolean>(false)
     val nicknameCheck : LiveData<Boolean> = _nicknameCheck
@@ -48,11 +45,11 @@ class SignUpActivityViewModel : ViewModel() {
     private val _signStatus = MutableLiveData<Int>()
     val signStatus: LiveData<Int> get() = _signStatus
 
-    private val _languageServerList = MutableLiveData(LanguageServerDTO())
-    val languageServerList : LiveData<LanguageServerDTO> get() = _languageServerList
+    private val _languageServerList = MutableLiveData(LanguageServerDto())
+    val languageServerList : LiveData<LanguageServerDto> get() = _languageServerList
 
-    private val _languageCheckList = MutableLiveData<List<LanguageDTO>>()
-    val languageCheckList : LiveData<List<LanguageDTO>> get() = _languageCheckList
+    private val _languageCheckList = MutableLiveData<List<LanguageDto>>()
+    val languageCheckList : LiveData<List<LanguageDto>> get() = _languageCheckList
 
     private val _checkCount = MutableLiveData<Int>(0)
     val checkCount : LiveData<Int> get() = _checkCount
@@ -71,7 +68,7 @@ class SignUpActivityViewModel : ViewModel() {
     fun updateLanguageList(){
         viewModelScope.launch {
             _languageServerList.value = retrofit.getLanguageList()
-            _languageCheckList.value = languageServerList.value?.map { LanguageDTO(it.name, isChecked = false) }
+            _languageCheckList.value = languageServerList.value?.map { LanguageDto(it.name, isChecked = false) }
         }
     }
 
@@ -126,7 +123,7 @@ class SignUpActivityViewModel : ViewModel() {
     }
 
     fun updateLanguage(language : List<String>){
-        _languageList.value = LanguageListDTO(language)
+        _languageList.value = LanguageListDto(language)
     }
 
     fun updateNicknameCheck(isChecked : Boolean){
