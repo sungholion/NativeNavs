@@ -1,16 +1,13 @@
 package com.circus.nativenavs.data.service
 
-import com.circus.nativenavs.data.LanguageDTO
-import com.circus.nativenavs.data.LanguageListDTO
-import com.circus.nativenavs.data.LanguageServerDTO
-import com.circus.nativenavs.data.LoginDTO
+import com.circus.nativenavs.data.LanguageServerDto
+import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.data.LoginResponse
-import com.circus.nativenavs.data.SignUpDTO
-import org.intellij.lang.annotations.Language
+import com.circus.nativenavs.data.ProfileUserDto
+import com.circus.nativenavs.data.SignUpDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,12 +16,12 @@ interface UserService {
 
     @POST("users")
     suspend fun postSignUp(
-        @Body signUpDTO: SignUpDTO
+        @Body signUpDTO: SignUpDto
     ) : Response<Void>
 
     @POST("auth/login")
     suspend fun Login(
-        @Body loginDTO: LoginDTO
+        @Body loginDTO: LoginDto
     ) : Response<LoginResponse>
 
     @GET("users/authenticateEmail")
@@ -39,11 +36,15 @@ interface UserService {
     ) : Response<Void>
 
     @GET("language")
-    suspend fun getLanguageList():LanguageServerDTO
+    suspend fun getLanguageList():LanguageServerDto
 
     @GET("users/checkDuplicated/nickname/{nickname}")
     suspend fun isDupliNick(
         @Path(value = "nickname") nickname : String
     ):Response<Void>
 
+    @GET("users/search/id/{id}")
+    suspend fun searchUser(
+        @Path(value = "id") userId: Int
+    ): ProfileUserDto
 }

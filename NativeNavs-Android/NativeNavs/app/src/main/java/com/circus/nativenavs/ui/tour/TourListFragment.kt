@@ -3,24 +3,33 @@ package com.circus.nativenavs.ui.tour
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
+import com.circus.nativenavs.util.LocaleUtils
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class TourListFragment : BaseFragment<FragmentTourListBinding>(
     FragmentTourListBinding::bind,
     R.layout.fragment_tour_list
 ) {
-
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
     private lateinit var homeActivity: HomeActivity
     private lateinit var bridge: TourListBridge
     private var isPageLoaded = false
@@ -34,8 +43,8 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         initEvent()
-        initBridge()
         initWebView()
+        initBridge()
     }
 
     private fun initBridge() {

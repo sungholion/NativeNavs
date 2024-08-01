@@ -1,6 +1,6 @@
 package com.circus.nativenavs.data
 
-data class SignUpDTO(
+data class SignUpDto(
     val email: String,
     val password: String,
     val isNav: Boolean,
@@ -15,6 +15,6 @@ data class SignUpDTO(
     val device : String = ""
 )
 
-data class LanguageListDTO (val language : List<String>){
+data class LanguageListDto (val language : List<String>){
 
 }

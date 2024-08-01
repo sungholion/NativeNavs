@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NativeNavs</string>
+    <string name="hello_blank_fragment">Hello</string>
+
+    <!-- Navigation Menu Names -->
+    <string name="nav_user_tour">Tour</string>
+    <string name="nav_trav_wishlist">WishList</string>
+    <string name="nav_trav_trip">My Trip</string>
+    <string name="nav_navs_new_tour">New Tour</string>
+    <string name="nav_navs_booking">Booking</string>
+    <string name="nav_user_chat">Chat</string>
+    <string name="nav_user_profile">Profile</string>
+
+    <!-- App Bar Titles -->
+    <string name="app_bar_tour_detail">Tour Details</string>
+    <string name="app_bar_tour_register">Create Tour</string>
+    <string name="app_bar_tour_modify">Edit Tour</string>
+    <string name="app_bar_review">Review</string>
+    <string name="app_bar_review_register">Write Review</string>
+    <string name="app_bar_profile">Profile</string>
+    <string name="app_bar_profile_modify">Edit Profile</string>
+
+    <string name="tour_wish_list_title">WishList</string>
+
+    <!-- My Page -->
+    <string name="mypage_title">Profile</string>
+    <string name="mypage_setting_title">Settings</string>
+    <string name="mypage_logout">Logout</string>
+    <string name="mypage_setting">Settings</string>
+    <string name="mypage_team">About NativeNavs</string>
+    <string name="mypage_tos">Privacy Policy</string>
+    <string name="mypage_withdrawal">Delete Account</string>
+
+    <!--sign-->
+    <string name="profile_myreview">My Review</string>
+    <string name="sign_next">Next</string>
+    <string name="sign_email">Email</string>
+    <string name="sign_pw">Password</string>
+    <string name="sign_pw_check">Re-enter Password</string>
+    <string name="sign_login">Login</string>
+    <string name="sign_google_login">Login with Google</string>
+    <string name="sign_login_not_user">Not a member yet?</string>
+    <string name="sign_login_signup"><u>Sign Up</u></string>
+    <string name="sign_email_signup">Sign Up with Email</string>
+    <string name="sign_google_signup">Sign Up with Google</string>
+    <string name="sign_send">Send</string>
+    <string name="sign_code">Code</string>
+    <string name="sign_email_valid">Invalid email format.</string>
+    <string name="sign_code_help">If you didn\&apos;t receive the code or need to resend it, please request a new code.</string>
+    <string name="sign_auth">Verify</string>
+    <string name="sign_pw_help">Please enter the password for this account.\nUse 8-20 characters with a mix of letters, numbers, and special characters.</string>
+    <string name="sign_pw_valid">Please check the password format.\nUse 8-20 characters with a mix of letters, numbers, and special characters.</string>
+    <string name="sign_pw_check_help">Please re-enter the password you entered above.</string>
+    <string name="sign_pw_check_valid">Passwords do not match. Please try again.</string>
+    <string name="sign_welcome">Welcome!</string>
+    <string name="sign_your_type">What\&#39;s your direction?</string>
+    <string name="sign_type_nav">Nav</string>
+    <string name="sign_type_nav_explain">Guide</string>
+    <string name="sign_type_trav">Trav</string>
+    <string name="sign_type_trav_explain">Traveler</string>
+    <string name="sign_nickname">Nickname</string>
+    <string name="sign_nickname_check">Check Availability</string>
+    <string name="sign_nickname_help">Enter a nickname to display on NativeNavs (4-20 characters, letters and numbers only).\nUsed nicknames are not allowed.</string>
+    <string name="sign_nationality">Country</string>
+    <string name="sign_languages">Select Languages</string>
+    <string name="sign_name">Name</string>
+    <string name="sign_name_help">Make sure it matches the name on your government-issued ID.</string>
+    <string name="sign_birth">Date of Birth</string>
+    <string name="sign_phone">Phone Number</string>
+    <string name="sign_phone_help">Enter numbers only.</string>
+    <string name="sign_terms"><u>I agree to the Terms of Service and Privacy Policy.</u></string>
+    <string name="sign_register">Register</string>
+    <string name="sign_language_help">You can select up to 5 languages.</string>
+    <string name="sign_check">Check</string>
+    <string name="sign_complete">Registration Complete!</string>
+    <string name="sign_complete_welcome">Congratulations on joining!\nNativeNavs will be with you on your journey.</string>
+    <string name="sign_move_to_main">Go to Main</string>
+
+    <!--tourList-->
+    <string name="search_bar_title">Looking for a Travel?</string>
+    <string name="search_bar_content">Search to find various Navs.</string>
+
+    <!--booking-->
+    <string name="booking_page_title">Booking</string>
+    <string name="booking_detail_page_title">Booking Details</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <!--setting-->
+    <string name="setting_language">Language</string>
+    <string name="setting_language_help">Select the language for the app.</string>
+    <string name="setting_noti">Notifications</string>
+    <string name="setting_noti_help">Get important notifications about bookings, messages, and account activity.</string>
+
+    <!--tos-->
+    <string name="tos_title">Privacy Policy</string>
+
+    <!--team-->
+    <string name="team_title">Circus Intro</string>
+
+    <!--notification-->
+    <string name="noti_title">Notification</string>
+
+    <!--reservation-->
+    <string name="reservation_register_title">Book</string>
+    <string name="reservation_detail_title">Booking Detail</string>
+
+    <!--chat-->
+    <string name="chat_list_title">Chat</string>
+    <string name="video_call">Video Call</string>
+    <string name="booking">Booking</string>
+    <string name="profile_mystamp">My Stamp</string>
+    <string name="profile_modify_update_btn">Update</string>
+    <string name="sign_useable_nickname">This niclname is available</string>
+    <string name="sign_already_exist_nickname">This nickname is already in use</string>
+    <string name="sign_check_nickname_btn">Check Duplicate nickName</string>
+    <string name="sign_check_name">Check your name</string>
+    <string name="sign_check_birth">Check your birth</string>
+    <string name="sign_check_phone">Check your phone number</string>
+    <string name="app_bar_review_photos">All Photos</string>
+    <string name="app_bar_my_trip_reservation_list">Booking List</string>
+    <string name="profile_nation">Nation:</string>
+    <string name="profile_user_language">Language:</string>
+    <string name="profile_user_use">Number of Use:</string>
+</resources>

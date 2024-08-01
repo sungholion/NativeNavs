@@ -1,12 +1,10 @@
 package com.circus.nativenavs.ui.signup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.databinding.FragmentSignUpLanguageBinding
 import com.circus.nativenavs.util.popBackStack
 

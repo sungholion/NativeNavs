@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.circus.nativenavs.config.BaseActivity
-import com.circus.nativenavs.data.LoginDTO
+import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.databinding.ActivityLoginBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.signup.SignUpActivity
@@ -37,7 +37,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             val password = binding.loginPwEt.text.toString()
             val device = ""
 
-            activityViewModel.Login(LoginDTO(email, password, device))
+            activityViewModel.Login(LoginDto(email, password, device))
         }
 
         binding.loginSignupTv.setOnClickListener {

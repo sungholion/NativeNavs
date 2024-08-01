@@ -5,23 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
-import com.circus.nativenavs.data.LoginDTO
+import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.data.service.UserService
 import com.circus.nativenavs.util.SharedPref
 import kotlinx.coroutines.launch
-import retrofit2.create
 
 class LoginActivityViewModel : ViewModel() {
 
-    private val _loginDto = MutableLiveData<LoginDTO>()
-    val loginDto: LiveData<LoginDTO> get() = _loginDto
+    private val _loginDto = MutableLiveData<LoginDto>()
+    val loginDto: LiveData<LoginDto> get() = _loginDto
 
     private val _loginStatusCode = MutableLiveData<Int>()
     val loginStatusCode: LiveData<Int> get() = _loginStatusCode
 
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
-    fun Login(login: LoginDTO) {
+    fun Login(login: LoginDto) {
         viewModelScope.launch {
 
             val response = retrofit.Login(login)
