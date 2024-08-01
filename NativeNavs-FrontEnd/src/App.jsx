@@ -109,6 +109,7 @@ function App() {
           />
         </Route>
         <Route path="/reservation/:tour_id" element={<Reservation />}>
+          <Route path="list" element={<div>해당 투어에 대한 예약 목록</div>} />
           <Route path="create" element={<div>예약 하기</div>} />
           <Route path="detail/:res_id" element={<div>예약 상세 정보</div>} />
         </Route>
@@ -119,7 +120,11 @@ function App() {
           element={
             <div>
               <div>잘못된 경로 혹은 미구현된 페이지</div>
-              <img src={getStaticImage("router-img")} alt="" />
+              <img
+                src={getStaticImage("router-img")}
+                alt=""
+                style={{ width: "90vw" }}
+              />
             </div>
           }
         />

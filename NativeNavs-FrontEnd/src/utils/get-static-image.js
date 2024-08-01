@@ -5,7 +5,7 @@ import heart_on from "@/assets/heart_on.png";
 import language from "@/assets/language.png";
 import minus from "@/assets/minus.png";
 import NativeNavs from "@/assets/NativeNavs.png";
-import RouterImg from "@/assets/router_img.png";
+import RouterImg from "@/assets/router-img.svg";
 
 export function getStaticImage(type = "") {
   switch (type) {
