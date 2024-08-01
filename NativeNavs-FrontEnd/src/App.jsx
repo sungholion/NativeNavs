@@ -20,10 +20,10 @@ import {
   navigateToTravReviewPhotoFragment,
 } from "./utils/get-android-function";
 import { getStaticImage } from "./utils/get-static-image";
+import ReviewCreate from "./page/ReviewCreate";
 
 function App() {
   const param = useSearchParams();
-
   return (
     <>
       <Routes>
@@ -46,7 +46,11 @@ function App() {
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
               path="reviews/create"
-              element={<div>투어 리뷰 작성 페이지</div>}
+              element={
+                <div>
+                  <ReviewCreate />
+                </div>
+              }
             />
           </Route>
         </Route>

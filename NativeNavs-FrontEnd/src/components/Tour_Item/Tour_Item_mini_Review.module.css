@@ -1,0 +1,74 @@
+.Tour_Item_mini_Review {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+}
+
+.tourImageSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.tourImageSection img {
+  width: 90%;
+  height: 100px;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.tourInfoSection {
+  display: flex;
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+}
+
+.tourNavInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: center;
+  margin-top: 10px;
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 70%;
+    align-self: flex-end;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-top: 5px;
+    align-self: flex-end;
+  }
+}
+
+.tourTextInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+
+  h3 {
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+    font-size: 1.5rem;
+  }
+
+  div {
+    align-self: flex-start;
+    margin: 0;
+    padding: 0;
+    color: #595959;
+  }
+}
