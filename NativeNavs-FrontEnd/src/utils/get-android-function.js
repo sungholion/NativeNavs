@@ -37,9 +37,9 @@ export function navigateToWishDetailFragment(tourId) {
 }
 
 // 투어 상세보기로 이동
-export function navigateToTourDetailFragment(tourId) {
+export function navigateToTourDetailFragment(tour_id, user_id) {
   if (window.Android && typeof window.Android.navigateToTourDetailFragment === 'function') {
-    window.Android.navigateToTourDetailFragment(tourId);
+    window.Android.navigateToTourDetailFragment(tour_id, user_id);
   } else {
     console.log('navigateToTourDetailFragment function is not defined');
   }
