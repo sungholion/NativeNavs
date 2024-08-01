@@ -31,6 +31,7 @@ class LoginActivityViewModel : ViewModel() {
                 println("로그인 성공 메시지: ${loginResponse?.message}")
                 println("액세스 토큰: ${loginResponse?.accessToken}")
                 println("리프레시 토큰: ${loginResponse?.refreshToken}")
+                println("바디 ${loginResponse}")
 
                 SharedPref.accessToken = loginResponse?.accessToken
                 SharedPref.refreshToken = loginResponse?.refreshToken

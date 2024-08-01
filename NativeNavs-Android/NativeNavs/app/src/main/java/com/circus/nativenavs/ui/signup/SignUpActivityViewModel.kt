@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.data.LanguageListDTO
@@ -76,6 +77,16 @@ class SignUpActivityViewModel : ViewModel() {
 
 
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
+
+    private val _dupliState = MutableLiveData<Pair<Int,String>>()
+    val dupliState: LiveData<Pair<Int,String>> get() = _dupliState
+
+    fun isDupli(nickname:String){
+       viewModelScope.launch {
+           val response = retrofit.isDupliNick(nickname)
+           _dupliState.postValue(Pair(response.code(),response.message()))
+       }
+    }
 
     fun signUp() {
         viewModelScope.launch {

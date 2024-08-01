@@ -10,7 +10,9 @@ import org.intellij.lang.annotations.Language
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserService {
@@ -38,5 +40,10 @@ interface UserService {
 
     @GET("language")
     suspend fun getLanguageList():LanguageServerDTO
+
+    @GET("users/checkDuplicated/nickName/{email}")
+    suspend fun isDupliNick(
+        @Path(value = "email") email : String
+    ):Response<Void>
 
 }

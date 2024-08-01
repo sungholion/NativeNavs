@@ -61,6 +61,33 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
         }
 
+        signUpViewModel.dupliState.observe(viewLifecycleOwner){status ->
+            when(status.first){
+                200 -> {
+                    if ("false" in status.second) {
+                        binding.signupDupliOk.visibility = INVISIBLE
+                        binding.signupDupliNone.visibility = INVISIBLE
+                        binding.signupDupliBad.visibility = VISIBLE
+                        binding.signupNicknameHelpTv.visibility = INVISIBLE
+                        signUpViewModel.updateNickname(status.second)
+                    } else if ("true" in status.second) {
+                        signUpViewModel.updateNicknameCheck(true)
+                        binding.signupDupliOk.visibility = VISIBLE
+                        binding.signupDupliNone.visibility = INVISIBLE
+                        binding.signupDupliBad.visibility = INVISIBLE
+                        binding.signupNicknameHelpTv.visibility = INVISIBLE
+                        signUpViewModel.updateNickname(status.second)
+                    } else {
+                        println("메시지를 이해할 수 없습니다")
+                    }
+                }
+                else -> {
+                    showToast("다시 시도해 주세요")
+                }
+            }
+
+        }
+
     }
 
     private fun initTextWatcher(){
@@ -181,12 +208,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 binding.signupNicknameHelpTv.visibility = INVISIBLE
             }
             else{
-                signUpViewModel.updateNicknameCheck(true)
-                binding.signupDupliOk.visibility = VISIBLE
-                binding.signupDupliNone.visibility = INVISIBLE
-                binding.signupDupliBad.visibility = INVISIBLE
-                binding.signupNicknameHelpTv.visibility = INVISIBLE
-                signUpViewModel.updateNickname(nickname)
+                signUpViewModel.isDupli(nickname)
             }
 
         }
