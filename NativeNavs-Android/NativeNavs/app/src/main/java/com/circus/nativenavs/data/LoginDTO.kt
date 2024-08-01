@@ -11,5 +11,8 @@ data class LoginDTO(
 data class LoginResponse(
     val message: String,
     val accessToken: String,
-    val refreshToken: String
+    val refreshToken: String,
+    val userId: Int,
+    val email: String,
+    val isNav : Boolean
 )

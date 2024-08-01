@@ -5,10 +5,12 @@ import android.content.SharedPreferences
 object SharedPref {
     var sharedPrefs: SharedPreferences? = null
 
-    var userId: Int
+    var userId: Int?
         get() = sharedPrefs?.getInt(USER_ID, 0) ?: 0
         set(value) {
-            sharedPrefs?.edit()?.putInt(USER_ID, value)?.apply()
+            if (value != null) {
+                sharedPrefs?.edit()?.putInt(USER_ID, value)?.apply()
+            }
         }
     var userEmail: String?
         get() = sharedPrefs?.getString(EMAIL, null)

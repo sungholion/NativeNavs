@@ -35,6 +35,10 @@ class LoginActivityViewModel : ViewModel() {
 
                 SharedPref.accessToken = loginResponse?.accessToken
                 SharedPref.refreshToken = loginResponse?.refreshToken
+//                SharedPref.userId = loginResponse?.userId
+//                SharedPref.userEmail = loginResponse?.email
+//                SharedPref.isNav = loginResponse?.isNav
+
                 println("${SharedPref.accessToken.toString()}")
                 ApplicationClass.setAuthToken(SharedPref.accessToken.toString());
             } else {
