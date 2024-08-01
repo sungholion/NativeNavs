@@ -1,7 +1,6 @@
 .Create3 {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   z-index: 1;
 
   p {
@@ -35,4 +34,31 @@
   color: #595959;
   font-size: 14px;
   margin-left: 10vw;
+}
+
+.ButtonSection {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  align-items: center;
+  position: fixed;
+  bottom: 2vh;
+
+  button {
+    width: 20vw;
+    height: 5vh;
+    color: white;
+    background-color: #20bec9;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 20vw;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+  button:focus {
+    outline: none;
+  }
 }

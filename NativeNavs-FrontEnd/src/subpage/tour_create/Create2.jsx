@@ -1,14 +1,24 @@
-import { act, useReducer, useRef, useState } from "react";
+import {
+  act,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import styles from "./Create2.module.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStaticImage } from "@/utils/get-static-image";
 import PlanModal from "@/components/PlanModal/PlanModal";
 import { createPortal } from "react-dom";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import Button from "@/components/Button/Button";
+import { TourDataContext, TourDispatchContext } from "./Tour_Create";
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "INIT": {
+      return action.data;
+    }
     case "DELETE": {
       return state.filter((item) => item.plan_id !== action.plan_id);
     }
@@ -23,12 +33,29 @@ const reducer = (state, action) => {
   }
 };
 
-const Create2 = ({ BeforePage, AfterPage, onTourDataChange }) => {
-  const [planList, dispatch] = useReducer(reducer, []); //[plan_info, plan_info2, plan_info3]
+const Create2 = ({ goBeforePage, goAfterPage }) => {
+  const { plans } = useContext(TourDataContext);
+  const { onTourDataChange } = useContext(TourDispatchContext);
+
+  const [planList, dispatch] = useReducer(reducer, []);
   const [addmodalOpen, setAddModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const planCount = useRef(3);
+  const planCount = useRef(0);
   const [editPlanData, setEditPlanData] = useState();
+
+  useEffect(() => {
+    if (plans.length) {
+      dispatch({
+        type: "INIT",
+        data: plans,
+      });
+
+      plans.forEach((plan) => {
+        planCount.current = Math.max(planCount.current, plan.plan_id);
+      });
+    }
+  }, [plans]);
+
   const onPlanDeleteEvent = (plan_id) => {
     dispatch({
       type: "DELETE",
@@ -79,6 +106,7 @@ const Create2 = ({ BeforePage, AfterPage, onTourDataChange }) => {
       },
     });
   };
+
   return (
     <>
       <div className={styles.Create2}>
@@ -165,18 +193,24 @@ const Create2 = ({ BeforePage, AfterPage, onTourDataChange }) => {
               )}
           </div>
         </section>
-        <Button
-          size={3}
-          text={"다음"}
-          onClickEvent={() => {
-            if (planList.length > 0) {
-              onTourDataChange("plans", planList);
-              AfterPage();
-            } else {
-              window.alert("최소 1개이상 계획을 새워주세요");
-            }
-          }}
-        />
+        <section className={styles.ButtonSection}>
+          <button
+            onClick={() => {
+              onTourDataChange("plans", [...planList]);
+              goBeforePage();
+            }}
+          >
+            뒤로
+          </button>
+          <button
+            onClick={() => {
+              onTourDataChange("plans", [...planList]);
+              goAfterPage();
+            }}
+          >
+            다음
+          </button>
+        </section>
       </div>
     </>
   );

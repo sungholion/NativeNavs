@@ -6,7 +6,6 @@
   border-radius: 5px;
   border: 2px solid #d9d9d9;
   padding: 10px;
-  margin: 10px;
 }
 
 .delete_button {
@@ -47,6 +46,7 @@
   font-weight: 600;
   font-size: 20px;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -61,6 +61,7 @@ text-overflow : ellipsis -> 일정 영역 벗어난 글은 전부 ... 으로 숨
 .description {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

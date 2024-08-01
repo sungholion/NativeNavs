@@ -33,18 +33,20 @@ const Plan_Item = ({
   image,
   onDeleteEvent,
   onClickEvent,
+  enableDeleteOption = true,
 }) => {
   return (
     <div className={styles.Plan_Item}>
-      <div
-        className={styles.delete_button}
-        onClick={() => {
-          onDeleteEvent(plan_id);
-        }}
-      >
-        <img src={getStaticImage("close")} alt="close" />
-      </div>
-
+      {enableDeleteOption && (
+        <div
+          className={styles.delete_button}
+          onClick={() => {
+            onDeleteEvent(plan_id);
+          }}
+        >
+          <img src={getStaticImage("close")} alt="close" />
+        </div>
+      )}
       <div className={styles.content} onClick={onClickEvent}>
         <img src={image} alt="image" className={styles.plan_img} />
         <div className={styles.text}>

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 10vh;
 
   p {
     flex: 1;
@@ -50,6 +51,19 @@
   align-items: center;
 }
 
+.Title {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  margin-bottom: 2vh;
+
+  input {
+    width: 60vw;
+    height: 4vw;
+    margin: 0px auto;
+  }
+}
+
 .Date {
   display: flex;
   flex-direction: column;
@@ -74,8 +88,10 @@
 .DateInput {
   position: relative;
   display: inline-block;
-  width: 20vw;
-  height: 5vw;
+  width: 30vw;
+  height: 3vh;
+  border-radius: 5px;
+  text-align: center;
 }
 
 /* 캘린더 아이콘을 클릭할 수 있는 영역을 넓힙니다 */
@@ -151,4 +167,62 @@
   display: flex;
   flex-direction: column;
   width: 90vw;
+}
+
+.ButtonSection {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  align-items: center;
+  position: fixed;
+  bottom: 2vh;
+
+  button {
+    width: 20vw;
+    height: 5vh;
+    color: white;
+    background-color: #20bec9;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 20vw;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+  button:focus {
+    outline: none;
+  }
+}
+
+.themeList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+
+  button {
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    margin: 3px;
+    width: 13vw;
+    height: 40px;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+}
+
+.selected {
+  background-color: darksalmon;
+}
+
+.notselected {
+  background-color: #20bec9;
 }
