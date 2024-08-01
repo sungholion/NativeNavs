@@ -30,6 +30,11 @@
         SELECT COUNT(email) > 0 FROM user WHERE email = #{email}
     </select>
 
+    <select id="checkDuplicatedNickname" parameterType="string" resultType="boolean">
+        SELECT COUNT(nickname) > 0 FROM user WHERE nickname = #{nickname}
+    </select>
+
+
     <insert id="signUp" parameterType="user">
         INSERT INTO user(email, password, is_nav, image, nickname, nation, user_language, name, birth, phone, device, created_at, updated_at)
         VALUES (#{email}, #{password}, #{isNav}, #{image}, #{nickname}, #{nation}, #{userLanguage}, #{name}, #{birth}, #{phone}, #{device}, NOW(), NOW())
@@ -39,25 +44,37 @@
         SELECT * FROM user
     </select>
 
-    <select id="searchOneUser" parameterType="string" resultMap="userResultMap">
+    <select id="searchByEmail" parameterType="string" resultMap="userResultMap">
         SELECT * FROM user
         WHERE email = #{email}
+    </select>
+
+    <select id="searchById" parameterType="int" resultMap="userResultMap">
+        SELECT * FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByNickname" parameterType="string" resultMap="userResultMap">
+        SELECT * FROM user
+        WHERE nickname = #{nickname}
+    </select>
+
+    <select id="searchByName" parameterType="string" resultMap="userResultMap">
+        SELECT * FROM user
+        WHERE name = #{name}
     </select>
 
     <update id="updateUser" parameterType="map">
         UPDATE user
         <set>
             <if test="updateUser.image != null and updateUser.image != ''">image = #{updateUser.image},</if>
-            <if test="updateUser.phone != null and updateUser.phone != ''">phone = #{updateUser.phone},</if>
             <if test="updateUser.nickname != null and updateUser.nickname != ''">nickname = #{updateUser.nickname},</if>
+            <if test="updateUser.userLanguage != null and updateUser.userLanguage != ''">user_language = #{updateUser.userLanguage},</if>
+            <if test="updateUser.phone != null and updateUser.phone != ''">phone = #{updateUser.phone},</if>
             <if test="updateUser.password != null and updateUser.password != ''">password = #{updateUser.password},</if>
         </set>
         WHERE id = #{existingId}
     </update>
-
-    <select id="loginSessionWithEmail" parameterType="map" resultType="user">
-        SELECT * FROM user WHERE email = #{email} AND password = #{password}
-    </select>
 
 
 
