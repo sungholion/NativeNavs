@@ -3,7 +3,8 @@ package com.circus.nativenavs.util
 const val PREF = "pref"
 const val USER_ID = "userId"
 const val EMAIL = "email"
+const val IS_NAV = "isNav"
 const val ACCESSTOKEN = "accessToken"
 const val REFRESHTOKEN = "refreshToken"
 
-const val NATIVENAVS_URL = "http://i11d110.p.ssafy.io:8080/api/"
+const val NATIVENAVS_URL = "https://i11d110.p.ssafy.io/api/"

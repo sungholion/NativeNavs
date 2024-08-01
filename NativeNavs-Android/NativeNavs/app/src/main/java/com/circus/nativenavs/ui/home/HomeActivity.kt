@@ -1,6 +1,7 @@
 package com.circus.nativenavs.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.circus.nativenavs.ui.home.trip.MyTripFragment
+import com.circus.nativenavs.util.SharedPref
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
@@ -24,6 +26,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         super.onCreate(savedInstanceState)
 
         initView()
+
+        Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
+
     }
 
     private fun initView() {

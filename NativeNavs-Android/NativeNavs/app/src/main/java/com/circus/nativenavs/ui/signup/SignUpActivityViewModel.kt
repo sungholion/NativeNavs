@@ -3,9 +3,13 @@ package com.circus.nativenavs.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.LanguageDTO
 import com.circus.nativenavs.data.LanguageListDTO
+import com.circus.nativenavs.data.LanguageServerDTO
 import com.circus.nativenavs.data.SignUpDTO
 import com.circus.nativenavs.data.service.UserService
 import com.circus.nativenavs.util.SharedPref
@@ -38,7 +42,51 @@ class SignUpActivityViewModel : ViewModel() {
     private val _emailStatusCode = MutableLiveData<Int>()
     val emailStatusCode: LiveData<Int> get() = _emailStatusCode
 
+    private val _emailStatus = MutableLiveData<Int>()
+    val emailStatus: LiveData<Int> get() = _emailStatus
+
+    private val _signStatus = MutableLiveData<Int>()
+    val signStatus: LiveData<Int> get() = _signStatus
+
+    private val _languageServerList = MutableLiveData(LanguageServerDTO())
+    val languageServerList : LiveData<LanguageServerDTO> get() = _languageServerList
+
+    private val _languageCheckList = MutableLiveData<List<LanguageDTO>>()
+    val languageCheckList : LiveData<List<LanguageDTO>> get() = _languageCheckList
+
+    private val _checkCount = MutableLiveData<Int>(0)
+    val checkCount : LiveData<Int> get() = _checkCount
+
+    fun updateCheckList(language : String, isChecked: Boolean){
+        var count = 0
+        _languageCheckList.value?.onEach {
+            if(it.language == language) {
+                it.isChecked = isChecked
+            }
+            if(isChecked) count++
+        }
+        _checkCount.value = count
+    }
+
+    fun updateLanguageList(){
+        viewModelScope.launch {
+            _languageServerList.value = retrofit.getLanguageList()
+            _languageCheckList.value = languageServerList.value?.map { LanguageDTO(it.name, isChecked = false) }
+        }
+    }
+
+
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
+
+    private val _dupliState = MutableLiveData<Pair<Int,String>>()
+    val dupliState: LiveData<Pair<Int,String>> get() = _dupliState
+
+    fun isDupli(nickname:String){
+       viewModelScope.launch {
+           val response = retrofit.isDupliNick(nickname)
+           _dupliState.postValue(Pair(response.code(),response.body().toString()))
+       }
+    }
 
     fun signUp() {
         viewModelScope.launch {
@@ -46,10 +94,7 @@ class SignUpActivityViewModel : ViewModel() {
 
             // HTTP 상태 코드 출력
             println(_signUpDTO.value)
-            println(response)
-            println("Response code: ${response?.code()}")
-            println("Response headers: ${response?.headers()}")
-            println("Response error body: ${response?.errorBody()?.string()}")
+            _signStatus.postValue(response?.code())
             println("HTTP 상태 코드: ${response?.code()}")
             println("HTTP 상태: ${response?.body()}")
         }
@@ -60,11 +105,11 @@ class SignUpActivityViewModel : ViewModel() {
 
             val response = retrofit.getEmailVerifyCode(email)
             println("email : $email")
-            println(response.body())
-            println(response.code())
-            println("Response code: ${response.code()}")
-            println("Response headers: ${response.headers()}")
-            println("Response error body: ${response.errorBody()?.string()}")
+            println("이메일 전송 Response code: ${response.code()}")
+            println("이메일 전송 Response headers: ${response.headers()}")
+            println("이메일 전송 Response error body: ${response.errorBody()}")
+            _emailStatus.postValue(response.code())
+
         }
     }
 
@@ -74,9 +119,9 @@ class SignUpActivityViewModel : ViewModel() {
 
             // 상태 코드 업데이트
             _emailStatusCode.postValue(response.code())
-            println("Response code: ${response.code()}")
-            println("Response headers: ${response.headers()}")
-            println("Response error body: ${response.errorBody()?.string()}")
+            println("이메일 인증 Response code: ${response.code()}")
+            println("이메일 인증 Response headers: ${response.headers()}")
+            println("이메일 인증 Response error body: ${response.errorBody()?.string()}")
         }
     }
 

@@ -35,6 +35,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         signUpActivity = context as SignUpActivity
     }
 
+    private var nickname =""
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,16 +49,53 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             binding.signupSelectedLanguageTv.text = languageList.language.joinToString(", ")
         }
+
+        signUpViewModel.signStatus.observe(viewLifecycleOwner) { statusCode ->
+            when (statusCode) {
+                202 -> {
+                    Toast.makeText(requireContext(), "회원 가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+
+                    navigate(R.id.action_signUpProfileFragment_to_signUpCompleteFragment)
+                }
+
+                else -> showToast("회원 가입 실패")
+            }
+
+        }
+
+        signUpViewModel.dupliState.observe(viewLifecycleOwner) { status ->
+            when (status.first) {
+                200 -> {
+                    signUpViewModel.updateNicknameCheck(true)
+                    binding.signupDupliOk.visibility = VISIBLE
+                    binding.signupDupliNone.visibility = INVISIBLE
+                    binding.signupDupliBad.visibility = INVISIBLE
+                    binding.signupNicknameHelpTv.visibility = INVISIBLE
+                    signUpViewModel.updateNickname(nickname)
+                }
+
+                else -> {
+                    binding.signupDupliOk.visibility = INVISIBLE
+                    binding.signupDupliNone.visibility = INVISIBLE
+                    binding.signupDupliBad.visibility = VISIBLE
+                    binding.signupNicknameHelpTv.visibility = INVISIBLE
+                    signUpViewModel.updateNickname(nickname)
+                }
+            }
+
+        }
+
     }
 
-    private fun initTextWatcher(){
-        binding.signupNicknameEt.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+    private fun initTextWatcher() {
+        binding.signupNicknameEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(signUpViewModel.signUpDTO.value?.nickname != binding.signupNicknameEt.text.toString())
+                if (signUpViewModel.signUpDTO.value?.nickname != binding.signupNicknameEt.text.toString())
                     signUpViewModel.updateNicknameCheck(false)
             }
-            override fun afterTextChanged(s: Editable?) { }
+
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         binding.signupBirthEt.addTextChangedListener(object : TextWatcher {
@@ -91,15 +129,14 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         )
     }
 
-    private fun initView(){
+    private fun initView() {
 
-        if(signUpViewModel.nicknameCheck.value == true){
+        if (signUpViewModel.nicknameCheck.value == true) {
             binding.signupDupliOk.visibility = VISIBLE
             binding.signupDupliBad.visibility = INVISIBLE
             binding.signupDupliNone.visibility = INVISIBLE
             binding.signupNicknameHelpTv.visibility = INVISIBLE
-        }
-        else{
+        } else {
             binding.signupDupliOk.visibility = INVISIBLE
             binding.signupDupliBad.visibility = INVISIBLE
             binding.signupDupliNone.visibility = INVISIBLE
@@ -112,7 +149,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     private fun initSpinner() {
         val spinnerAdapter = CustomSpinnerAdapter(signUpActivity, SignUpLanguageFragment.COUNTRIES)
         binding.signupNationalitySp.adapter = spinnerAdapter
-        binding.signupNationalitySp.setSelection(138)
+        binding.signupNationalitySp.setSelection(0)
 
         val spinnerItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -128,13 +165,15 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
         binding.signupNationalitySp.onItemSelectedListener = spinnerItemSelectedListener
     }
-    private fun initValid(){
+
+    private fun initValid() {
         binding.signupNameHelpTv.visibility = VISIBLE
         binding.signupNameValidTv.visibility = INVISIBLE
         binding.signupBirthValidTv.visibility = INVISIBLE
         binding.signupPhoneHelpTv.visibility = VISIBLE
         binding.signupPhoneValidTv.visibility = INVISIBLE
     }
+
     fun isValidDate(dateString: String): Boolean {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -152,6 +191,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             false
         }
     }
+
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
@@ -160,20 +200,14 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
         binding.signupNicknameCheckBtn.setOnClickListener {
 
-            val nickname = binding.signupNicknameEt.text.toString()
-            if(nickname == "") {
+            nickname = binding.signupNicknameEt.text.toString()
+            if (nickname == "") {
                 binding.signupDupliNone.visibility = VISIBLE
                 binding.signupDupliOk.visibility = INVISIBLE
                 binding.signupDupliBad.visibility = INVISIBLE
                 binding.signupNicknameHelpTv.visibility = INVISIBLE
-            }
-            else{
-                signUpViewModel.updateNicknameCheck(true)
-                binding.signupDupliOk.visibility = VISIBLE
-                binding.signupDupliNone.visibility = INVISIBLE
-                binding.signupDupliBad.visibility = INVISIBLE
-                binding.signupNicknameHelpTv.visibility = INVISIBLE
-                signUpViewModel.updateNickname(nickname)
+            } else {
+                signUpViewModel.isDupli(nickname)
             }
 
         }
@@ -188,37 +222,29 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             val locale: Locale = Locale.getDefault()
             val language: String = locale.language
 
-            if(language == "ko") signUpViewModel.updateIsKorean(true)
+            if (language == "ko") signUpViewModel.updateIsKorean(true)
             else signUpViewModel.updateIsKorean(false)
 
-            if(signUpViewModel.nicknameCheck.value != true){
-                Toast.makeText(requireContext(),"닉네임 중복 확인을 클릭해주세요",Toast.LENGTH_SHORT).show()
-            }
-            else if(name == ""){
+            if (signUpViewModel.nicknameCheck.value != true) {
+                Toast.makeText(requireContext(), "닉네임 중복 확인을 클릭해주세요", Toast.LENGTH_SHORT).show()
+            } else if (name == "") {
                 binding.signupNameHelpTv.visibility = INVISIBLE
                 binding.signupNameValidTv.visibility = VISIBLE
-            }
-            else if(birth == "" || !isValidDate(birth)){
+            } else if (birth == "" || !isValidDate(birth)) {
                 binding.signupBirthValidTv.visibility = VISIBLE
-            }
-            else if(phone == ""){
+            } else if (phone == "") {
                 binding.signupPhoneHelpTv.visibility = INVISIBLE
                 binding.signupPhoneValidTv.visibility = VISIBLE
-            }
-            else if(!binding.signupTermsCb.isChecked){
-                Toast.makeText(requireContext(),"이용 동의를 해주세요",Toast.LENGTH_SHORT).show()
-            }
-            else{
-                Toast.makeText(requireContext(),"회원 가입이 완료되었습니다.",Toast.LENGTH_SHORT).show()
+            } else if (!binding.signupTermsCb.isChecked) {
+                Toast.makeText(requireContext(), "이용 동의를 해주세요", Toast.LENGTH_SHORT).show()
+            } else {
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
                 signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
-
                 signUpViewModel.signUp()
 
-                navigate(R.id.action_signUpProfileFragment_to_signUpCompleteFragment)
             }
         }
 
