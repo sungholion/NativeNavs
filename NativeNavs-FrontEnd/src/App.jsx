@@ -34,7 +34,13 @@ function App() {
             <Route index element={<Detail />} />
             <Route
               path="reviews"
-              element={<Review navigateToReviewPhotoFragment={navigateToTourReviewPhotoFragment} />}
+              element={
+                <Review
+                  navigateToReviewPhotoFragment={
+                    navigateToTourReviewPhotoFragment
+                  }
+                />
+              }
             />
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
@@ -46,7 +52,11 @@ function App() {
         <Route path="/nav/:user_id" element={<Nav />}>
           <Route
             path="reviews"
-            element={<Review navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment} />}
+            element={
+              <Review
+                navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment}
+              />
+            }
           />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="tourlist" element={<div>투어목록</div>} />
@@ -54,7 +64,13 @@ function App() {
         <Route path="/trav/:user_id" element={<Trav />}>
           <Route
             path="reviews"
-            element={<Review navigateToReviewPhotoFragment={navigateToTravReviewPhotoFragment} />}
+            element={
+              <Review
+                navigateToReviewPhotoFragment={
+                  navigateToTravReviewPhotoFragment
+                }
+              />
+            }
           />
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="wishlist" element={<WishList />} />
@@ -74,7 +90,7 @@ function App() {
           element={
             <div>
               <div>잘못된 경로 혹은 미구현된 페이지</div>
-              {/* <img src={getStaticImage("router-img")} alt="" /> */}
+              <img src={getStaticImage("router-img")} alt="" />
             </div>
           }
         />

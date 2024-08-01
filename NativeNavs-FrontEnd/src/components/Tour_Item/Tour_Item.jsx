@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
+import { getStaticImage } from "@/utils/get-static-image";
 
 const Tour_Item = ({
   tour_id,
@@ -50,11 +51,7 @@ const Tour_Item = ({
   return (
     <div onClick={onClickTour} className={styles.tour_item}>
       <div className={styles.thumbnail_container}>
-        <img
-          src={thumbnail_image}
-          alt=""
-          className={styles.tour_thumbnail}
-        />
+        <img src={thumbnail_image} alt="" className={styles.tour_thumbnail} />
         <div className={styles.heart_container}>
           <Heart
             isWishListed={isWishListed}
@@ -65,16 +62,14 @@ const Tour_Item = ({
       </div>
       <section className={styles.tour_info}>
         <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>
-            {title}
-          </p>
+          <p className={styles.tour_title}>{title}</p>
           <p className={styles.tour_duration}>
             {start_date} ~ {end_date}
           </p>
           <Rating avg={review_average} />
         </div>
         <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav} >
+          <div className={styles.tour_nav}>
             <img
               src={nav_profile_img}
               alt={nav_nickname}
@@ -83,7 +78,7 @@ const Tour_Item = ({
             <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
           </div>
           <div className={styles.tour_nav_language}>
-            <img src="/src/assets/language.png" alt="언어 이미지" />
+            <img src={getStaticImage("language")} alt="언어 이미지" />
             {nav_language.length > 1 ? (
               <p>
                 {nav_language[0]} 외 {nav_language.length - 1} 개 국어
