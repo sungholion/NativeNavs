@@ -62,7 +62,7 @@ const Detail = () => {
       window.Android &&
       typeof window.Android.navigateToNavProfileFragment === "function"
     ) {
-      window.Android.navigateToNavProfileFragment(tour.userId);
+      window.Android.navigateToNavProfileFragment(parseInt(tour.userId));
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
@@ -74,7 +74,7 @@ const Detail = () => {
       window.Android &&
       typeof window.Android.navigateToReviewListFragment === "function"
     ) {
-      window.Android.navigateToReviewListFragment(tour.id);
+      window.Android.navigateToReviewListFragment(parseInt(tour.id));
     } else {
       console.log("Android.navigateToReviewListFragment is not defined");
     }
