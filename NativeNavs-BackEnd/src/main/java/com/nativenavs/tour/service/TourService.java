@@ -173,6 +173,7 @@ public class TourService {
                 planEntity.setImage(planDTO.getImage());
                 planEntity.setLatitude(planDTO.getLatitude());
                 planEntity.setLongitude(planDTO.getLongitude());
+                planEntity.setAddressFull(planDTO.getAddressFull());
                 planRepository.save(planEntity);
             }
         }
