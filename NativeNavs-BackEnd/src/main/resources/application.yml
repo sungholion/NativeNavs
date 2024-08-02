@@ -35,7 +35,7 @@ cloud:
       bucket: nativenavs
     credentials:
       access-key: AKIAQIJRRZNAE34YDWXX
-      secret-key: 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
+      secret-key: ENC(NKtINeQJYRu8mUVC4JGRlMaU+VNhBhUfFruvMeRLCFqniy7euTBpiMyioaW660udQSuQSQGOMtU=)
     region:
       static: ap-northeast-2
       auto: false
