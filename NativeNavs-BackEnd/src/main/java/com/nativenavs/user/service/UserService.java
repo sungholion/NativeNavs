@@ -1,6 +1,7 @@
 package com.nativenavs.user.service;
 
-import com.nativenavs.user.model.User;
+import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.entity.UserEntity;
 
 import java.util.List;
 
@@ -8,15 +9,16 @@ public interface UserService {
     public boolean checkDuplicatedEmail(String email);
     public boolean checkDuplicatedNickname(String nickname);
 
-    public void signUp(User user);
-    public void updateUser(int existingId, User updateUser);
+    public void signUp(UserDTO userDTO);
+    public void updateUser(int existingId, UserDTO updateUserDTO);
+    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO);
     public void deleteUser(int id);
 
-    public List<User> searchAllUser();
-    public User searchByEmail(String email);
-    public User searchById(int id);
-    public User searchByNickname(String nickname);
-    public User searchByName(String name);
+    public List<UserDTO> searchAllUser();
+    public UserDTO searchByEmail(String email);
+    public UserDTO searchById(int id);
+    public UserDTO searchByNickname(String nickname);
+    public UserDTO searchByName(String name);
 
     public void addAuthenticatedUser(String email);
 }

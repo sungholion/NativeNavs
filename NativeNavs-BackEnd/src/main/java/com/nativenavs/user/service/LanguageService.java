@@ -1,10 +1,9 @@
 package com.nativenavs.user.service;
 
-import com.nativenavs.user.model.Language;
-import com.nativenavs.user.model.User;
+import com.nativenavs.user.dto.LanguageDTO;
 
 import java.util.List;
 
 public interface LanguageService {
-    public List<Language> searchAllLanguage();
+    public List<LanguageDTO> searchAllLanguage();
 }
