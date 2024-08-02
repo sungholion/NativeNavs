@@ -1,33 +1,60 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
-import { tours } from "../dummy";
 import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Carousel from "@/components/Carousel/Carousel.jsx";
-import mountain1 from "../assets/mountain1.png";
-import mountain2 from "../assets/mountain2.png";
-import mountain3 from "../assets/mountain3.png";
 import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
+import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
 
-const Detail = ({ userJson }) => {
+const Detail = () => {
   const params = useParams();
-  const tour = tours[params.tour_id - 1];
-  const images = [mountain1, mountain2, mountain3];
+  const [tour, setTour] = useState({
+    price: 0,
+    title: "",
+    maxParticipants: 0,
+    startDate: "",
+    endDate: "",
+    reviewAverage: 0,
+    thumbnailImage: "",
+    categoryIds: [],
+    userId: "",
+    description: "",
+    plans: [],
+    removed: false,
+  });
 
-  // 유저 정보 파싱 및 로그 출력
+  // axios get 요청을 통해 server로부터 JSON 정보
   useEffect(() => {
-    console.log("Received user JSON:", userJson);
-    try {
-      const user = JSON.parse(userJson);
-      console.log(`User ID: ${user.userId}`);
-      console.log(`Token: ${user.userToken}`);
-      console.log(`isNav: ${user.isNav}`);
-    } catch (error) {
-      console.error("Failed to parse user JSON", error);
-    }
-  }, [userJson]); // userJson 변경 시마다 실행
+    const fetchTour = async () => {
+      try {
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
+        );
+        setTour(response.data);
+      } catch (error) {
+        console.error("Error fetching tours:", error);
+      }
+    };
+
+    fetchTour();
+  }, [params.tour_id]);
+
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received user JSON:", userJson);
+      try {
+        const parsedUser = JSON.parse(userJson);
+        console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
+        console.log(`isNav: ${parsedUser.isNav}`);
+      } catch (error) {
+        console.error("Failed to parse user JSON", error);
+      }
+    };
+  }, []);
 
   const onClickNav = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
@@ -35,29 +62,32 @@ const Detail = ({ userJson }) => {
       window.Android &&
       typeof window.Android.navigateToNavProfileFragment === "function"
     ) {
-      window.Android.navigateToNavProfileFragment(tour.user_id);
+      window.Android.navigateToNavProfileFragment(tour.userId);
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
   };
 
-  // 리뷰 상세 페이지로 이동
   const onClickReview = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToReviewListFragment === "function"
     ) {
-      window.Android.navigateToReviewListFragment(tour.tour_id);
+      window.Android.navigateToReviewListFragment(tour.id);
     } else {
       console.log("Android.navigateToReviewListFragment is not defined");
     }
   };
 
-  // Date 객체를 문자열로 변환
-  const formattedStartDate = tour.start_date
-    ? tour.start_date.toLocaleDateString()
+  const formattedStartDate = tour.startDate
+    ? new Date(tour.startDate).toLocaleDateString()
     : "N/A";
+  const formattedEndDate = tour.endDate
+    ? new Date(tour.endDate).toLocaleDateString()
+    : "N/A";
+
+  const formattedPrice = tour.price.toLocaleString();
 
   // 예시 리뷰 데이터
   const reviewData = {
@@ -65,11 +95,11 @@ const Detail = ({ userJson }) => {
       user_id: 1,
       image:
         "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTZfMTMx%2FMDAxNjcxMTg2NTM1MDYx.0vuGB7rfq1YZPV1kA8Wbuz51yLAS5Tvs0Zeuhiz-kswg.0iqBKg3vLwCvwnln6AqxZpV67RYgvEQ8qV7Y2wnqoI4g.JPEG.loivme%2F%25B8%25F1%25B5%25B5%25B8%25AE.jpg&type=sc960_832",
-      nickname: "찌그렁오리",
+      nickname: "오리",
       nation: "미국",
     },
     score: 4.2,
-    description: "설명 설명~~",
+    description: "너무 맛있어요",
     created_at: new Date(2024, 3, 2),
     tour: {
       tour_id: 2,
@@ -83,74 +113,104 @@ const Detail = ({ userJson }) => {
     ],
   };
 
+  if (!tour) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
-      <Carousel images={images} />
+      <Carousel
+        images={
+          tour.thumbnailImage
+            ? [tour.thumbnailImage, tour.thumbnailImage, tour.thumbnailImage]
+            : []
+        }
+      />
       {/* 투어 정보(간략하게) */}
       <section className={styles.tour_info}>
+        {/* left */}
         <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{tour.title}</p>
-          <p className={styles.tour_duration}>{formattedStartDate}</p>
+          <h3 className={styles.tour_title}>{tour.title}</h3>
+          <p className={styles.tour_maxParticipants}>
+            최대 인원 : {tour.maxParticipants}명
+          </p>
+          <p className={styles.tour_duration}>
+            {formattedStartDate} ~ {formattedEndDate}
+          </p>
         </div>
+
+        {/* right */}
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
-              <Rating avg={tour.review_average} />
+              <Rating avg={tour.reviewAverage} />
             </div>
           </div>
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
               <img src={"/src/assets/language.png"} alt="언어 이미지" />
-              {tour.language.length > 1 ? (
+              {tour.categoryIds.length > 1 ? (
                 <p>
-                  {tour.language[0]} 외 {tour.language.length - 1}개 국어
+                  {tour.categoryIds[0]} 외 {tour.categoryIds.length - 1}개 국어
                 </p>
               ) : (
-                <p>{tour.language[0]}</p>
+                <p>{tour.categoryIds[0]}</p>
               )}
             </div>
           </div>
         </div>
       </section>
+
       {/* Nav 정보 */}
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
             <img
-              src={tour.image}
-              alt={tour.nav_nickname}
+              src={tour.thumbnailImage}
+              alt={tour.userId}
               className={styles.nav_img}
             />
           </div>
           <div className={styles.navInfoText}>
-            <p className={styles.navNickname}>Navs : {tour.nickname}님</p>
+            <p className={styles.navNickname}>Navs : {tour.userId}님</p>
             <p className={styles.navLanguage}>
-              언어 : {tour.language.join(", ")}
+              언어 : {tour.categoryIds.join(", ")}
             </p>
           </div>
         </div>
       </div>
       {/* 투어 일정 */}
       <div className={styles.tourPlan}>
-        <h1 className={styles.tourPlanTitle}>Plan</h1>
-        <p>plan1</p>
-        <p>plan2</p>
-        <p>plan3</p>
+        <h3 className={styles.tourPlanTitle}>Plan</h3>
+        <div className={styles.tourPlanContainer}>
+          {tour.plans.map((plan) => (
+            <Plan_Item2
+              key={plan.id}
+              field={plan.field}
+              description={plan.description}
+              image={plan.image}
+              latitude={plan.latitude}
+              longitude={plan.longitude}
+              addressFull={plan.addressFull}
+              enableDeleteOption={false}
+            />
+          ))}
+        </div>
       </div>
-      {/* 투어 당부사항 */}
+      {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
-        <h1 className={styles.tourReminderTitle}>당부사항</h1>
-        <p>당부1</p>
-        <p>당부2</p>
-        <p>당부3</p>
+        <h3 className={styles.tourReminderPrive}>예상 금액</h3>
+        <h4>{formattedPrice}₩</h4>
+        <h3 className={styles.tourReminderDecription}>투어 설명</h3>
+        <h4>{tour.description}</h4>
       </div>
       {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
         <Review_Item
           user={reviewData.user}
-          tour_id={tour.tour_id}
+          tour_id={tour.id}
           score={reviewData.score}
           description={reviewData.description}
           created_at={reviewData.created_at}

@@ -1,46 +1,55 @@
 // get-android-function.js
 
-// 투어 리뷰 사진 보기로 이동
-export function navigateToTourReviewPhotoFragment(tourId) {
+// 투어 리뷰 보기로 이동
+export function navigateToTourReviewPhotoFragment(tour_id) {
   if (window.Android && typeof window.Android.navigateToTourReviewPhotoFragment === 'function') {
-    window.Android.navigateToTourReviewPhotoFragment(tourId);
+    window.Android.navigateToTourReviewPhotoFragment(tour_id);
   } else {
     console.log('navigateToTourReviewPhotoFragment function is not defined');
   }
 }
 
-// Nav 리뷰 사진 보기로 이동
-export function navigateToNavReviewPhotoFragment(navId) {
+// Nav 리뷰 보기로 이동
+export function navigateToNavReviewPhotoFragment(nav_id) {
   if (window.Android && typeof window.Android.navigateToNavReviewPhotoFragment === 'function') {
-    window.Android.navigateToNavReviewPhotoFragment(navId);
+    window.Android.navigateToNavReviewPhotoFragment(nav_id);
   } else {
     console.log('navigateToNavReviewPhotoFragment function is not defined');
   }
 }
 
-// Trav 리뷰 사진 보기로 이동
-export function navigateToTravReviewPhotoFragment(travId) {
+// Trav 리뷰 보기로 이동
+export function navigateToTravReviewPhotoFragment(trav_id) {
   if (window.Android && typeof window.Android.navigateToTravReviewPhotoFragment === 'function') {
-    window.Android.navigateToTravReviewPhotoFragment(travId);
+    window.Android.navigateToTravReviewPhotoFragment(trav_id);
   } else {
     console.log('navigateToTravReviewPhotoFragment function is not defined');
   }
 }
 
 // 위시리스트 상세보기로 이동
-export function navigateToWishDetailFragment(tourId) {
+export function navigateToWishDetailFragment(tour_id, user_id) {
   if (window.Android && typeof window.Android.navigateToWishDetailFragment === 'function') {
-    window.Android.navigateToWishDetailFragment(tourId);
+    window.Android.navigateToWishDetailFragment(tour_id, user_id);
   } else {
     console.log('navigateToWishDetailFragment function is not defined');
   }
 }
 
 // 투어 상세보기로 이동
-export function navigateToTourDetailFragment(tourId) {
+export function navigateToTourDetailFragment(tour_id, user_id) {
   if (window.Android && typeof window.Android.navigateToTourDetailFragment === 'function') {
-    window.Android.navigateToTourDetailFragment(tourId);
+    window.Android.navigateToTourDetailFragment(tour_id, user_id);
   } else {
     console.log('navigateToTourDetailFragment function is not defined');
+  }
+}
+
+// 위시리스트 -> 메인 페이지로 이동
+export function navigateFromWishToTourListFragment() {
+  if (window.Android && typeof window.Android.navigateFromWishToTourListFragment === 'function') {
+    window.Android.navigateFromWishToTourListFragment();
+  } else {
+    console.log('navigateFromWishToTourListFragment function is not defined');
   }
 }

@@ -21,9 +21,7 @@ function StarScore({ score }) {
   };
 
   useEffect(() => {
-    console.log('useEffect 호출됨, Score:', score);
     const ratesArray = calcStarRates(score);
-    console.log('Rates Array:', ratesArray);
     setRatesResArr(ratesArray);
   }, [score]);
 

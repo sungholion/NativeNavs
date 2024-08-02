@@ -1,29 +1,29 @@
-import Button from "@/components/Button/Button";
-import "./Confirm.css";
+import "./TourEditor4.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStringedDate } from "@utils/get-stringed-date";
-import { TourDataContext } from "./Tour_Create";
+import { TourDataContext } from "./TourEditorHead";
 import { useContext } from "react";
+import { categoryItem } from "@utils/constant";
 
-const Confirm = ({ goBeforePage }) => {
+const Confirm = ({ goBeforePage, onSubmit }) => {
   const {
     title,
-    thumbnail_image,
+    thumbnailImage,
     description,
     location,
     price,
-    start_date,
-    end_date,
-    max_participant,
+    startDate,
+    endDate,
+    maxParticipants,
     plans,
-    themes,
+    categoryIds,
   } = useContext(TourDataContext);
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
         <p>썸네일 사진</p>
-        {thumbnail_image.length > 0 ? (
-          <div>{thumbnail_image}</div>
+        {thumbnailImage.length > 0 ? (
+          <img src={thumbnailImage} alt="썸네일이미지" />
         ) : (
           <div style={{ color: "red", fontSize: "20px" }}>
             이미지 업로드 해주세요
@@ -43,29 +43,31 @@ const Confirm = ({ goBeforePage }) => {
         <p>기간</p>
         <div className="TourDateShow">
           <span className="DateBox">
-            {getStringedDate(new Date(start_date))}
+            {getStringedDate(new Date(startDate))}
           </span>
           <span>~</span>
-          <span className="DateBox">{getStringedDate(new Date(end_date))}</span>
+          <span className="DateBox">{getStringedDate(new Date(endDate))}</span>
         </div>
       </section>
       <hr />
       <section className="TourMaxPeople">
         <p>최대 허용 인원</p>
-        <div>{max_participant} 명</div>
+        <div>{maxParticipants} 명</div>
+      </section>
+      <section className="TourExpectPrice">
+        <p>예상 비용</p>
+        <div>{price} 원</div>
       </section>
       <section className="TourTheme">
         <p>테마</p>
         <div className="TourThemeList">
-          {themes
-            .filter((theme) => theme.state)
-            .map((theme) => {
-              return (
-                <div key={theme.idx} className="TourThemeItem">
-                  {theme.name}
-                </div>
-              );
-            })}
+          {categoryIds.map((cartegoryid) => {
+            return (
+              <div key={cartegoryid} className="TourThemeItem">
+                {categoryItem[cartegoryid]["name"]}
+              </div>
+            );
+          })}
         </div>
       </section>
       <section className="TourPlanList">
@@ -73,11 +75,7 @@ const Confirm = ({ goBeforePage }) => {
         <div className="TourPlanItem">
           {plans.map((item) => {
             return (
-              <Plan_Item
-                key={item.plan_id}
-                {...item}
-                enableDeleteOption={false}
-              />
+              <Plan_Item key={item.id} {...item} enableDeleteOption={false} />
             );
           })}
         </div>
@@ -89,14 +87,25 @@ const Confirm = ({ goBeforePage }) => {
         <div>{description}</div>
       </section>
       <section className="ButtonSection">
-        <Button text={"이전"} size={0} onClickEvent={goBeforePage} />
-        <Button
-          text={"추가"}
-          size={0}
-          onClickEvent={() => {
-            console.log("누른것");
+        <button onClick={goBeforePage}>이전</button>
+        <button
+          onClick={() => {
+            onSubmit({
+              title,
+              thumbnailImage,
+              description,
+              location,
+              price,
+              startDate,
+              endDate,
+              maxParticipants,
+              plans,
+              categoryIds,
+            });
           }}
-        />
+        >
+          추가
+        </button>
       </section>
     </div>
   );

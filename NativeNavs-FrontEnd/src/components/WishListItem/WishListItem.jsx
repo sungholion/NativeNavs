@@ -6,15 +6,13 @@ import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import thumbnail_image from "../../assets/thumbnail_image.png";
 import { useNavigate } from "react-router-dom";
-import { navigateToWishDetailFragment } from "../../utils/get-android-function"; // 함수 임포트
+import {
+  navigateToWishDetailFragment,
+  navigateFromWishToTourListFragment,
+} from "../../utils/get-android-function"; // 함수 임포트
 
 const WishListItem = () => {
   const navigate = useNavigate();
-
-  // const onClickTour = (tour_id) => {
-  //   console.log("hello");
-  //   navigateToWishDetailFragment(tour_id); // 함수 호출
-  // };
 
   return (
     <div className={styles.TotalContainer}>
@@ -35,9 +33,8 @@ const WishListItem = () => {
               return (
                 <div key={tour.tour_id}>
                   <Tour_Item
-                  navigateToTourDetailFragment={() => {navigateToWishDetailFragment(tour.id)}}
+                    navigateToTourDetailFragment={navigateToWishDetailFragment}
                     key={tour.tour_id}
-                    // onClick={() => onClickTour(tour.tour_id)}
                     tour_id={tour.tour_id}
                     user_id={tour.user_id}
                     title={tour.title}
@@ -67,8 +64,7 @@ const WishListItem = () => {
               size="3"
               text={"둘러보기"}
               onClickEvent={() => {
-                // main 주소로 이동하는 네비게이션 이벤트를 화살표 함수로 정의해서 props로 전달
-                navigate("/main");
+                navigateFromWishToTourListFragment(); // 네이티브 함수 호출
               }}
             />
           </div>

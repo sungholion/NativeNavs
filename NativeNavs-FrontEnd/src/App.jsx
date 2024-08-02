@@ -8,8 +8,6 @@ import Tour from "./page/Tour";
 import Trav from "./page/Trav";
 import Team from "./page/Team";
 import Detail from "./page/Detail";
-import Edit from "./page/Edit";
-import Tour_Create from "./subpage/tour_create/Tour_Create";
 import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
@@ -20,7 +18,8 @@ import {
   navigateToTravReviewPhotoFragment,
 } from "./utils/get-android-function";
 import { getStaticImage } from "./utils/get-static-image";
-import ReviewCreate from "./page/ReviewCreate";
+import TourCreate from "./page/TourCreate";
+import TourEdit from "./page/TourEdit";
 
 function App() {
   const param = useSearchParams();
@@ -29,8 +28,8 @@ function App() {
       <Routes>
         <Route path="/main" element={<Main />} />
         <Route path="/tour" element={<Tour />}>
-          <Route path="create" element={<Tour_Create />} />
-          <Route path="edit/:tour_id" element={<Edit />} />
+          <Route path="create" element={<TourCreate />} />
+          <Route path="edit/:tour_id" element={<TourEdit />} />
           <Route path="detail/:tour_id" element={<Outlet />}>
             <Route index element={<Detail />} />
             <Route

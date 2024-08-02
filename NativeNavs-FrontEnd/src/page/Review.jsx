@@ -3,12 +3,11 @@ import styles from "./Review.module.css";
 import { reviews } from "../dummy";
 import StarScore from "@/components/Star/StarScore";
 import Review_Item from "@/components/Review_Item/Review_Item";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Review = ({ navigateToReviewPhotoFragment }) => {
   const params = useParams();
   const photos = reviews.img_urls; // 전체 사진 배열
-  const navigate = useNavigate();
 
   console.log(params);
 
