@@ -19,9 +19,9 @@ class TourListBridge(
     }
 
     @JavascriptInterface
-    fun navigateToTourDetailFragment(tourId: Int) {
-        fragment.moveToTourDetailFragment(tourId)
-        Log.d(TAG, "navigateToTourDetailFragment: $tourId")
+    fun navigateToTourDetailFragment(tourId: Int, navId: Int) {
+        fragment.moveToTourDetailFragment(tourId, navId)
+        Log.d(TAG, "navigateToTourDetailFragment: $tourId ,$navId")
     }
 
     fun sendUserData(user: UserDto) {

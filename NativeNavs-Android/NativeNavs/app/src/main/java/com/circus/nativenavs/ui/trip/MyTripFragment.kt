@@ -74,7 +74,10 @@ class MyTripFragment :
 
     fun navigateToMyTripDetailFragment(tourId: Int) {
         val action =
-            MyTripFragmentDirections.actionMyTripFragmentToMyTripReservationListFragment(tourId)
+            MyTripFragmentDirections.actionMyTripFragmentToTourDetailFragment(
+                tourId = tourId,
+                navId = SharedPref.userId!!
+            )
         navigate(action)
     }
 }

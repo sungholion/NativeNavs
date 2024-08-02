@@ -127,4 +127,7 @@
     <string name="profile_nation">Nation:</string>
     <string name="profile_user_language">Language:</string>
     <string name="profile_user_use">Number of Use:</string>
+    <string name="profile_other_trav_review">\'s Review</string>
+    <string name="profile_other_nav_review">\'s Review</string>
+    <string name="profile_other_stamp">\'s Stamp</string>
 </resources>

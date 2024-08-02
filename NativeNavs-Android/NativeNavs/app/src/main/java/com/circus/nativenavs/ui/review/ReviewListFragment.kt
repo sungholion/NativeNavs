@@ -62,10 +62,10 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
         var url = ""
         if (args.tourId != -1) {
             url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviews"
-        } else if (args.travId != -1) {
-            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviews"
         } else if (args.navId != -1) {
-            url = "https://i11d110.p.ssafy.io/trav/${args.navId}/reviews"
+            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviews"
+        } else if (args.travId != -1) {
+            url = "https://i11d110.p.ssafy.io/trav/${args.travId}/reviews"
         }
 
         Log.d(TAG, "initCustomView: $url")
@@ -86,6 +86,7 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTravReviewPhotoFragment(travId: Int) {
+        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(travId = travId)
         navigate(action)

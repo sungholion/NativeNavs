@@ -3,11 +3,13 @@ package com.circus.nativenavs.ui.profile
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
@@ -72,11 +74,10 @@ class ProfileFragment :
         initAdapter()
         initEvent()
 
-
     }
 
     private fun initData() {
-        homeActivityViewModel.getProfileUser(SharedPref.userId ?: 10)
+        homeActivityViewModel.getProfileUser(args.userId)
     }
 
     @SuppressLint("SetTextI18n")
@@ -98,6 +99,30 @@ class ProfileFragment :
             binding.profileUserUseNum.apply {
                 text = getString(R.string.profile_user_use) + " " + it.travReservationCount
             }
+
+            if (SharedPref.userId == it.id) {
+                binding.profileReviewTitle.apply {
+                    text = getString(R.string.profile_myreview)
+                }
+                binding.profileStampTitle.apply {
+                    text = getString(R.string.profile_mystamp)
+                }
+            } else {
+                binding.profileStampTitle.apply {
+                    text = getString(R.string.profile_mystamp)
+                }
+
+                if (it.isNav) {
+                    binding.profileReviewTitle.apply {
+                        text = getString(R.string.profile_other_nav_review)
+                    }
+                } else {
+                    binding.profileReviewTitle.apply {
+                        text = getString(R.string.profile_other_trav_review)
+                    }
+                }
+            }
+
         }
     }
 
@@ -118,18 +143,22 @@ class ProfileFragment :
             popBackStack()
         }
 
-        binding.profileReviewTitle.setOnClickListener {
-            //만약 nav이면
-            val action =
-                ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
-            //만약 trav이면
-//            val action = ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
+        binding.profileReviewLl.setOnClickListener {
+            lateinit var action: NavDirections
 
+            homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
+                action = if (it.isNav) {
+                    ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
+                } else {
+                    ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
+                }
+            }
             navigate(action)
         }
 
-        binding.profileStampTitle.setOnClickListener {
+        binding.profileStampLl.setOnClickListener {
             navigate(R.id.action_profileFragment_to_stampFragment)
         }
     }
+
 }
