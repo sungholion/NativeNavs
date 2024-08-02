@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "Pretended";
+  font-weight: 500;
+  src: url("/Pretendard-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Pretended";
+  font-weight: 700;
+  src: url("/Pretendard-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Pretended";
+  font-weight: 800;
+  src: url("/Pretendard-ExtraBold.ttf");
+}
+
+@font-face {
+  font-family: "Pretended";
+  font-weight: 600;
+  src: url("/Pretendard-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Pretended";
+  font-weight: 300;
+  src: url("/Pretendard-Light.ttf");
+}
+
+@font-face {
+  font-family: "Pretended";
+  font-weight: 400;
+  src: url("/Pretendard-Regular.ttf");
+}
+
+body * {
+  font-family: "Pretended";
+  font-weight: normal;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  user-select: none;
+  -webkit-touch-callout: none;
+}
