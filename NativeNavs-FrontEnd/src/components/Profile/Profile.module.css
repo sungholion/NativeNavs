@@ -1,0 +1,47 @@
+.TotalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+}
+
+.TopContainer {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.BottomContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+}
+
+.Image {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgb(#d9d9d9);
+    border-radius: 70px;
+    margin-right: 5px;
+}
+.Nickname {
+    display: flex;
+    align-items: start;
+}
+
+.Nickname > h3{
+    margin: 0;
+}
+
+
+
+.P {
+    margin: 0px;
+    font-size: 10px;
+}
+
+
+.BottomContainer > img {
+    width: 15px;
+    height: 15px;
+}

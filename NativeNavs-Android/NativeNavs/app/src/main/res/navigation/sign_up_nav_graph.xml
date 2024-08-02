@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_nav_graph"
+    app:startDestination="@id/signUpHomeFragment">
+
+    <fragment
+        android:id="@+id/signUpCompleteFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpCompleteFragment"
+        android:label="SignUpCompleteFragment"
+        tools:layout="@layout/fragment_sign_up_complete" />
+    <fragment
+        android:id="@+id/signUpEmailFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpEmailFragment"
+        android:label="SignUpEmailFragment"
+        tools:layout="@layout/fragment_sign_up_email">
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpUserTypeFragment"
+            app:destination="@id/signUpUserTypeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpHomeFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpHomeFragment"
+        android:label="SignUpHomeFragment"
+        tools:layout="@layout/fragment_sign_up_home">
+        <action
+            android:id="@+id/action_signUpHomeFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpProfileFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpProfileFragment"
+        android:label="SignUpProfileFragment"
+        tools:layout="@layout/fragment_sign_up_profile">
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpTosFragment"
+            app:destination="@id/signUpTosFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpCompleteFragment"
+            app:destination="@id/signUpCompleteFragment" />
+        <action
+            android:id="@+id/action_signUpProfileFragment_to_signUpLanguageFragment"
+            app:destination="@id/signUpLanguageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpTosFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpTosFragment"
+        android:label="SignUpTosFragment"
+        tools:layout="@layout/fragment_sign_up_tos" />
+    <fragment
+        android:id="@+id/signUpUserTypeFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpUserTypeFragment"
+        android:label="SignUpUserTypeFragment"
+        tools:layout="@layout/fragment_sign_up_user_type">
+        <action
+            android:id="@+id/action_signUpUserTypeFragment_to_signUpProfileFragment"
+            app:destination="@id/signUpProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpLanguageFragment"
+        android:name="com.circus.nativenavs.ui.signup.SignUpLanguageFragment"
+        android:label="SignUpLanguageFragment"
+        tools:layout="@layout/fragment_sign_up_language" />
+</navigation>

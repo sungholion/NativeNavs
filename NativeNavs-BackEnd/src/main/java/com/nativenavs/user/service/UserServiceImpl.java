@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
     public boolean checkDuplicatedEmail(String email) {
         return userMapper.checkDuplicatedEmail(email);
     }
+    public boolean checkDuplicatedNickname(String nickname) {
+        return userMapper.checkDuplicatedNickname(nickname);
+    }
 
     @Override
     public void signUp(User user) {
@@ -38,9 +41,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User searchOneUser(String email) {
-        return userMapper.searchOneUser(email);
+    public User searchByEmail(String email) {
+        return userMapper.searchByEmail(email);
     }
+
+    @Override
+    public User searchById(int id) {
+        return userMapper.searchById(id);
+    }
+
+    @Override
+    public User searchByNickname(String nickname) {
+        return userMapper.searchByNickname(nickname);
+    }
+
+    @Override
+    public User searchByName(String name) {
+        return userMapper.searchByName(name);
+    }
+
 
     @Override
     public void updateUser(int existingId, User updateUser){

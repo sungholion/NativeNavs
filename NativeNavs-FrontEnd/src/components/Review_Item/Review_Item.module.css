@@ -1,0 +1,65 @@
+.Review_Item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  margin: 3px;
+  padding: 10px 0px;
+}
+
+.Review_Item_header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.Review_Item_travel {
+  display: flex;
+  justify-content: left;
+  flex: 1;
+}
+
+.Review_Item_travel > img {
+  width: 10vw;
+  height: 10vw;
+}
+
+.Review_Item_travel_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
+.Review_Item_travel_text > .Review_Item_travel_nickname {
+  margin: 0px;
+  font-size: 4vw;
+  font-weight: bolder;
+}
+
+.Review_Item_travel_text > .Review_Item_date {
+  margin: 1px;
+  font-size: 3vw;
+  font-weight: 400;
+}
+
+.Review_Item_score {
+  display: flex;
+  justify-content: center;
+}
+
+.Review_Item_content {
+  width: 80vw;
+  margin-top: 10px;
+  margin-left: 10px;
+  div {
+    font-size: 3vw;
+  }
+}
+
+.Review_Item_image {
+  margin-top: 10px;
+  overflow: hidden;
+  width: 80vw;
+  flex: 1;
+}
