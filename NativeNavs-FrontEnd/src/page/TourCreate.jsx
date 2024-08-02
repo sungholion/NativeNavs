@@ -21,7 +21,7 @@ const TourCreate = () => {
     console.log(data);
     try {
       const response = await axios.post(
-        "https://i11d110.p.ssafy.io:8081/api/tours",
+        "https://i11d110.p.ssafy.io/api/tours",
         data,
         {
           headers: {
