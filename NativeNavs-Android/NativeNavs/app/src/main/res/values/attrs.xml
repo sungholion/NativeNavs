@@ -5,4 +5,7 @@
         <attr name="url" format="string"/>
         <attr name="img" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="TitleBackView">
+        <attr name="titleText" format="string"/>
+    </declare-styleable>
 </resources>

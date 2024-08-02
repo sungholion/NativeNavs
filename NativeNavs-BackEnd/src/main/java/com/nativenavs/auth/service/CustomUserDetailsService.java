@@ -1,6 +1,6 @@
 package com.nativenavs.auth.service;
 
-import com.nativenavs.user.model.User;
+import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.searchOneUser(email);
+        UserDTO user = userService.searchByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }

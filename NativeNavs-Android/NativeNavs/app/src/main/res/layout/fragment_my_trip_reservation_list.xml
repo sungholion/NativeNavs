@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.trip.MyTripReservationListFragment">
+
+        <com.circus.nativenavs.util.CustomTitleWebView
+            android:id="@+id/my_trip_reservation_list_wv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:img="@drawable/icon_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/app_bar_my_trip_reservation_list" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
