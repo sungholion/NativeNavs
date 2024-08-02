@@ -33,12 +33,7 @@ const WishListItem = () => {
               return (
                 <div key={tour.tour_id}>
                   <Tour_Item
-                    navigateToTourDetailFragment={() =>
-                      navigateToWishDetailFragment(
-                        parseInt(tour.tour_id),
-                        parseInt(tour.user_id)
-                      )
-                    }
+                    navigateToTourDetailFragment={navigateToWishDetailFragment}
                     key={tour.tour_id}
                     tour_id={tour.tour_id}
                     user_id={tour.user_id}
