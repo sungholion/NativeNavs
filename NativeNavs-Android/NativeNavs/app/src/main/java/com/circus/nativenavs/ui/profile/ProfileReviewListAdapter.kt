@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
-import com.circus.nativenavs.data.mypage.ProfileReviewDto
+import com.circus.nativenavs.data.ProfileReviewDto
 
 class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto, ProfileReviewListAdapter.ProfileReviewHolder>(
     ProfileReviewDiffUitl()
@@ -37,7 +36,7 @@ class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto, ProfileReviewList
 
 
     inner class ProfileReviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun bindInfo(dto:ProfileReviewDto){
+        fun bindInfo(dto: ProfileReviewDto){
             itemView.apply {
                 findViewById<RatingBar>(R.id.profile_review_ratingBar).rating = dto.rating.toFloat()
                 findViewById<TextView>(R.id.profile_review_date).text = dto.data

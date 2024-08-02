@@ -7,6 +7,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentMypageBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 
 class MypageFragment :
@@ -36,7 +37,8 @@ class MypageFragment :
         }
 
         binding.mypageProfileCl.setOnClickListener {
-            navigate(R.id.action_mypageFragment_to_profileFragment)
+            val action = MypageFragmentDirections.actionMypageFragmentToProfileFragment(SharedPref.userId!!)
+            navigate(action)
         }
 
         binding.mypageSettingCl.setOnClickListener {
