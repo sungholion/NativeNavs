@@ -15,7 +15,7 @@ const Tour_Item = ({
   reviewAverage,
   nav_profile_img,
   nav_nickname,
-  navigateToTourDetailFragment,
+  navigateFragment,
   user, // 추가: user 정보를 props로 받음
 }) => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Tour_Item = ({
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
-    navigateToTourDetailFragment(parseInt(tourId), parseInt(userId));
+    navigateFragment(parseInt(tourId), parseInt(userId));
   };
 
   // 위시리스트 이벤트
