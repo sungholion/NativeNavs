@@ -58,7 +58,7 @@ const Main = () => {
             reviewAverage={tour.reviewAverage}
             nav_profile_img={tour.thumbnailImage}
             nav_nickname={tour.userId}
-            navigateToTourDetailFragment={navigateToTourDetailFragment}
+            navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
           />
         ))}
