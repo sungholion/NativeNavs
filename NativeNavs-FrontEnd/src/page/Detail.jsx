@@ -31,7 +31,7 @@ const Detail = () => {
     const fetchTour = async () => {
       try {
         const response = await axios.get(
-          `http://i11d110.p.ssafy.io:8081/api/tours/${params.tour_id}`
+          `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
       } catch (error) {
