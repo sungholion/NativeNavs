@@ -12,13 +12,14 @@ import kotlinx.coroutines.launch
 class HomeActivityViewModel : ViewModel() {
 
     private val _profileUser = MutableLiveData<ProfileUserDto>()
-    val profileUser : LiveData<ProfileUserDto> get() = _profileUser
+    val profileUser: LiveData<ProfileUserDto> get() = _profileUser
 
     private val userRetrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
-    fun getProfileUser(userId : Int){
+    fun getProfileUser(userId: Int) {
         viewModelScope.launch {
-            _profileUser.value = userRetrofit.searchUser(userId)
+            val response = userRetrofit.searchUser(userId)
+            _profileUser.value = response.body()
         }
     }
 

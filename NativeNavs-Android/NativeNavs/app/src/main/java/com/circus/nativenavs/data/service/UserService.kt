@@ -46,5 +46,5 @@ interface UserService {
     @GET("users/search/id/{id}")
     suspend fun searchUser(
         @Path(value = "id") userId: Int
-    ): ProfileUserDto
+    ): Response<ProfileUserDto>
 }

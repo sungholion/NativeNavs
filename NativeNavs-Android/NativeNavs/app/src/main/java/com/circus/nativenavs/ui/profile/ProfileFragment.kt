@@ -22,6 +22,7 @@ import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
+private const val TAG = "ProfileFragment"
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 
@@ -69,10 +70,15 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d(TAG, "onViewCreated: 1111111111111")
         initData()
+        Log.d(TAG, "onViewCreated: 2222222222222")
         initView()
+        Log.d(TAG, "onViewCreated: 3333333333333")
         initAdapter()
+        Log.d(TAG, "onViewCreated: 44444444444")
         initEvent()
+        Log.d(TAG, "onViewCreated: 5555555555555")
 
     }
 

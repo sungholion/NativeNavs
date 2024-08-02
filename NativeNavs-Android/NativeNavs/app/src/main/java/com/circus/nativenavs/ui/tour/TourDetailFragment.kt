@@ -14,8 +14,10 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlin.math.log
 
 private const val TAG = "싸피_TourDetailFragment"
 
@@ -49,7 +51,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(1, "use token", true))
+                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
                 }
             }
 
@@ -87,6 +89,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToNavProfileFragment(navId: Int) {
+        Log.d(TAG, "navigateToNavProfileFragment: $navId")
         val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(navId)
         navigate(action)
     }

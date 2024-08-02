@@ -75,7 +75,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(1, "use token", true))
+                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
                 }
             }
         }
