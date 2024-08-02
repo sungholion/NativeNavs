@@ -15,7 +15,7 @@ const Tour_Item = ({
   reviewAverage,
   nav_profile_img,
   nav_nickname,
-  navigateFragment,
+  navigateToTourDetailFragment,
   user, // 추가: user 정보를 props로 받음
 }) => {
   const navigate = useNavigate();
@@ -24,12 +24,8 @@ const Tour_Item = ({
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
-    if (user) {
-      // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
-      navigateFragment(parseInt(tourId), parseInt(userId));
-    } else {
-      console.error("User 정보가 없습니다.");
-    }
+    // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
+    navigateToTourDetailFragment(parseInt(tourId), parseInt(user.userId));
   };
 
   // 위시리스트 이벤트
