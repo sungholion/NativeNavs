@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
+@Tag(name = "auth API", description = "로그인 관련 API")
 public class AuthController {
 
     @Autowired
@@ -27,18 +28,17 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Tag(name = "auth API", description = "Authentication")
-    @Operation(summary = "이메일과 비밀번호로 로그인", description = "사용자의 이메일과 비밀번호로 로그인 합니다.")
+    @Operation(summary = "로그인 API", description = "사용자의 이메일과 비밀번호로 로그인 합니다.")
     @ApiResponse(responseCode = "200", description = "로그인에 성공하였습니다.")
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginSessionWithEmail(
+    public ResponseEntity<Map<String, Object>> loginByEmail(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "로그인에 필요한 email, password, device 정보",
+                    description = "email, password, device(앱에서 자동 입력)",
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(
-                                    example = "{\"email\": \"user@example.com\", \"password\": \"password123\", \"device\": \"asjdlkwej\"}"
+                                    example = "{\"email\": \"eoblue23@gmail.com\", \"password\": \"1234\", \"device\": \"ios\"}"
                             )
                     )
             )
@@ -50,13 +50,15 @@ public class AuthController {
         String device = credentials.get("device");
 
         try {
-            User user = authService.loginSessionWithEmail(email, password, device);
+            User user = authService.loginByEmail(email, password, device);
             if (user != null) {
                 String accessToken = jwtTokenProvider.generateAccessToken(email);
                 String refreshToken = jwtTokenProvider.generateRefreshToken(email);
                 response.put("message", "로그인 성공");
                 response.put("accessToken", accessToken);
                 response.put("refreshToken", refreshToken);
+                response.put("id", user.getId());
+                response.put("isNav", user.getIsNav());
                 return ResponseEntity.ok(response);
             } else {
                 response.put("message", "로그인 실패: 잘못된 이메일 또는 비밀번호");
@@ -69,17 +71,7 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "로그아웃", description = "사용자를 로그아웃 합니다.")
-    @ApiResponse(responseCode = "200", description = "로그아웃에 성공하였습니다.")
-    @PostMapping("/logout")
-    public ResponseEntity<Map<String, Object>> logout() {
-        // JWT는 서버에서 세션을 관리하지 않으므로, 클라이언트 측에서 토큰을 삭제하는 것으로 로그아웃을 대체합니다.
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "로그아웃 성공");
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "리프레시 토큰을 통한 액세스 토큰 갱신", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 생성합니다.")
+    @Operation(summary = "AccessToken 갱신 API", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "액세스 토큰 갱신 성공")
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, Object>> refreshAccessToken(
@@ -109,9 +101,46 @@ public class AuthController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.put("message", "액세스 토큰 갱신 실패");
+            response.put("message", "액세스 토큰 갱신 서버 에러");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @Operation(summary = "로그아웃 API", description = "사용자를 로그아웃 합니다.")
+    @ApiResponse(responseCode = "200", description = "로그아웃에 성공하였습니다.")
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "액세스 토큰",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    example = "{\"accessToken\": \"your_access_token_here\"}"
+                            )
+                    )
+            )
+            @RequestBody Map<String, String> body) {
+        Map<String, Object> response = new HashMap<>();
+        String accessToken = body.get("accessToken");
+
+        try {
+            if (jwtTokenProvider.validateToken(accessToken)) {
+                // 로그아웃된 토큰을 블랙리스트에 추가
+                jwtTokenProvider.invalidateToken(accessToken);
+                response.put("message", "로그아웃 성공");
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("message", "유효하지 않은 액세스 토큰입니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("message", "로그아웃 서버 에러");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
 
 }

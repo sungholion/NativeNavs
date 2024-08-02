@@ -6,7 +6,23 @@ springdoc:
 
     tags-sorter: alpha # 태그를 알파벳 순으로 정렬
 
-    operations-sorter: method  # delete - get - patch - post - put 순으로 정렬, alpha를 사용하면 알파벳 순으로 정렬 가능
+
+    operations-sorter: alpha  # delete - get - patch - post - put 순으로 정렬, alpha를 사용하면 알파벳 순으로 정렬 가능
 
 #  paths-to-match:
 #    - /api/** # swagger-ui에 표시할 api의 엔드포인트 패턴
+
+spring:
+  mail:
+    host: smtp.gmail.com # 1
+    port: 587 # 2
+    username: ssafyd110@gmail.com # 3
+    password: gstjhpufrgmtendb # 4
+    properties:
+      mail:
+        smtp:
+          auth: true # 5
+          timeout: 5000 # 6
+          starttls:
+            enable: true # 7
+#  auth-code-expiration-millis: 1800000
