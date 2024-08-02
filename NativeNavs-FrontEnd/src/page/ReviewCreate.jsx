@@ -28,8 +28,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "score":
       return { ...state, score: action.score };
-    case "content":
-      return { ...state, content: action.content };
+    case "description":
+      return { ...state, description: action.description };
     case "image":
       return { ...state, image: action.image };
   }
@@ -109,20 +109,20 @@ const ReviewCreate = ({ info } = dummy_info) => {
           )}
         </div>
       </section>
-      <section className="ReviewContent">
+      <section className="Reviewdescription">
         <div>
           솔직한 후기를 남겨 주세요{" "}
           <span>
-            {reviewData.content.length}/{200}자
+            {reviewData.description.length}/{200}자
           </span>
         </div>
 
         <textarea
           placeholder="리뷰를 작성해주세요."
-          value={reviewData.content}
+          value={reviewData.description}
           onChange={(e) => {
-            if (e.target.value.length < 200) {
-              dispatch({ type: "content", content: e.target.value });
+            if (e.target.value.length <= 200) {
+              dispatch({ type: "description", description: e.target.value });
             }
           }}
         />
@@ -130,12 +130,12 @@ const ReviewCreate = ({ info } = dummy_info) => {
       <section className={`ReviewButtonSection`}>
         <button
           className={`ReviewCreateSend ${
-            reviewData.image.length === 0 || reviewData.content === ""
+            reviewData.image.length === 0 || reviewData.description === ""
               ? "notAbleButton"
               : ""
           }`}
           disabled={
-            !(reviewData.image.length === 0 || reviewData.content !== "")
+            !(reviewData.image.length === 0 || reviewData.description !== "")
           }
           onClick={() => {
             console.log("HI");
