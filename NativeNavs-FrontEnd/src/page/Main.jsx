@@ -33,6 +33,7 @@ const Main = () => {
       try {
         const parsedUser = JSON.parse(userJson);
         console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`User ID: ${parsedUser.userId}`);
         console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
         console.log(`isNav: ${parsedUser.isNav}`);
         setUser(parsedUser);
