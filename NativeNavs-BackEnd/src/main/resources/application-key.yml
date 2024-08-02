@@ -1,0 +1,7 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    key: 110110
+
+
+

@@ -26,3 +26,18 @@ spring:
           starttls:
             enable: true # 7
 #  auth-code-expiration-millis: 1800000
+
+
+#aws s3 bucket
+cloud:
+  aws:
+    s3:
+      bucket: nativenavs
+    credentials:
+      access-key: AKIAQIJRRZNAE34YDWXX
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
