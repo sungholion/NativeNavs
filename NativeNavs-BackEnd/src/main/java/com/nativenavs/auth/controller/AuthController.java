@@ -2,7 +2,7 @@ package com.nativenavs.auth.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.auth.service.AuthService;
-import com.nativenavs.user.model.User;
+import com.nativenavs.user.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,15 +50,15 @@ public class AuthController {
         String device = credentials.get("device");
 
         try {
-            User user = authService.loginByEmail(email, password, device);
-            if (user != null) {
+            UserDTO userDTO = authService.loginByEmail(email, password, device);
+            if (userDTO != null) {
                 String accessToken = jwtTokenProvider.generateAccessToken(email);
                 String refreshToken = jwtTokenProvider.generateRefreshToken(email);
                 response.put("message", "로그인 성공");
                 response.put("accessToken", accessToken);
                 response.put("refreshToken", refreshToken);
-                response.put("id", user.getId());
-                response.put("isNav", user.getIsNav());
+                response.put("id", userDTO.getId());
+                response.put("isNav", userDTO.getIsNav());
                 return ResponseEntity.ok(response);
             } else {
                 response.put("message", "로그인 실패: 잘못된 이메일 또는 비밀번호");

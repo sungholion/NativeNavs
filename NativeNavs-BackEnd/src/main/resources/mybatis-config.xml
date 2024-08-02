@@ -6,4 +6,6 @@
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BooleanTypeHandler" javaType="boolean" jdbcType="BIT"/>
     </typeHandlers>
+
+
 </configuration>

@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+<<<<<<< HEAD
+    </annotationProcessing>
+=======
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
@@ -12,5 +15,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
+>>>>>>> 5ae49ae2e367c2ddfb4ba13592247ab4548a240b
   </component>
 </project>

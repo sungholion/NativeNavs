@@ -1,7 +1,7 @@
 package com.nativenavs.user.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
-import com.nativenavs.user.model.User;
+import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,12 +10,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,9 +25,6 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
-
-//    @Autowired
-//    private JwtTokenProvider jwtTokenProvider;
 
     @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
     @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
@@ -104,7 +99,7 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody User user) {
+            @RequestBody UserDTO user) {
         try {
             if (userService.checkDuplicatedEmail(user.getEmail())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일");
@@ -137,17 +132,17 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody User updateUser) {
+            @RequestBody UserDTO updateUserDTO) {
         try {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
 
-            User existingUser = userService.searchByEmail(email);
-            if (existingUser == null) {
+            UserDTO existingUserDTO = userService.searchByEmail(email);
+            if (existingUserDTO == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
 
-            userService.updateUser(existingUser.getId(), updateUser);
+            userService.updateUser(existingUserDTO.getId(), updateUserDTO);
             return ResponseEntity.ok("회원 정보 수정 성공");
 
         } catch (Exception e) {
@@ -166,7 +161,7 @@ public class UserController {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
 
-            User existingUser = userService.searchByEmail(email);
+            UserDTO existingUser = userService.searchByEmail(email);
             if (existingUser == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
             }
@@ -201,7 +196,7 @@ public class UserController {
             )
             @PathVariable("email") String email) {
         try {
-            User user = userService.searchByEmail(email);
+            UserDTO user = userService.searchByEmail(email);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -226,7 +221,7 @@ public class UserController {
             )
             @PathVariable("id") int id) {
         try {
-            User user = userService.searchById(id);
+            UserDTO user = userService.searchById(id);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -251,7 +246,7 @@ public class UserController {
             )
             @PathVariable("nickname") String nickname) {
         try {
-            User user = userService.searchByNickname(nickname);
+            UserDTO user = userService.searchByNickname(nickname);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -276,7 +271,7 @@ public class UserController {
             )
             @PathVariable("name") String name) {
         try {
-            User user = userService.searchByName(name);
+            UserDTO user = userService.searchByName(name);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
