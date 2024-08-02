@@ -1,6 +1,6 @@
 // get-android-function.js
 
-// 투어 리뷰 사진 보기로 이동
+// 투어 리뷰 보기로 이동
 export function navigateToTourReviewPhotoFragment(tour_id) {
   if (window.Android && typeof window.Android.navigateToTourReviewPhotoFragment === 'function') {
     window.Android.navigateToTourReviewPhotoFragment(tour_id);
@@ -9,7 +9,7 @@ export function navigateToTourReviewPhotoFragment(tour_id) {
   }
 }
 
-// Nav 리뷰 사진 보기로 이동
+// Nav 리뷰 보기로 이동
 export function navigateToNavReviewPhotoFragment(nav_id) {
   if (window.Android && typeof window.Android.navigateToNavReviewPhotoFragment === 'function') {
     window.Android.navigateToNavReviewPhotoFragment(nav_id);
@@ -18,7 +18,7 @@ export function navigateToNavReviewPhotoFragment(nav_id) {
   }
 }
 
-// Trav 리뷰 사진 보기로 이동
+// Trav 리뷰 보기로 이동
 export function navigateToTravReviewPhotoFragment(trav_id) {
   if (window.Android && typeof window.Android.navigateToTravReviewPhotoFragment === 'function') {
     window.Android.navigateToTravReviewPhotoFragment(trav_id);
