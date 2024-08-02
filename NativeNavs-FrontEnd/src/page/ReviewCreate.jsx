@@ -110,14 +110,22 @@ const ReviewCreate = ({ info } = dummy_info) => {
         </div>
       </section>
       <section className="ReviewContent">
-        <div>솔직한 후기를 남겨 주세요</div>
+        <div>
+          솔직한 후기를 남겨 주세요{" "}
+          <span>
+            {reviewData.content.length}/{200}자
+          </span>
+        </div>
+
         <textarea
           placeholder="리뷰를 작성해주세요."
           value={reviewData.content}
-          onChange={(e) =>
-            dispatch({ type: "content", content: e.target.value })
-          }
-        ></textarea>
+          onChange={(e) => {
+            if (e.target.value.length < 200) {
+              dispatch({ type: "content", content: e.target.value });
+            }
+          }}
+        />
       </section>
       <section className={`ReviewButtonSection`}>
         <button
