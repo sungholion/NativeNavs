@@ -66,4 +66,8 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    //Krossbow
+    implementation(libs.krossbow.websocket.core)
+    implementation(libs.krossbow.websocket.okhttp)
 }
