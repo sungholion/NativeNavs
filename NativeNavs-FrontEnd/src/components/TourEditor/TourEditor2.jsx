@@ -1,18 +1,11 @@
-import {
-  act,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import styles from "./Create2.module.css";
+import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import styles from "./TourEditor2.module.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStaticImage } from "@/utils/get-static-image";
 import PlanModal from "@/components/PlanModal/PlanModal";
 import { createPortal } from "react-dom";
 import Button from "@/components/Button/Button";
-import { TourDataContext, TourDispatchContext } from "./Tour_Create";
+import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,20 +13,20 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "DELETE": {
-      return state.filter((item) => item.plan_id !== action.plan_id);
+      return state.filter((item) => item.id !== action.id);
     }
     case "ADD": {
       return [...state, action.data];
     }
     case "EDIT": {
       return state.map((item) =>
-        item.plan_id != action.data.plan_id ? item : action.data
+        item.id != action.data.id ? item : action.data
       );
     }
   }
 };
 
-const Create2 = ({ goBeforePage, goAfterPage }) => {
+const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
   const { plans } = useContext(TourDataContext);
   const { onTourDataChange } = useContext(TourDispatchContext);
 
@@ -51,57 +44,57 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
       });
 
       plans.forEach((plan) => {
-        planCount.current = Math.max(planCount.current, plan.plan_id);
+        planCount.current = Math.max(planCount.current, plan.id);
       });
     }
   }, [plans]);
 
-  const onPlanDeleteEvent = (plan_id) => {
+  const onPlanDeleteEvent = (id) => {
     dispatch({
       type: "DELETE",
-      plan_id,
+      id,
     });
   };
   const onPlanAddEvent = ({
-    title,
+    field,
     description,
     latitude,
     longitude,
-    address_full,
+    addressFull,
     image,
   }) => {
     dispatch({
       type: "ADD",
       data: {
-        plan_id: ++planCount.current,
-        title,
+        id: ++planCount.current,
+        field,
         description,
         latitude,
         longitude,
-        address_full,
+        addressFull,
         image,
       },
     });
   };
 
   const onPlanEditEvent = ({
-    plan_id,
-    title,
+    id,
+    field,
     description,
     latitude,
     longitude,
-    address_full,
+    addressFull,
     image,
   }) => {
     dispatch({
       type: "EDIT",
       data: {
-        plan_id,
-        title,
+        id,
+        field,
         description,
         latitude,
         longitude,
-        address_full,
+        addressFull,
         image,
       },
     });
@@ -109,7 +102,7 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
 
   return (
     <>
-      <div className={styles.Create2}>
+      <div className={styles.TourEditor2}>
         <section className={styles.Header}>
           <p>일정 목록</p>
           <img
@@ -139,7 +132,7 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
             planList.map((planItem) => {
               return (
                 <Plan_Item
-                  key={planItem.plan_id}
+                  key={planItem.id}
                   {...planItem}
                   onDeleteEvent={onPlanDeleteEvent}
                   onClickEvent={() => {
@@ -216,4 +209,4 @@ const Create2 = ({ goBeforePage, goAfterPage }) => {
   );
 };
 
-export default Create2;
+export default TourEditor2;

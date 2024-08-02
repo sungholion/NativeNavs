@@ -1,8 +1,7 @@
-import Button from "@/components/Button/Button";
-import styles from "./Create3.module.css";
+import styles from "./TourEditor3.module.css";
 import { useContext, useEffect, useState } from "react";
-import { TourDataContext, TourDispatchContext } from "./Tour_Create";
-const Create3 = ({ goBeforePage, goAfterPage }) => {
+import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
+const TourEditor3 = ({ goBeforePage, goAfterPage }) => {
   const { description } = useContext(TourDataContext);
   const { onTourDataChange } = useContext(TourDispatchContext);
   const [requestTest, setrequestTest] = useState(""); //
@@ -13,7 +12,7 @@ const Create3 = ({ goBeforePage, goAfterPage }) => {
     }
   }, [description]);
   return (
-    <div className={styles.Create3}>
+    <div className={styles.TourEditor3}>
       <p>당부 사항</p>
       <div className={styles.comments}>
         Trav에게 당부할 내용을 작성해 주세요
@@ -48,4 +47,4 @@ const Create3 = ({ goBeforePage, goAfterPage }) => {
   );
 };
 
-export default Create3;
+export default TourEditor3;
