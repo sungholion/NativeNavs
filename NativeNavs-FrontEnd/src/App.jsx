@@ -12,6 +12,7 @@ import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
 import ReviewPhotos from "./page/ReviewPhotos";
+import ReviewCreate from "./page/ReviewCreate";
 import {
   navigateToTourReviewPhotoFragment,
   navigateToNavReviewPhotoFragment,
