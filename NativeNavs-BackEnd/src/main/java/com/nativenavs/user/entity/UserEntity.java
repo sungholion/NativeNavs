@@ -73,7 +73,6 @@ public class UserEntity extends BaseEntity {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userDTO.getId());
         userEntity.setEmail(userDTO.getEmail());
-        userEntity.setPassword(userDTO.getPassword());
         userEntity.setName(userDTO.getName());
         userEntity.setNickname(userDTO.getNickname());
         userEntity.setPhone(userDTO.getPhone());

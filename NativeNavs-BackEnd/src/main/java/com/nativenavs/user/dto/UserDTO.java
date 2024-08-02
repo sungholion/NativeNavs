@@ -1,5 +1,6 @@
 package com.nativenavs.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nativenavs.user.entity.UserEntity;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 public class UserDTO {
     private int id;
     private String email;
+    @JsonIgnore
     private String password;
     private String name;
     private String nickname;
@@ -37,7 +39,6 @@ public class UserDTO {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
         userDTO.setEmail(userEntity.getEmail());
-        userDTO.setPassword(userEntity.getPassword());
         userDTO.setName(userEntity.getName());
         userDTO.setNickname(userEntity.getNickname());
         userDTO.setPhone(userEntity.getPhone());
