@@ -25,6 +25,16 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(Fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initView()
+        initEvent()
+
+
+    }
+    fun initView(){
+
+    }
+    fun initEvent(){
         binding.profileModifyCompleteBtn.setOnClickListener {
             findNavController().popBackStack()
         }

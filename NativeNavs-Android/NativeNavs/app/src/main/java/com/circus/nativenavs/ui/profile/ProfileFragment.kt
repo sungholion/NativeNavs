@@ -1,6 +1,8 @@
 package com.circus.nativenavs.ui.profile
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -134,9 +136,26 @@ class ProfileFragment :
         }
     }
 
+    private fun checkPassDialog(){
+        val builder = AlertDialog.Builder(context)
+        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
+
+        builder.setView(view)
+        builder.setTitle("비밀번호 입력")
+        builder.setMessage("비밀번호를 입력해주세요")
+        builder.setPositiveButton("확인") { dialog, which ->
+            navigate(R.id.action_profileFragment_to_profileModifylFragment)
+        }
+
+        builder.setNegativeButton("취소") { dialog, which ->
+            // 취소 버튼 클릭 시 수행할 동작
+        }
+        builder.show()
+    }
+
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
-            navigate(R.id.action_profileFragment_to_profileModifylFragment)
+            checkPassDialog()
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
