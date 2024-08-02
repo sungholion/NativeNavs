@@ -15,8 +15,15 @@ class AuthInterceptor(private var authToken: String) : Interceptor {
 
         val url = originalRequest.url.toString()
 
+        if (!url.contains("users/search/id")) {
+            builder.header("Authorizaiton", "Bearer $authToken")
+        }
+
         // 특정 경로를 제외한 경우에만 "Content-Type" 헤더를 추가합니다.
-        if (!url.contains("users/autenticateEmail") && !url.contains("users/sendEmail") && !url.contains("users/search/id")) {
+        if (!url.contains("users/autenticateEmail") && !url.contains("users/sendEmail") && !url.contains(
+                "users/search/id"
+            )
+        ) {
             builder.header("Content-Type", "application/json")
         }
 

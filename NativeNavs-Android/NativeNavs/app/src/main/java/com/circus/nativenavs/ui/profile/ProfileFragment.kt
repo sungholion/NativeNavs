@@ -70,15 +70,10 @@ class ProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d(TAG, "onViewCreated: 1111111111111")
         initData()
-        Log.d(TAG, "onViewCreated: 2222222222222")
         initView()
-        Log.d(TAG, "onViewCreated: 3333333333333")
         initAdapter()
-        Log.d(TAG, "onViewCreated: 44444444444")
         initEvent()
-        Log.d(TAG, "onViewCreated: 5555555555555")
 
     }
 
