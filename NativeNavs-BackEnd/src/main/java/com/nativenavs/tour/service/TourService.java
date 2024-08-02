@@ -126,9 +126,7 @@ public class TourService {
             tourRepository.save(tourEntity);
         }
     }
-    public void deleteTour(int id){
 
-    }
     private void updateTourEntityFields(TourEntity tourEntity, TourDTO tourDTO) {
         tourEntity.setTitle(tourDTO.getTitle());
         tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
