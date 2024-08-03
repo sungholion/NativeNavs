@@ -1,0 +1,107 @@
+.carouselContainer {
+    width: 360px;
+    position: relative;
+}
+  
+.carouselImage {
+    width: 100%;
+    height: 288.4px;
+    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    border-radius: 10px;
+}
+
+.tourInfoContainer {
+    display: flex;
+    flex-direction: column;
+}
+  
+.tourInfoTopContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.tourInfoBottomContainer {
+    display: flex;
+    padding-top: 10px;
+}
+
+.carouselTitle {
+    font-weight: bold;
+}
+
+.carouselDate,
+.carouselAverage {
+    font-size: 12px;
+}
+
+.tourLeftInfo {
+    width: 65%;
+}
+
+.tourLeftInfo > p {
+    margin: 0px;
+}
+
+.tourRightInfo {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.navImageNickname {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.navImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.navNickname {
+    font-weight: bold;
+    margin: 0px;
+}
+
+.navLanguage {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.navLanguageImage {
+    height: 20px;
+    width: 20px;
+}
+
+.navLanguageText {
+    font-size: 10px;
+}
+
+.singleTourContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.singlecarouselImage {
+    width: 320px;
+    height: 320px;
+    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    border-radius: 10px;
+}
+
+.singletourInfoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+}
