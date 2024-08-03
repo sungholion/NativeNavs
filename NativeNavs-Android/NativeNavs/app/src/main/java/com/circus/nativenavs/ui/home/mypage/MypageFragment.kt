@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentMypageBinding
+import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.login.LoginActivity
 import com.circus.nativenavs.util.LOGOUT
