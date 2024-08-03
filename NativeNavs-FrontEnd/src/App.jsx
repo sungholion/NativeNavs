@@ -22,6 +22,7 @@ import { getStaticImage } from "./utils/get-static-image";
 import TourCreate from "./page/TourCreate";
 import TourEdit from "./page/TourEdit";
 import ReservationList from "./page/ReservationList"
+import ReservationDetail from "./page/ReservationDetail";
 
 function App() {
   const param = useSearchParams();
@@ -113,7 +114,7 @@ function App() {
           {/* 예약 하기 페이지 */}
           <Route path="create" element={<div>예약 하기</div>} />
           {/* 예약 상세 정보 페이지 */}
-          <Route path="detail/:res_id" element={<div>예약 상세 정보</div>} />
+          <Route path="detail/:res_id" element={<ReservationDetail />} />
         </Route>
 
         {/* 개인정보 보호 및 이용 약관 페이지 */}

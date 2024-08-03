@@ -61,15 +61,18 @@ export const upcomingTours = [
     ],
     title: "전통 한옥에서의 전통 생활 체험 및 농촌 체험 여행",
     content: "한국의 전통 한옥에서 숙박하며 전통 생활 체험을 하고, 인근 농촌에서 농작물 수확 체험을 합니다. 대구의 아름다운 자연경관을 감상할 수 있습니다.",
-    start_date: new Date(2024, 9, 11),
+    start_date: new Date(2024, 9, 11, 9, 0), // 시작 날짜와 시간
+    end_date: new Date(2024, 9, 12, 17, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "대구",
-    date: new Date(2024, 12, 31),
     review_average: 4.52,
-    image:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
     language: ["영어", "독일어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
+    trav_people: 3, // Trav 인원
+    reservation_number: "A12345", // 예약 번호
+    meeting_place: "대구역", // 만남 장소
+    additional_requests: "채식 식단 요청" // 추가 요청 사항
   },
   {
     user_id: 2,
@@ -82,15 +85,18 @@ export const upcomingTours = [
     ],
     title: "바닷가 마을에서의 해양 스포츠 및 해산물 요리 체험",
     content: "바닷가 마을에서 다양한 해양 스포츠를 즐기고, 신선한 해산물로 요리 체험을 합니다. 부산의 아름다운 해변과 함께 특별한 경험을 만끽하세요.",
-    start_date: new Date(2024, 10, 21),
+    start_date: new Date(2024, 10, 21, 10, 0), // 시작 날짜와 시간
+    end_date: new Date(2024, 10, 22, 18, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "부산",
-    date: new Date(2024, 10, 1),
     review_average: 4.52,
-    image:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
-    language: ["영어","프랑스어"],
+    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
+    trav_people: 2, // Trav 인원
+    reservation_number: "B67890", // 예약 번호
+    meeting_place: "해운대 해변", // 만남 장소
+    additional_requests: "수영 강습 요청" // 추가 요청 사항
   },
   {
     user_id: 3,
@@ -103,17 +109,22 @@ export const upcomingTours = [
     ],
     title: "산악 등반 및 힐링 트레킹 체험",
     content: "산악 지역에서 등반을 통해 자연을 만끽하고, 힐링 트레킹을 즐기며 휴식을 취할 수 있습니다. 강원도의 멋진 경치를 감상하세요.",
-    start_date: new Date(2024, 10, 28),
+    start_date: new Date(2024, 10, 28, 8, 0), // 시작 날짜와 시간
+    end_date: new Date(2024, 10, 29, 16, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "강원도",
-    date: new Date(2024, 10, 31),
     review_average: 4.75,
-    image:
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
-    language: ["영어", "일본어", "중국어","독일어"],
+    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "일본어", "중국어", "독일어"],
     created_at: new Date(2021, 5, 15),
+    trav_people: 5, // Trav 인원
+    reservation_number: "C11223", // 예약 번호
+    meeting_place: "설악산 주차장", // 만남 장소
+    additional_requests: "채식 메뉴 제공" // 추가 요청 사항
   },
 ];
+
+
 
 
 export const reviews = {
