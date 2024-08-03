@@ -11,9 +11,13 @@ class AuthInterceptor(private var authToken: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest: Request = chain.request()
         val builder: Request.Builder = originalRequest.newBuilder()
-            .header("Authorization", "Bearer $authToken")
 
         val url = originalRequest.url.toString()
+
+
+        if(!url.contains("users/search/id")){
+            builder.header("Authorization", "Bearer $authToken")
+        }
 
         // 특정 경로를 제외한 경우에만 "Content-Type" 헤더를 추가합니다.
         if (!url.contains("users/autenticateEmail") && !url.contains("users/sendEmail")) {
