@@ -18,8 +18,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("login", "onCreate: ${SharedPref.userId }")
-        Log.d("login", "onCreate: ${SharedPref.accessToken }")
         if(SharedPref.userId != 0 && SharedPref.accessToken != null){
             ApplicationClass.setAuthToken(SharedPref.accessToken.toString())
             startActivity(Intent(this, HomeActivity::class.java))
