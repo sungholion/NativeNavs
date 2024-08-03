@@ -1,20 +1,23 @@
 package com.circus.nativenavs.util
 
 import android.content.SharedPreferences
+import android.util.Log
 
 object SharedPref {
     var sharedPrefs: SharedPreferences? = null
 
-    fun remove(type : String){
-
-        if(type == LOGOUT){
-            sharedPrefs?.edit()?.remove(ACCESSTOKEN)
-            sharedPrefs?.edit()?.remove(REFRESHTOKEN)
-            sharedPrefs?.edit()?.remove(USER_ID)
-            sharedPrefs?.edit()?.remove(IS_NAV)
+    fun remove(type: String) {
+        sharedPrefs?.edit()?.apply {
+            if (type == LOGOUT) {
+                remove(ACCESSTOKEN)
+                remove(REFRESHTOKEN)
+                remove(USER_ID)
+                remove(IS_NAV)
+            } else {
+                remove(type)
+            }
+            apply() // 모든 변경 사항을 적용
         }
-        else
-            sharedPrefs?.edit()?.remove(type)
     }
 
     var userId: Int?
