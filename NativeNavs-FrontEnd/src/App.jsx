@@ -12,6 +12,7 @@ import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
 import ReviewPhotos from "./page/ReviewPhotos";
+import ReviewCreate from "./page/ReviewCreate";
 import {
   navigateToTourReviewPhotoFragment,
   navigateToNavReviewPhotoFragment,
@@ -23,7 +24,6 @@ import TourEdit from "./page/TourEdit";
 
 function App() {
   const param = useSearchParams();
-
   return (
     <>
       <Routes>
@@ -46,7 +46,11 @@ function App() {
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
               path="reviews/create"
-              element={<div>투어 리뷰 작성 페이지</div>}
+              element={
+                <div>
+                  <ReviewCreate />
+                </div>
+              }
             />
           </Route>
         </Route>

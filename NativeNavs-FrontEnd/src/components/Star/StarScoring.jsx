@@ -1,8 +1,9 @@
 // src/components/Star/StarScoring.jsx
 import React, { useState } from "react";
-import "./StarScore.css"; // 기존 스타일을 재사용
+import "./StarScoring.css"; // 기존 스타일을 재사용
 
-function StarScoring({ onRatingChange }) { // onRatingChange를 props로 받음
+function StarScoring({ onRatingChange }) {
+  // onRatingChange를 props로 받음
   const [rating, setRating] = useState(0); // 현재 별점 상태 관리, 초기값 0
 
   // 별을 클릭했을 때 호출되는 함수
@@ -17,7 +18,7 @@ function StarScoring({ onRatingChange }) { // onRatingChange를 props로 받음
         {Array.from({ length: 5 }).map((_, idx) => (
           <span
             key={idx}
-            className={`star-score-icon ${rating > idx ? 'filled' : ''}`}
+            className={`star-score-icon ${rating > idx ? "filled" : ""}`}
             // 해당 별이 클릭되면 이벤트 핸들러 함수에 인덱스를 인수로 해서 호출
             onClick={() => handleStarClick(idx)}
           >
