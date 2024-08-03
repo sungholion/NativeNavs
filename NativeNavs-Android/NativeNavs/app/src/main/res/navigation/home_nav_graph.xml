@@ -159,7 +159,14 @@
         android:id="@+id/profileModifylFragment"
         android:name="com.circus.nativenavs.ui.profile.ProfileModifylFragment"
         android:label="ProfileModifylFragment"
-        tools:layout="@layout/fragment_profile_modify" />
+        tools:layout="@layout/fragment_profile_modify" >
+        <action
+            android:id="@+id/action_profileModifylFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_profileModifylFragment_to_profileLanguageFragment"
+            app:destination="@id/profileLanguageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
@@ -267,5 +274,13 @@
             android:name="navId"
             android:defaultValue="-1"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileLanguageFragment"
+        android:name="com.circus.nativenavs.ui.profile.ProfileLanguageFragment"
+        android:label="ProfileLanguageFragment" >
+        <action
+            android:id="@+id/action_profileLanguageFragment_to_profileModifylFragment"
+            app:destination="@id/profileModifylFragment" />
     </fragment>
 </navigation>
