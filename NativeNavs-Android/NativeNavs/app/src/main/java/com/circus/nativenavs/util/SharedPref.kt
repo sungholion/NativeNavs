@@ -5,6 +5,18 @@ import android.content.SharedPreferences
 object SharedPref {
     var sharedPrefs: SharedPreferences? = null
 
+    fun remove(type : String){
+
+        if(type == LOGOUT){
+            sharedPrefs?.edit()?.remove(ACCESSTOKEN)
+            sharedPrefs?.edit()?.remove(REFRESHTOKEN)
+            sharedPrefs?.edit()?.remove(USER_ID)
+            sharedPrefs?.edit()?.remove(IS_NAV)
+        }
+        else
+            sharedPrefs?.edit()?.remove(type)
+    }
+
     var userId: Int?
         get() = sharedPrefs?.getInt(USER_ID, 0) ?: 0
         set(value) {
