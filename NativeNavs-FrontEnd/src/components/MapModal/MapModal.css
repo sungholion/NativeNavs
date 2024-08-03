@@ -1,9 +1,8 @@
-.Modal {
+.mapModal {
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
   position: fixed;
   width: 100vw;
   height: 85vh;
@@ -23,120 +22,50 @@
   background-color: rgba(240, 240, 240, 0.8);
 }
 
-.ModalHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 3vh 0;
-  height: auto;
-}
-
-.ModalImg {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  margin-right: 1vw;
-}
-
-.ModalImg label {
-  display: inline-block;
-  cursor: pointer;
-  margin: 0px auto;
-}
-
-.ModalImg img {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb;
-  object-fit: cover;
-}
-
-.ModalImg input {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 5px;
-  display: none;
-}
-
-.emptyModalImg {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 5%;
-  font-size: small;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.ModalHeaderTitle {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  width: 100%;
-  height: auto;
-  h3 {
-    padding: 0%;
-    margin: 0;
-    font-weight: 700;
+.CloseModal {
+  align-self: flex-end;
+  position: fixed;
+  z-index: 10;
+  img {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    top: 2vw;
+    right: 2vw;
   }
+}
+.SearchLocation {
+  align-self: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-top: 10px;
 
+  h4 {
+    margin-left: 5%;
+    font-size: 6vw;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
   input[type="text"] {
-    width: 60vw;
-    height: 6vw;
-    font-size: 2vw;
+    border: 1px solid #595959;
+    height: 25px;
+    width: 90%;
+    height: 5vh;
+    align-self: center;
+    border-radius: 5px;
+    margin-top: 0;
   }
 }
 
-.ModalMap {
+.MapSection {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2vh;
-}
-
-.ModalMapSearch {
-  margin: 0 auto;
-}
-
-.ModalMapSearch > h3 {
-  margin: 10px 0px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.ModalContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px auto;
-  padding: 0px;
-}
-
-.ModalContent > h3 {
-  margin: 10px 0px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.ModalContent > textarea {
-  width: 80vw;
-  max-height: 30vh;
-  height: 10vh;
-  resize: vertical;
-  border: 2px solid #595959;
-}
-
-.ButtonSection {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 90vw;
+  margin-top: 10px;
+  border-radius: 5px;
 }

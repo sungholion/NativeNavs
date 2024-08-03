@@ -1,4 +1,5 @@
 import styles from "./Tour_Item_mini_Review.module.css";
+import Rating from "../Star/Rating(Basic)";
 
 const info = {
   tour: {
@@ -30,6 +31,7 @@ const Tour_Item_mini_Reservation = ({ tour }) => {
       <section className={styles.tourInfoSection}>
         <div className={styles.tourTextInfo}>
           <h3>{tour.title}</h3>
+          <Rating score={tour.score} />
         </div>
       </section>
     </div>
