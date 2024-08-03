@@ -16,6 +16,7 @@ import com.circus.nativenavs.databinding.FragmentReservationListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
 private const val TAG = "MyTripReservationListFr"
@@ -28,7 +29,7 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     private lateinit var homeActivity: HomeActivity
     private val args: MyTripReservationListFragmentArgs by navArgs()
 
-    //    private lateinit var bridge: 브릿지 클래스
+    private lateinit var bridge: MyTripReservationListBridge
     private var isPageLoaded = false
 
     override fun onAttach(context: Context) {
@@ -46,20 +47,19 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     }
 
     private fun initWebView() {
-        binding.myTripReservationListWv.binding.customWebviewTitleWv.webViewClient =
-            object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-
-                }
-
-            }
-
-        val url = ""
-//            "https://i11d110.p.ssafy.io/reservation/${args.tourId}/detail/${args.reservationId}"
+        val url = "https://i11d110.p.ssafy.io/reservation/${args.tourId}/list"
         Log.d(TAG, "initCustomView: $url")
         binding.myTripReservationListWv.loadWebViewUrl(url)
 
+    }
+
+    fun navigateToReservationDetailFragment(reservationId: Int) {
+        val action =
+            MyTripReservationListFragmentDirections.actionMyTripReservationListFragmentToReservationDetailFragment(
+                tourId = args.tourId,
+                reservationId = reservationId
+            )
+        navigate(action)
     }
 
     private fun initCustomView() {
@@ -83,8 +83,15 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     }
 
     private fun initBridge() {
-//        bridge = 클래스 객체 생성
-//        binding.myTripReservationListWv.binding.customWebviewTitleWv.addJavascriptInterface(bridge, "Android")
+        bridge = MyTripReservationListBridge(
+            homeActivity,
+            this,
+            binding.myTripReservationListWv.binding.customWebviewTitleWv
+        )
+        binding.myTripReservationListWv.binding.customWebviewTitleWv.addJavascriptInterface(
+            bridge,
+            "Android"
+        )
     }
 
     override fun onResume() {

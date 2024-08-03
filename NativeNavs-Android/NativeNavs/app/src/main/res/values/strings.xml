@@ -131,5 +131,8 @@
     <string name="chat_list_title">채팅</string>
     <string name="video_call">화상통화</string>
     <string name="booking">예약하기</string>
+    <string name="profile_other_trav_review">님이 남긴 리뷰</string>
+    <string name="profile_other_nav_review">님의 리뷰</string>
+    <string name="profile_other_stamp">님의 스탬프</string>
 
 </resources>

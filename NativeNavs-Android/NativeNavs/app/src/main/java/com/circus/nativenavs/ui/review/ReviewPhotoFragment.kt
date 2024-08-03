@@ -22,7 +22,7 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
-    private val args: ReviewListFragmentArgs by navArgs()
+    private val args: ReviewPhotoFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
