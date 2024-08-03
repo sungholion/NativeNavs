@@ -6,16 +6,15 @@ import com.nativenavs.tour.entity.CategoryEntity;
 import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.tour.entity.TourCategoryEntity;
 import com.nativenavs.tour.entity.TourEntity;
-import com.nativenavs.tour.repository.CategoryRepository;
-import com.nativenavs.tour.repository.PlanRepository;
-import com.nativenavs.tour.repository.TourCategoryRepository;
-import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.tour.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,6 +180,25 @@ public class TourService {
         tourRepository.deleteById(id);
     }
 
+    public List<TourDTO> searchTours(String location, LocalDate date, Integer categoryId) {
+        Specification<TourEntity> spec = Specification.where(null);
 
+        if (location != null && !location.isEmpty()) {
+            spec = spec.and(TourSpecification.hasLocationContaining(location));
+        }
+
+        if (date != null) {
+            spec = spec.and(TourSpecification.isDateInRange(date));
+        }
+
+        if (categoryId != null) {
+            spec = spec.and(TourSpecification.hasCategory(categoryId));
+        }
+
+        List<TourEntity> tourEntities = tourRepository.findAll(spec);
+        return tourEntities.stream()
+                .map(TourDTO::toTourDTO)
+                .collect(Collectors.toList());
+    }
 
 }

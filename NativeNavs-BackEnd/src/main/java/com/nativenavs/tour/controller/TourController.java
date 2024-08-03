@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -199,4 +200,33 @@ public class TourController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 삭제 실패");
         }
     }
+
+    @GetMapping("/search")
+    @Tag(name = "tour API", description = "tour")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> tourSearch(
+
+            @Parameter(description = "위치 검색어", example = "서울")
+            @RequestParam(required = false) String location,
+
+            @Parameter(description = "검색할 날짜", example = "2024-08-15")
+            @RequestParam(required = false) LocalDate date,
+
+            @Parameter(description = "카테고리 ID", example = "7")
+            @RequestParam(required = false) Integer categoryId) {
+
+        try{
+            List<TourDTO> tourDTOList = tourService.searchTours(location, date, categoryId);
+            return ResponseEntity.ok(tourDTOList);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 검색 실패");
+        }
+
+    }
+
+
+
 }
