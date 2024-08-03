@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,7 @@ public class TourController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
     public ResponseEntity<?> tourSave(
+            @RequestHeader("Authorization") String token,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = ".",
                     required = true,
@@ -37,7 +39,6 @@ public class TourController {
                             mediaType = "application/json",
                             schema = @Schema(
                                     example = "{\n" +
-                                            "  \"userId\": 10,\n" +
                                             "  \"title\": \"Summer Vacation\",\n" +
                                             "  \"thumbnailImage\": \"http://example.com/image.jpg\",\n" +
                                             "  \"description\": \"A relaxing summer vacation tour\",\n" +
@@ -78,7 +79,7 @@ public class TourController {
 
         System.out.println("tourDTO : " + tourDTO);
         try {
-            tourService.addTour(tourDTO);
+            tourService.addTour(tourDTO,token);
             return ResponseEntity.ok("여행 등록 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
@@ -127,6 +128,7 @@ public class TourController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> tourModify(
+            @RequestHeader("Authorization") String token,
             @Parameter(description = "투어 ID", required = true, example = "10")
             @PathVariable int id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -199,4 +201,30 @@ public class TourController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 삭제 실패");
         }
     }
+
+    @GetMapping("/search")
+    @Tag(name = "tour API", description = "tour")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> tourSearch(
+
+            @Parameter(description = "위치 검색어", example = "서울")
+            @RequestParam(required = false) String location,
+
+            @Parameter(description = "검색할 날짜", example = "2024-08-15")
+            @RequestParam(required = false) LocalDate date,
+
+            @Parameter(description = "카테고리 ID", example = "7")
+            @RequestParam(required = false) Integer categoryId) {
+
+        try{
+            List<TourDTO> tourDTOList = tourService.searchTours(location, date, categoryId);
+            return ResponseEntity.ok(tourDTOList);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 검색 실패");
+        }
+    }
+
 }
