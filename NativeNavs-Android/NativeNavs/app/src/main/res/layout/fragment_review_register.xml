@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.review.ReviewRegisterFragment">
+        tools:context=".ui.review.ReviewRegisterFragment">
 
         <com.circus.nativenavs.util.CustomTitleWebView
             android:id="@+id/review_register_custom_wv"

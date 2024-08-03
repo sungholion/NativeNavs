@@ -85,6 +85,13 @@ public class UserServiceImpl implements UserService {
         return UserDTO.toUserDTO(userEntity);
     }
 
+    @Override
+    public int changeEmailToId(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
+        return userEntity.getId();
+    }
+
     @Transactional
     @Override
     public void updateUser(int existingId, UserDTO updateUserDTO){

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NativeNavs</string>
     <string name="hello_blank_fragment">hello</string>
@@ -16,9 +17,11 @@
     <string name="app_bar_tour_register">투어작성</string>
     <string name="app_bar_tour_modify">투어수정</string>
     <string name="app_bar_review">리뷰</string>
+    <string name="app_bar_review_photos">사진 전체보기</string>
     <string name="app_bar_review_register">리뷰작성</string>
     <string name="app_bar_profile">프로필</string>
     <string name="app_bar_profile_modify">프로필수정</string>
+    <string name="app_bar_my_trip_reservation_list">예약 목록</string>
 
 
     <string name="tour_wish_list_title">WishList</string>
@@ -32,6 +35,15 @@
     <string name="mypage_tos">개인 정보 약관</string>
     <string name="mypage_withdrawal">회원탈퇴</string>
 
+    <!--profile-->
+    <string name="profile_myreview">내가 남긴 리뷰</string>
+    <string name="profile_mystamp">나의 스탬프</string>
+    <string name="profile_modify_update_btn">수정 완료</string>
+    <string name="profile_nation">거주지:</string>
+    <string name="profile_user_language">언어:</string>
+    <string name="profile_user_use">이용횟수:</string>
+    
+    
     <!--sign-->
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
@@ -45,10 +57,13 @@
     <string name="sign_google_signup">구글 계정으로 회원가입</string>
     <string name="sign_send">전송</string>
     <string name="sign_code">코드 번호</string>
+    <string name="sign_email_valid">이메일 형식이 맞지 않습니다.</string>
     <string name="sign_code_help">만약 코드 번호가 오지 않았거나 재전송이 필요하시면\n코드 번호 재전송을 요청해 주세요.</string>
     <string name="sign_auth">인증</string>
     <string name="sign_pw_help">해당 계정에 대한 비밀번호를 입력해 주세요.\n알파벳, 소문자, 특수문자를 섞어서 8~20자리 입력해 주세요.</string>
+    <string name="sign_pw_valid">비밀번호 형식을 다시 확인해주세요.\n알파벳, 소문자, 특수문자를 섞어서 8~20자리 입력해 주세요.</string>
     <string name="sign_pw_check_help">위에서 입력한 비밀번호를 다시 입력해 주세요.</string>
+    <string name="sign_pw_check_valid">비밀번호가 일치 하지 않습니다. 다시 입력해주세요.</string>
     <string name="sign_welcome">환영합니다!</string>
     <string name="sign_your_type">당신의 방향은?</string>
     <string name="sign_type_nav">Nav</string>
@@ -67,11 +82,17 @@
     <string name="sign_phone_help">숫자로만 입력해주세요.</string>
     <string name="sign_terms"><u>서비스 이용 약관 및 개인정보 수집 약관</u>에 동의합니다.</string>
     <string name="sign_register">등록 완료</string>
-    <string name="sign_language_help">최대 5개까지 선택 가능합니다.</string>
+    <string name="sign_language_help">최대 3개까지 선택 가능합니다.</string>
     <string name="sign_check">확인</string>
     <string name="sign_complete">회원가입 완료!</string>
     <string name="sign_complete_welcome">가입하신 것을 축하합니다!\n당신의 여행을 NativeNavs가 함께하겠습니다.</string>
     <string name="sign_move_to_main">메인으로 이동</string>
+    <string name="sign_useable_nickname">사용 가능한 닉네임 입니다</string>
+    <string name="sign_already_exist_nickname">이미 존재하는 닉네임 입니다</string>
+    <string name="sign_check_nickname_btn">중복 확인을 해주세요</string>
+    <string name="sign_check_name">이름을 입력해주세요</string>
+    <string name="sign_check_birth">생년월일을 확인해주세요</string>
+    <string name="sign_check_phone">전화번호를 입력해주세요</string>
 
     <!--tourList-->
     <string name="search_bar_title">원하는 Travel이 있나요?</string>
@@ -105,4 +126,13 @@
     <!--reservation-->
     <string name="reservation_register_title">예약하기</string>
     <string name="reservation_detail_title">예약 상세보기</string>
+
+    <!--chat-->
+    <string name="chat_list_title">채팅</string>
+    <string name="video_call">화상통화</string>
+    <string name="booking">예약하기</string>
+    <string name="profile_other_trav_review">님이 남긴 리뷰</string>
+    <string name="profile_other_nav_review">님의 리뷰</string>
+    <string name="profile_other_stamp">님의 스탬프</string>
+
 </resources>

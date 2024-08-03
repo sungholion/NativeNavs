@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.tour.TourRegisterFragment">
+        tools:context=".ui.tour.TourRegisterFragment">
 
         <com.circus.nativenavs.util.CustomTitleWebView
             android:id="@+id/tour_register_wv"

@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.circus.nativenavs.util.LocaleUtils
+import com.circus.nativenavs.util.SharedPref
 
 abstract class BaseFragment<B : ViewBinding>(
     private val bind: (View) -> B,
@@ -16,6 +18,13 @@ abstract class BaseFragment<B : ViewBinding>(
     private var _binding: B? = null
     protected val binding
         get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        SharedPref.language?.let {
+            LocaleUtils.setLocale(requireContext(), it)
+        }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
