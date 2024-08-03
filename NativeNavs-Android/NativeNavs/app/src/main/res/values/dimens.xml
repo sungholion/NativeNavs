@@ -16,6 +16,11 @@
     <dimen name="font_size_mypage_content">18sp</dimen>
     <dimen name="font_size_setting_title">20sp</dimen>
     <dimen name="font_size_setting_help">14sp</dimen>
+    <dimen name="font_size_message">13sp</dimen>
+    <dimen name="font_size_message_time">12sp</dimen>
+
+    <!--margin-->
+    <dimen name="chat_maxWidth">250dp</dimen>
 
     <!--margin-->
     <dimen name="margin_horizontal_btn">15dp</dimen>
@@ -23,16 +28,23 @@
     <dimen name="margin_horizontal_page">20dp</dimen>
     <dimen name="margin_start_title_et">5dp</dimen>
     <dimen name="margin_bottom_next_btn">40dp</dimen>
+    <dimen name="margin_chat_message">5dp</dimen>
 
     <!--padding-->
     <dimen name="padding_horizontal_btn_short">30dp</dimen>
+    <dimen name="padding_horizontal_item">20dp</dimen>
+    <dimen name="padding_vertical_item">10dp</dimen>
     <dimen name="padding_horizontal_et">20dp</dimen>
     <dimen name="padding_vertical_et">15dp</dimen>
+    <dimen name="padding_horizontal_message">14dp</dimen>
+    <dimen name="padding_vertical_message">8dp</dimen>
 
     <!--radius-->
     <dimen name="radius_default">10dp</dimen>
+    <dimen name="radius_message">15dp</dimen>
 
     <!--stroke-->
     <dimen name="stroke_default">2dp</dimen>
+    <dimen name="stroke_thin">1dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

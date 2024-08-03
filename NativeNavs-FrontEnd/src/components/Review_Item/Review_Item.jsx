@@ -1,19 +1,6 @@
 import styles from "./Review_Item.module.css";
-import Rating from "./../Star/Rating(Basic)";
+import StarScore from "../Star/StarScore";
 import Review_Item_img from "./Review_Item_img";
-import { duration_expression } from "../../utils/duration_expression";
-// const info = {
-//     user: { user_id: 1, image: "", nickname: "오리불고기", nation: "미국" },
-//     score: 4.2,
-//     description: "설명설명",
-//     created_at: new Date(2024, 3, 2),
-//     tour: {
-//       tour_id: 2,
-//       title: "투어 내용",
-//     },
-//     needToShowTourTitle : 투어 타이틀 보여주기 여부
-//      imageList : [] 이미지 url 담긴 배열
-//   };
 
 const Review_Item = ({
   user,
@@ -33,13 +20,10 @@ const Review_Item = ({
             <p className={styles.Review_Item_travel_nickname}>
               {user.nickname}
             </p>
-            <p className={styles.Review_Item_date}>
-              {duration_expression(created_at, new Date())} 전
-            </p>
           </div>
         </div>
         <div className={styles.Review_Item_score}>
-          <Rating ratingValue={score} />
+          <StarScore score={score * 20} />
         </div>
       </section>
       <section className={styles.Review_Item_content}>

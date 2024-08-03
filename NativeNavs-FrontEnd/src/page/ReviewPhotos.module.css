@@ -1,0 +1,14 @@
+.ReviewPhotos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+    padding: 0px;
+  }
+  
+  .photo {
+    width: 100%;
+    height: 120px;
+    padding-bottom: 5px; /* 1:1 비율을 유지하기 위해 사용 */
+    object-fit: cover;
+  }
+  

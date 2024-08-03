@@ -6,13 +6,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.tour.TourListFragment">
+        tools:context=".ui.tour.TourListFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="10dp"
             android:id="@+id/tour_fragment_constraint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/tour_search_cv"
@@ -63,20 +63,21 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/stroke_round_10_dark_grey">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/tour_search_btn"
-                    style="@style/btn_long_blue"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="0dp"
-                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
-                    android:padding="20dp" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tour_search_btn"
+                        style="@style/btn_long_blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="20dp" />
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -86,6 +87,8 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_horizontal_page"
                 android:layout_marginEnd="@dimen/margin_horizontal_page"
+                android:overScrollMode="never"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

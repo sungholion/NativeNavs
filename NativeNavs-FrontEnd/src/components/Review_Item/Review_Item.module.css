@@ -60,6 +60,6 @@
 .Review_Item_image {
   margin-top: 10px;
   overflow: hidden;
-  width: 80vw;
+  width: 100vw;
   flex: 1;
 }

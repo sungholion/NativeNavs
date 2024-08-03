@@ -286,6 +286,33 @@ public class UserController {
 
     }
 
+    @Tag(name = "change Email To Id API", description = "user Email을 id로 전환")
+    @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/changeEmailToId/{email}")
+    public ResponseEntity<?> changeEmailToId(
+            @Parameter(
+                    description = "Email",
+                    required = true,
+                    example = "eoblue23@gmail.com"
+            )
+            @PathVariable("email") String email) {
+        try {
+            int id = userService.changeEmailToId(email);
+
+            if(id != 0) {
+                return ResponseEntity.accepted().body(id);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
+        }
+
+
+    }
+
     @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
     @Operation(summary = "eamil으로 중복 체크 API", description = "email 중복 검사를 합니다.")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
