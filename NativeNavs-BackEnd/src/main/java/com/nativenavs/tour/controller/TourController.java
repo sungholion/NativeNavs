@@ -31,6 +31,7 @@ public class TourController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
     public ResponseEntity<?> tourSave(
+            @RequestHeader("Authorization") String token,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = ".",
                     required = true,
@@ -38,7 +39,6 @@ public class TourController {
                             mediaType = "application/json",
                             schema = @Schema(
                                     example = "{\n" +
-                                            "  \"userId\": 10,\n" +
                                             "  \"title\": \"Summer Vacation\",\n" +
                                             "  \"thumbnailImage\": \"http://example.com/image.jpg\",\n" +
                                             "  \"description\": \"A relaxing summer vacation tour\",\n" +
@@ -79,7 +79,7 @@ public class TourController {
 
         System.out.println("tourDTO : " + tourDTO);
         try {
-            tourService.addTour(tourDTO);
+            tourService.addTour(tourDTO,token);
             return ResponseEntity.ok("여행 등록 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
@@ -128,6 +128,7 @@ public class TourController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PutMapping("/{id}")
     public ResponseEntity<?> tourModify(
+            @RequestHeader("Authorization") String token,
             @Parameter(description = "투어 ID", required = true, example = "10")
             @PathVariable int id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -224,9 +225,6 @@ public class TourController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 검색 실패");
         }
-
     }
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.nativenavs.tour.service;
 
+import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.tour.dto.PlanDTO;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.CategoryEntity;
@@ -7,6 +8,11 @@ import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.tour.entity.TourCategoryEntity;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.*;
+import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.entity.UserEntity;
+import com.nativenavs.user.repository.UserRepository;
+import com.nativenavs.user.service.UserService;
+import com.nativenavs.user.service.UserServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,9 +42,20 @@ public class TourService {
     private TourCategoryRepository tourCategoryRepository;
     @Autowired
     private PlanRepository planRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
-    public void addTour(TourDTO tourDTO){
+    public void addTour(TourDTO tourDTO, String token){
         TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
+
+        //이메일로 id 반환
+        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String email = JwtTokenProvider.getEmailFromToken(jwtToken);
+        int userIdFromEmail = userService.changeEmailToId(email);
+        tourEntity.setUserId(userIdFromEmail);
+
         TourEntity savedTour = tourRepository.save(tourEntity);
 
         List<Integer> categoryIds = tourDTO.getCategoryIds();
@@ -75,9 +93,11 @@ public class TourService {
     public List<TourDTO> findAllTours(){
         List<TourEntity> tourEntityList = tourRepository.findAll();
         List<TourDTO> tourDTOList = new ArrayList<>();
-        for (TourEntity tourEntity: tourEntityList){
 
-            tourDTOList.add(TourDTO.toTourDTO(tourEntity));
+        for (TourEntity tourEntity: tourEntityList){
+            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
+            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+            tourDTOList.add(TourDTO.toTourDTO(tourEntity,userDTO));
         }
         return tourDTOList;
     }
@@ -87,7 +107,10 @@ public class TourService {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
+
+            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
+            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
 
             // Fetching categories
             List<Integer> categoryIds = tourEntity.getTourCategories().stream()
@@ -197,7 +220,14 @@ public class TourService {
 
         List<TourEntity> tourEntities = tourRepository.findAll(spec);
         return tourEntities.stream()
-                .map(TourDTO::toTourDTO)
+                .map(tourEntity->{
+                    UserEntity userEntity = userRepository.findById(tourEntity.getUserId())
+                            .orElseThrow(() -> new NoSuchElementException("User not found"));
+                    // UserDTO로 변환
+                    UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+                    // TourDTO로 변환 및 유저 정보 추가
+                    return TourDTO.toTourDTO(tourEntity, userDTO);
+                })
                 .collect(Collectors.toList());
     }
 
