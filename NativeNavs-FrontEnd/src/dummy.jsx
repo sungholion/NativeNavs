@@ -48,6 +48,74 @@ export const tours = [
   },
 ];
 
+export const upcomingTours = [
+  {
+    user_id: 1,
+    tour_id: 1,
+    name: "김세미",
+    nickname: "아이린",
+    thumbnailImage: [
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MDRfMjE1%2FMDAxNjIwMDkwMDQ2MTcy.-xeN-WLifLPR9eb48f9g7FPN7ZqvN2HRMcRNqEb9wCIg.tkXg8hrb-nmwKQOw7_2gW-sX9P39Dqaj9gHihSuLVCEg.JPEG.pepablue%2F20210430_080249.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA0MjdfMTcx%2FMDAxNjE5NTIzNzgyNzg3.i2V2Z-L8V9tNAYKG8FKPrWcf8LGMxaOWYDc-b0odCYAg.8J_4ua3deyJeLMgLofWQL3mfzS28VMfBNcet1NULYPog.JPEG.dbeods%2FIMG_4347-1.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTExMTVfMjY0%2FMDAxNjM2OTUxNzkyMjAz.7z7qIlnFxYvj8NJCjo28uEXSYo1FQ2l5_rMKPiADkW4g.iZrUWRQbx6wOUH4PK6iZVZIw4JB725WIWzpuSYRjX_Ag.JPEG.ehrrh9394%2F20211103%25A3%25DF104322.jpg&type=sc960_832",
+    ],
+    title: "전통 한옥에서의 전통 생활 체험 및 농촌 체험 여행",
+    content: "한국의 전통 한옥에서 숙박하며 전통 생활 체험을 하고, 인근 농촌에서 농작물 수확 체험을 합니다. 대구의 아름다운 자연경관을 감상할 수 있습니다.",
+    start_date: new Date(2024, 9, 11),
+    plans: [{}],
+    regional_information: "대구",
+    date: new Date(2024, 12, 31),
+    review_average: 4.52,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "독일어", "프랑스어"],
+    created_at: new Date(2021, 2, 3),
+  },
+  {
+    user_id: 2,
+    tour_id: 2,
+    name: "김세미",
+    nickname: "아이린",
+    thumbnailImage: [
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MTRfMyAg%2FMDAxNTk3MzY4NTQ0MDIx.jmD-c277yTEFAscGjm-04W0Far_ZeTp0kINquTXsIS0g.ucP9IhQf8vne8dcbJ9DTerINeGEsCXXQcBRUZa6Xc6sg.JPEG.koreamof%2Fcm270018259.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F003%2F2018%2F08%2F09%2FNISI20180809_0014355834_web_20180809103033_20180809103535399.jpg&type=sc960_832",
+    ],
+    title: "바닷가 마을에서의 해양 스포츠 및 해산물 요리 체험",
+    content: "바닷가 마을에서 다양한 해양 스포츠를 즐기고, 신선한 해산물로 요리 체험을 합니다. 부산의 아름다운 해변과 함께 특별한 경험을 만끽하세요.",
+    start_date: new Date(2024, 10, 21),
+    plans: [{}],
+    regional_information: "부산",
+    date: new Date(2024, 10, 1),
+    review_average: 4.52,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어","프랑스어"],
+    created_at: new Date(2021, 2, 3),
+  },
+  {
+    user_id: 3,
+    tour_id: 3,
+    name: "이수진",
+    nickname: "소라",
+    thumbnailImage: [
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMTNfMTg5%2FMDAxNzAyNDUwODk4ODQy.a-8ZEVQls8cXftfB-ICd1-6GY2XsOdi1FtZXRGq6dOwg.Z78FtHzJM1TTOTSqUa9K1063vHqvFac3eYEo7rr5W9Qg.JPEG.kimjajoong%2Fjs1_%25B9%25DD%25BE%25DF%25BA%25C0%25C0%25C7_%25C8%25AD%25B7%25C1%25C7%25D1_%25BA%25BD.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MjdfMTA5%2FMDAxNjk1Nzk0ODQwNDMy.hXAJNRsWLU4HCEG1-JE6oP4bdQgxK-JskLvwe4P7KiAg.jn3TR4jgVkOQUpD07xnynDC1ijOpmPFcsv0u0VeZm4sg.PNG.hye77260%2F%25C7%25D8%25B5%25BF%25BF%25EB%25B1%25C3%25BB%25E7_1.png&type=sc960_832",
+    ],
+    title: "산악 등반 및 힐링 트레킹 체험",
+    content: "산악 지역에서 등반을 통해 자연을 만끽하고, 힐링 트레킹을 즐기며 휴식을 취할 수 있습니다. 강원도의 멋진 경치를 감상하세요.",
+    start_date: new Date(2024, 10, 28),
+    plans: [{}],
+    regional_information: "강원도",
+    date: new Date(2024, 10, 31),
+    review_average: 4.75,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "일본어", "중국어","독일어"],
+    created_at: new Date(2021, 5, 15),
+  },
+];
+
+
 export const reviews = {
   averageScore: 3.65,
   totalPhotos: 199,
