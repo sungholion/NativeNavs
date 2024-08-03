@@ -19,6 +19,6 @@ public interface UserService {
     public UserDTO searchById(int id);
     public UserDTO searchByNickname(String nickname);
     public UserDTO searchByName(String name);
-
+    public int changeEmailToId(String email);
     public void addAuthenticatedUser(String email);
 }
