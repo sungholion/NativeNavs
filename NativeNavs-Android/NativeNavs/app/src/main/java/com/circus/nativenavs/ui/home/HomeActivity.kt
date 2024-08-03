@@ -23,12 +23,15 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
+    private val homeActivityViewModel : HomeActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
+        homeActivityViewModel.getUser(SharedPref.userId!!)
+        homeActivityViewModel.updateLanguageList()
         initView()
-
         Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
 
     }

@@ -8,25 +8,27 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         tools:context=".ui.signup.SignUpProfileFragment">
+
+        <include layout="@layout/layout_title_back"
+            android:id="@+id/profile_modify_title"
+            app:titleText="@{`프로필 수정`}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
             android:id="@+id/profile_modify_sv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/profile_modify_complete_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/profile_modify_title">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_scroll_cl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <include layout="@layout/layout_title_back"
-                    android:id="@+id/profile_modify_title"
-                    app:titleText="@{`프로필 수정`}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/profile_modify_photo_btn"
@@ -48,7 +50,7 @@
                     app:cardCornerRadius="100dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_title">
+                    app:layout_constraintTop_toTopOf="@+id/profile_scroll_cl">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -61,6 +63,7 @@
                             android:src="@drawable/logo_nativenavs"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,6 +119,27 @@
                     android:text="@string/sign_nickname_help"
                     app:layout_constraintEnd_toEndOf="@id/profile_modify_nickname_check_btn"
                     app:layout_constraintStart_toStartOf="@id/profile_modify_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
+                <TextView
+                    android:id="@+id/profile_modify_dupli_ok"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_green"
+                    android:text="@string/sign_useable_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/profile_modify_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
+
+                <TextView
+                    android:id="@+id/profile_modify__bad"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_red"
+                    android:text="@string/sign_already_exist_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/profile_modify_nickname_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
 
                 <TextView
@@ -267,6 +291,56 @@
                     app:layout_constraintEnd_toEndOf="@id/profile_modify_phone_et"
                     app:layout_constraintStart_toStartOf="@id/profile_modify_phone_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_phone_et" />
+
+                <TextView
+                    android:id="@+id/profile_modify_password_tv"
+                    style="@style/title_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start_title_et"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/sign_pw"
+                    app:layout_constraintStart_toStartOf="@id/profile_modify_phone_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_phone_et" />
+
+                <EditText
+                    android:id="@+id/profile_modify_password_et"
+                    style="@style/et_default"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_modify_password_tv" />
+                <TextView
+                    android:id="@+id/profile_pw_help_tv"
+                    style="@style/content_help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                    android:text="@string/sign_pw_help"
+                    app:layout_constraintStart_toStartOf="@id/profile_modify_password_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_password_et" />
+                <TextView
+                    android:id="@+id/profile_modify_password_check_tv"
+                    style="@style/title_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start_title_et"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/sign_pw_check"
+                    app:layout_constraintStart_toStartOf="@id/profile_pw_help_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_pw_help_tv" />
+
+                <EditText
+                    android:id="@+id/profile_modify_password_check_et"
+                    style="@style/et_default"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_modify_password_check_tv" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
