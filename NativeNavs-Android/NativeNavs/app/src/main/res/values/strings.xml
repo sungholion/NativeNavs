@@ -42,8 +42,10 @@
     <string name="profile_nation">거주지:</string>
     <string name="profile_user_language">언어:</string>
     <string name="profile_user_use">이용횟수:</string>
-    
-    
+    <string name="profile_password_message">비밀번호 양식을 확인해주세요</string>
+    <string name="profile_password_check_message">비밀번호를 정확하게 기입해주세요</string>
+    <string name="profile_nickname_check">닉네임 중복 확인 버튼을 눌러주세요</string>
+
     <!--sign-->
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
