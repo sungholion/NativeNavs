@@ -120,6 +120,27 @@
                     app:layout_constraintEnd_toEndOf="@id/profile_modify_nickname_check_btn"
                     app:layout_constraintStart_toStartOf="@id/profile_modify_nickname_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
+                <TextView
+                    android:id="@+id/profile_modify_dupli_ok"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_green"
+                    android:text="@string/sign_useable_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/profile_modify_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
+
+                <TextView
+                    android:id="@+id/profile_modify__bad"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_red"
+                    android:text="@string/sign_already_exist_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/profile_modify_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_nickname_et" />
 
                 <TextView
                     android:id="@+id/profile_modify_nationality_tv"
@@ -278,7 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_start_title_et"
                     android:layout_marginTop="30dp"
-                    android:text="비밀번호"
+                    android:text="@string/sign_pw"
                     app:layout_constraintStart_toStartOf="@id/profile_modify_phone_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_phone_et" />
 
@@ -291,7 +312,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/profile_modify_password_tv" />
-
+                <TextView
+                    android:id="@+id/profile_pw_help_tv"
+                    style="@style/content_help"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_start_title_et"
+                    android:text="@string/sign_pw_help"
+                    app:layout_constraintStart_toStartOf="@id/profile_modify_password_et"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_password_et" />
                 <TextView
                     android:id="@+id/profile_modify_password_check_tv"
                     style="@style/title_et"
@@ -299,9 +328,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_start_title_et"
                     android:layout_marginTop="20dp"
-                    android:text="비밀번호 재입력"
-                    app:layout_constraintStart_toStartOf="@id/profile_modify_password_et"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_modify_password_et" />
+                    android:text="@string/sign_pw_check"
+                    app:layout_constraintStart_toStartOf="@id/profile_pw_help_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_pw_help_tv" />
 
                 <EditText
                     android:id="@+id/profile_modify_password_check_et"
