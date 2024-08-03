@@ -71,6 +71,7 @@ public class UserEntity extends BaseEntity {
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
+        userEntity.setPassword(userDTO.getPassword());
         userEntity.setId(userDTO.getId());
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setName(userDTO.getName());

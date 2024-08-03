@@ -2,6 +2,7 @@ package com.nativenavs.user.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -188,7 +189,7 @@ public class UserController {
     @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/search/email/{email}")
-    public ResponseEntity<?> searchByEmail(
+    public ResponseEntity<?> searchByEmailForClient(
             @Parameter(
                     description = "이메일 주소",
                     required = true,
@@ -196,7 +197,7 @@ public class UserController {
             )
             @PathVariable("email") String email) {
         try {
-            UserDTO user = userService.searchByEmail(email);
+            UserSearchDTO user = userService.searchByEmailForClient(email);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -208,6 +209,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
         }
     }
+
 
     @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
     @Operation(summary = "Id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
@@ -221,7 +223,7 @@ public class UserController {
             )
             @PathVariable("id") int id) {
         try {
-            UserDTO user = userService.searchById(id);
+            UserSearchDTO user = userService.searchById(id);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -246,7 +248,7 @@ public class UserController {
             )
             @PathVariable("nickname") String nickname) {
         try {
-            UserDTO user = userService.searchByNickname(nickname);
+            UserSearchDTO user = userService.searchByNickname(nickname);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
@@ -271,7 +273,7 @@ public class UserController {
             )
             @PathVariable("name") String name) {
         try {
-            UserDTO user = userService.searchByName(name);
+            UserSearchDTO user = userService.searchByName(name);
 
             if(user != null) {
                 return ResponseEntity.accepted().body(user);
