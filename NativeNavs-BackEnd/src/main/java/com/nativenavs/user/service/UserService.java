@@ -1,6 +1,7 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
 
 import java.util.List;
@@ -14,11 +15,12 @@ public interface UserService {
     public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO);
     public void deleteUser(int id);
 
-    public List<UserDTO> searchAllUser();
+    public List<UserSearchDTO> searchAllUser();
     public UserDTO searchByEmail(String email);
-    public UserDTO searchById(int id);
-    public UserDTO searchByNickname(String nickname);
-    public UserDTO searchByName(String name);
+    public UserSearchDTO searchByEmailForClient(String email);
+    public UserSearchDTO searchById(int id);
+    public UserSearchDTO searchByNickname(String nickname);
+    public UserSearchDTO searchByName(String name);
     public int changeEmailToId(String email);
     public void addAuthenticatedUser(String email);
 }
