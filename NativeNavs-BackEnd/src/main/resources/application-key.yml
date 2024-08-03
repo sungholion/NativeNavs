@@ -1,7 +1,0 @@
-jasypt:
-  encryptor:
-    bean: jasyptStringEncryptor
-    key: ${JASYPT_ENCRYPTOR_KEY}
-
-
-

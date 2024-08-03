@@ -17,7 +17,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @MapperScan("com.nativenavs.**.mapper")
 
 public class NativeNavsBackEndApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(NativeNavsBackEndApplication.class, args);
 	}
