@@ -115,4 +115,29 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
+
+
+    // search
+    private val _searchTravel = MutableLiveData<String>()
+    val searchTravel : LiveData<String> = _searchTravel
+
+    private val _searchDate = MutableLiveData<String>()
+    val searchDate : LiveData<String> = _searchDate
+
+    private val _searchTheme = MutableLiveData<String>()
+    val searchTheme : LiveData<String> = _searchTheme
+
+    fun updateSearchTravel(travel : String){
+        _searchTravel.value = travel
+    }
+
+    fun updateSearchDate(travel : String){
+        _searchTravel.value = travel
+    }
+
+    fun updateSearchTheme(travel : String){
+        _searchTravel.value = travel
+    }
+
+
 }

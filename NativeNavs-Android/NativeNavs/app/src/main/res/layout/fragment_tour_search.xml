@@ -34,7 +34,7 @@
                 android:id="@+id/tour_search_travel_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
                 <TextView
@@ -44,6 +44,15 @@
                     android:text="여행"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tour_search_travel_title_content_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -51,92 +60,182 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
+                android:paddingBottom="10dp"
                 android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/tour_search_travel_title"
+                    style="@style/semiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginTop="@dimen/font_size_btn_long"
+                    android:text="여행지를 알려주세요"
+                    android:textSize="30dp" />
                 <!-- Search Bar -->
                 <EditText
                     android:id="@+id/searchEditText"
+                    style="@style/et_default"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_margin="@dimen/font_size_btn_long"
                     android:drawableLeft="@android:drawable/ic_menu_search"
-                    android:hint="여행지를 알려주세요"
+                    android:hint="구미시"
                     android:padding="8dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginEnd="@dimen/font_size_btn_long"
+                    android:background="@color/gray_d9d9" />
 
                 <!-- Popular Destinations Title -->
                 <TextView
+                    style="@style/medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginTop="@dimen/font_size_btn_long"
                     android:text="인기 여행지"
-                    android:textSize="16sp" />
+                    android:textSize="24sp" />
 
                 <!-- Popular Destinations Buttons -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
                     android:orientation="horizontal">
 
                     <ToggleButton
                         android:id="@+id/buttonSeoul"
+                        style="@style/regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
                         android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
                         android:textOff="서울"
                         android:textOn="서울" />
 
                     <ToggleButton
                         android:id="@+id/buttonIncheon"
+                        style="@style/regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
                         android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
                         android:textOff="인천"
                         android:textOn="인천" />
 
                     <ToggleButton
                         android:id="@+id/buttonDaegu"
+                        style="@style/regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
                         android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
                         android:textOff="대구"
                         android:textOn="대구" />
+
+                    <ToggleButton
+                        android:id="@+id/buttonDaejeon"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:textOff="대전"
+                        android:textOn="대전" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center"
+                    android:layout_marginStart="10dp"
                     android:orientation="horizontal">
 
                     <ToggleButton
-                        android:id="@+id/buttonDaejeon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:textOff="대전"
-                        android:textOn="대전" />
-
-                    <ToggleButton
                         android:id="@+id/buttonGwangju"
+                        style="@style/regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
                         android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
                         android:textOff="광주"
                         android:textOn="광주" />
 
                     <ToggleButton
                         android:id="@+id/buttonBusan"
+                        style="@style/regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
                         android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
                         android:textOff="부산"
                         android:textOn="부산" />
+
+                    <ToggleButton
+                        android:id="@+id/buttonJeju"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:textOff="제주"
+                        android:textOn="제주" />
                 </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -154,7 +253,7 @@
                 android:id="@+id/tour_search_date_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
                 <TextView
@@ -164,16 +263,38 @@
                     android:text="날짜"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tour_search_date_title_content_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/tour_search_date_content_layout_ll"
+                android:id="@+id/tour_search_date_content_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
                 android:visibility="gone">
-                <DatePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tour_search_date_title"
+                    style="@style/semiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/font_size_btn_long"
+                    android:text="날짜를 알려주세요"
+                    android:textSize="30dp" />
+                    <DatePicker
+                        android:id="@+id/tour_search_date_dp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
