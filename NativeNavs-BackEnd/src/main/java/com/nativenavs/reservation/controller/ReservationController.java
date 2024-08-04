@@ -3,8 +3,11 @@ package com.nativenavs.reservation.controller;
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
+import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
+import com.nativenavs.user.entity.UserEntity;
+import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/reservations")
 @Tag(name = "reservation API", description = "reservation")
@@ -24,6 +29,10 @@ public class ReservationController {
     private final ReservationService reservationService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
@@ -78,11 +87,56 @@ public class ReservationController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약 상세 조회 실패");
         }
+    }
 
+    @PostMapping("/{reservationId}/cancel")
+    @Operation(summary = "투어 삭제 API", description = "투어를 삭제하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "404", description = "예약을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> reservationRemove(@RequestHeader("Authorization") String token,
+                                               @Parameter(description = "예약 ID", required = true, example = "1") @PathVariable int reservationId) {
+        try {
+            // JWT 토큰에서 사용자 ID 추출
+            int userId = getUserIdFromJWT(token);
 
+            // 사용자 정보를 바탕으로 예약 정보 조회
+            UserEntity participant = new UserEntity();
+            participant.setId(userId); // 사용자의 ID 설정 (여기서는 간단하게 설정)
+            ReservationResponseDTOWrapper reservations = reservationService.getReservationsForParticipant(participant);
+
+            // 조회된 예약 정보를 반환
+            return ResponseEntity.ok(reservations);
+
+        } catch (Exception e) {
+            // 로그 기록 (여기서는 예시로 printStackTrace 사용, 실제로는 로깅 프레임워크를 사용하는 것이 좋습니다)
+            e.printStackTrace();
+
+            // 에러 응답 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // 에러 응답이 필요하다면 메시지를 포함할 수 있습니다.
+        }
 
     }
 
+    @GetMapping
+    @Operation(summary = "Trav 예약 현황 조회 API", description = "Trav의 예약현황을 조회하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> getMyReservations(@RequestHeader("Authorization") String token) {
+        try {
+            int userId = getUserIdFromJWT(token);
+            Optional<UserEntity> participant = userRepository.findById(userId);
+            ReservationResponseDTOWrapper reservations = reservationService.getReservationsForParticipant(participant.orElse(null));
+            return ResponseEntity.ok(reservations);
+        }  catch (Exception e) {
+            // 로그 기록 (여기서는 예시로 printStackTrace 사용, 실제로는 로깅 프레임워크를 사용하는 것이 좋습니다)
+            e.printStackTrace();
+            // 에러 응답 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // 에러 응답이 필요하다면 메시지를 포함할 수 있습니다.
+        }
+    }
 
 
     //JWT에서 이메일 받아 id로 치환

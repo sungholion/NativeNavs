@@ -2,6 +2,7 @@ package com.nativenavs.reservation.service;
 
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
+import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,11 +57,40 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-
     public ReservationResponseDTO getReservationDetails(int reservationId){
         ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
 
         return ReservationResponseDTO.toReservationDTO(reservationEntity);
     }
+
+
+    public void removeReservation(int reservationId){
+        ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        if (reservationEntity.getStatus() == ReservationStatus.CANCEL) {
+            throw new RuntimeException("Reservation is already canceled");
+        }
+
+        reservationEntity.setStatus(ReservationStatus.CANCEL);
+        reservationRepository.save(reservationEntity);
+    }
+
+
+    public ReservationResponseDTOWrapper getReservationsForParticipant(UserEntity participant) {
+        List<ReservationEntity> reservationsInProgress = reservationRepository.findByParticipantAndStatusOrderByCreatedAtDesc(participant, ReservationStatus.RESERVATION);
+        List<ReservationEntity> reservationsCompleted = reservationRepository.findByParticipantAndStatusOrderByCreatedAtDesc(participant, ReservationStatus.DONE);
+
+        List<ReservationResponseDTO> inProgressDTOs = reservationsInProgress.stream()
+                .map(ReservationResponseDTO::toReservationDTO)
+                .collect(Collectors.toList());
+
+        List<ReservationResponseDTO> completedDTOs = reservationsCompleted.stream()
+                .map(ReservationResponseDTO::toReservationDTO)
+                .collect(Collectors.toList());
+
+        return new ReservationResponseDTOWrapper(inProgressDTOs, completedDTOs);
+    }
+
 }
