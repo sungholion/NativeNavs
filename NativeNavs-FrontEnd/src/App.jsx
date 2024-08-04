@@ -21,8 +21,9 @@ import {
 import { getStaticImage } from "./utils/get-static-image";
 import TourCreate from "./page/TourCreate";
 import TourEdit from "./page/TourEdit";
-import ReservationList from "./page/ReservationList"
+import ReservationList from "./page/ReservationList";
 import ReservationDetail from "./page/ReservationDetail";
+import NavTourList from "./page/NavTourList";
 
 function App() {
   const param = useSearchParams();
@@ -80,7 +81,7 @@ function App() {
           {/* Nav에 대한 리뷰 사진 전체보기 페이지 */}
           <Route path="reviewphotos" element={<ReviewPhotos />} />
           {/* Nav가 등록한 투어 목록 페이지 */}
-          <Route path="tourlist" element={<div>투어목록</div>} />
+          <Route path="tourlist" element={<NavTourList />} />
         </Route>
 
         {/* Trav 프로필 페이지 */}
@@ -101,10 +102,7 @@ function App() {
           {/* Trav의 위시리스트 페이지 */}
           <Route path="wishlist" element={<WishList />} />
           {/* Trav의 예약 리스트 및 완료된 투어 페이지 */}
-          <Route
-            path="reservation_list"
-            element={<ReservationList />}
-          />
+          <Route path="reservation_list" element={<ReservationList />} />
         </Route>
 
         {/* 투어 예약 페이지 */}

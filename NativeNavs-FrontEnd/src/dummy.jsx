@@ -60,19 +60,22 @@ export const upcomingTours = [
       "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTExMTVfMjY0%2FMDAxNjM2OTUxNzkyMjAz.7z7qIlnFxYvj8NJCjo28uEXSYo1FQ2l5_rMKPiADkW4g.iZrUWRQbx6wOUH4PK6iZVZIw4JB725WIWzpuSYRjX_Ag.JPEG.ehrrh9394%2F20211103%25A3%25DF104322.jpg&type=sc960_832",
     ],
     title: "전통 한옥에서의 전통 생활 체험 및 농촌 체험 여행",
-    content: "한국의 전통 한옥에서 숙박하며 전통 생활 체험을 하고, 인근 농촌에서 농작물 수확 체험을 합니다. 대구의 아름다운 자연경관을 감상할 수 있습니다.",
+    content:
+      "한국의 전통 한옥에서 숙박하며 전통 생활 체험을 하고, 인근 농촌에서 농작물 수확 체험을 합니다. 대구의 아름다운 자연경관을 감상할 수 있습니다.",
     start_date: new Date(2024, 9, 11, 9, 0), // 시작 날짜와 시간
     end_date: new Date(2024, 9, 12, 17, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "대구",
     review_average: 4.52,
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
     language: ["영어", "독일어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
     trav_people: 3, // Trav 인원
     reservation_number: "A12345", // 예약 번호
     meeting_place: "대구역", // 만남 장소
-    additional_requests: "채식 식단 요청" // 추가 요청 사항
+    additional_requests: "채식 식단 요청", // 추가 요청 사항
+    isEnded: false,
   },
   {
     user_id: 2,
@@ -84,19 +87,22 @@ export const upcomingTours = [
       "https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F003%2F2018%2F08%2F09%2FNISI20180809_0014355834_web_20180809103033_20180809103535399.jpg&type=sc960_832",
     ],
     title: "바닷가 마을에서의 해양 스포츠 및 해산물 요리 체험",
-    content: "바닷가 마을에서 다양한 해양 스포츠를 즐기고, 신선한 해산물로 요리 체험을 합니다. 부산의 아름다운 해변과 함께 특별한 경험을 만끽하세요.",
+    content:
+      "바닷가 마을에서 다양한 해양 스포츠를 즐기고, 신선한 해산물로 요리 체험을 합니다. 부산의 아름다운 해변과 함께 특별한 경험을 만끽하세요.",
     start_date: new Date(2024, 10, 21, 10, 0), // 시작 날짜와 시간
     end_date: new Date(2024, 10, 22, 18, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "부산",
     review_average: 4.52,
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
     language: ["영어", "프랑스어"],
     created_at: new Date(2021, 2, 3),
     trav_people: 2, // Trav 인원
     reservation_number: "B67890", // 예약 번호
     meeting_place: "해운대 해변", // 만남 장소
-    additional_requests: "수영 강습 요청" // 추가 요청 사항
+    additional_requests: "수영 강습 요청", // 추가 요청 사항
+    isEnded: false,
   },
   {
     user_id: 3,
@@ -108,24 +114,51 @@ export const upcomingTours = [
       "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MjdfMTA5%2FMDAxNjk1Nzk0ODQwNDMy.hXAJNRsWLU4HCEG1-JE6oP4bdQgxK-JskLvwe4P7KiAg.jn3TR4jgVkOQUpD07xnynDC1ijOpmPFcsv0u0VeZm4sg.PNG.hye77260%2F%25C7%25D8%25B5%25BF%25BF%25EB%25B1%25C3%25BB%25E7_1.png&type=sc960_832",
     ],
     title: "산악 등반 및 힐링 트레킹 체험",
-    content: "산악 지역에서 등반을 통해 자연을 만끽하고, 힐링 트레킹을 즐기며 휴식을 취할 수 있습니다. 강원도의 멋진 경치를 감상하세요.",
+    content:
+      "산악 지역에서 등반을 통해 자연을 만끽하고, 힐링 트레킹을 즐기며 휴식을 취할 수 있습니다. 강원도의 멋진 경치를 감상하세요.",
     start_date: new Date(2024, 10, 28, 8, 0), // 시작 날짜와 시간
     end_date: new Date(2024, 10, 29, 16, 0), // 종료 날짜와 시간
     plans: [{}],
     regional_information: "강원도",
     review_average: 4.75,
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
     language: ["영어", "일본어", "중국어", "독일어"],
     created_at: new Date(2021, 5, 15),
     trav_people: 5, // Trav 인원
     reservation_number: "C11223", // 예약 번호
     meeting_place: "설악산 주차장", // 만남 장소
-    additional_requests: "채식 메뉴 제공" // 추가 요청 사항
+    additional_requests: "채식 메뉴 제공", // 추가 요청 사항
+    isEnded: false,
+  },
+  {
+    user_id: 4,
+    tour_id: 4,
+    name: "김수진",
+    nickname: "민지",
+    thumbnailImage: [
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMTNfMTg5%2FMDAxNzAyNDUwODk4ODQy.a-8ZEVQls8cXftfB-ICd1-6GY2XsOdi1FtZXRGq6dOwg.Z78FtHzJM1TTOTSqUa9K1063vHqvFac3eYEo7rr5W9Qg.JPEG.kimjajoong%2Fjs1_%25B9%25DD%25BE%25DF%25BA%25C0%25C0%25C7_%25C8%25AD%25B7%25C1%25C7%25D1_%25BA%25BD.jpg&type=sc960_832",
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA5MjdfMTA5%2FMDAxNjk1Nzk0ODQwNDMy.hXAJNRsWLU4HCEG1-JE6oP4bdQgxK-JskLvwe4P7KiAg.jn3TR4jgVkOQUpD07xnynDC1ijOpmPFcsv0u0VeZm4sg.PNG.hye77260%2F%25C7%25D8%25B5%25BF%25BF%25EB%25B1%25C3%25BB%25E7_1.png&type=sc960_832",
+    ],
+    title: "해변가에서의 트레킹 및 바다 체험",
+    content:
+      "해변가에서 트레킹을 하며 바다를 체험할 수 있습니다. 울릉도의 아름다운 경치를 감상하세요.",
+    start_date: new Date(2024, 10, 28, 8, 0), // 시작 날짜와 시간
+    end_date: new Date(2024, 10, 29, 16, 0), // 종료 날짜와 시간
+    plans: [{}],
+    regional_information: "울릉도",
+    review_average: 4.75,
+    image:
+      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MDhfMjU1%2FMDAxNzE3ODMxMDcwODA4.Wmh2IZdIaGZTLCRviW5WOKNCaiVtAIbT3r4hFjkr5Fcg.iJk4NPf_3tQJzSLZJho3KW2abC8afoA7Ns07YIEdZjcg.PNG%2Fimage.png&type=sc960_832",
+    language: ["영어", "일본어", "중국어", "독일어"],
+    created_at: new Date(2021, 5, 15),
+    trav_people: 5, // Trav 인원
+    reservation_number: "D44567", // 예약 번호
+    meeting_place: "울릉도 항구", // 만남 장소
+    additional_requests: "채식 메뉴 제공", // 추가 요청 사항
+    isEnded: true, // 투어 종료 여부
   },
 ];
-
-
-
 
 export const reviews = {
   averageScore: 3.65,
