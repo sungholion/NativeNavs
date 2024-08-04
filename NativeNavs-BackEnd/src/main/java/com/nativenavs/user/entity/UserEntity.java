@@ -78,6 +78,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationEntity> reservations = new ArrayList<>();
 
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> participantReservations = new ArrayList<>();
+
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();

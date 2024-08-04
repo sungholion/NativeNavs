@@ -8,16 +8,17 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationDTO {
+public class ReservationRequestDTO {
     private int tourId;
     private int participantId;
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
+    private LocalTime startAt;
+    private LocalTime endAt;
     private int participantCount;
     private LocalDate date;
     private String description;

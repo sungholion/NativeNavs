@@ -1,6 +1,7 @@
 package com.nativenavs.reservation.service;
 
-import com.nativenavs.reservation.dto.ReservationDTO;
+import com.nativenavs.reservation.dto.ReservationRequestDTO;
+import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
@@ -26,9 +27,12 @@ public class ReservationService {
     @Autowired
     private TourRepository tourRepository;
 
-    public ReservationEntity addReservation(ReservationDTO requestDTO, int guideId) {
+    public ReservationEntity addReservation(ReservationRequestDTO requestDTO, int guideId) {
         UserEntity guide = userRepository.findById(guideId)
                 .orElseThrow(() -> new IllegalArgumentException("Guide not found"));
+
+        UserEntity participant = userRepository.findById(requestDTO.getParticipantId())
+                .orElseThrow(() -> new IllegalArgumentException("Participant not found"));
 
         TourEntity tour = tourRepository.findById(requestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
@@ -37,7 +41,7 @@ public class ReservationService {
         reservation.setGuide(guide);
         reservation.setTour(tour);
         reservation.setDate(requestDTO.getDate());
-        reservation.setParticipantId(requestDTO.getParticipantId());
+        reservation.setParticipant(participant);
         reservation.setStartAt(requestDTO.getStartAt());
         reservation.setEndAt(requestDTO.getEndAt());
         reservation.setParticipantCount(requestDTO.getParticipantCount());
@@ -48,5 +52,13 @@ public class ReservationService {
         reservation.setCreatedAt(LocalDateTime.now());
 
         return reservationRepository.save(reservation);
+    }
+
+
+    public ReservationResponseDTO getReservationDetails(int reservationId){
+        ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        return ReservationResponseDTO.toReservationDTO(reservationEntity);
     }
 }

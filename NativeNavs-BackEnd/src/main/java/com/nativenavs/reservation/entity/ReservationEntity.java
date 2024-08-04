@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Entity
@@ -34,23 +35,24 @@ public class ReservationEntity {
     @JoinColumn(name = "tour_id", nullable = false)
     private TourEntity tour;
 
-    @Column(name ="paticipant_id", nullable = false)
-    private int participantId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participant_id", nullable = false)
+    private UserEntity participant;
 
     @Column(nullable = false)
     private LocalDate date;
 
     @Column(name="start_at", nullable = false)
-    private LocalDateTime startAt;
+    private LocalTime startAt;
 
     @Column(name="end_at", nullable = false)
-    private LocalDateTime endAt;
+    private LocalTime endAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ReservationStatus status;
 
-    @Column(nullable = false, name ="paticipant_count",columnDefinition = "INT DEFAULT 1")
+    @Column(nullable = false, name ="participant_count",columnDefinition = "INT DEFAULT 1")
     private int participantCount;
 
     @Column(name = "created_at", nullable = false)
