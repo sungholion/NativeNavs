@@ -2,8 +2,6 @@ package com.nativenavs.user.controller;
 
 import com.nativenavs.user.service.LanguageService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,16 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/language")
 @CrossOrigin("*") //
-@Tag(name = "language API", description = "언어 관련 API ")
 public class LanguageController {
 
     @Autowired
     private LanguageService languageService;
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Tag(name = "언어 API", description = "사용자가 구사 가능한 언어를 관리합니다 ")
     @Operation(summary = "전체 언어 조회 API", description = "전체 언어 목록을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping
     public ResponseEntity<?> searchAllLanguage() {
-        return new ResponseEntity<>(languageService.searchAllLanguage(), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(languageService.searchAllLanguage(), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 입니다");
+        }
+
     }
 }
