@@ -338,7 +338,7 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "change Email To Id API", description = "user Email을 id로 전환")
+    @Tag(name = "Email <-> Id 변환ㅑㅅ API", description = "user Email을 id로 전환")
     @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/changeEmailToId/{email}")
