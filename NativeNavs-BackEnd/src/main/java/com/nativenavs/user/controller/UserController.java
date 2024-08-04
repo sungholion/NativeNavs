@@ -27,9 +27,60 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
+    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 한다")
+    @GetMapping("/checkDuplicated/email/{email}")
+    public ResponseEntity<String> checkDuplicatedEmail(
+            @Parameter(
+                    description = "Email",
+                    required = true,
+                    example = "eoblue23@gmail.com"
+            )
+            @PathVariable("email") String email) {
+        try {
+            boolean isDuplicated = userService.checkDuplicatedEmail(email);
+
+            if (!isDuplicated) {
+                return ResponseEntity.ok("사용 가능한 email 입니다");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 email 입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 에러 입니다");
+        }
+    }
+
+    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
+    @Operation(summary = "nickname 중복 체크 API", description = "nickname 중복 체크를 한다")
+    @GetMapping("/checkDuplicated/nickname/{nickname}")
+    public ResponseEntity<String> checkDuplicatedNickname(
+            @Parameter(
+                    description = "Nickname",
+                    required = true,
+                    example = "bts"
+            )
+            @PathVariable("nickname") String nickname) {
+        try {
+            boolean isDuplicated = userService.checkDuplicatedNickname(nickname);
+
+            if (!isDuplicated) {
+                return ResponseEntity.ok("사용 가능한 nickname 입니다");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 nickname 입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 에러 입니다");
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping("/sendEmail")
     public ResponseEntity<?> sendEmail(
             @Parameter(
@@ -40,20 +91,19 @@ public class UserController {
             @RequestParam("email") String email) {
         try {
             if (userService.checkDuplicatedEmail(email)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 email 입니다");
             } else {
                 emailService.sendAuthenticationCodeEmail(email);
-                return ResponseEntity.accepted().body("이메일 발송 성공");
+                return ResponseEntity.accepted().body("이메일 발송에 성공했습니다");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 발송 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
         }
     }
 
-    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
+    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 인증 API", description = "이메일과 인증 코드를 입력하여 이메일 인증을 합니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/authenticateEmail")
     public ResponseEntity<?> authenticateEmail(
             @Parameter(
@@ -68,19 +118,18 @@ public class UserController {
             ) @RequestParam("authenticationCode") String authenticationCode) {
         try {
             if(emailService.authenticateEmail(email, authenticationCode)) {
-                return ResponseEntity.ok("이메일 인증 성공");
+                return ResponseEntity.ok("이메일 인증에 성공했습니다");
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 인증 번호");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증번호가 일치하지 않습니다");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 인증 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
         }
     }
 
-    @Tag(name = "signUp API", description = "회원가입 관련 - 이메일 발송/인증/회원가입")
-    @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송, 인증 필수)")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
+    @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송/인증 필수)")
     @PostMapping
     public ResponseEntity<?> signUp (
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -103,21 +152,133 @@ public class UserController {
             @RequestBody UserDTO user) {
         try {
             if (userService.checkDuplicatedEmail(user.getEmail())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 email 입니다");
             }
 
             userService.signUp(user);
-            return ResponseEntity.accepted().body("회원 가입 성공");
+            return ResponseEntity.accepted().body("회원 가입에 성공했습니다");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 가입 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
         }
     }
 
-    //------------------------------------------------------------------------------------------------------------
-    @Tag(name = "update/delete API", description = "정보 수정, 탈퇴")
-    @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정할 때 사용하는 API")
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
+    @Operation(summary = "전체 회원 검색 API", description = "가입된 전체 회원 목록을 검색합니다")
+    @GetMapping("/search/all")
+    public ResponseEntity<?> searchAllUser() {
+        try{
+            return new ResponseEntity<>(userService.searchAllUser(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
+    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
+    @Operation(summary = "id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
+    @GetMapping("/search/id/{id}")
+    public ResponseEntity<?> searchById(
+            @Parameter(
+                    description = "Id",
+                    required = true,
+                    example = "5"
+            )
+            @PathVariable("id") int id) {
+        try {
+            UserSearchDTO user = userService.searchById(id);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
+    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
+    @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
+    @GetMapping("/search/email/{email}")
+    public ResponseEntity<?> searchByEmailForClient(
+            @Parameter(
+                    description = "이메일 주소",
+                    required = true,
+                    example = "eoblue23@gmail.com"
+            )
+            @PathVariable("email") String email) {
+        try {
+            UserSearchDTO user = userService.searchByEmailForClient(email);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
+    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
+    @Operation(summary = "name으로 회원 검색 API", description = "name을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<?> searchByName(
+            @Parameter(
+                    description = "Name",
+                    required = true,
+                    example = "kevin"
+            )
+            @PathVariable("name") String name) {
+        try {
+            UserSearchDTO user = userService.searchByName(name);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
+    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
+    @Operation(summary = "nickname으로 회원 검색 API", description = "nickname을 입력하여 특정 회원 1명을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/nickname/{nickname}")
+    public ResponseEntity<?> searchByNickname(
+            @Parameter(
+                    description = "Nickname",
+                    required = true,
+                    example = "bluebird"
+            )
+            @PathVariable("nickname") String nickname) {
+        try {
+            UserSearchDTO user = userService.searchByNickname(nickname);
+
+            if(user != null) {
+                return ResponseEntity.accepted().body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
+    @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정합니다")
     @PutMapping
     public ResponseEntity<?> updateUser(
             @RequestHeader("Authorization") String token,
@@ -140,21 +301,20 @@ public class UserController {
 
             UserDTO existingUserDTO = userService.searchByEmail(email);
             if (existingUserDTO == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다");
             }
 
             userService.updateUser(existingUserDTO.getId(), updateUserDTO);
-            return ResponseEntity.ok("회원 정보 수정 성공");
+            return ResponseEntity.ok("회원 정보 수정에 성공했습니다");
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 업데이트 중 서버 오류 발생");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 입니다");
         }
     }
 
-    @Tag(name = "update/delete API", description = "정보 수정, 탈퇴")
-    @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
+    @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUser(
             @RequestHeader("Authorization") String token) {
@@ -164,131 +324,21 @@ public class UserController {
 
             UserDTO existingUser = userService.searchByEmail(email);
             if (existingUser == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자를 찾을 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다");
             }
 
             userService.deleteUser(existingUser.getId());
-            return ResponseEntity.ok("회원 탈퇴 성공");
+            return ResponseEntity.ok("회원 탈퇴에 성공했습니다");
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 탈퇴 중 서버 오류 발생");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 입니다");
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
-    @Operation(summary = "전체 회원 조회 API", description = "가입된 전체 회원 목록을 불러옵니다.")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/search/all")
-    public ResponseEntity<?> searchAllUser() {
-        return new ResponseEntity<>(userService.searchAllUser(), HttpStatus.OK);
-    }
-
-    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
-    @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/search/email/{email}")
-    public ResponseEntity<?> searchByEmailForClient(
-            @Parameter(
-                    description = "이메일 주소",
-                    required = true,
-                    example = "eoblue23@gmail.com"
-            )
-            @PathVariable("email") String email) {
-        try {
-            UserSearchDTO user = userService.searchByEmailForClient(email);
-
-            if(user != null) {
-                return ResponseEntity.accepted().body(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-        }
-    }
-
-
-    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
-    @Operation(summary = "Id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/search/id/{id}")
-    public ResponseEntity<?> searchById(
-            @Parameter(
-                    description = "Id",
-                    required = true,
-                    example = "5"
-            )
-            @PathVariable("id") int id) {
-        try {
-            UserSearchDTO user = userService.searchById(id);
-
-            if(user != null) {
-                return ResponseEntity.accepted().body(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-        }
-    }
-
-    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
-    @Operation(summary = "nickname으로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/search/nickname/{nickname}")
-    public ResponseEntity<?> searchByNickname(
-            @Parameter(
-                    description = "Nickname",
-                    required = true,
-                    example = "bluebird"
-            )
-            @PathVariable("nickname") String nickname) {
-        try {
-            UserSearchDTO user = userService.searchByNickname(nickname);
-
-            if(user != null) {
-                return ResponseEntity.accepted().body(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-        }
-    }
-
-    @Tag(name = "user search API", description = "조회 - 회원 리스트/Id/Email/nickname/name")
-    @Operation(summary = "name으로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
-    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @GetMapping("/search/name/{name}")
-    public ResponseEntity<?> searchByName(
-            @Parameter(
-                    description = "Name",
-                    required = true,
-                    example = "kevin"
-            )
-            @PathVariable("name") String name) {
-        try {
-            UserSearchDTO user = userService.searchByName(name);
-
-            if(user != null) {
-                return ResponseEntity.accepted().body(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
-        }
-
-
-    }
-
-    @Tag(name = "change Email To Id API", description = "user Email을 id로 전환")
+    @Tag(name = "Email <-> Id 변환ㅑㅅ API", description = "user Email을 id로 전환")
     @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/changeEmailToId/{email}")
@@ -311,67 +361,7 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
         }
-
-
     }
-
-    @Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
-    @Operation(summary = "eamil으로 중복 체크 API", description = "email 중복 검사를 합니다.")
-    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-    @ApiResponse(responseCode = "409", description = "중복된 nickname 입니다.", content = @Content(mediaType = "application/json"))
-    @ApiResponse(responseCode = "500", description = "중복 확인 실패", content = @Content(mediaType = "application/json"))
-    @GetMapping("/checkDuplicated/email/{email}")
-    public ResponseEntity<String> checkDuplicatedEmail(
-            @Parameter(
-                    description = "Email",
-                    required = true,
-                    example = "eoblue23@gmail.com"
-            )
-            @PathVariable("email") String email) {
-        try {
-            boolean isDuplicated = userService.checkDuplicatedEmail(email);
-
-            if (!isDuplicated) {
-                return ResponseEntity.ok("중복이 아닙니다");
-            } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복입니다.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("중복 확인 실패");
-        }
-    }
-
-
-@Tag(name = "user duplicated API", description = "중복 체크 - email/nickname")
-@Operation(summary = "nickname으로 중복 체크 API", description = "nickname 중복 검사를 합니다.")
-@ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-@ApiResponse(responseCode = "409", description = "중복된 nickname 입니다.", content = @Content(mediaType = "application/json"))
-@ApiResponse(responseCode = "500", description = "중복 확인 실패", content = @Content(mediaType = "application/json"))
-@GetMapping("/checkDuplicated/nickname/{nickname}")
-public ResponseEntity<String> checkDuplicatedNickname(
-        @Parameter(
-                description = "Nickname",
-                required = true,
-                example = "bts"
-        )
-        @PathVariable("nickname") String nickname) {
-
-    try {
-        boolean isDuplicated = userService.checkDuplicatedNickname(nickname);
-
-        if (!isDuplicated) {
-            return ResponseEntity.ok("중복이 아닙니다");
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("중복입니다.");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("중복 확인 실패");
-    }
-}
-
-
 
 }
 

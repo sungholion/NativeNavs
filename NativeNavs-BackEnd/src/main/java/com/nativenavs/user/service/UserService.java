@@ -10,17 +10,19 @@ public interface UserService {
     public boolean checkDuplicatedEmail(String email);
     public boolean checkDuplicatedNickname(String nickname);
 
+    public void addAuthenticatedUser(String email);
     public void signUp(UserDTO userDTO);
+
     public void updateUser(int existingId, UserDTO updateUserDTO);
     public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO);
     public void deleteUser(int id);
 
     public List<UserSearchDTO> searchAllUser();
+    public UserSearchDTO searchById(int id);
     public UserDTO searchByEmail(String email);
     public UserSearchDTO searchByEmailForClient(String email);
-    public UserSearchDTO searchById(int id);
-    public UserSearchDTO searchByNickname(String nickname);
     public UserSearchDTO searchByName(String name);
+    public UserSearchDTO searchByNickname(String nickname);
+
     public int changeEmailToId(String email);
-    public void addAuthenticatedUser(String email);
 }
