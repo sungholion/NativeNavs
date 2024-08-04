@@ -6,6 +6,8 @@ import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
+import com.nativenavs.tour.entity.TourEntity;
+import com.nativenavs.tour.repository.TourRepository;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.user.service.UserService;
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +35,8 @@ public class ReservationController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TourRepository tourRepository;
 
 
     public ReservationController(ReservationService reservationService) {
@@ -97,24 +102,14 @@ public class ReservationController {
     public ResponseEntity<?> reservationRemove(@RequestHeader("Authorization") String token,
                                                @Parameter(description = "예약 ID", required = true, example = "1") @PathVariable int reservationId) {
         try {
-            // JWT 토큰에서 사용자 ID 추출
-            int userId = getUserIdFromJWT(token);
-
-            // 사용자 정보를 바탕으로 예약 정보 조회
-            UserEntity participant = new UserEntity();
-            participant.setId(userId); // 사용자의 ID 설정 (여기서는 간단하게 설정)
-            ReservationResponseDTOWrapper reservations = reservationService.getReservationsForParticipant(participant);
-
-            // 조회된 예약 정보를 반환
-            return ResponseEntity.ok(reservations);
+             int userId = getUserIdFromJWT(token);
+            reservationService.removeReservation(reservationId);
+            return ResponseEntity.ok("예약 취소 완료");
 
         } catch (Exception e) {
             // 로그 기록 (여기서는 예시로 printStackTrace 사용, 실제로는 로깅 프레임워크를 사용하는 것이 좋습니다)
             e.printStackTrace();
-
-            // 에러 응답 반환
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null); // 에러 응답이 필요하다면 메시지를 포함할 수 있습니다.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약 취소 실패");
         }
 
     }
@@ -138,6 +133,25 @@ public class ReservationController {
         }
     }
 
+    @GetMapping("/tour/{tourId}/participants")
+    @Operation(summary = "투어 참여자 조회 API", description = "특정 투어에 대한 예약을 조회하고, 예약 중인 참여자 정보를 반환하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> getParticipantsForTour(
+            @Parameter(description = "조회할 투어 ID", required = true, example = "1") @PathVariable int tourId, @RequestHeader("Authorization") String token) {
+        try {
+            int userId = getUserIdFromJWT(token); // JWT에서 가이드 ID 추출
+            Optional<UserEntity> guide = userRepository.findById(userId);
+            TourEntity tour = tourRepository.findById(tourId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투어를 찾을 수 없습니다: " + tourId));
+            List<ReservationResponseDTO> reservationEntities = reservationService.getParticipantsForTour(tour, guide.orElse(null));  // 가이드 정보가 null이면 null을 ����
+            return ResponseEntity.ok(reservationEntities);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     //JWT에서 이메일 받아 id로 치환
     private int getUserIdFromJWT(String token){

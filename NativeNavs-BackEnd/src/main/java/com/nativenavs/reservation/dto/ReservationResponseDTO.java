@@ -1,5 +1,6 @@
 package com.nativenavs.reservation.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.user.dto.UserDTO;
@@ -18,6 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"guide", "tour"})
 public class ReservationResponseDTO {
     private int id; // 예약 번호
     private String thumbnailImage; // 투어의 썸네일 이미지

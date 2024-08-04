@@ -1,13 +1,12 @@
 package com.nativenavs.reservation.service;
 
-import com.nativenavs.reservation.dto.ReservationRequestDTO;
-import com.nativenavs.reservation.dto.ReservationResponseDTO;
-import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
+import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +91,13 @@ public class ReservationService {
                 .collect(Collectors.toList());
 
         return new ReservationResponseDTOWrapper(inProgressDTOs, completedDTOs);
+    }
+
+    public List<ReservationResponseDTO> getParticipantsForTour(TourEntity tour, UserEntity guide) {
+        List<ReservationEntity> reservations=reservationRepository.findByTourAndGuideAndStatus(tour, guide, ReservationStatus.RESERVATION);
+        return reservations.stream()
+                .map(ReservationResponseDTO::toReservationDTO)
+                .collect(Collectors.toList());
     }
 
 }
