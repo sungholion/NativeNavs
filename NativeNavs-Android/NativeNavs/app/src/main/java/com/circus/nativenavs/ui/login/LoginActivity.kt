@@ -2,18 +2,26 @@ package com.circus.nativenavs.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.config.BaseActivity
 import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.databinding.ActivityLoginBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.signup.SignUpActivity
+import com.circus.nativenavs.util.SharedPref
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private val activityViewModel: LoginActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(SharedPref.userId != 0 && SharedPref.accessToken != null){
+            ApplicationClass.setAuthToken(SharedPref.accessToken.toString())
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
 
         initEvent()
 
