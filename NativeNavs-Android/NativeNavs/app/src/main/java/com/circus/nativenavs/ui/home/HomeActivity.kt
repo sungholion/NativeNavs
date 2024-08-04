@@ -24,6 +24,7 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
     private val homeActivityViewModel : HomeActivityViewModel by viewModels()
+    private val chattingViewModel : KrossbowChattingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

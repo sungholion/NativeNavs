@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.data.ChatRoomDto
+import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity
@@ -28,7 +28,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private lateinit var homeActivity: HomeActivity
     private val args: ChattingRoomFragmentArgs by navArgs()
 
-    private val chattingViewModel: KrossbowChattingViewModel by viewModels()
+    private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
 
     private val messageListAdapter = MessageListAdapter()
 
@@ -37,18 +37,20 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         homeActivity = context as HomeActivity
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        chattingViewModel.connectWebSocket()
         chattingViewModel.setUserId(0)
         initView()
         initAdapter()
-        observeViewModel()
+        initObserve()
         initEvent()
     }
 
-    private fun observeViewModel() {
-        chattingViewModel.uiState.observe(this) { uiState ->
+    private fun initObserve() {
+        chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             Log.d(TAG, "observeViewModel: $uiState")
             messageListAdapter.submitList(uiState.messages)
             binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
@@ -77,7 +79,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initView() {
-        binding.chatRoom = ChatRoomDto(1, "남산타워 투어", "서울", "", "아린")
+        binding.chatRoom = ChatTourInfoDto(1, "남산타워 투어", "서울", "", "아린")
     }
 
     private fun initAdapter() {
@@ -105,5 +107,10 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        chattingViewModel.disconnectWebSocket()
     }
 }

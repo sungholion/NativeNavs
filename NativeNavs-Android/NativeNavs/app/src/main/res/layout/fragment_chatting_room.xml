@@ -7,7 +7,7 @@
 
         <variable
             name="chatRoom"
-            type="com.circus.nativenavs.data.ChatRoomDto" />
+            type="com.circus.nativenavs.data.ChatTourInfoDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

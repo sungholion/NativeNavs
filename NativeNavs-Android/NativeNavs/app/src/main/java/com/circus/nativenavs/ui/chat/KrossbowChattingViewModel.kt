@@ -5,7 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.ChatRoomDto
+import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
+import com.circus.nativenavs.data.service.ChatService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
@@ -25,6 +29,17 @@ private const val TAG = "KrossbowChattingViewMod"
 
 class KrossbowChattingViewModel : ViewModel() {
 
+    private val _chatRoomList = MutableLiveData<List<ChatRoomDto>>()
+    val chatRoomList: LiveData<List<ChatRoomDto>> = _chatRoomList
+
+    private val _chatTourInfo = MutableLiveData<ChatTourInfoDto>()
+    val chatTourInfo: LiveData<ChatTourInfoDto> = _chatTourInfo
+
+    private val _chatMessages = MutableLiveData<List<MessageDto>>()
+    val chatMessages: LiveData<List<MessageDto>> = _chatMessages
+
+    private val chatRetrofit = ApplicationClass.retrofit.create(ChatService::class.java)
+
     private val _uiState = MutableLiveData(ChatScreenUiState())
     val uiState: LiveData<ChatScreenUiState> = _uiState
 
@@ -34,40 +49,57 @@ class KrossbowChattingViewModel : ViewModel() {
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
-    init {
-        Log.d(TAG, "init: init")
+    fun getChatRoomList(userId: Int) {
         viewModelScope.launch {
-            connectWebSocket()
+            _chatRoomList.value = chatRetrofit.getChatRoomList(userId)
         }
     }
 
-    private suspend fun connectWebSocket() {
-        try {
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(
-                    HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    }
-                )
-                .callTimeout(Duration.ofMinutes(1))
-                .pingInterval(Duration.ofSeconds(10))
-                .build()
-            val wsClient = OkHttpWebSocketClient(okHttpClient)
-            val stompClient = StompClient(wsClient)
-            stompSession = stompClient.connect(
-                url = "ws://주소/websocket",
-                customStompConnectHeaders = mapOf(
-                    "Authorization" to "토큰"
-                )
-            ).withMoshi(moshi)
+    fun getChatTourInfo(roomId: Int) {
+        viewModelScope.launch {
+            _chatTourInfo.value = chatRetrofit.getChatTourInfo(roomId)
+        }
+    }
 
-            updateConnectionStatus(ConnectionStatus.CONNECTING)
+    fun getChatMessages(roomId: Int) {
+        viewModelScope.launch {
+            _chatMessages.value = chatRetrofit.getMessageList(roomId)
+            _chatMessages.value?.let {
+                setMessages(it)
+            }
 
-            observeMessages()
-            updateConnectionStatus(ConnectionStatus.OPENED)
-        } catch (e: Exception) {
-            Log.e(TAG, "WebSocket connection failed: ", e)
-            updateConnectionStatus(ConnectionStatus.FAILED)
+        }
+    }
+
+    fun connectWebSocket() {
+        viewModelScope.launch {
+            try {
+                val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(
+                        HttpLoggingInterceptor().apply {
+                            level = HttpLoggingInterceptor.Level.BODY
+                        }
+                    )
+                    .callTimeout(Duration.ofMinutes(1))
+                    .pingInterval(Duration.ofSeconds(10))
+                    .build()
+                val wsClient = OkHttpWebSocketClient(okHttpClient)
+                val stompClient = StompClient(wsClient)
+                stompSession = stompClient.connect(
+                    url = "ws://주소/websocket",
+                    customStompConnectHeaders = mapOf(
+                        "Authorization" to "토큰"
+                    )
+                ).withMoshi(moshi)
+
+                updateConnectionStatus(ConnectionStatus.CONNECTING)
+
+                observeMessages()
+                updateConnectionStatus(ConnectionStatus.OPENED)
+            } catch (e: Exception) {
+                Log.e(TAG, "WebSocket connection failed: ", e)
+                updateConnectionStatus(ConnectionStatus.FAILED)
+            }
         }
     }
 
@@ -173,5 +205,12 @@ class KrossbowChattingViewModel : ViewModel() {
             0, 0, "몰라",
             "", "못 읽어요", System.currentTimeMillis(), 1
         )
+    }
+
+    fun disconnectWebSocket() {
+        viewModelScope.launch {
+            stompSession.disconnect()
+        }
+
     }
 }

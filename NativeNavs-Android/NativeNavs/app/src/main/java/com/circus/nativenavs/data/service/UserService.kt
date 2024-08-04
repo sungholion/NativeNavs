@@ -19,31 +19,31 @@ interface UserService {
     @POST("users")
     suspend fun postSignUp(
         @Body signUpDTO: SignUpDto
-    ) : Response<Void>
+    ): Response<Void>
 
     @POST("auth/login")
     suspend fun Login(
         @Body loginDTO: LoginDto
-    ) : Response<LoginResponse>
+    ): Response<LoginResponse>
 
     @GET("users/authenticateEmail")
     suspend fun setEmailVerifyCode(
-        @Query("email") email:String,
-        @Query("authenticationCode") authenticationCode:String
+        @Query("email") email: String,
+        @Query("authenticationCode") authenticationCode: String
     ): Response<Void>
 
     @POST("users/sendEmail")
     suspend fun getEmailVerifyCode(
         @Query("email") email: String
-    ) : Response<Void>
+    ): Response<Void>
 
     @GET("language")
-    suspend fun getLanguageList():LanguageServerDto
+    suspend fun getLanguageList(): LanguageServerDto
 
     @GET("users/checkDuplicated/nickname/{nickname}")
     suspend fun isDupliNick(
-        @Path(value = "nickname") nickname : String
-    ):Response<Void>
+        @Path(value = "nickname") nickname: String
+    ): Response<Void>
 
     @GET("users/search/id/{id}")
     suspend fun searchUser(
@@ -53,7 +53,8 @@ interface UserService {
     @PATCH("users")
     suspend fun updateUser(
         @Body signUpDTO: SignUpDto
-    ):Response<Void>
+    ): Response<Void>
+
     @DELETE("users/delete")
-    suspend fun deleteUser():Response<Void>
+    suspend fun deleteUser(): Response<Void>
 }
