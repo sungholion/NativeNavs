@@ -68,7 +68,6 @@ public class TourEntity extends BaseEntity {
     //DTO -> Entity 로 옮겨닮기
     public static TourEntity toSaveEntity(TourDTO tourDTO){
         TourEntity tourEntity = new TourEntity();
-        tourEntity.setUserId(tourDTO.getUserId());
         tourEntity.setTitle(tourDTO.getTitle());
         tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
         tourEntity.setDescription(tourDTO.getDescription());
