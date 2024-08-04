@@ -26,20 +26,18 @@ public class WishlistService {
     public void addWishlist(int userId, int tourId){
         TourEntity tour = tourRepository.findById(tourId).orElseThrow(()->new IllegalArgumentException("Tour not found"));
         UserEntity user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("User not found"));
-//        boolean isWished = wishlistRepository.isWished(userId, tourId);
-//        if(isWished){
-//           throw new IllegalArgumentException("Tour is already in wishlist");
-//        }
+        boolean isWished = wishlistRepository.existsByUserIdAndTourId(userId, tourId);
+        if(isWished){
+           throw new IllegalArgumentException("Tour is already in wishlist");
+        }
 
         WishlistEntity wishlistEntity = new WishlistEntity(user,tour);
-//        wishlistEntity.setUser(user);
-//        wishlistEntity.setTour(tour);
         wishlistRepository.save(wishlistEntity);
     }
 
 
 
-    public List<TourDTO> checkWishlist(int userId){
+    public List<TourDTO> findWishlist(int userId){
         List<WishlistEntity> wishes = wishlistRepository.findByUserId(userId);
 
         return wishes.stream()
@@ -54,9 +52,9 @@ public class WishlistService {
                 .collect(Collectors.toList());
     }
 
-//    public boolean isInWishlist(Long userId, Long tourId) {
-//        return wishlistRepository.isWished(userId, tourId);
-//    }
+    public boolean checkIsWishlist(int userId, int tourId) {
+        return wishlistRepository.existsByUserIdAndTourId(userId, tourId);
+    }
 
     public void removeWishlist(int userId,int tourId){
         WishlistEntity wish = wishlistRepository.findByUserIdAndTourId(userId, tourId);
@@ -64,6 +62,8 @@ public class WishlistService {
             wishlistRepository.delete(wish);
         }
     }
+
+
 
 
 }
