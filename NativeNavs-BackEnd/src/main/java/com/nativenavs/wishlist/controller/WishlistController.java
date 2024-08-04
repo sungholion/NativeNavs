@@ -36,7 +36,7 @@ public class WishlistController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     @PostMapping
     public ResponseEntity<?> wishlistRegister( @RequestHeader("Authorization") String token
-    , @Parameter(description = "위시에 등록할 여행지 ID", example = "1") @RequestBody int tourId
+    , @Parameter(description = "위시에 등록할 여행지 ID", example = "1") @RequestParam int tourId
     ){
         try {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
@@ -51,7 +51,23 @@ public class WishlistController {
     }
 
     //조회
-
+    @Operation(summary = "위시리스트 조회 API", description = "위시리스트에서 조회할때 사용하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping
+    public ResponseEntity<?> wishlistCheck( @RequestHeader("Authorization") String token){
+        try {
+            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
+            int userIdFromEmail = userService.changeEmailToId(email);
+            List<TourDTO> wishlist = wishlistService.checkWishlist(userIdFromEmail);
+            return ResponseEntity.ok(wishlist);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("위시리스트 조회 실패");
+        }
+    }
 
     //삭제
     @Operation(summary = "위시리스트 삭제 API", description = "위시리스트에서 삭제할때 사용하는 API")

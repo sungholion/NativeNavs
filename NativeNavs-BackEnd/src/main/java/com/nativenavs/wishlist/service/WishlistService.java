@@ -39,7 +39,7 @@ public class WishlistService {
 
 
 
-    public List<TourDTO> findWishlist(int userId){
+    public List<TourDTO> checkWishlist(int userId){
         List<WishlistEntity> wishes = wishlistRepository.findByUserId(userId);
 
         return wishes.stream()
