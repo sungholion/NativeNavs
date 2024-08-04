@@ -3,7 +3,6 @@ import React from "react";
 import styles from "./Tour_Item4.module.css";
 
 const Tour_Item4 = ({ tour }) => {
-  console.log(tour);
   const Image = tour.thumbnailImage[0];
   return (
     <div className={styles.Tour_Item4}>
