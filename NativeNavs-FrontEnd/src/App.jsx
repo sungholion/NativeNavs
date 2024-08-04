@@ -23,6 +23,7 @@ import TourCreate from "./page/TourCreate";
 import TourEdit from "./page/TourEdit";
 import ReservationList from "./page/ReservationList";
 import ReservationDetail from "./page/ReservationDetail";
+import ReservationListForTour from "./page/ReservationListForTour";
 import NavTourList from "./page/NavTourList";
 
 function App() {
@@ -108,7 +109,7 @@ function App() {
         {/* 투어 예약 페이지 */}
         <Route path="/reservation/:tour_id" element={<Reservation />}>
           {/* 해당 투어에 대한 예약 목록 페이지 */}
-          <Route path="list" element={<div>해당 투어에 대한 예약 목록</div>} />
+          <Route path="list" element={<ReservationListForTour />} />
           {/* 예약 하기 페이지 */}
           <Route path="create" element={<div>예약 하기</div>} />
           {/* 예약 상세 정보 페이지 */}
