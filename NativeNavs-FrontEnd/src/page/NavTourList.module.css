@@ -1,0 +1,14 @@
+.Header {
+    font-weight: bold;
+}
+
+.TourList {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.TourList > *{
+    margin-bottom: 10px;
+}
