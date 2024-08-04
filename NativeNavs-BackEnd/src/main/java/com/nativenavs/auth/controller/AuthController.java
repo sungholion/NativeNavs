@@ -38,7 +38,7 @@ public class AuthController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(
-                                    example = "{\"email\": \"eoblue23@gmail.com\", \"password\": \"1234\", \"device\": \"ios\"}"
+                                    example = "{\"email\": \"eoblue23@gmail.com\", \"password\": \"4567\", \"device\": \"ios\"}"
                             )
                     )
             )
