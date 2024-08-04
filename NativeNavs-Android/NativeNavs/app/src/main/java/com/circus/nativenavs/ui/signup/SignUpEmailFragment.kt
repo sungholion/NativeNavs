@@ -14,6 +14,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpEmailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.util.isPasswordValid
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import java.util.regex.Pattern
@@ -99,11 +100,6 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         binding.signupCodeEt.isEnabled = false
         binding.signupPwCheckEt.isEnabled = false
         binding.signupPwEt.isEnabled = false
-    }
-
-    private fun isPasswordValid(password: String): Boolean {
-        val passwordRegex = "^(?=.*[a-zA-Z0-9])(?=.*[\\W_])[a-zA-Z0-9\\W_]{8,20}\$"
-        return password.matches(passwordRegex.toRegex())
     }
 
     private fun initEvent() {

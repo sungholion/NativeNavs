@@ -14,7 +14,6 @@ data class ProfileUserDto(
     val navReviewAverage: Int,
     val navReviewCount: Int,
     val nickname: String,
-    val password: String,
     val phone: String,
     val removed: Boolean,
     val travReservationCount: Int,
