@@ -26,11 +26,11 @@ class ChatListAdapter : ListAdapter<ChatListDto, ChatListAdapter.ChatViewHolder>
     inner class ChatViewHolder(val binding: ItemChatroomBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(chat: ChatListDto) {
-            binding.chat = chat
+        fun bind(chatRoom: ChatListDto) {
+            binding.chat = chatRoom
 
             binding.root.setOnClickListener {
-                itemClickListener.onItemClicked(chat.chatId)
+                itemClickListener.onItemClicked(chatRoom.chatId)
             }
         }
 
@@ -52,7 +52,7 @@ class ChatListAdapter : ListAdapter<ChatListDto, ChatListAdapter.ChatViewHolder>
     }
 
     interface ChatItemClickListener {
-        fun onItemClicked(chatId: Int)
+        fun onItemClicked(chatRoomId: Int)
     }
 
     private lateinit var itemClickListener: ChatItemClickListener

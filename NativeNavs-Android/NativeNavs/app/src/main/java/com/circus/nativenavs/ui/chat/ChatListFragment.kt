@@ -30,9 +30,9 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
         initAdapter()
 
         chatListAdapter.setItemClickListener(object : ChatListAdapter.ChatItemClickListener {
-            override fun onItemClicked(chatId: Int) {
+            override fun onItemClicked(chatRoomId: Int) {
                 val action =
-                    ChatListFragmentDirections.actionChatListFragmentToChattingRoomFragment(chatId)
+                    ChatListFragmentDirections.actionChatListFragmentToChattingRoomFragment(chatRoomId)
                 navigate(action)
             }
 

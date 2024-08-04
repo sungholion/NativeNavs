@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -13,8 +14,11 @@ import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.video.VideoActivity
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+
+private const val TAG = "ChattingRoomFragment"
 
 class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     FragmentChattingRoomBinding::bind,
@@ -22,6 +26,10 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
+    private val args: ChattingRoomFragmentArgs by navArgs()
+
+    private val chattingViewModel: KrossbowChattingViewModel by viewModels()
+
     private val messageListAdapter = MessageListAdapter()
 
     override fun onAttach(context: Context) {
@@ -32,14 +40,29 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getDataFromFragment()
-
+        chattingViewModel.setUserId(0)
         initView()
         initAdapter()
+        observeViewModel()
         initEvent()
     }
 
+    private fun observeViewModel() {
+        chattingViewModel.uiState.observe(this) { uiState ->
+            Log.d(TAG, "observeViewModel: $uiState")
+            messageListAdapter.submitList(uiState.messages)
+            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
+        }
+    }
+
     private fun initEvent() {
+        binding.chatRoomSendBtn.setOnClickListener {
+            chattingViewModel.setMessage(binding.chatRoomTypingEt.text.toString())
+            chattingViewModel.sendMessage {
+                binding.chatRoomTypingEt.text.clear()
+            }
+        }
+
         binding.chatRoomLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
@@ -53,11 +76,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         }
     }
 
-    private fun getDataFromFragment() {
-        val args: ChattingRoomFragmentArgs by navArgs()
-        Log.d("getDataFromFragment", "getDataFromFragment: ${args.chatId}")
-    }
-
     private fun initView() {
         binding.chatRoom = ChatRoomDto(1, "남산타워 투어", "서울", "", "아린")
     }
@@ -65,7 +83,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private fun initAdapter() {
         val messageList = arrayListOf(
             MessageDto(
-                1, 0, "안드류",
+                1, SharedPref.userId!!, "안드류",
                 "", "문의드립니다~",
                 System.currentTimeMillis(), 1
             ),
@@ -80,9 +98,8 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
                 System.currentTimeMillis(), 1
             ),
         )
-
+        chattingViewModel.setMessages(messageList)
         binding.chatMessageRv.adapter = messageListAdapter
-        messageListAdapter.submitList(messageList)
     }
 
     override fun onResume() {
