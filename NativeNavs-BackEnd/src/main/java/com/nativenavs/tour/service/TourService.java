@@ -1,6 +1,7 @@
 package com.nativenavs.tour.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.tour.dto.CategoryDTO;
 import com.nativenavs.tour.dto.PlanDTO;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.CategoryEntity;

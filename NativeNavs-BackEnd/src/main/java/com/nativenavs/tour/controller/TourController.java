@@ -1,6 +1,8 @@
 package com.nativenavs.tour.controller;
 
+import com.nativenavs.tour.dto.CategoryDTO;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.service.CategoryService;
 import com.nativenavs.tour.service.TourService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,11 +22,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/api/tours")
+@Tag(name = "tour API", description = "tour")
 public class TourController {
     private final TourService tourService;
+    private final CategoryService categoryService;
 
 
-    @Tag(name = "tour API", description = "tour")
+
     @Operation(summary = "투어 등록 API", description = "여행 계획을 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -87,7 +91,20 @@ public class TourController {
         }
     }
 
-    @Tag(name = "tour API", description = "tour")
+    @Operation(summary = "투어 리스트 조회 API", description = "전체 투어 리스트를 조회하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/category")
+    public ResponseEntity<?> categoryList(){
+        try{
+            List<CategoryDTO> categoryList = categoryService.getAllCategories();
+            return ResponseEntity.ok(categoryList);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카테고리 조회 실패");
+        }
+    }
+
     @Operation(summary = "투어 리스트 조회 API", description = "전체 투어 리스트를 조회하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -102,7 +119,6 @@ public class TourController {
         }
     }
 
-    @Tag(name = "tour API", description = "tour")
     @Operation(summary = "투어 상세조회 API", description = "투어 상세정보를 조회하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -121,7 +137,6 @@ public class TourController {
     }
 
 
-    @Tag(name = "tour API", description = "tour")
     @Operation(summary = "투어 수정 API", description = "투어 정보를 수정하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -184,7 +199,6 @@ public class TourController {
     }
 
 
-    @Tag(name = "tour API", description = "tour")
     @Operation(summary = "투어 삭제 API", description = "투어를 삭제하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -203,7 +217,6 @@ public class TourController {
     }
 
     @GetMapping("/search")
-    @Tag(name = "tour API", description = "tour")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
