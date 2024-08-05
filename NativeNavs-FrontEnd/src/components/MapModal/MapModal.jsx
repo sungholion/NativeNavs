@@ -15,6 +15,7 @@ import {
 import { PlacePicker } from "@googlemaps/extended-component-library/react";
 
 import { getStaticImage } from "@/utils/get-static-image";
+import { allowScroll, preventScroll } from "@/utils/scroll-prvent";
 const DEFAULT_CENTER = {
   // 서울역 좌표
   lat: 37.555167,
@@ -23,16 +24,32 @@ const DEFAULT_CENTER = {
 const DEFAULT_ZOOM = 12; // 검색 전 지도 확대 수준
 const DEFAULT_ZOOM_WITH_LOCATION = 16; // 검색 이루어 질 때 지도 확대 수준
 
-const MapModal = () => {
+const MapModal = ({ onClose, onSubmit }) => {
   const pickerRef = useRef(null); // 자동 검색 결과 목록 중 선택된 것에 대한 값
   const [searchLocation, setSearchLocation] = useState(undefined); // 검색 결과 google PLACE 객체 저장
   const [selectedLocation, setSelectedLocation] = useState(undefined); // 위 검색 결과 PLACE의 좌표 및 리턴
 
+  // 스크롤 억제용 - 스크롤바 상태가 어떠든 간에
+  useEffect(() => {
+    // Mount 될 때 스크롤 고정
+    const prevScrollY = preventScroll();
+    // 언마운트 될 때 스크롤 고정 해제
+    return () => {
+      allowScroll(prevScrollY);
+    };
+  }, []);
+
   return (
-    <div className="ModalBackground" onClick={(e) => e.preventDefault()}>
-      <div className="mapModal">
+    <div
+      className="ModalBackground"
+      onClick={(e) => {
+        e.preventDefault();
+        onClose();
+      }}
+    >
+      <div className="mapModal" onClick={(e) => e.stopPropagation()}>
         <section className="CloseModal">
-          <img src={getStaticImage("close")} alt="" />
+          <img src={getStaticImage("close")} alt="" onClick={onClose} />
         </section>
         <section className="MapSection">
           {/* 지도 영역 */}
@@ -83,10 +100,10 @@ const MapModal = () => {
                   console.log("No place selected");
                   setSearchLocation(undefined);
                 } else {
-                  console.log(pickerRef.current?.value.formattedAddress);
-                  console.log(pickerRef.current?.value.displayName);
-                  console.log(pickerRef.current?.value.location.lat());
-                  console.log(pickerRef.current?.value);
+                  // console.log(pickerRef.current?.value.formattedAddress);
+                  // console.log(pickerRef.current?.value.displayName);
+                  // console.log(pickerRef.current?.value.location.lat());
+                  // console.log(pickerRef.current?.value);
                   setSearchLocation(pickerRef.current?.value);
                   setSelectedLocation({
                     lat: pickerRef.current?.value.location.lat(),
@@ -101,12 +118,10 @@ const MapModal = () => {
           </APIProvider>
         </section>
         <section className="SearchResult">
-          {selectedLocation ? (
+          {searchLocation ? (
             <div className="Searched">
               <h4>{selectedLocation.address}</h4>
-              <div className="mapsearchButton">
-                <button>등록하기</button>
-              </div>
+              <p>{pickerRef.current?.value?.formattedAddress}</p>
             </div>
           ) : (
             <div className="notSearch">
@@ -114,6 +129,23 @@ const MapModal = () => {
               <p>장소 검색 결과가 여기에 뜹니다</p>
             </div>
           )}
+        </section>
+        <section className="mapsearchButton">
+          <button className="left ">닫기</button>
+          <button
+            className={`right ${searchLocation ? "" : "disable"}`}
+            onClick={() => {
+              const data = {
+                description: selectedLocation.address,
+                lat: selectedLocation.lat,
+                lng: selectedLocation.lng,
+              };
+              onSubmit(data);
+              onClose();
+            }}
+          >
+            등록
+          </button>
         </section>
       </div>
     </div>

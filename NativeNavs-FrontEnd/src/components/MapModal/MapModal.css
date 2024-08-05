@@ -10,7 +10,7 @@
   bottom: 0px;
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
-  z-index: 10000;
+  z-index: 11000;
 }
 
 .ModalBackground {
@@ -92,10 +92,51 @@
 
   .Searched {
     align-self: center;
-    font-size: 3vw;
+    font-size: 22px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    p {
+      font-size: 20px;
+      align-self: center;
+    }
+  }
+}
+
+.mapsearchButton {
+  width: 90vw;
+  align-self: center;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  bottom: 10vh;
+
+  button {
+    width: 20vw;
+    height: 5vh;
+    color: white;
+    background-color: #20bec9;
+    border: none;
+    border-radius: 5px;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+
+  .disable {
+    display: none;
+  }
+
+  .left {
+    position: absolute;
+    left: 10vw;
+  }
+  .right {
+    position: absolute;
+    right: 10vw;
   }
 }

@@ -158,6 +158,18 @@
     margin-bottom: 20px;
     align-self: start;
   }
+
+  .Res_Location_Section_Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    img {
+      width: 7vw;
+      height: 7vw;
+      margin-left: 10px;
+    }
+  }
 }
 
 .Res_ButtonSection {

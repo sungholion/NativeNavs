@@ -1,6 +1,8 @@
 import ReservationEditor from "@/components/ReservationEditor/ReservationEditor";
 import Tour_Item_mini_Reservation from "@/components/Tour_Item/Tour_Item_mini_Reservation";
 import "./ReservationCreate.css";
+const NotAllowImgData = true;
+
 const info = {
   tour: {
     // 투어 정보
@@ -22,6 +24,8 @@ const info = {
       "https://static.remove.bg/sample-gallery/graphics/bird-thumbnail.jpg",
   },
 };
+
+const onSubmittoServer = (data) => {};
 
 const ReservationCreate = () => {
   return (
