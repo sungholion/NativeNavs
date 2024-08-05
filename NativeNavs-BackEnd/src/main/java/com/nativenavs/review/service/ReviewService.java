@@ -1,6 +1,8 @@
 package com.nativenavs.review.service;
 
 import com.nativenavs.review.dto.ReviewRequestDTO;
+import com.nativenavs.review.dto.ReviewResponseDTO;
+import com.nativenavs.review.dto.TourReviewDTO;
 import com.nativenavs.review.entity.ReviewEntity;
 import com.nativenavs.review.entity.ReviewImageEntity;
 import com.nativenavs.review.repository.ReviewImageRepository;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +66,25 @@ public class ReviewService {
         return review;
     }
 
+    public TourReviewDTO findReviewByTourId(int tourId){
+        TourEntity tour = tourRepository.findById(tourId).orElseThrow(() -> new IllegalArgumentException("Tour not found"));
+
+        List<ReviewEntity> reviewEntities = reviewRepository.findByTourId(tourId);
+        List<String> imageUrls = reviewEntities.stream().flatMap(review -> review.getImages().stream())
+                .map(ReviewImageEntity::getImage).collect(Collectors.toList());
+
+        List<ReviewResponseDTO> reviewDTOs = reviewEntities.stream()
+                .map(ReviewResponseDTO::toReviewDTO)
+                .collect(Collectors.toList());
+
+        // 최종 반환 DTO 생성 및 데이터 설정
+        TourReviewDTO responseDTO = new TourReviewDTO();
+        responseDTO.setReviewAverage(tour.getReviewAverage());
+        responseDTO.setImageUrls(imageUrls);
+        responseDTO.setReviews(reviewDTOs);
+
+        return responseDTO;
+    }
 
 
 

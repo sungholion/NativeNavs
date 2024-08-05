@@ -16,7 +16,7 @@ public class ReviewImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_image_id")
-    private Integer id; // 리뷰 이미지 ID
+    private int id; // 리뷰 이미지 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)
