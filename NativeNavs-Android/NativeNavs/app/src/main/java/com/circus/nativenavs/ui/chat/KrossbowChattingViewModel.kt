@@ -10,6 +10,7 @@ import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.service.ChatService
+import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
@@ -44,8 +45,9 @@ class KrossbowChattingViewModel : ViewModel() {
     val uiState: LiveData<ChatScreenUiState> = _uiState
 
     private lateinit var stompSession: StompSession
+    private var isConnected = false
 
-    val moshi: Moshi = Moshi.Builder()
+    private val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
@@ -83,12 +85,13 @@ class KrossbowChattingViewModel : ViewModel() {
                     .callTimeout(Duration.ofMinutes(1))
                     .pingInterval(Duration.ofSeconds(10))
                     .build()
+
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://주소/websocket",
+                    url = "ws://주소",
                     customStompConnectHeaders = mapOf(
-                        "Authorization" to "토큰"
+                        "Authorization" to "${SharedPref.accessToken}"
                     )
                 ).withMoshi(moshi)
 
@@ -113,10 +116,12 @@ class KrossbowChattingViewModel : ViewModel() {
                 StompSubscribeHeaders(
                     destination = "룸id 관련 url?",
                     customHeaders = mapOf(
-                        "Authorization" to "토큰"
+                        "Authorization" to "${SharedPref.accessToken}"
                     )
                 )
             )
+
+            isConnected = true
 
             subscription.collect { frame ->
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
@@ -125,6 +130,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 }
             }
         } catch (e: Exception) {
+            isConnected = false
             Log.e(TAG, "Message observation failed: ", e)
         }
     }
@@ -173,7 +179,7 @@ class KrossbowChattingViewModel : ViewModel() {
                     StompSendHeaders(
                         destination = "/app/chat",
                         customHeaders = mapOf(
-                            "Authorization" to "토큰"
+                            "Authorization" to "${SharedPref.accessToken}"
                         )
                     ),
                     message
@@ -208,8 +214,10 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     fun disconnectWebSocket() {
-        viewModelScope.launch {
-            stompSession.disconnect()
+        if (isConnected) {
+            viewModelScope.launch {
+                stompSession.disconnect()
+            }
         }
 
     }

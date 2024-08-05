@@ -68,11 +68,11 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     // Moshi
-    implementation("com.squareup.moshi:moshi:1.15.1")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
 
     //krossbow
-    implementation("org.hildan.krossbow:krossbow-stomp-core:7.0.0")
-    implementation("org.hildan.krossbow:krossbow-websocket-okhttp:7.0.0")
-    implementation("org.hildan.krossbow:krossbow-stomp-moshi:7.0.0")
+    implementation(libs.krossbow.stomp.core)
+    implementation(libs.krossbow.websocket.okhttp)
+    implementation(libs.krossbow.stomp.moshi)
 }
