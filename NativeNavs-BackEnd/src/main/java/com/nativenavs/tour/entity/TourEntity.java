@@ -73,9 +73,7 @@ public class TourEntity extends BaseEntity {
     @OneToMany(mappedBy="tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationEntity> reservations = new ArrayList<>();
 
-
     //DTO -> Entity 로 옮겨닮기
-
     public static TourEntity toSaveEntity(TourDTO tourDTO){
         TourEntity tourEntity = new TourEntity();
         tourEntity.setTitle(tourDTO.getTitle());

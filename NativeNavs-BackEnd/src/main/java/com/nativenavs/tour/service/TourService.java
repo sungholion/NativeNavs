@@ -222,15 +222,12 @@ public class TourService {
         if (location != null && !location.isEmpty()) {
             spec = spec.and(TourSpecification.hasLocationContaining(location));
         }
-
         if (date != null) {
             spec = spec.and(TourSpecification.isDateInRange(date));
         }
-
         if (categoryId != null) {
             spec = spec.and(TourSpecification.hasCategory(categoryId));
         }
-
         List<TourEntity> tourEntities = tourRepository.findAll(spec);
         return tourEntities.stream()
                 .map(tourEntity->{
