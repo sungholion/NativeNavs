@@ -53,7 +53,15 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
             setSupportZoom(false)
             domStorageEnabled = true
         }
-
+        binding.tourWishListWv.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (!isPageLoaded) {
+                    isPageLoaded = true
+                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                }
+            }
+        }
         binding.tourWishListWv.webViewClient = WebViewClient()
         binding.tourWishListWv.webChromeClient = WebChromeClient()
 
