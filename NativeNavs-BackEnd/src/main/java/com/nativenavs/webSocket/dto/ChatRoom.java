@@ -34,6 +34,11 @@ public class ChatRoom {
         } else if (message.getType().equals(ChatDTO.MessageType.TALK)) {
             message.setMessage(message.getMessage());
             sendMessage(message, service);
+        } else if (message.getType().equals(ChatDTO.MessageType.OUT)){
+            message.setMessage(message.getSender() + " 님이 나가셨습니다");
+            sendMessage(message, service);
+
+            sessions.remove(session);
         }
     }
 
