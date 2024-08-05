@@ -12,7 +12,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseActivity
 import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
-import com.circus.nativenavs.ui.home.mypage.MypageFragment
+import com.circus.nativenavs.ui.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
@@ -23,12 +23,15 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
+    private val homeActivityViewModel : HomeActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
+        homeActivityViewModel.getUser(SharedPref.userId!!)
+        homeActivityViewModel.updateLanguageList()
         initView()
-
         Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
 
     }

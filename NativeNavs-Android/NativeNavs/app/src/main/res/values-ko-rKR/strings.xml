@@ -33,6 +33,9 @@
     <string name="mypage_withdrawal">회원탈퇴</string>
 
     <!--sign-->
+    <string name="profile_password_message">비밀번호 양식을 확인해주세요</string>
+    <string name="profile_password_check_message">비밀번호를 정확하게 기입해주세요</string>
+    <string name="profile_nickname_check">닉네임 중복 확인 버튼을 눌러주세요</string>
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
     <string name="sign_pw">비밀번호</string>
@@ -133,4 +136,9 @@
     <string name="profile_other_trav_review">님이 남긴 리뷰</string>
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
+    <string name="tour_detail_chat">1:1 문의하기</string>
+    <string name="tour_detail_reservation">예약현황</string>
+    <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
+    <string name="dialog_register_tour_positive">종료</string>
+    <string name="dialog_register_tour_negative">계속 작성</string>
 </resources>
