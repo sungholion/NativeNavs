@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import { getStaticImage } from "@/utils/get-static-image";
+import Carousel from "@/components/Carousel/Carousel.jsx";
 
 const Tour_Item = ({
   tourId,
@@ -15,11 +14,13 @@ const Tour_Item = ({
   reviewAverage,
   nav_profile_img,
   nav_nickname,
+  plans,
   navigateFragment,
   user, // 추가: user 정보를 props로 받음
 }) => {
-  const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
+
+  // const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
 
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
@@ -39,6 +40,14 @@ const Tour_Item = ({
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
+
+        {/* <Carousel images={images} /> */}
+        {/* {images.length > 1 ? (
+          // <Carousel images={images} />
+        ) : (
+          <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
+        )} */}
+
         <div className={styles.heart_container}>
           <Heart
             isWishListed={isWishListed}

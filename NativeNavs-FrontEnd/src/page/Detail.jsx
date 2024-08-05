@@ -41,7 +41,7 @@ const Detail = () => {
 
     fetchTour();
   }, [params.tour_id]);
-  console.log(tour);
+  
   const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
   console.log(images);
 
@@ -125,19 +125,6 @@ const Detail = () => {
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
       <Carousel images={images} />
-
-      {/* {tour.thumbnailImage && tour.thumbnailImage.length > 1 ? (
-        <Carousel images={tour.thumbnailImage} />
-      ) : (
-        tour.thumbnailImage &&
-        tour.thumbnailImage.length === 1 && (
-          <img
-            className={styles.tour_img}
-            src={tour.thumbnailImage[0]}
-            alt="Tour Thumbnail"
-          />
-        )
-      )} */}
 
       {/* 투어 정보(간략하게) */}
       <section className={styles.tour_info}>
