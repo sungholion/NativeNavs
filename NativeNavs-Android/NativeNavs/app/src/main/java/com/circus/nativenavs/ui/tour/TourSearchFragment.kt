@@ -1,8 +1,12 @@
 package com.circus.nativenavs.ui.tour
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +14,28 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ToggleButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.CategoryDto
+import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.databinding.FragmentTourSearchBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
+import com.circus.nativenavs.util.CalenderDecorator
 import com.circus.nativenavs.util.navigate
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.threeten.bp.DayOfWeek
 
 class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourSearchBinding::bind,R.layout.fragment_tour_search) {
 
@@ -30,12 +43,14 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     private var dateIsExpanded = true
     private var themeIsExpanded = true
 
-
+    private lateinit var recyclerView: RecyclerView
     private lateinit var popularButtons: List<ToggleButton>
 
     private lateinit var homeActivity: HomeActivity
 
     private val homeActivityViewModel : HomeActivityViewModel by activityViewModels()
+
+    private lateinit var categoryAdapter: TourCategoryAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,20 +63,77 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        homeActivityViewModel.updateCategoryList()
 
         initView()
+        initAdaper()
         initSearchTravelBtn()
         initEvent()
-
+        initCalendar(CalendarDay.today().month)
         homeActivityViewModel.searchTravel.observe(viewLifecycleOwner){ it->
             binding.tourSearchTravelTitleContentTv.text = it
         }
-
+        homeActivityViewModel.searchDate.observe(viewLifecycleOwner){ it->
+            binding.tourSearchDateTitleContentTv.text = it
+        }
     }
     private fun initView(){
         binding.apply {
             tourSearchTravelTitleContentTv.text = homeActivityViewModel.searchTravel.value
             tourSearchDateTitleContentTv.text = homeActivityViewModel.searchDate.value
+        }
+        binding.calendarView.setOnMonthChangedListener { widget, date ->
+            // 기존에 설정되어 있던 Decorators 초기화
+            binding.calendarView.removeDecorators()
+            binding.calendarView.invalidateDecorators()
+
+            // Decorators 추가
+            initCalendar(date.month)
+        }
+
+    }
+    fun initAdaper(){
+
+
+            categoryAdapter = TourCategoryAdapter { category, isChecked ->
+                homeActivityViewModel.toggleCategory(category.id)
+            }
+            binding.tourSearchThemeRv.adapter = categoryAdapter
+
+        homeActivityViewModel.categoryCheckList.observe(viewLifecycleOwner){
+            // Submit the list of categories to the adapter
+            categoryAdapter.submitList(it)
+        }
+
+    }
+
+
+    @SuppressLint("DefaultLocale")
+    private fun initCalendar(month : Int){
+        binding.calendarView.apply {
+            setHeaderTextAppearance(R.style.CalendarWidgetHeader)
+            addDecorators(SundayDecorator(), SaturdayDecorator(),
+                CalenderDecorator(requireContext()),SelectedMonthDecorator(month)
+            )
+            setDateTextAppearance(R.style.CalenderViewCustom)
+            setWeekDayTextAppearance(R.style.CalenderViewCustom)
+            setTitleFormatter { day ->
+                val inputText = day.date
+                val calendarHeaderElements = inputText.toString().split("-")
+                val calendarHeaderBuilder = StringBuilder()
+
+                calendarHeaderBuilder.append(calendarHeaderElements[0]).append("  ")
+                    .append(calendarHeaderElements[1])
+
+                calendarHeaderBuilder.toString()
+            }
+            setOnDateChangedListener { widget, date, selected ->
+                val year = date.year
+                val month = String.format("%02d", date.month)
+                val day = String.format("%02d", date.day)
+                homeActivityViewModel.updateSearchDate("$year-$month-$day")
+                dateClicked()
+            }
         }
     }
     private fun initEvent() {
@@ -78,31 +150,31 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
             }
 
             buttonSeoul.setOnClickListener {
-                binding.searchEditText.setText("서울")
+                binding.searchEditText.setText("Seoul")
                 travelClicked()
             }
             buttonIncheon.setOnClickListener {
-                binding.searchEditText.setText("인천")
+                binding.searchEditText.setText("Incheon")
                 travelClicked()
             }
             buttonDaegu.setOnClickListener {
-                binding.searchEditText.setText("대구")
+                binding.searchEditText.setText("Daegu")
                 travelClicked()
             }
             buttonDaejeon.setOnClickListener {
-                binding.searchEditText.setText("대전")
+                binding.searchEditText.setText("Daejeon")
                 travelClicked()
             }
             buttonGwangju.setOnClickListener {
-                binding.searchEditText.setText("광주")
+                binding.searchEditText.setText("Gwangju")
                 travelClicked()
             }
             buttonBusan.setOnClickListener {
-                binding.searchEditText.setText("부산")
+                binding.searchEditText.setText("Busan")
                 travelClicked()
             }
             buttonJeju.setOnClickListener {
-                binding.searchEditText.setText("제주")
+                binding.searchEditText.setText("Jeju")
                 travelClicked()
             }
         }
@@ -181,6 +253,13 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
             }
 
         // 테마 검색창
+        if (themeIsExpanded) {
+            binding.tourSearchThemeLl.visibility = VISIBLE
+            collapse(binding.tourSearchThemeContentLayout)
+        } else {
+            binding.tourSearchThemeLl.visibility = GONE
+            expand(binding.tourSearchThemeContentLayout)
+        }
     }
 
     private fun expand(view: View) {
@@ -223,5 +302,41 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         popularButtons.forEach { button ->
             button.isChecked = button == selectedButton
         }
+    }
+
+    /* 일요일 날짜의 색상을 설정하는 클래스 */
+    private inner class SundayDecorator : DayViewDecorator {
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            val sunday = day.date.with(DayOfWeek.SUNDAY).dayOfMonth
+            return sunday == day.day
+        }
+
+        override fun decorate(view: DayViewFacade) {
+            view.addSpan(object: ForegroundColorSpan(Color.RED){})
+        }
+    }
+
+    /* 토요일 날짜의 색상을 설정하는 클래스 */
+    private inner class SaturdayDecorator : DayViewDecorator {
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            val saturday = day.date.with(DayOfWeek.SATURDAY).dayOfMonth
+            return saturday == day.day
+        }
+
+        override fun decorate(view: DayViewFacade) {
+            view.addSpan(object: ForegroundColorSpan(Color.BLUE){})
+        }
+    }
+    /* 이번달에 속하지 않지만 캘린더에 보여지는 이전달/다음달의 일부 날짜를 설정하는 클래스 */
+    private inner class SelectedMonthDecorator(val selectedMonth : Int) : DayViewDecorator {
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            return day.month != selectedMonth
+        }
+        override fun decorate(view: DayViewFacade) {
+            view.addSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.gray_d9d9)))
+        }
+    }
+    companion object{
+
     }
 }

@@ -7,4 +7,28 @@
     </style>
 
     <style name="Theme.NativeNavs" parent="Base.Theme.NativeNavs" />
+
+
+    <!-- 캘린더의 날짜(Day)의 스타일 설정 -->
+    <style name="CalenderViewCustom" parent="Base.Theme.NativeNavs">
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- 캘린더의 날짜(Day)의 스타일 설정 -->
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@drawable/selector_calendar_select_color</item>
+    </style>
+
+    <!-- 캘린더의 요일에 적용되는 스타일 -->
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- 연, 월을 표시하는 헤더에 적용되는 스타일 -->
+    <style name="CalendarWidgetHeader" parent="Base.Theme.NativeNavs">
+        <item name="android:textSize">30sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
