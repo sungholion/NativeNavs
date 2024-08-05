@@ -37,12 +37,17 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         homeActivity = context as HomeActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+        chattingViewModel.setChatRoomId(args.chatId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         chattingViewModel.connectWebSocket()
-        chattingViewModel.setUserId(0)
+        chattingViewModel.setUserId(SharedPref.userId!!)
         initView()
         initAdapter()
         initObserve()
@@ -102,11 +107,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         )
         chattingViewModel.setMessages(messageList)
         binding.chatMessageRv.adapter = messageListAdapter
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(false)
     }
 
     override fun onPause() {

@@ -23,6 +23,7 @@ import org.hildan.krossbow.stomp.conversions.convertAndSend
 import org.hildan.krossbow.stomp.conversions.moshi.withMoshi
 import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
+import org.hildan.krossbow.stomp.use
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
 
@@ -32,6 +33,9 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private val _chatRoomList = MutableLiveData<List<ChatRoomDto>>()
     val chatRoomList: LiveData<List<ChatRoomDto>> = _chatRoomList
+
+    private val _chatRoomId = MutableLiveData<Int>()
+    val chatRoomId: LiveData<Int> = _chatRoomId
 
     private val _chatTourInfo = MutableLiveData<ChatTourInfoDto>()
     val chatTourInfo: LiveData<ChatTourInfoDto> = _chatTourInfo
@@ -55,6 +59,10 @@ class KrossbowChattingViewModel : ViewModel() {
         viewModelScope.launch {
             _chatRoomList.value = chatRetrofit.getChatRoomList(userId)
         }
+    }
+
+    fun setChatRoomId(roomId: Int) {
+        _chatRoomId.value = roomId
     }
 
     fun getChatTourInfo(roomId: Int) {
@@ -89,12 +97,11 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://주소",
+                    url = "ws://i11d110.p.ssafy.io:8081/ws/chat",
                     customStompConnectHeaders = mapOf(
                         "Authorization" to "${SharedPref.accessToken}"
-                    )
+                    ),
                 ).withMoshi(moshi)
-
                 updateConnectionStatus(ConnectionStatus.CONNECTING)
 
                 observeMessages()
@@ -114,7 +121,7 @@ class KrossbowChattingViewModel : ViewModel() {
         try {
             val subscription = stompSession.subscribe(
                 StompSubscribeHeaders(
-                    destination = "룸id 관련 url?",
+                    destination = "/sub/chatroom/$chatRoomId?",
                     customHeaders = mapOf(
                         "Authorization" to "${SharedPref.accessToken}"
                     )
