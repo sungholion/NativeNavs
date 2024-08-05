@@ -1,5 +1,6 @@
 package com.nativenavs.review.service;
 
+import com.nativenavs.review.dto.GuideReviewDTO;
 import com.nativenavs.review.dto.ReviewRequestDTO;
 import com.nativenavs.review.dto.ReviewResponseDTO;
 import com.nativenavs.review.dto.TourReviewDTO;
@@ -88,6 +89,26 @@ public class ReviewService {
         return responseDTO;
     }
 
+    public GuideReviewDTO findReviewByGuideId(int guideId){
+        UserEntity guide = userRepository.findById(guideId).orElseThrow(() -> new IllegalArgumentException("guide not found"));
 
+        List<ReviewEntity> reviewEntities = reviewRepository.findByGuideId(guideId);
+        List<String> imageUrls = reviewEntities.stream().flatMap(review -> review.getImages().stream())
+                .map(ReviewImageEntity::getImage).collect(Collectors.toList());
+
+        List<ReviewResponseDTO> reviewDTOs = reviewEntities.stream()
+                .map(ReviewResponseDTO::toReviewDTO)
+                .collect(Collectors.toList());
+
+        // 최종 반환 DTO 생성 및 데이터 설정
+        GuideReviewDTO responseDTO = new GuideReviewDTO();
+        responseDTO.setReviewAverage(guide.getNavReviewAverage());
+        responseDTO.setImageUrls(imageUrls);
+        responseDTO.setReviews(reviewDTOs);
+        responseDTO.setReviewCount(guide.getNavReviewCount());
+        responseDTO.setTotalImageCount(imageUrls.size()); // 5:
+
+        return responseDTO;
+    }
 
 }

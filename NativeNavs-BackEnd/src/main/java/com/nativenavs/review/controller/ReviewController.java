@@ -1,6 +1,7 @@
 package com.nativenavs.review.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.review.dto.GuideReviewDTO;
 import com.nativenavs.review.dto.ReviewRequestDTO;
 import com.nativenavs.review.dto.TourReviewDTO;
 import com.nativenavs.review.entity.ReviewEntity;
@@ -73,7 +74,7 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/{tourId}")
+    @GetMapping("/tour/{tourId}")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -90,6 +91,22 @@ public class ReviewController {
 
     }
 
+    @GetMapping("/guide/{guideId}")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> reviewFindByGuideId(@Parameter(description = "조회 기준이 될 투어 ID", required = true, example = "10")
+                                                @PathVariable("guideId") int guideId){
+        //jwt 사용자 정보가 필요한가?? 보류
+        try {
+            GuideReviewDTO guideReviewDTO = reviewService.findReviewByGuideId(guideId);
+            return ResponseEntity.ok(guideReviewDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 조회 실패");
+        }
+
+    }
 
     //JWT에서 이메일 받아 id로 치환
     private int getUserIdFromJWT(String token){
