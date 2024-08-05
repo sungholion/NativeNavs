@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.tour
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,8 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -31,7 +34,9 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
     private lateinit var homeActivity: HomeActivity
     private var isPageLoaded = false
 
-    var mFileChooserCallback: ValueCallback<Array<Uri>>? = null
+    private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,6 +54,26 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
 
         initCustomView()
         initWebView()
+        initFileChooserLauncher()
+
+    }
+
+    private fun initFileChooserLauncher() {
+        fileChooserLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val uri = result.data?.data
+                    if (filePathCallback != null) {
+                        filePathCallback?.onReceiveValue(arrayOf(uri!!))
+                        filePathCallback = null
+                    }
+                } else {
+                    if (filePathCallback != null) {
+                        filePathCallback?.onReceiveValue(null)
+                        filePathCallback = null
+                    }
+                }
+            }
     }
 
     private fun initCustomView() {
@@ -92,24 +117,18 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
             }
 
         binding.tourRegisterWv.binding.customWebviewTitleWv.webChromeClient =
-            object : WebChromeClient() {
+            object : WebChromeClient(){
                 override fun onShowFileChooser(
                     webView: WebView?,
                     filePathCallback: ValueCallback<Array<Uri>>?,
                     fileChooserParams: FileChooserParams?
                 ): Boolean {
-                    if (mFileChooserCallback != null) {
-                        mFileChooserCallback?.onReceiveValue(null)
-                        mFileChooserCallback = null
-                    }
-                    mFileChooserCallback = filePathCallback
+                    this@TourRegisterFragment.filePathCallback = filePathCallback
 
-                    Intent(Intent.ACTION_GET_CONTENT).apply {
-                        addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "*/*"
-                        startActivity(Intent.createChooser(this, ""))
-                    }
-
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/*"
+                    fileChooserLauncher.launch(intent)
                     return true
                 }
             }
