@@ -23,6 +23,8 @@
             android:paddingBottom="6dp"
             android:textOff="@string/search_title_travel_Gwangju_btn"
             android:textOn="@string/search_title_travel_Gwangju_btn"
+            android:singleLine="true"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
