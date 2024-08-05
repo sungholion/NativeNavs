@@ -12,7 +12,16 @@ import {
   useAdvancedMarkerRef,
 } from "@vis.gl/react-google-maps";
 
-import { PlacePicker } from "@googlemaps/extended-component-library/react";
+import {
+  PlaceReviews,
+  PlaceDataProvider,
+  PlaceDirectionsButton,
+  IconButton,
+  PlaceOverview,
+  SplitLayout,
+  OverlayLayout,
+  PlacePicker,
+} from "@googlemaps/extended-component-library/react";
 
 import { getStaticImage } from "@/utils/get-static-image";
 const DEFAULT_CENTER = {
@@ -24,10 +33,9 @@ const DEFAULT_ZOOM = 12; // 검색 전 지도 확대 수준
 const DEFAULT_ZOOM_WITH_LOCATION = 16; // 검색 이루어 질 때 지도 확대 수준
 
 const MapModal = () => {
-  const pickerRef = useRef(null); // 자동 검색 결과 목록 중 선택된 것에 대한 값
-  const [searchLocation, setSearchLocation] = useState(undefined); // 검색 결과 google PLACE 객체 저장
-  const [selectedLocation, setSelectedLocation] = useState(undefined); // 위 검색 결과 PLACE의 좌표 및 리턴
-
+  const overlayLayoutRef = useRef(null);
+  const pickerRef = useRef(null); // 자동 검색 결과에 대한 저장소
+  const [searchLocation, setSearchLocation] = useState(undefined); // 위치 검색을 저장하는 곳
   return (
     <div className="ModalBackground" onClick={(e) => e.preventDefault()}>
       <div className="mapModal">
@@ -35,7 +43,6 @@ const MapModal = () => {
           <img src={getStaticImage("close")} alt="" />
         </section>
         <section className="MapSection">
-          {/* 지도 영역 */}
           <APIProvider
             apiKey={import.meta.env.VITE_GOOGLE_MAP_API_KEY}
             solutionChannel="GMP_devsite_samples_v3_rgmautocomplete"
@@ -64,12 +71,10 @@ const MapModal = () => {
               )}
             </Map>
 
-            {/* 검색창 - 자동검색  */}
             <PlacePicker
               ref={pickerRef}
               forMap="gmap"
               country={["kr"]}
-              language={"kr"}
               placeholder="장소를 입력해 주세요"
               style={{
                 width: "80vw",
@@ -83,38 +88,15 @@ const MapModal = () => {
                   console.log("No place selected");
                   setSearchLocation(undefined);
                 } else {
-                  console.log(pickerRef.current?.value.formattedAddress);
-                  console.log(pickerRef.current?.value.displayName);
-                  console.log(pickerRef.current?.value.location.lat());
-                  console.log(pickerRef.current?.value);
+                  console.log(pickerRef.current?.value.location);
+                  console.log(pickerRef.current.value);
                   setSearchLocation(pickerRef.current?.value);
-                  setSelectedLocation({
-                    lat: pickerRef.current?.value.location.lat(),
-                    lng: pickerRef.current?.value.location.lng(),
-                    address:
-                      pickerRef.current?.value.displayName ||
-                      pickerRef.current?.value.formattedAddress,
-                  });
                 }
               }}
             />
           </APIProvider>
         </section>
-        <section className="SearchResult">
-          {selectedLocation ? (
-            <div className="Searched">
-              <h4>{selectedLocation.address}</h4>
-              <div className="mapsearchButton">
-                <button>등록하기</button>
-              </div>
-            </div>
-          ) : (
-            <div className="notSearch">
-              검색해 주세요
-              <p>장소 검색 결과가 여기에 뜹니다</p>
-            </div>
-          )}
-        </section>
+        <section className="SearchResult"></section>
       </div>
     </div>
   );
