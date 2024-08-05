@@ -100,6 +100,10 @@
     <string name="search_bar_title">원하는 Travel이 있나요?</string>
     <string name="search_bar_content">검색을 해서 다양한 Navs를 찾아보세요</string>
 
+    <!--tour detail-->
+    <string name="tour_detail_chat">1:1 문의하기</string>
+    <string name="tour_detail_reservation">예약현황</string>
+
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
     <string name="booking_detail_page_title">예약 상세보기</string>

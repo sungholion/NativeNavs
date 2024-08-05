@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.mypage
+package com.circus.nativenavs.ui.mypage
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ class MypageFragment :
     BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
 
     private lateinit var homeActivity: HomeActivity
-    private val homeActivityViewModel : HomeActivityViewModel by activityViewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -35,16 +35,24 @@ class MypageFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initEvent()
+        initObserve()
+    }
 
-        homeActivityViewModel.withdrawalStatus.observe(viewLifecycleOwner){ statusCode ->
-            when(statusCode){
+    private fun initObserve() {
+        homeActivityViewModel.userDto.observe(viewLifecycleOwner) { it ->
+            binding.mypageNicknameTv.text = it.nickname
+        }
+
+        homeActivityViewModel.withdrawalStatus.observe(viewLifecycleOwner) { statusCode ->
+            when (statusCode) {
                 200 -> {
                     showToast("회원 탈퇴 성공")
                     SharedPref.remove(LOGOUT)
-                    startActivity(Intent(requireContext(),LoginActivity::class.java))
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
                     activity?.finish()
                 }
-                else ->{
+
+                else -> {
                     showToast("회원 탈퇴 실패")
                 }
             }
@@ -59,7 +67,8 @@ class MypageFragment :
         }
 
         binding.mypageProfileCl.setOnClickListener {
-            val action = MypageFragmentDirections.actionMypageFragmentToProfileFragment(SharedPref.userId!!)
+            val action =
+                MypageFragmentDirections.actionMypageFragmentToProfileFragment(SharedPref.userId!!)
             navigate(action)
         }
 
@@ -77,7 +86,7 @@ class MypageFragment :
 
         binding.mypageLogoutCl.setOnClickListener {
             SharedPref.remove(LOGOUT)
-            startActivity(Intent(requireContext(),LoginActivity::class.java))
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
             activity?.finish()
         }
 
