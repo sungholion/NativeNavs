@@ -1,6 +1,7 @@
 package com.nativenavs.tour.dto;
 
 import com.nativenavs.tour.entity.TourEntity;
+import com.nativenavs.user.dto.UserDTO;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,11 +31,12 @@ public class TourDTO {
     private LocalDateTime updatedAt;
     private boolean isRemoved;
 
+    private UserDTO user;
+
     private List<Integer> categoryIds;
     private List<PlanDTO> plans;
 
-
-    public static TourDTO toTourDTO(TourEntity tourEntity){
+    public static TourDTO toTourDTO(TourEntity tourEntity, UserDTO userDTO){
         TourDTO tourDTO = new TourDTO();
         tourDTO.setId(tourEntity.getId());
         tourDTO.setUserId(tourEntity.getUserId());
@@ -51,6 +53,8 @@ public class TourDTO {
         tourDTO.setUpdatedAt(tourEntity.getUpdatedAt());
         tourDTO.setMaxParticipants(tourEntity.getMaxParticipant());
         tourDTO.setRemoved(tourEntity.isRemoved());
+        tourDTO.setUser(userDTO);
+
         return tourDTO;
     }
 }

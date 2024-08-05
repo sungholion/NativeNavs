@@ -1,6 +1,8 @@
 package com.nativenavs.user.entity;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -68,9 +72,19 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String device;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishlistEntity> wishList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> participantReservations = new ArrayList<>();
+
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
+        userEntity.setPassword(userDTO.getPassword());
         userEntity.setId(userDTO.getId());
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setName(userDTO.getName());

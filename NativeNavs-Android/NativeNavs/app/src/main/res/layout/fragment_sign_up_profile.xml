@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -98,6 +98,38 @@
                     app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
 
                 <TextView
+                    android:id="@+id/signup_dupli_ok"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_green"
+                    android:text="@string/sign_useable_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+
+                <TextView
+                    android:id="@+id/signup_dupli_bad"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/nn_red"
+                    android:text="@string/sign_already_exist_nickname"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+                <TextView
+                    android:id="@+id/signup_dupli_none"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_check_nickname_btn"
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/signup_nickname_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nickname_et" />
+
+                <TextView
                     android:id="@+id/signup_nationality_tv"
                     style="@style/title_et"
                     android:layout_width="wrap_content"
@@ -110,13 +142,15 @@
 
                 <Spinner
                     android:id="@+id/signup_nationality_sp"
-                    style="@style/et_default"
+                    style="@style/dropdown_default"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:popupBackground="@drawable/spinner_dropdown_pop"
+                    android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signup_nationality_tv" />
+                    app:layout_constraintTop_toBottomOf="@+id/signup_nationality_tv"
+                    tools:listitem="@layout/item_dropdown_selected" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/signup_language_cl"
@@ -193,6 +227,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/signup_name_et" />
 
                 <TextView
+                    android:id="@+id/signup_name_valid_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/content_help"
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    android:text="@string/sign_check_name"
+                    app:layout_constraintStart_toStartOf="@+id/signup_name_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_name_et" />
+
+                <TextView
                     android:id="@+id/signup_birth_tv"
                     style="@style/title_et"
                     android:layout_width="wrap_content"
@@ -209,10 +254,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:hint="0000-00-00"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/signup_birth_tv" />
 
+                <TextView
+                    android:id="@+id/signup_birth_valid_tv"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_check_birth"
+                    android:textColor="@color/nn_red"
+                    app:layout_constraintStart_toStartOf="@+id/signup_birth_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_birth_et" />
                 <TextView
                     android:id="@+id/signup_phone_tv"
                     style="@style/title_et"
@@ -246,14 +301,28 @@
                     app:layout_constraintStart_toStartOf="@id/signup_phone_et"
                     app:layout_constraintTop_toBottomOf="@+id/signup_phone_et" />
 
+                <TextView
+                    android:id="@+id/signup_phone_valid_tv"
+                    style="@style/content_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_check_phone"
+                    android:textColor="@color/nn_red"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/signup_phone_et"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_phone_et"/>
                 <CheckBox
                     android:id="@+id/signup_terms_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
                     android:padding="0dp"
+                    android:background="@drawable/selector_checked_box"
+                    android:button="@null"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv" />
+                    app:layout_constraintTop_toBottomOf="@id/signup_phone_help_tv"/>
 
                 <TextView
                     android:id="@+id/signup_terms_tv"

@@ -16,7 +16,6 @@ public class UserDTO {
     private int id;
     private String email;
 
-    @JsonIgnore
     private String password;
     private String name;
     private String nickname;
@@ -38,6 +37,7 @@ public class UserDTO {
     // Entity -> DTO
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();
+        userDTO.setPassword(userEntity.getPassword());
         userDTO.setId(userEntity.getId());
         userDTO.setEmail(userEntity.getEmail());
         userDTO.setName(userEntity.getName());
