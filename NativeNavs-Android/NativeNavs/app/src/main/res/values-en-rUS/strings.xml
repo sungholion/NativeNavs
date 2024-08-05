@@ -138,4 +138,6 @@
     <string name="dialog_cancel_register_tour">Are you sure you want to finish creating your tour?</string>
     <string name="dialog_register_tour_positive">Finish</string>
     <string name="dialog_register_tour_negative">Keep Creating</string>
+    <string name="dialog_register_fail">Tour registration failed. Please try again.</string>
+    <string name="dialog_confirm">Got it</string>
 </resources>

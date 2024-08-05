@@ -74,7 +74,9 @@
         tools:layout="@layout/fragment_tour_register">
         <action
             android:id="@+id/action_tourRegisterFragment_to_tourDetailFragment"
-            app:destination="@id/tourDetailFragment" />
+            app:destination="@id/tourDetailFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/reservationDetailFragment"
@@ -116,7 +118,7 @@
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"
         android:label="AppSettingFragment"
-        tools:layout="@layout/fragment_app_setting" >
+        tools:layout="@layout/fragment_app_setting">
         <action
             android:id="@+id/action_appSettingFragment_self"
             app:destination="@id/appSettingFragment"
@@ -162,7 +164,7 @@
         android:id="@+id/profileModifylFragment"
         android:name="com.circus.nativenavs.ui.profile.ProfileModifylFragment"
         android:label="ProfileModifylFragment"
-        tools:layout="@layout/fragment_profile_modify" >
+        tools:layout="@layout/fragment_profile_modify">
         <action
             android:id="@+id/action_profileModifylFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -174,7 +176,7 @@
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" />
+        tools:layout="@layout/fragment_reservation_register"></fragment>
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewListFragment"
@@ -281,7 +283,7 @@
     <fragment
         android:id="@+id/profileLanguageFragment"
         android:name="com.circus.nativenavs.ui.profile.ProfileLanguageFragment"
-        android:label="ProfileLanguageFragment" >
+        android:label="ProfileLanguageFragment">
         <action
             android:id="@+id/action_profileLanguageFragment_to_profileModifylFragment"
             app:destination="@id/profileModifylFragment" />

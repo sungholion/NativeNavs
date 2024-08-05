@@ -1,7 +1,6 @@
 package com.circus.nativenavs.ui.tour
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,14 +12,15 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourRegisterBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -32,6 +32,7 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
+    private lateinit var bridge: TourRegisterBridge
     private var isPageLoaded = false
 
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
@@ -66,16 +67,40 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBridge()
         initCustomView()
         initWebView()
 
     }
 
-//    private fun initBridge() {
-//        bridge =
-//            TourDetailBridge(homeActivity, this, binding.tourDetailWv.binding.customWebviewTitleWv)
-//        binding.tourDetailWv.binding.customWebviewTitleWv.addJavascriptInterface(bridge, "Android")
-//    }
+    private fun initBridge() {
+        bridge =
+            TourRegisterBridge(
+                homeActivity,
+                this,
+                binding.tourRegisterWv.binding.customWebviewTitleWv
+            )
+        binding.tourRegisterWv.binding.customWebviewTitleWv.addJavascriptInterface(
+            bridge,
+            "Android"
+        )
+    }
+
+    fun showRegisterFailDialog() {
+        MaterialAlertDialogBuilder(homeActivity)
+            .setMessage(getString(R.string.dialog_register_fail))
+            .setPositiveButton(getString(R.string.dialog_confirm)) { _, _ ->
+
+            }.show()
+    }
+
+    fun moveFromTourRegisterToTourDetailFragment(tourId: Int, navId: Int) {
+        val action = TourRegisterFragmentDirections.actionTourRegisterFragmentToTourDetailFragment(
+            tourId = tourId,
+            navId = navId
+        )
+        navigate(action)
+    }
 
     private fun initCustomView() {
         binding.tourRegisterWv.setOnBackListener(object : CustomTitleWebView.OnBackClickListener {
@@ -91,10 +116,10 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
                     if (!binding.tourRegisterWv.backWebView()) {
                         MaterialAlertDialogBuilder(homeActivity)
                             .setMessage(getString(R.string.dialog_cancel_register_tour))
-                            .setNegativeButton(getString(R.string.dialog_register_tour_negative)) { dialog, which ->
+                            .setNegativeButton(getString(R.string.dialog_register_tour_negative)) { _, _ ->
 
                             }
-                            .setPositiveButton(getString(R.string.dialog_register_tour_positive)) { dialog, which ->
+                            .setPositiveButton(getString(R.string.dialog_register_tour_positive)) { _, _ ->
                                 popBackStack()
                             }.show()
 
@@ -111,7 +136,13 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
                     super.onPageFinished(view, url)
                     if (!isPageLoaded) {
                         isPageLoaded = true
-//                    bridge.sendUserData(UserDto(1, "use token", true))
+                        bridge.sendUserData(
+                            UserDto(
+                                SharedPref.userId!!,
+                                SharedPref.accessToken!!,
+                                SharedPref.isNav!!
+                            )
+                        )
                     }
                 }
 

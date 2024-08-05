@@ -50,12 +50,16 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     private fun initView() {
-        binding.tourDetailBottomBtn.apply {
-            if (SharedPref.isNav!!) {
-                text = getString(R.string.tour_detail_reservation)
+        if (SharedPref.isNav!!) {
+            if (args.navId == SharedPref.userId) {
+                binding.tourDetailBottomCl.visibility = View.VISIBLE
+                binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_reservation)
             } else {
-                text = getString(R.string.tour_detail_chat)
+                binding.tourDetailBottomCl.visibility = View.GONE
             }
+        } else {
+            binding.tourDetailBottomCl.visibility = View.VISIBLE
+            binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_chat)
         }
     }
 
@@ -83,7 +87,13 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
                 }
             }
 
