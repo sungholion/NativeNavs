@@ -20,6 +20,9 @@ public class CategoryEntity{
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "english_name", nullable = false)
+    private String englishName;
+
     @Column(name = "category_image", nullable = false)
     private String categoryImage;
 
