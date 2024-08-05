@@ -13,15 +13,16 @@ const Tour_Item = ({
   endDate,
   reviewAverage,
   nav_profile_img,
-  nav_nickname,
-  plans,
+  nickname,
   navigateFragment,
   user, // 추가: user 정보를 props로 받음
+  wishList,
 }) => {
-  const [isWishListed, setIsWishListed] = useState(false);
+  const [isWishListed, setIsWishListed] = useState(
+    wishList ? wishList.includes(tourId) : false
+  );
 
   // const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
-
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
@@ -53,6 +54,7 @@ const Tour_Item = ({
             isWishListed={isWishListed}
             setIsWishListed={setIsWishListed}
             onClickEvent={toggleWishlist}
+            wishList={wishList}
           />
         </div>
       </div>
@@ -73,11 +75,11 @@ const Tour_Item = ({
             {/* Nav 프로필 이미지 */}
             <img
               src={nav_profile_img}
-              alt={nav_nickname}
+              alt={nickname}
               className={styles.nav_img}
             />
             {/* Nav 닉네임 */}
-            <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
+            <p style={{ cursor: "pointer" }}>{nickname}</p>
           </div>
         </div>
       </section>

@@ -3,13 +3,8 @@ import styles from "./Plan_Item2.module.css";
 import { getStaticImage } from "@/utils/get-static-image";
 
 const Plan_Item2 = ({
-  plan_id,
-  tour_id,
   field,
   description,
-  latitude,
-  longitude,
-  address_full,
   image,
 }) => {
   return (

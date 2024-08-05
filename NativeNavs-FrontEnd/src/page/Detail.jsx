@@ -60,6 +60,7 @@ const Detail = () => {
     };
   }, []);
 
+
   const onClickNav = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     if (
@@ -149,7 +150,7 @@ const Detail = () => {
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
-              <img src={"/src/assets/language.png"} alt="언어 이미지" />
+            🌏
               {tour.categoryIds.length > 1 ? (
                 <p>
                   {tour.categoryIds[0]} 외 {tour.categoryIds.length - 1}개 국어
