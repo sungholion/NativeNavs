@@ -9,6 +9,8 @@ import java.util.List;
 @Setter
 public class TourReviewDTO {
     private float reviewAverage;
+    private int reviewCount;
+    private int totalImageCount;
     private List<String> imageUrls;
     private List<ReviewResponseDTO> reviews;
     // Getters and Setters

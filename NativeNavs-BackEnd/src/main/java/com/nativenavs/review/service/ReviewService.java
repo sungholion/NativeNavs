@@ -82,6 +82,8 @@ public class ReviewService {
         responseDTO.setReviewAverage(tour.getReviewAverage());
         responseDTO.setImageUrls(imageUrls);
         responseDTO.setReviews(reviewDTOs);
+        responseDTO.setReviewCount(tour.getReviewCount());
+        responseDTO.setTotalImageCount(imageUrls.size()); // 5:
 
         return responseDTO;
     }
