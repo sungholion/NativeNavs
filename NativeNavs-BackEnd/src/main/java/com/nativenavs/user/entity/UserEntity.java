@@ -1,5 +1,6 @@
 package com.nativenavs.user.entity;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
@@ -73,6 +74,12 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistEntity> wishList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> participantReservations = new ArrayList<>();
 
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
