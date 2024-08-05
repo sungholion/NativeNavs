@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-//@CrossOrigin("*")
+@CrossOrigin("*")
 @RequestMapping("/api/tours")
 @Tag(name = "tour API", description = "tour")
 public class TourController {

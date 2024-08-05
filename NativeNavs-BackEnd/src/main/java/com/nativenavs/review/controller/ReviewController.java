@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/reviews")
+@CrossOrigin("*")
 @Tag(name = "review API", description = "review")
 public class ReviewController {
 
