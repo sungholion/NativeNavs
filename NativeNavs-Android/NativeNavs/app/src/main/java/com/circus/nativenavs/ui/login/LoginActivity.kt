@@ -19,8 +19,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         super.onCreate(savedInstanceState)
 
         if(SharedPref.userId != 0 && SharedPref.accessToken != null){
-            ApplicationClass.setAuthToken(SharedPref.accessToken.toString())
-            startActivity(Intent(this, HomeActivity::class.java))
+            activityViewModel.getAccessToken()
+        }
+
+        activityViewModel.autoLogin.observe(this){ statusCode ->
+            when(statusCode){
+                400 -> {
+                    showToast("자동 로그인 기한 만료")
+                }
+                200 ->{
+                    ApplicationClass.setAuthToken(SharedPref.accessToken!!)
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }
+            }
+
         }
 
         initEvent()
