@@ -38,8 +38,6 @@ export default function Carousel({ images }) {
     variableWidth: false, // Set to false to make slides have equal width
   };
 
-  console.log(images)
-
   return (
     <div className={styles.carouselContainer}>
       <StyledSlider {...settings}>

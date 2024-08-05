@@ -20,7 +20,9 @@ const Tour_Item = ({
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
-  // const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
+  const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
+  console.log(images)
+  console.log(images.length)
 
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
@@ -39,14 +41,14 @@ const Tour_Item = ({
     <div onClick={onClickTour} className={styles.tour_item}>
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
-        <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
+        {/* <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} /> */}
 
         {/* <Carousel images={images} /> */}
-        {/* {images.length > 1 ? (
-          // <Carousel images={images} />
+        {images.length > 1 ? (
+          <Carousel images={images} />
         ) : (
           <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-        )} */}
+        )}
 
         <div className={styles.heart_container}>
           <Heart
