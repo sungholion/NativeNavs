@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.MypageFragment"
+        android:name="com.circus.nativenavs.ui.mypage.MypageFragment"
         android:label="MypageFragment"
         tools:layout="@layout/fragment_mypage">
         <action
@@ -203,12 +203,12 @@
         tools:layout="@layout/fragment_reservation_register" />
     <fragment
         android:id="@+id/stampDetailFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.StampDetailFragment"
+        android:name="com.circus.nativenavs.ui.mypage.StampDetailFragment"
         android:label="StampDetailFragment"
         tools:layout="@layout/fragment_stamp_detail" />
     <fragment
         android:id="@+id/stampFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.StampFragment"
+        android:name="com.circus.nativenavs.ui.mypage.StampFragment"
         android:label="StampFragment"
         tools:layout="@layout/fragment_stamp" />
     <fragment

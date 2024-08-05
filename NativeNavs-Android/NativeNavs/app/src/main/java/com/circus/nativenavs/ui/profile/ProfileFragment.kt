@@ -89,7 +89,7 @@ class ProfileFragment :
             else binding.profileModifyBtn.visibility = VISIBLE
 
             binding.profileUserIv.setImageURI(it.image.toUri())
-            binding.profileUserNameTv.text = it.name
+            binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
             binding.profileUserNation.apply {
@@ -116,11 +116,11 @@ class ProfileFragment :
 
                 if (it.isNav) {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_nav_review)
+                        text = it.nickname + getString(R.string.profile_other_nav_review)
                     }
                 } else {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_trav_review)
+                        text = it.nickname + getString(R.string.profile_other_trav_review)
                     }
                 }
             }
@@ -136,7 +136,7 @@ class ProfileFragment :
         }
     }
 
-    private fun checkPassDialog(){
+    private fun checkPassDialog() {
         val builder = AlertDialog.Builder(context)
         val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
 
