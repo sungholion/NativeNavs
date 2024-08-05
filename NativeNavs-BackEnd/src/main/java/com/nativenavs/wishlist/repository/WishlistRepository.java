@@ -14,4 +14,6 @@ public interface WishlistRepository extends JpaRepository<WishlistEntity,Integer
     WishlistEntity findByUserIdAndTourId(int userId, int tourId);
 
     boolean existsByUserIdAndTourId(int userId, int tourId);
+
+    int countByTourId(int tourId);
 }

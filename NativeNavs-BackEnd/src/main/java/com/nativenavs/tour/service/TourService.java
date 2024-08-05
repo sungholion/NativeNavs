@@ -1,7 +1,10 @@
 package com.nativenavs.tour.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.dto.CategoryDTO;
+import com.nativenavs.tour.dto.GuideTourDTO;
 import com.nativenavs.tour.dto.PlanDTO;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.CategoryEntity;
@@ -14,6 +17,7 @@ import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.user.service.UserService;
 import com.nativenavs.user.service.UserServiceImpl;
+import com.nativenavs.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +51,16 @@ public class TourService {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WishlistRepository wishlistRepository;
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
-    public void addTour(TourDTO tourDTO, String token){
+    public void addTour(TourDTO tourDTO, int userId){
         TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
-
-        //이메일로 id 반환
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
-        String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-        int userIdFromEmail = userService.changeEmailToId(email);
-        tourEntity.setUserId(userIdFromEmail);
+        tourEntity.setUserId(userId);
 
         TourEntity savedTour = tourRepository.save(tourEntity);
 
@@ -240,6 +245,25 @@ public class TourService {
                     return TourDTO.toTourDTO(tourEntity, userDTO);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public List<GuideTourDTO> findToursByGuide(int guideId) {
+        List<TourEntity> tours = tourRepository.findByUserId(guideId);
+        return tours.stream().map(this::convertToGuideTourDTO).collect(Collectors.toList());
+    }
+
+
+    private GuideTourDTO convertToGuideTourDTO(TourEntity tour) {
+        GuideTourDTO dto = new GuideTourDTO();
+        dto.setTourId(tour.getId());
+        dto.setThumbnailImage(tour.getThumbnailImage());
+        dto.setReservationCount(reservationRepository.countByTour(tour));
+        dto.setWishedCount(wishlistRepository.countByTourId(tour.getId()));
+        dto.setTitle(tour.getTitle());
+        dto.setRemoved(tour.isRemoved());
+        dto.setStartDate(tour.getStartDate());
+        dto.setEndDate(tour.getEndDate());
+        return dto;
     }
 
 }
