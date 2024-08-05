@@ -136,4 +136,6 @@
     <string name="profile_other_trav_review">님이 남긴 리뷰</string>
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
+    <string name="tour_detail_chat">1:1 문의하기</string>
+    <string name="tour_detail_reservation">예약현황</string>
 </resources>

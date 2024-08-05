@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_tourDetailFragment_to_myTripReservationListFragment"
             app:destination="@id/myTripReservationListFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"

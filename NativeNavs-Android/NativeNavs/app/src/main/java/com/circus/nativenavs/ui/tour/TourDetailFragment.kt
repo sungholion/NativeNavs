@@ -1,12 +1,14 @@
 package com.circus.nativenavs.ui.tour
 
 import android.content.Context
+import android.graphics.Path.Direction
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -14,6 +16,7 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
@@ -38,9 +41,39 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
         initBridge()
         initCustomView()
         initWebView()
+        initEvent()
+    }
+
+    private fun initView() {
+        binding.tourDetailBottomBtn.apply {
+            if (SharedPref.isNav!!) {
+                text = getString(R.string.tour_detail_reservation)
+            } else {
+                text = getString(R.string.tour_detail_chat)
+            }
+        }
+    }
+
+    private fun initEvent() {
+        binding.tourDetailBottomBtn.setOnClickListener {
+            val action: NavDirections
+            if (SharedPref.isNav!!) {
+                action =
+                    TourDetailFragmentDirections.actionTourDetailFragmentToMyTripReservationListFragment(
+                        args.tourId
+                    )
+            } else {
+                action =
+                    TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
+                        chatId = 0
+                    )
+            }
+            navigate(action)
+        }
     }
 
     private fun initWebView() {

@@ -133,4 +133,6 @@
     <string name="profile_other_trav_review">\'s Review</string>
     <string name="profile_other_nav_review">\'s Review</string>
     <string name="profile_other_stamp">\'s Stamp</string>
+    <string name="tour_detail_chat">1:1 Chat</string>
+    <string name="tour_detail_reservation">Booking Status</string>
 </resources>
