@@ -97,10 +97,10 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://i11d110.p.ssafy.io:8081/ws/chat",
-                    customStompConnectHeaders = mapOf(
-                        "Authorization" to "${SharedPref.accessToken}"
-                    ),
+                    url = "ws://14.46.141.241/ws-stomp",
+//                    customStompConnectHeaders = mapOf(
+//                        "Authorization" to "${SharedPref.accessToken}"
+//                    ),
                 ).withMoshi(moshi)
                 updateConnectionStatus(ConnectionStatus.CONNECTING)
 
@@ -121,10 +121,10 @@ class KrossbowChattingViewModel : ViewModel() {
         try {
             val subscription = stompSession.subscribe(
                 StompSubscribeHeaders(
-                    destination = "/sub/chatroom/$chatRoomId?",
-                    customHeaders = mapOf(
-                        "Authorization" to "${SharedPref.accessToken}"
-                    )
+                    destination = "/chat/$chatRoomId",
+//                    customHeaders = mapOf(
+//                        "Authorization" to "${SharedPref.accessToken}"
+//                    )
                 )
             )
 
@@ -184,10 +184,10 @@ class KrossbowChattingViewModel : ViewModel() {
             try {
                 stompSession.withMoshi(moshi).convertAndSend(
                     StompSendHeaders(
-                        destination = "/app/chat",
-                        customHeaders = mapOf(
-                            "Authorization" to "${SharedPref.accessToken}"
-                        )
+                        destination = "/chat/$chatRoomId",
+//                        customHeaders = mapOf(
+//                            "Authorization" to "${SharedPref.accessToken}"
+//                        )
                     ),
                     message
                 )
