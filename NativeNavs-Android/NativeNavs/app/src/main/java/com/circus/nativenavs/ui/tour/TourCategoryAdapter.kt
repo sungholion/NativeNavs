@@ -1,24 +1,31 @@
 package com.circus.nativenavs.ui.tour
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ToggleButton
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.data.CategoryDto
-import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.databinding.ItemCategoryBinding
 
 class TourCategoryAdapter(
 private val onCategoryClicked: (CategoryDto, Boolean) -> Unit
 ,val isKorean : Boolean) : ListAdapter<CategoryDto, TourCategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_category, parent, false)
-        return CategoryViewHolder(view)
+
+        val binding = DataBindingUtil.inflate<ItemCategoryBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.item_category,
+            parent,
+            false
+        )
+        return CategoryViewHolder(binding).apply {
+            setIsRecyclable(false);
+        }
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
@@ -26,43 +33,55 @@ private val onCategoryClicked: (CategoryDto, Boolean) -> Unit
         holder.bind(category)
     }
 
-    inner class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val toggleButton: ToggleButton = view.findViewById(R.id.tour_search_category)
+    inner class CategoryViewHolder(val binding: ItemCategoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(category: CategoryDto) {
-            toggleButton.textOn = if(isKorean) category.name else category.englishName
-            toggleButton.textOff = if(isKorean) category.name else category.englishName
-            toggleButton.isChecked = category.isChecked // Set the initial checked state
+            binding.tourSearchCategory.apply {
+                textOn = if(isKorean) category.name else category.englishName
+                textOff = if(isKorean) category.name else category.englishName
+                isChecked = category.isChecked
 
-            // Update button background based on checked state
-            val background = if (!toggleButton.isChecked ) {
-                R.drawable.stroke_round_circle_gray_d9d9 // or use a color
-            } else {
-                R.drawable.shape_track_on // or use a color
-            }
-            toggleButton.setBackgroundResource(background)
+                Log.d("reset", "bind: $category")
 
-            // Handle toggle button state change
-            toggleButton.setOnCheckedChangeListener { _, isChecked ->
-                onCategoryClicked(category, isChecked) // Call the callback with the updated state
-                // Update button background based on the new checked state
-                val newBackground = if (!isChecked) {
-                    R.drawable.stroke_round_circle_gray_d9d9
+                val background = if (!category.isChecked ) {
+                    R.drawable.stroke_round_circle_gray_d9d9 // or use a color
                 } else {
-                    R.drawable.shape_track_on
+                    R.drawable.shape_track_on // or use a color
                 }
-                toggleButton.setBackgroundResource(newBackground)
+                setBackgroundResource(background)
+
+                setOnCheckedChangeListener { _, isChecked ->
+                    onCategoryClicked(category.copy(isChecked = isChecked), isChecked)
+                    updateButtonBackground(isChecked)
+                }
+
             }
+        }
+        private fun updateButtonBackground(isChecked: Boolean) {
+            val background = if (isChecked) {
+                R.drawable.shape_track_on
+            } else {
+                R.drawable.stroke_round_circle_gray_d9d9
+            }
+            binding.tourSearchCategory.setBackgroundResource(background)
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
     private class CategoryDiffCallback : DiffUtil.ItemCallback<CategoryDto>() {
         override fun areItemsTheSame(oldItem: CategoryDto, newItem: CategoryDto): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: CategoryDto, newItem: CategoryDto): Boolean {
-            return oldItem == newItem
+            return oldItem== newItem
         }
     }
 }

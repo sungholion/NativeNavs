@@ -121,13 +121,13 @@ class HomeActivityViewModel : ViewModel() {
 
     // search
     private val _searchTravel = MutableLiveData<String>()
-    val searchTravel : LiveData<String> = _searchTravel
+    val searchTravel : LiveData<String> get() = _searchTravel
 
     private val _searchDate = MutableLiveData<String>()
-    val searchDate : LiveData<String> = _searchDate
+    val searchDate : LiveData<String> get() = _searchDate
 
     private val _searchTheme = MutableLiveData<List<Int>>()
-    val searchTheme : LiveData<List<Int>> = _searchTheme
+    val searchTheme : LiveData<List<Int>> get() = _searchTheme
 
     private val _categoryCheckList = MutableLiveData<List<CategoryDto>>()
     val categoryCheckList : LiveData<List<CategoryDto>> get() = _categoryCheckList
@@ -139,18 +139,22 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
     fun toggleCategory(id: Int) {
-        _categoryCheckList.value = _categoryCheckList.value?.map {
-            if (it.id == id) it.copy(isChecked = !it.isChecked)
-            else it
+        var updateList = _categoryCheckList.value
+        updateList?.apply {
+            map { if(it.id == id ) it.isChecked = !it.isChecked  }
         }
+        Log.d("aa", "toggleCategory: ${updateList}")
+        updateList?.let { _categoryCheckList.value = it}
     }
-    fun resetCheck(){
+    fun resetCheck() {
+        Log.d("ResetCheck", "Updated list: ${_categoryCheckList.value}")
         val updatedList = _categoryCheckList.value?.map { item ->
             item.copy(isChecked = false)
         }
         updatedList?.let {
-            _categoryCheckList.value = it
+            _categoryCheckList.value = it.toList()
         }
+        Log.d("ResetCheck", "Updated list: ${_categoryCheckList.value}")
     }
     fun updateCategory(){
         _searchTheme.value = emptyList()

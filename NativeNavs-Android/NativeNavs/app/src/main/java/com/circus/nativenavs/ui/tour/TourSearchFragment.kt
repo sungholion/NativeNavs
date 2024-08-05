@@ -38,7 +38,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 
-class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourSearchBinding::bind,R.layout.fragment_tour_search) {
+class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
+    FragmentTourSearchBinding::bind,
+    R.layout.fragment_tour_search
+) {
 
     private var travelIsExpanded = true
     private var dateIsExpanded = true
@@ -49,9 +52,12 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
 
     private lateinit var homeActivity: HomeActivity
 
-    private val homeActivityViewModel : HomeActivityViewModel by activityViewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
 
     private lateinit var categoryAdapter: TourCategoryAdapter
+
+
+    private lateinit var currentList : List<CategoryDto>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,18 +72,21 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         initView()
-        initAdaper()
+        initAdapter()
         initSearchTravelBtn()
         initEvent()
         initCalendar(CalendarDay.today().month)
-        homeActivityViewModel.searchTravel.observe(viewLifecycleOwner){ it->
-            binding.tourSearchTravelTitleContentTv.text = it
-        }
-        homeActivityViewModel.searchDate.observe(viewLifecycleOwner){ it->
-            binding.tourSearchDateTitleContentTv.text = it
+        homeActivityViewModel.apply {
+            searchTravel.observe(viewLifecycleOwner) { it ->
+                binding.tourSearchTravelTitleContentTv.text = it
+            }
+            searchDate.observe(viewLifecycleOwner) { it ->
+                binding.tourSearchDateTitleContentTv.text = it
+            }
         }
     }
-    private fun initView(){
+
+    private fun initView() {
         binding.apply {
             tourSearchTravelTitleContentTv.text = homeActivityViewModel.searchTravel.value
             tourSearchDateTitleContentTv.text = homeActivityViewModel.searchDate.value
@@ -91,30 +100,30 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
             initCalendar(date.month)
         }
 
-    }
-    fun initAdaper(){
-
-
-            categoryAdapter = TourCategoryAdapter({ category, isChecked ->
-                homeActivityViewModel.toggleCategory(category.id)
-            },SharedPref.language == "ko")
-        Log.d("a", "initAdaper: ${SharedPref.language == "ko"}")
-            binding.tourSearchThemeRv.adapter = categoryAdapter
-
         homeActivityViewModel.categoryCheckList.observe(viewLifecycleOwner){
-            // Submit the list of categories to the adapter
-            categoryAdapter.submitList(it)
+            categoryAdapter.submitList(it.toList())
+            Log.d("reset", "initView: $it")
         }
+    }
+
+    fun initAdapter() {
+
+        categoryAdapter = TourCategoryAdapter({ category, isChecked ->
+            Log.d("a", "initAdaper: ${category.id}")
+            homeActivityViewModel.toggleCategory(category.id)
+        }, SharedPref.language == "ko")
+        binding.tourSearchThemeRv.adapter = categoryAdapter
 
     }
 
 
     @SuppressLint("DefaultLocale")
-    private fun initCalendar(month : Int){
+    private fun initCalendar(month: Int) {
         binding.calendarView.apply {
             setHeaderTextAppearance(R.style.CalendarWidgetHeader)
-            addDecorators(SundayDecorator(), SaturdayDecorator(),
-                CalenderDecorator(requireContext()),SelectedMonthDecorator(month)
+            addDecorators(
+                SundayDecorator(), SaturdayDecorator(),
+                CalenderDecorator(requireContext()), SelectedMonthDecorator(month)
             )
             setDateTextAppearance(R.style.CalenderViewCustom)
             setWeekDayTextAppearance(R.style.CalenderViewCustom)
@@ -137,6 +146,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
             }
         }
     }
+
     private fun initEvent() {
         binding.apply {
             tourSearchBtn.setOnClickListener {
@@ -152,11 +162,18 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
                 findNavController().popBackStack()
             }
             tourSearchResetTv.setOnClickListener {
+
                 homeActivityViewModel.apply {
+                    resetCheck()
+                    binding.apply {
+                        searchEditText.setText("")
+                        calendarView.isSelected = false
+                    }
+
                     updateSearchTravel("")
                     updateSearchDate("")
                     updateCategory()
-                    resetCheck()
+                    categoryAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -191,7 +208,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         }
     }
 
-    private fun travelClicked(){
+    private fun travelClicked() {
         homeActivityViewModel.updateSearchTravel(binding.searchEditText.text.toString())
         travelIsExpanded = !travelIsExpanded
         dateIsExpanded = true
@@ -199,7 +216,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         toggleExpandableLayout()
     }
 
-    private fun dateClicked(){
+    private fun dateClicked() {
         homeActivityViewModel.updateSearchTravel(binding.searchEditText.text.toString())
         dateIsExpanded = !dateIsExpanded
         travelIsExpanded = true
@@ -207,7 +224,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         toggleExpandableLayout()
     }
 
-    private fun themeClicked(){
+    private fun themeClicked() {
         homeActivityViewModel.updateSearchTravel(binding.searchEditText.text.toString())
         themeIsExpanded = !themeIsExpanded
         travelIsExpanded = true
@@ -215,14 +232,15 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         toggleExpandableLayout()
     }
 
-    private fun initSearchTravelBtn(){
+    private fun initSearchTravelBtn() {
         popularButtons = listOf(
             binding.buttonSeoul,
             binding.buttonIncheon,
             binding.buttonDaejeon,
             binding.buttonDaegu,
             binding.buttonGwangju,
-            binding.buttonBusan)
+            binding.buttonBusan
+        )
 
         binding.tourSearchTravelLl.setOnClickListener {
             travelClicked()
@@ -232,6 +250,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         }
 
         binding.tourSearchThemeLl.setOnClickListener {
+
             themeClicked()
         }
 
@@ -243,25 +262,25 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     }
 
     private fun toggleExpandableLayout() {
-            // 여행 검색창
-            if (travelIsExpanded) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    collapse(binding.tourSearchTravelContentLayout)
-                    delay(200)
-                    binding.tourSearchTravelLl.visibility = VISIBLE
-                }
-            } else {
-                binding.tourSearchTravelLl.visibility = GONE
-                expand(binding.tourSearchTravelContentLayout)
+        // 여행 검색창
+        if (travelIsExpanded) {
+            CoroutineScope(Dispatchers.Main).launch {
+                collapse(binding.tourSearchTravelContentLayout)
+                delay(200)
+                binding.tourSearchTravelLl.visibility = VISIBLE
             }
-            // 날짜 검색창
-            if (dateIsExpanded) {
-                binding.tourSearchDateLl.visibility = VISIBLE
-                collapse(binding.tourSearchDateContentLayout)
-            } else {
-                binding.tourSearchDateLl.visibility = GONE
-                expand(binding.tourSearchDateContentLayout)
-            }
+        } else {
+            binding.tourSearchTravelLl.visibility = GONE
+            expand(binding.tourSearchTravelContentLayout)
+        }
+        // 날짜 검색창
+        if (dateIsExpanded) {
+            binding.tourSearchDateLl.visibility = VISIBLE
+            collapse(binding.tourSearchDateContentLayout)
+        } else {
+            binding.tourSearchDateLl.visibility = GONE
+            expand(binding.tourSearchDateContentLayout)
+        }
 
         // 테마 검색창
         if (themeIsExpanded) {
@@ -299,6 +318,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
             override fun onAnimationEnd(animator: android.animation.Animator) {
                 view.visibility = View.GONE
             }
+
             override fun onAnimationCancel(animator: android.animation.Animator) {}
             override fun onAnimationRepeat(animator: android.animation.Animator) {}
         })
@@ -323,7 +343,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         }
 
         override fun decorate(view: DayViewFacade) {
-            view.addSpan(object: ForegroundColorSpan(Color.RED){})
+            view.addSpan(object : ForegroundColorSpan(Color.RED) {})
         }
     }
 
@@ -335,19 +355,29 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
         }
 
         override fun decorate(view: DayViewFacade) {
-            view.addSpan(object: ForegroundColorSpan(Color.BLUE){})
+            view.addSpan(object : ForegroundColorSpan(Color.BLUE) {})
         }
     }
+
     /* 이번달에 속하지 않지만 캘린더에 보여지는 이전달/다음달의 일부 날짜를 설정하는 클래스 */
-    private inner class SelectedMonthDecorator(val selectedMonth : Int) : DayViewDecorator {
+    private inner class SelectedMonthDecorator(val selectedMonth: Int) : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day.month != selectedMonth
         }
+
         override fun decorate(view: DayViewFacade) {
-            view.addSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.gray_d9d9)))
+            view.addSpan(
+                ForegroundColorSpan(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.gray_d9d9
+                    )
+                )
+            )
         }
     }
-    companion object{
+
+    companion object {
 
     }
 }

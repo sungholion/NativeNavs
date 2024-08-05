@@ -7,4 +7,5 @@ data class CategoryDto(
     val englishName: String,
     var isChecked: Boolean = false
 ) {
+
 }
