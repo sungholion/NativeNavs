@@ -61,7 +61,35 @@ public class ReviewService {
                 reviewImageRepository.save(reviewImage);
             }
         }
+        updateTourReviewStats(tour, reviewRequestDTO.getScore());
+        updateGuideReviewStats(guide, reviewRequestDTO.getScore());
         return review;
+    }
+
+    private void updateTourReviewStats(TourEntity tour, int newScore) {
+        // 리뷰 수 증가
+        int newReviewCount = tour.getReviewCount() + 1;
+        // 새로운 평균 점수 계산
+        float newAverageScore = ((tour.getReviewAverage() * tour.getReviewCount()) + newScore) / newReviewCount;
+        // 업데이트된 값 설정
+        tour.setReviewCount(newReviewCount);
+        tour.setReviewAverage(newAverageScore);
+
+        // 저장
+        tourRepository.save(tour);
+    }
+
+    private void updateGuideReviewStats(UserEntity guide, int newScore) {
+        // 리뷰 수 증가
+        int newReviewCount = guide.getNavReviewCount() + 1;
+        // 새로운 평균 점수 계산
+        float newAverageScore = ((guide.getNavReviewAverage() * guide.getNavReviewCount()) + newScore) / newReviewCount;
+        // 업데이트된 값 설정
+        guide.setNavReviewCount(newReviewCount);
+        guide.setNavReviewAverage(newAverageScore);
+
+        // 저장
+        userRepository.save(guide);
     }
 
     public TourReviewDTO findReviewByTourId(int tourId){
