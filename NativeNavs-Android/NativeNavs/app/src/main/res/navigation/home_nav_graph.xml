@@ -165,7 +165,9 @@
         tools:layout="@layout/fragment_profile_modify" >
         <action
             android:id="@+id/action_profileModifylFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_profileModifylFragment_to_profileLanguageFragment"
             app:destination="@id/profileLanguageFragment" />

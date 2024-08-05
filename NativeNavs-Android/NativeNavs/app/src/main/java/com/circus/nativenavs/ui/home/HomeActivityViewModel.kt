@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.home
 
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,12 @@ class HomeActivityViewModel : ViewModel() {
     private val _userDto = MutableLiveData<ProfileUserDto>()
     val userDto : LiveData<ProfileUserDto> get() = _userDto
 
+    fun updateUserNickName(nick : String){
+        _userDto.value?.nickname = nick
+    }
+    fun updateUserPhone(phone: String){
+        _userDto.value?.phone = phone
+    }
     private val userRetrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     fun getUser(userId : Int){
@@ -37,8 +44,13 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
-    private val _updateStatus = MutableLiveData<Int>()
+    private val _updateStatus = MutableLiveData<Int>(-1)
     val updateStatus : LiveData<Int> get() = _updateStatus
+
+    fun updateStatusCode(i : Int){
+        _updateStatus.value = i
+    }
+
 
     private val _profileModifyUser = MutableLiveData<SignUpDto>()
     val profileUserDto : LiveData<SignUpDto> get() = _profileModifyUser
