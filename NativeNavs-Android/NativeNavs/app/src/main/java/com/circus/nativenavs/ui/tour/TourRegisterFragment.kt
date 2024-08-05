@@ -35,7 +35,21 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
     private var isPageLoaded = false
 
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
-    private lateinit var fileChooserLauncher: ActivityResultLauncher<Intent>
+    private var fileChooserLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (filePathCallback != null) {
+                    filePathCallback?.onReceiveValue(arrayOf(uri!!))
+                    filePathCallback = null
+                }
+            } else {
+                if (filePathCallback != null) {
+                    filePathCallback?.onReceiveValue(null)
+                    filePathCallback = null
+                }
+            }
+        }
 
 
     override fun onAttach(context: Context) {
@@ -54,26 +68,7 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
 
         initCustomView()
         initWebView()
-        initFileChooserLauncher()
 
-    }
-
-    private fun initFileChooserLauncher() {
-        fileChooserLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val uri = result.data?.data
-                    if (filePathCallback != null) {
-                        filePathCallback?.onReceiveValue(arrayOf(uri!!))
-                        filePathCallback = null
-                    }
-                } else {
-                    if (filePathCallback != null) {
-                        filePathCallback?.onReceiveValue(null)
-                        filePathCallback = null
-                    }
-                }
-            }
     }
 
     private fun initCustomView() {
@@ -117,7 +112,7 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
             }
 
         binding.tourRegisterWv.binding.customWebviewTitleWv.webChromeClient =
-            object : WebChromeClient(){
+            object : WebChromeClient() {
                 override fun onShowFileChooser(
                     webView: WebView?,
                     filePathCallback: ValueCallback<Array<Uri>>?,
