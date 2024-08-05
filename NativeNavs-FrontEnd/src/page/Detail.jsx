@@ -26,7 +26,7 @@ const Detail = () => {
     removed: false,
   });
 
-  // axios get 요청을 통해 server로부터 JSON 정보
+  // BE로 API 요청
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -41,7 +41,11 @@ const Detail = () => {
 
     fetchTour();
   }, [params.tour_id]);
+  console.log(tour);
+  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
+  console.log(images);
 
+  // MB로부터 유저 데이터 파싱
   useEffect(() => {
     window.getUserData = (userJson) => {
       console.log("Received user JSON:", userJson);
@@ -120,13 +124,21 @@ const Detail = () => {
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
-      <Carousel
-        images={
-          tour.thumbnailImage
-            ? [tour.thumbnailImage, tour.thumbnailImage, tour.thumbnailImage]
-            : []
-        }
-      />
+      <Carousel images={images} />
+
+      {/* {tour.thumbnailImage && tour.thumbnailImage.length > 1 ? (
+        <Carousel images={tour.thumbnailImage} />
+      ) : (
+        tour.thumbnailImage &&
+        tour.thumbnailImage.length === 1 && (
+          <img
+            className={styles.tour_img}
+            src={tour.thumbnailImage[0]}
+            alt="Tour Thumbnail"
+          />
+        )
+      )} */}
+
       {/* 투어 정보(간략하게) */}
       <section className={styles.tour_info}>
         {/* left */}
