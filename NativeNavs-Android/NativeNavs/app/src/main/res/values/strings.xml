@@ -141,4 +141,9 @@
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
 
+    <!--dialog-->
+    <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
+    <string name="dialog_register_tour_negative">계속 작성</string>
+    <string name="dialog_register_tour_positive">종료</string>
+
 </resources>
