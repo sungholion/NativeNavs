@@ -120,6 +120,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_seoul_btn"
                         android:textOn="@string/search_title_travel_seoul_btn" />
 
@@ -137,6 +138,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Busan_btn"
                         android:textOn="@string/search_title_travel_Busan_btn" />
 
@@ -154,6 +156,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Daegu_btn"
                         android:textOn="@string/search_title_travel_Daegu_btn" />
                     <ToggleButton
@@ -170,6 +173,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Jeju_btn"
                         android:textOn="@string/search_title_travel_Jeju_btn" />
 
@@ -195,6 +199,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Incheon_btn"
                         android:textOn="@string/search_title_travel_Incheon_btn" />
                     <ToggleButton
@@ -211,6 +216,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Daejeon_btn"
                         android:textOn="@string/search_title_travel_Daejeon_btn" />
                     <ToggleButton
@@ -227,6 +233,7 @@
                         android:paddingTop="6dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="6dp"
+                        android:singleLine="true"
                         android:textOff="@string/search_title_travel_Gwangju_btn"
                         android:textOn="@string/search_title_travel_Gwangju_btn" />
 
@@ -330,6 +337,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/font_size_btn_long"
                     android:layout_marginTop="@dimen/font_size_btn_long"
+                    android:layout_marginBottom="10dp"
                     android:text="@string/search_title_theme_tv"
                     android:textSize="30dp" />
 
@@ -340,7 +348,8 @@
                     android:layout_marginStart="@dimen/font_size_btn_long"
                     android:layout_marginEnd="@dimen/font_size_btn_long"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="4" />
+                    app:spanCount="3"
+                    android:layout_marginBottom="10dp"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

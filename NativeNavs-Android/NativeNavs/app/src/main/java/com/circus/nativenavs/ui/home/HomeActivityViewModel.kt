@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -125,27 +126,17 @@ class HomeActivityViewModel : ViewModel() {
     private val _searchDate = MutableLiveData<String>()
     val searchDate : LiveData<String> = _searchDate
 
-    private val _searchTheme = MutableLiveData<String>()
-    val searchTheme : LiveData<String> = _searchTheme
+    private val _searchTheme = MutableLiveData<List<Int>>()
+    val searchTheme : LiveData<List<Int>> = _searchTheme
 
     private val _categoryCheckList = MutableLiveData<List<CategoryDto>>()
     val categoryCheckList : LiveData<List<CategoryDto>> get() = _categoryCheckList
 
     fun updateCategoryList(){
-        _categoryCheckList.value = listOf(
-            CategoryDto(1, "로컬", "1", "local"),
-            CategoryDto(2, "액티비티", "2", "activity"),
-            CategoryDto(3, "자연", "3", "nature"),
-            CategoryDto(4, "역사", "4", "history"),
-            CategoryDto(5, "문화", "5", "culture"),
-            CategoryDto(6, "축제", "6", "festival"),
-            CategoryDto(7, "음식", "7", "food"),
-            CategoryDto(8, "트랜디", "8", "trendy"),
-            CategoryDto(9, "랜드마크", "9", "landmark"),
-            CategoryDto(10, "쇼핑", "10", "shopping"),
-            CategoryDto(11, "미용", "11", "beauty"),
-            CategoryDto(12, "사진", "12", "picture")
-        )
+        viewModelScope.launch {
+            _categoryCheckList.value = userRetrofit.getCategory()
+            Log.d("category", "updateCategoryList: ${_categoryCheckList.value} ")
+        }
     }
     fun toggleCategory(id: Int) {
         _categoryCheckList.value = _categoryCheckList.value?.map {
@@ -153,6 +144,18 @@ class HomeActivityViewModel : ViewModel() {
             else it
         }
     }
+    fun resetCheck(){
+        val updatedList = _categoryCheckList.value?.map { item ->
+            item.copy(isChecked = false)
+        }
+        updatedList?.let {
+            _categoryCheckList.value = it
+        }
+    }
+    fun updateCategory(){
+        _searchTheme.value = emptyList()
+    }
+
     fun updateSearchTravel(travel : String){
         _searchTravel.value = travel
     }
@@ -161,8 +164,12 @@ class HomeActivityViewModel : ViewModel() {
         _searchDate.value = travel
     }
 
-    fun updateSearchTheme(travel : String){
-        _searchTheme.value = travel
+    fun updateSearchTheme(){
+        var list = mutableListOf<Int>()
+        _categoryCheckList.value?.forEach {
+            if(it.isChecked) list.add(it.id)
+        }
+        _searchTheme.value = list
     }
 
 

@@ -26,6 +26,7 @@ import com.circus.nativenavs.databinding.FragmentTourSearchBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.CalenderDecorator
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
@@ -63,7 +64,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        homeActivityViewModel.updateCategoryList()
 
         initView()
         initAdaper()
@@ -95,9 +95,10 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     fun initAdaper(){
 
 
-            categoryAdapter = TourCategoryAdapter { category, isChecked ->
+            categoryAdapter = TourCategoryAdapter({ category, isChecked ->
                 homeActivityViewModel.toggleCategory(category.id)
-            }
+            },SharedPref.language == "ko")
+        Log.d("a", "initAdaper: ${SharedPref.language == "ko"}")
             binding.tourSearchThemeRv.adapter = categoryAdapter
 
         homeActivityViewModel.categoryCheckList.observe(viewLifecycleOwner){
@@ -139,14 +140,24 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(FragmentTourS
     private fun initEvent() {
         binding.apply {
             tourSearchBtn.setOnClickListener {
-                navigate(R.id.action_tourSearchFragment_to_tourListFragment)
+                homeActivityViewModel.let {
+                    it.updateSearchTheme()
+                    Log.d("img", "initEvent: ${it.searchTravel.value}")
+                    Log.d("img", "initEvent: ${it.searchDate.value}")
+                    Log.d("img", "initEvent: ${it.searchTheme.value}")
+                }
+//                navigate(R.id.action_tourSearchFragment_to_tourListFragment)
             }
             tourSearchCloseBtn.setOnClickListener {
                 findNavController().popBackStack()
             }
             tourSearchResetTv.setOnClickListener {
-                homeActivityViewModel.updateSearchTravel("")
-                homeActivityViewModel.updateSearchDate("")
+                homeActivityViewModel.apply {
+                    updateSearchTravel("")
+                    updateSearchDate("")
+                    updateCategory()
+                    resetCheck()
+                }
             }
 
             buttonSeoul.setOnClickListener {

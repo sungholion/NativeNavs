@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.data.CategoryDto
+import com.circus.nativenavs.util.SharedPref
 
 class TourCategoryAdapter(
 private val onCategoryClicked: (CategoryDto, Boolean) -> Unit
-) : ListAdapter<CategoryDto, TourCategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
+,val isKorean : Boolean) : ListAdapter<CategoryDto, TourCategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,12 +30,12 @@ private val onCategoryClicked: (CategoryDto, Boolean) -> Unit
         private val toggleButton: ToggleButton = view.findViewById(R.id.tour_search_category)
 
         fun bind(category: CategoryDto) {
-            toggleButton.textOn = category.name
-            toggleButton.textOff = category.name
+            toggleButton.textOn = if(isKorean) category.name else category.englishName
+            toggleButton.textOff = if(isKorean) category.name else category.englishName
             toggleButton.isChecked = category.isChecked // Set the initial checked state
 
             // Update button background based on checked state
-            val background = if (!category.isChecked) {
+            val background = if (!toggleButton.isChecked ) {
                 R.drawable.stroke_round_circle_gray_d9d9 // or use a color
             } else {
                 R.drawable.shape_track_on // or use a color
