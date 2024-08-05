@@ -97,7 +97,20 @@ public class TourService {
         for (TourEntity tourEntity: tourEntityList){
             UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
             UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-            tourDTOList.add(TourDTO.toTourDTO(tourEntity,userDTO));
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
+            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+                    .map(plan -> new PlanDTO(
+                            plan.getId(),
+                            plan.getField(),
+                            plan.getDescription(),
+                            plan.getImage(),
+                            plan.getLatitude(),
+                            plan.getLongitude(),
+                            plan.getAddressFull()))
+                    .collect(Collectors.toList());
+            tourDTO.setPlans(planDTOs);
+
+            tourDTOList.add(tourDTO);
         }
         return tourDTOList;
     }
@@ -209,15 +222,12 @@ public class TourService {
         if (location != null && !location.isEmpty()) {
             spec = spec.and(TourSpecification.hasLocationContaining(location));
         }
-
         if (date != null) {
             spec = spec.and(TourSpecification.isDateInRange(date));
         }
-
         if (categoryId != null) {
             spec = spec.and(TourSpecification.hasCategory(categoryId));
         }
-
         List<TourEntity> tourEntities = tourRepository.findAll(spec);
         return tourEntities.stream()
                 .map(tourEntity->{
