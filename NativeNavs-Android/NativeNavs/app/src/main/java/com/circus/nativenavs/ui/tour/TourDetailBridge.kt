@@ -26,6 +26,12 @@ class TourDetailBridge(
         Log.d(TAG, "navigateToReviewListFragment: $tourId")
     }
 
+    @JavascriptInterface
+    fun navigateToTourModifyFragment(tourId: Int) {
+        fragment.navigateToTourModifyFragment(tourId)
+        Log.d(TAG, "navigateToTourModifyFragment: $tourId")
+    }
+
     fun sendUserData(user: UserDto) {
         val gson = Gson()
         val json = gson.toJson(user)

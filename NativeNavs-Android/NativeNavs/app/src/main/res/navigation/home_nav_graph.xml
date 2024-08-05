@@ -113,6 +113,9 @@
         <action
             android:id="@+id/action_tourDetailFragment_to_chattingRoomFragment"
             app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourModifyFragment"
+            app:destination="@id/tourModifyFragment" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
@@ -287,5 +290,14 @@
         <action
             android:id="@+id/action_profileLanguageFragment_to_profileModifylFragment"
             app:destination="@id/profileModifylFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourModifyFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourModifyFragment"
+        android:label="TourModifyFragment"
+        tools:layout="@layout/fragment_tour_modify">
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
     </fragment>
 </navigation>

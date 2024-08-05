@@ -142,6 +142,12 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         navigate(action)
     }
 
+    fun navigateToTourModifyFragment(tourId: Int) {
+        val action =
+            TourDetailFragmentDirections.actionTourDetailFragmentToTourModifyFragment(tourId)
+        navigate(action)
+    }
+
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
