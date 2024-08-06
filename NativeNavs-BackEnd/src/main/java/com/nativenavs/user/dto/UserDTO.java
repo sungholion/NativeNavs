@@ -1,6 +1,5 @@
 package com.nativenavs.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nativenavs.user.entity.UserEntity;
 import lombok.*;
 
@@ -13,9 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    private int id;
+    private int id; // int or long
     private String email;
-
     private String password;
     private String name;
     private String nickname;
