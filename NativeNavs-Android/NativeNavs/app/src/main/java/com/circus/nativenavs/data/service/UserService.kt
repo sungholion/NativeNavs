@@ -1,5 +1,6 @@
 package com.circus.nativenavs.data.service
 
+import com.circus.nativenavs.data.CategoryDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.data.LoginResponse
@@ -61,6 +62,10 @@ interface UserService {
     suspend fun updateUser(
         @Body signUpDTO: SignUpDto
     ):Response<Void>
+
     @DELETE("users/delete")
     suspend fun deleteUser():Response<Void>
+
+    @GET("tours/category")
+    suspend fun getCategory():List<CategoryDto>
 }
