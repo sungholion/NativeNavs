@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.mypage
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,7 @@ import com.circus.nativenavs.databinding.FragmentMypageBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.login.LoginActivity
+import com.circus.nativenavs.ui.qr.QRScanActivity
 import com.circus.nativenavs.util.LOGOUT
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
@@ -104,6 +106,10 @@ class MypageFragment :
 
             builder.show()
         }
+        binding.mypageQrTestCl.setOnClickListener {
+            activity?.startActivity(Intent(requireContext(), QRScanActivity::class.java))
+        }
     }
+
 
 }

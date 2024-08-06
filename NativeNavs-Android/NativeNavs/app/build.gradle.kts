@@ -72,4 +72,8 @@ dependencies {
         exclude(group = "com.android.support", module = "support-compat")
     }
     implementation(libs.threetenabp)
+
+    //QR
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
 }
