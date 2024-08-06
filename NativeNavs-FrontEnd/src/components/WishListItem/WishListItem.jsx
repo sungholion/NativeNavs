@@ -33,10 +33,10 @@ const WishListItem = () => {
               return (
                 <div key={tour.tour_id}>
                   <Tour_Item
-                    navigateToTourDetailFragment={navigateToWishDetailFragment}
+                    navigateFragment={navigateToWishDetailFragment}
                     key={tour.tour_id}
-                    tour_id={tour.tour_id}
-                    user_id={tour.user_id}
+                    tourId={tour.tour_id}
+                    userId={tour.user_id}
                     title={tour.title}
                     thumbnail_image={tour.image || thumbnail_image}
                     start_date={formattedStartDate}

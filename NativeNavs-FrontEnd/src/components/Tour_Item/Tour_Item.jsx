@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import { getStaticImage } from "@/utils/get-static-image";
+import Carousel from "@/components/Carousel/Carousel.jsx";
 
 const Tour_Item = ({
   tourId,
@@ -14,22 +13,21 @@ const Tour_Item = ({
   endDate,
   reviewAverage,
   nav_profile_img,
-  nav_nickname,
-  navigateToTourDetailFragment,
+  nickname,
+  navigateFragment,
   user, // 추가: user 정보를 props로 받음
+  wishList,
 }) => {
-  const navigate = useNavigate();
-  const [isWishListed, setIsWishListed] = useState(false);
+  const [isWishListed, setIsWishListed] = useState(
+    wishList ? wishList.includes(tourId) : false
+  );
 
+  // const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
-    if (user) {
-      // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
-      navigateToTourDetailFragment(tourId, user.userId);
-    } else {
-      console.error("User 정보가 없습니다.");
-    }
+    // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
+    navigateFragment(parseInt(tourId), parseInt(userId));
   };
 
   // 위시리스트 이벤트
@@ -43,11 +41,20 @@ const Tour_Item = ({
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
+
+        {/* <Carousel images={images} /> */}
+        {/* {images.length > 1 ? (
+          // <Carousel images={images} />
+        ) : (
+          <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
+        )} */}
+
         <div className={styles.heart_container}>
           <Heart
             isWishListed={isWishListed}
             setIsWishListed={setIsWishListed}
             onClickEvent={toggleWishlist}
+            wishList={wishList}
           />
         </div>
       </div>
@@ -68,11 +75,11 @@ const Tour_Item = ({
             {/* Nav 프로필 이미지 */}
             <img
               src={nav_profile_img}
-              alt={nav_nickname}
+              alt={nickname}
               className={styles.nav_img}
             />
             {/* Nav 닉네임 */}
-            <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
+            <p style={{ cursor: "pointer" }}>{nickname}</p>
           </div>
         </div>
       </section>

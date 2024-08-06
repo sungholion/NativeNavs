@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom";
 const Trav = () => {
   return (
     <div>
-      Trav
       <Outlet />
     </div>
   );

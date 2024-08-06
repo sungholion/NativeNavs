@@ -1,0 +1,22 @@
+/* .ReservationList {
+
+} */
+
+/* .upcomingTourList {
+
+} */
+
+.TourListTitle {
+  font-weight: bold;
+}
+
+.completedTourList {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.completedTourList > div {
+  margin-bottom: 20px;
+}
+

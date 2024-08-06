@@ -7,10 +7,10 @@ import { navigateToTourDetailFragment } from "../utils/get-android-function";
 const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
+  const [wishList, setWishList] = useState(null);
 
-  // axios get 요청을 통해 server로부터 JSON 정보
   useEffect(() => {
-    // useEffect 안에서 비동기(async) 함수를 정의
+    console.log("useEffect - fetchTours");
     const fetchTours = async () => {
       try {
         const response = await axios.get(
@@ -21,10 +21,31 @@ const Main = () => {
         console.error("Error fetching tours:", error);
       }
     };
-
-    // 정의한 비동기 함수를 즉시 호출
     fetchTours();
   }, []);
+
+  useEffect(() => {
+    const fetchWishLists = async () => {
+      if (user && user.isNav == false) {
+        try {
+          const response = await axios.get(
+            "https://i11d110.p.ssafy.io/api/wishlist",
+            {
+              headers: {
+                Authorization: `Bearer ${user.userToken}`,
+                accept: "application/json",
+              },
+            }
+          );
+          console.log("Fetched wishlist data:", response.data);
+          setWishList(response.data.map((item) => item.id));
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchWishLists();
+  }, [user]);
 
   // android로부터 유저 정보를 수신 및 파싱
   useEffect(() => {
@@ -33,15 +54,21 @@ const Main = () => {
       try {
         const parsedUser = JSON.parse(userJson);
         console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
+        console.log(`Token: ${parsedUser.userToken}`);
         console.log(`isNav: ${parsedUser.isNav}`);
         setUser(parsedUser);
       } catch (error) {
         console.error("Failed to parse user JSON", error);
       }
     };
+
+    if (window.getUserData) {
+      window.getUserData();
+    }
   }, []);
+
+  console.log(tours);
+  console.log(user);
 
   return (
     <div className={styles.main}>
@@ -57,9 +84,11 @@ const Main = () => {
             endDate={new Date(tour.endDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
             reviewAverage={tour.reviewAverage}
             nav_profile_img={tour.thumbnailImage}
-            nav_nickname={tour.userId}
-            navigateToTourDetailFragment={navigateToTourDetailFragment}
+            nickname={tour.user.nickname}
+            plans={tour.plans}
+            navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
+            wishList={wishList}
           />
         ))}
       </div>

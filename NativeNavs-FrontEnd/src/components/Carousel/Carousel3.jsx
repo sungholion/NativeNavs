@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
-import styles from "./Carousel.module.css";
+import styles from "./Carousel3.module.css";
 
 const StyledSlider = styled(Slider)`
   .slick-slide {
@@ -25,7 +25,7 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-export default function Carousel({ images }) {
+export default function Carousel3({ images }) {
   const settings = {
     centerMode: false,
     infinite: true,
@@ -37,8 +37,6 @@ export default function Carousel({ images }) {
     adaptiveHeight: false,
     variableWidth: false, // Set to false to make slides have equal width
   };
-
-  console.log(images)
 
   return (
     <div className={styles.carouselContainer}>
