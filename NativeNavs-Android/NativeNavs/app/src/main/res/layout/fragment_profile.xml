@@ -6,6 +6,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.profile.ProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,8 +34,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -61,6 +62,7 @@
                                     android:id="@+id/profile_user_iv"
                                     android:layout_width="100dp"
                                     android:layout_height="100dp"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/logo_nativenavs" />
                             </androidx.cardview.widget.CardView>
 
@@ -76,15 +78,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="top|center"
-                                android:minHeight="0dp"
-                                android:minWidth="0dp"
-                                android:paddingTop="4dp"
-                                android:paddingBottom="4dp"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="8dp"
                                 android:layout_marginTop="5dp"
                                 android:background="@drawable/stroke_round_25_blue"
                                 android:fontFamily="@font/pretendard_regular"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="4dp"
+                                android:paddingEnd="8dp"
+                                android:paddingBottom="4dp"
                                 android:text="@string/app_bar_profile_modify"
                                 android:textColor="@color/nn_blue"
                                 android:textSize="15sp" />
@@ -97,45 +99,45 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_bold"
-                        android:textSize="20sp"
                         android:text="안드류"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/profile_user_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_medium"
-                        android:textSize="15sp"
                         android:text="Trav"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/profile_user_nation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_regular"
-                        android:textSize="12sp"
                         android:text="거주지 : 미국"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/profile_user_language"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_regular"
-                        android:textSize="12sp"
                         android:text="언어 : 영어"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/profile_user_use_num"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_regular"
-                        android:textSize="12sp"
                         android:text="이용 횟수 : 61회"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -148,6 +150,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_cv">
+
                 <LinearLayout
                     android:id="@+id/profile_review_ll"
                     android:layout_width="match_parent"
@@ -158,7 +161,7 @@
                         style="@style/medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="@dimen/margin_horizontal_page"
                         android:text="@string/profile_myreview"
                         android:textSize="@dimen/font_size_profile_title" />
 
@@ -173,9 +176,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/item_profile_review"/>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_profile_review" />
             </LinearLayout>
 
             <LinearLayout
@@ -198,7 +201,7 @@
                         style="@style/medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="@dimen/margin_horizontal_page"
                         android:text="@string/profile_mystamp"
                         android:textSize="@dimen/font_size_profile_title" />
 
@@ -217,21 +220,21 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/sample_stamp"/>
+                        android:src="@drawable/sample_stamp" />
 
                     <ImageView
                         android:id="@+id/profile_stamp_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/sample_stamp"/>
+                        android:src="@drawable/sample_stamp" />
 
                     <ImageView
                         android:id="@+id/profile_stamp_3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/sample_stamp"/>
+                        android:src="@drawable/sample_stamp" />
                 </LinearLayout>
             </LinearLayout>
 

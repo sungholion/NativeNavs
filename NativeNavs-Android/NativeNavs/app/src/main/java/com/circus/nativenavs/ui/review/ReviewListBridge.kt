@@ -4,8 +4,10 @@ import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.trip.MyTripFragment
+import com.google.gson.Gson
 import kotlin.math.log
 
 private const val TAG = "ReviewListBridge"
@@ -34,4 +36,24 @@ class ReviewListBridge(
         fragment.navigateToTravReviewPhotoFragment(travId)
         Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
     }
+
+
+    fun sendUserData(user: UserDto) {
+        val gson = Gson()
+        val json = gson.toJson(user)
+        val script = "javascript:getUserData('$json');"
+        Log.d(TAG, "sendUserData: $script")
+        evaluateWebViewFunction(script) { result ->
+            Log.d(TAG, "sendUserData: $result")
+        }
+
+    }
+
+    private fun evaluateWebViewFunction(
+        script: String,
+        callback: ((String) -> Unit)? = null,
+    ) {
+        return webView.evaluateJavascript(script, callback)
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.tour
+package com.circus.nativenavs.ui.review
 
 import android.util.Log
 import android.webkit.JavascriptInterface
@@ -7,30 +7,12 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
 
-private const val TAG = "싸피_TourDetailBridge"
-
-class TourDetailBridge(
+private const val TAG = "ReviewPhotoBridge"
+class ReviewPhotoBridge(
     private val homeActivity: HomeActivity,
-    private val fragment: TourDetailFragment,
+    private val fragment: ReviewPhotoFragment,
     private val webView: WebView
 ) {
-    @JavascriptInterface
-    fun navigateToNavProfileFragment(navId: Int) {
-        fragment.navigateToNavProfileFragment(navId)
-        Log.d(TAG, "navigateToNavProfileFragment: $navId")
-    }
-
-    @JavascriptInterface
-    fun navigateToReviewListFragment(tourId: Int) {
-        fragment.navigateToReviewListFragment(tourId)
-        Log.d(TAG, "navigateToReviewListFragment: $tourId")
-    }
-
-    @JavascriptInterface
-    fun navigateToTourModifyFragment(tourId: Int) {
-        fragment.navigateToTourModifyFragment(tourId)
-        Log.d(TAG, "navigateToTourModifyFragment: $tourId")
-    }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()

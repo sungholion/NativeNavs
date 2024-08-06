@@ -14,6 +14,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpEmailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.util.isPasswordValid
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import java.util.regex.Pattern
@@ -101,11 +102,6 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         binding.signupPwEt.isEnabled = false
     }
 
-    private fun isPasswordValid(password: String): Boolean {
-        val passwordRegex = "^(?=.*[a-zA-Z0-9])(?=.*[\\W_])[a-zA-Z0-9\\W_]{8,20}\$"
-        return password.matches(passwordRegex.toRegex())
-    }
-
     private fun initEvent() {
         var email = ""
         var code = ""
@@ -145,31 +141,33 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
         }
 
+        binding.signupEmailNextBtn.isEnabled =true
         binding.signupEmailNextBtn.setOnClickListener {
-            email = binding.signupEmailEt.text.toString()
-            password = binding.signupPwEt.text.toString()
-            val passwordCheck = binding.signupPwCheckEt.text.toString()
-
-            binding.signupPwValidTv.visibility = INVISIBLE
-            binding.signupPwHelpTv.visibility = VISIBLE
-            binding.signupPwCheckHelpTv.visibility = VISIBLE
-            binding.signupPwCheckValidTv.visibility = INVISIBLE
-
-            if(!isPasswordValid(password)){
-                binding.signupPwValidTv.visibility = VISIBLE
-                binding.signupPwHelpTv.visibility = INVISIBLE
-            }
-            else{
-                if(password != passwordCheck){
-                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
-                    binding.signupPwCheckValidTv.visibility = VISIBLE
-                }
-                else{
-                    signUpViewModel.updateEmail(email)
-                    signUpViewModel.updatePassword(password)
-                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
-                }
-            }
+            navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
+//            email = binding.signupEmailEt.text.toString()
+//            password = binding.signupPwEt.text.toString()
+//            val passwordCheck = binding.signupPwCheckEt.text.toString()
+//
+//            binding.signupPwValidTv.visibility = INVISIBLE
+//            binding.signupPwHelpTv.visibility = VISIBLE
+//            binding.signupPwCheckHelpTv.visibility = VISIBLE
+//            binding.signupPwCheckValidTv.visibility = INVISIBLE
+//
+//            if(!isPasswordValid(password)){
+//                binding.signupPwValidTv.visibility = VISIBLE
+//                binding.signupPwHelpTv.visibility = INVISIBLE
+//            }
+//            else{
+//                if(password != passwordCheck){
+//                    binding.signupPwCheckHelpTv.visibility = INVISIBLE
+//                    binding.signupPwCheckValidTv.visibility = VISIBLE
+//                }
+//                else{
+//                    signUpViewModel.updateEmail(email)
+//                    signUpViewModel.updatePassword(password)
+//                    navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
+//                }
+//            }
         }
     }
 

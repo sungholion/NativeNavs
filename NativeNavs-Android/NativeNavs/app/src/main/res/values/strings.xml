@@ -42,8 +42,10 @@
     <string name="profile_nation">거주지:</string>
     <string name="profile_user_language">언어:</string>
     <string name="profile_user_use">이용횟수:</string>
-    
-    
+    <string name="profile_password_message">비밀번호 양식을 확인해주세요</string>
+    <string name="profile_password_check_message">비밀번호를 정확하게 기입해주세요</string>
+    <string name="profile_nickname_check">닉네임 중복 확인 버튼을 눌러주세요</string>
+
     <!--sign-->
     <string name="sign_next">다음</string>
     <string name="sign_email">이메일</string>
@@ -98,6 +100,10 @@
     <string name="search_bar_title">원하는 Travel이 있나요?</string>
     <string name="search_bar_content">검색을 해서 다양한 Navs를 찾아보세요</string>
 
+    <!--tour detail-->
+    <string name="tour_detail_chat">1:1 문의하기</string>
+    <string name="tour_detail_reservation">예약현황</string>
+
     <!--booking-->
     <string name="booking_page_title">예약하기</string>
     <string name="booking_detail_page_title">예약 상세보기</string>
@@ -135,4 +141,44 @@
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
 
+    <!--search bar-->
+    <string name="search_title_travel">여행</string>
+    <string name="search_title_date">날짜</string>
+    <string name="search_title_travel_tv">여행지를 알려주세요</string>
+    <string name="search_title_popular_travel_tv">인기 여행지</string>
+    <string name="search_title_travel_seoul_btn">서울</string>
+    <string name="search_title_travel_Incheon_btn">인천</string>
+    <string name="search_title_travel_Daegu_btn">대구</string>
+    <string name="search_title_travel_Daejeon_btn">대전</string>
+    <string name="search_title_travel_Gwangju_btn">광주</string>
+    <string name="search_title_travel_Busan_btn">부산</string>
+    <string name="search_title_travel_Jeju_btn">제주</string>
+    <string name="search_title_theme">테마</string>
+    <string name="search_title_theme_tv">테마를 선택하세요</string>
+    <string name="search_reset_btn">초기화</string>
+    <string name="search_search_btn">검색</string>
+    <!--dialog-->
+    <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
+    <string name="dialog_cancel_modify_tour">투어 수정을 종료하시겠습니까?</string>
+    <string name="dialog_cancel_register_review">리뷰 작성을 종료하시겠습니까?</string>
+    <string name="dialog_register_tour_negative">계속 작성</string>
+    <string name="dialog_register_tour_positive">종료</string>
+    <string name="dialog_register_fail">투어 등록에 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="dialog_modify_fail">투어 수정에 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="dialog_register_review_fail">리뷰 등록에 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="dialog_confirm">확인</string>
+
+
+    <!--Dialog-->
+    <string name="dialog_pass_title">비밀번호 입력</string>
+    <string name="dialog_pass_content">비밀번호를 입력해주세요</string>
+    <string name="dialog_user_delete_title">회원 탈퇴</string>
+    <string name="dialog_user_delete_content">정말로 회원 탈퇴를 하시겠습니까</string>
+    <string name="dialog_ok_btn">확인</string>
+    <string name="dialog_cancel_btn">취소</string>
+
+
+    <!--etc-->
+    <string name="success">성공</string>
+    <string name="fail">실패</string>
 </resources>

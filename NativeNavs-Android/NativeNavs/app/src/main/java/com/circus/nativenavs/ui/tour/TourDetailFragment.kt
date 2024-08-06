@@ -1,12 +1,14 @@
 package com.circus.nativenavs.ui.tour
 
 import android.content.Context
+import android.graphics.Path.Direction
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -14,8 +16,10 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlin.math.log
 
 private const val TAG = "싸피_TourDetailFragment"
 
@@ -38,9 +42,43 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
         initBridge()
         initCustomView()
         initWebView()
+        initEvent()
+    }
+
+    private fun initView() {
+        if (SharedPref.isNav!!) {
+            if (args.navId == SharedPref.userId) {
+                binding.tourDetailBottomCl.visibility = View.VISIBLE
+                binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_reservation)
+            } else {
+                binding.tourDetailBottomCl.visibility = View.GONE
+            }
+        } else {
+            binding.tourDetailBottomCl.visibility = View.VISIBLE
+            binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_chat)
+        }
+    }
+
+    private fun initEvent() {
+        binding.tourDetailBottomBtn.setOnClickListener {
+            val action: NavDirections
+            if (SharedPref.isNav!!) {
+                action =
+                    TourDetailFragmentDirections.actionTourDetailFragmentToMyTripReservationListFragment(
+                        args.tourId
+                    )
+            } else {
+                action =
+                    TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
+                        chatId = 0
+                    )
+            }
+            navigate(action)
+        }
     }
 
     private fun initWebView() {
@@ -49,7 +87,13 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(1, "use token", true))
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
                 }
             }
 
@@ -87,6 +131,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToNavProfileFragment(navId: Int) {
+        Log.d(TAG, "navigateToNavProfileFragment: $navId")
         val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(navId)
         navigate(action)
     }
@@ -94,6 +139,12 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     fun navigateToReviewListFragment(tourId: Int) {
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToReviewListFragment(tourId)
+        navigate(action)
+    }
+
+    fun navigateToTourModifyFragment(tourId: Int) {
+        val action =
+            TourDetailFragmentDirections.actionTourDetailFragmentToTourModifyFragment(tourId)
         navigate(action)
     }
 

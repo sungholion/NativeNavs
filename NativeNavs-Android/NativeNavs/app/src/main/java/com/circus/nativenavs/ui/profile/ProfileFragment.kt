@@ -1,6 +1,8 @@
 package com.circus.nativenavs.ui.profile
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +23,9 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+private const val TAG = "ProfileFragment"
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 
@@ -87,7 +91,7 @@ class ProfileFragment :
             else binding.profileModifyBtn.visibility = VISIBLE
 
             binding.profileUserIv.setImageURI(it.image.toUri())
-            binding.profileUserNameTv.text = it.name
+            binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
             binding.profileUserNation.apply {
@@ -114,11 +118,11 @@ class ProfileFragment :
 
                 if (it.isNav) {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_nav_review)
+                        text = it.nickname + getString(R.string.profile_other_nav_review)
                     }
                 } else {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_trav_review)
+                        text = it.nickname + getString(R.string.profile_other_trav_review)
                     }
                 }
             }
@@ -134,9 +138,26 @@ class ProfileFragment :
         }
     }
 
+    private fun checkPassDialog() {
+        val builder = MaterialAlertDialogBuilder(homeActivity)
+        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
+
+        builder.setView(view)
+        builder.setTitle(getString(R.string.dialog_pass_title))
+        builder.setMessage(getString(R.string.dialog_pass_content))
+        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
+            navigate(R.id.action_profileFragment_to_profileModifylFragment)
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
+            // 취소 버튼 클릭 시 수행할 동작
+        }
+        builder.show()
+    }
+
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
-            navigate(R.id.action_profileFragment_to_profileModifylFragment)
+            checkPassDialog()
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {

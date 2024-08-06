@@ -28,7 +28,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+                <ImageView
+                    android:id="@+id/signup_photo_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/icon_photo_add"
+                    android:elevation="1dp"
+                    android:translationZ="2dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/signup_profile_img_cv"
+                    app:layout_constraintEnd_toEndOf="@+id/signup_profile_img_cv" />
                 <androidx.cardview.widget.CardView
                     android:id="@+id/signup_profile_img_cv"
                     android:layout_width="wrap_content"
@@ -44,6 +53,7 @@
                         android:id="@+id/signup_profile_img_iv"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/logo_nativenavs" />
                 </androidx.cardview.widget.CardView>
 
