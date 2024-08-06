@@ -19,6 +19,7 @@ import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.user.service.UserService;
 import com.nativenavs.user.service.UserServiceImpl;
+import com.nativenavs.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
