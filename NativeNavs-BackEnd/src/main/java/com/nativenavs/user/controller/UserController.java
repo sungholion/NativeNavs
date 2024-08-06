@@ -2,6 +2,7 @@ package com.nativenavs.user.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
@@ -149,7 +150,9 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody UserDTO user) {
+            @ModelAttribute UserRequestDTO user
+            //@RequestBody UserDTO user
+            ) {
         try {
             if (userService.checkDuplicatedEmail(user.getEmail())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 email 입니다");
@@ -294,7 +297,9 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody UserDTO updateUserDTO) {
+            @ModelAttribute UserRequestDTO updateUserDTO
+//            @RequestBody UserDTO updateUserDTO
+    ) {
         try {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
