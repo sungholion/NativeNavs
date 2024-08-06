@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,7 +29,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/tours")
 @Tag(name = "tour API", description = "tour")
-public class TourController {
+public class TourController implements Serializable {
     private final TourService tourService;
     private final CategoryService categoryService;
     private final UserService userService;
