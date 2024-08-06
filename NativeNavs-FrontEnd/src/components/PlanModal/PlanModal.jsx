@@ -4,6 +4,7 @@ import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
+import { getImageUrl } from "@/utils/get-image-url";
 
 const center = {
   lat: 37.5642,
@@ -30,24 +31,29 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [mapCenter, setMapCenter] = useState({ lat: 37.5642, lng: 127.00169 });
+  const [planImg, setPlanImg] = useState("");
 
   useEffect(() => {
     if (initData) {
       setPlanData({
         ...initData,
       });
+
+      getImageUrl(initData.image, setPlanImg);
     }
   }, [initData]);
 
   const onChangeEvent = (e) => {
     if (e.target.name === "image") {
       const { files } = e.target;
-      const uploadFile = files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(uploadFile);
-      reader.onloadend = () => {
-        setPlanData({ ...planData, [e.target.name]: reader.result });
-      };
+      if (files) {
+        const uploadFile = files[0];
+        setPlanData({ ...planData, [e.target.name]: uploadFile });
+        getImageUrl(uploadFile, setPlanImg);
+      } else {
+        setPlanData({ ...planData, [e.target.name]: "" });
+        getImageUrl("", setPlanImg);
+      }
     } else {
       setPlanData({ ...planData, [e.target.name]: e.target.value });
     }
@@ -78,7 +84,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           <div className={styles.ModalImg}>
             <label htmlFor="image">
               {planData.image !== "" ? (
-                <img src={planData.image} alt="+" />
+                <img src={planImg} alt="+" />
               ) : (
                 <div className={styles.emptyModalImg}>+</div>
               )}

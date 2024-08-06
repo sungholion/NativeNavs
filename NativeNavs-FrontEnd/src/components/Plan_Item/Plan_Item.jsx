@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Plan_Item.module.css";
 import { getStaticImage } from "@/utils/get-static-image";
+import { getImageUrl } from "@/utils/get-image-url";
 
 // const plan_info = {
 //   id: 2,
@@ -33,6 +34,11 @@ const Plan_Item = ({
   onClickEvent,
   enableDeleteOption = true,
 }) => {
+  const [planImg, setPlanImg] = useState("");
+  useEffect(() => {
+    getImageUrl(image, setPlanImg);
+  }, [image]);
+
   return (
     <div className={styles.Plan_Item}>
       {enableDeleteOption && (
@@ -46,7 +52,7 @@ const Plan_Item = ({
         </div>
       )}
       <div className={styles.content} onClick={onClickEvent}>
-        <img src={image} alt="image" className={styles.plan_img} />
+        <img src={planImg} alt="image" className={styles.plan_img} />
         <div className={styles.text}>
           <div className={styles.field}>{field}</div>
           <div className={styles.description}>{description}</div>
