@@ -1,13 +1,15 @@
 package com.nativenavs.chat.service;
 
-import com.nativenavs.chat.entity.Chat;
-import com.nativenavs.chat.entity.Room;
+import com.nativenavs.chat.dto.ChatDTO;
+import com.nativenavs.chat.entity.ChatEntity;
+import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.chat.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ChatService {
     /**
      * 모든 채팅방 찾기
      */
-    public List<Room> findAllRoom() {
+    public List<RoomEntity> findAllRoom() {
         return roomRepository.findAll();
     }
 
@@ -26,7 +28,7 @@ public class ChatService {
      * 특정 채팅방 찾기
      * @param id room_id
      */
-    public Room findRoomById(Long id) {
+    public RoomEntity findRoomById(int id) {
         return roomRepository.findById(id).orElseThrow();
     }
 
@@ -34,30 +36,45 @@ public class ChatService {
      * 채팅방 만들기
      * @param name 방 이름
      */
-    public Room createRoom(String name) {
-        return roomRepository.save(Room.createRoom(name));
+    public RoomEntity createRoom(String name) {
+        return roomRepository.save(RoomEntity.createRoom(name));
     }
 
     /////////////////
 
-    /**
-     * 채팅 생성
-     * @param roomId 채팅방 id
-     * @param sender 보낸이
-     * @param message 내용
-     */
-    public Chat createChat(Long roomId, String sender, String message) {
-        Room room = roomRepository.findById(roomId).orElseThrow();  //방 찾기 -> 없는 방일 경우 여기서 예외처리
-        return chatRepository.save(Chat.createChat(room, sender, message));
+
+    //채팅 생성
+    public ChatEntity createChat(int roomId, String senderId, String senderNickname, String senderProfileImage, String content) {
+        RoomEntity room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
+
+        return chatRepository.save(ChatEntity.createChat(
+                roomId,
+                senderId,
+                senderNickname,
+                senderProfileImage,
+                content,
+                false // Assuming new messages are not read initially
+        ));
     }
 
     /**
      * 채팅방 채팅내용 불러오기
      * @param roomId 채팅방 id
      */
-    public List<Chat> findAllChatByRoomId(Long roomId) {
-        return chatRepository.findAllByRoomId(roomId);
+    public List<ChatDTO> findAllChatByRoomId(int roomId) {
+        return chatRepository.findAllByRoomId(roomId).stream()
+                .map(chatEntity -> ChatDTO.builder()
+                        .id(chatEntity.getId().toHexString())
+                        .roomId(chatEntity.getRoomId())
+                        .senderId(chatEntity.getSenderId())
+                        .senderNickname(chatEntity.getSenderNickname())
+                        .senderProfileImage(chatEntity.getSenderProfileImage())
+                        .content(chatEntity.getContent())
+                        .isRead(chatEntity.isRead())
+                        .sendTime(chatEntity.getSendTime())
+                        .build())
+                .collect(Collectors.toList());
     }
-
 
 }

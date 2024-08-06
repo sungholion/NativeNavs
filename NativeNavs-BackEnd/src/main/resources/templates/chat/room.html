@@ -95,28 +95,37 @@
 
     //html 에서 입력값, roomId 를 받아서 Controller 로 전달
     function sendChat() {
-        stompClient.send("/send/"+roomId, {},
+        var messageContent = $("#message").val();
+        senderId = $("#sender").val();  // Set the sender's ID
+
+        stompClient.send("/send/" + roomId, {},
             JSON.stringify({
-                'sender': $("#sender").val(),
-                'message' : $("#message").val()
+                'roomId': roomId,
+                'senderId': senderId,
+                'senderNickname': senderId,  // Assuming senderId and senderNickname are the same
+                'senderProfileImage': '',  // Add appropriate field or leave it empty if not used
+                'content': messageContent,
+                'isRead': false,  // New messages are not read initially
+                'sendTime': new Date().getTime()
             }));
+
+        // Optionally, clear the input field after sending the message
+        $("#message").val("");
     }
 
-    //저장된 채팅 불러오기
-    function loadChat(chatList){
-        if(chatList != null) {
-            for(chat in chatList) {
-                $("#chatting").append(
-                    "<tr><td>" + "[" + chatList[chat].sender + "]" + chatList[chat].message + "</td></tr>"
-                );
-            }
+    // 저장된 채팅 불러오기
+    function loadChat(chatList) {
+        if (chatList != null) {
+            chatList.forEach(chat => {
+                showChat(chat);
+            });
         }
     }
 
     //보낸 채팅 보기
     function showChat(chatMessage) {
         $("#chatting").append(
-            "<tr><td>" + "[" + chatMessage.sender + "]" + chatMessage.message + "</td></tr>"
+            "<tr data-id='" + chatMessage.id + "'><td>" + "[" + chatMessage.senderNickname + "] " + chatMessage.content + "</td></tr>"
         );
     }
 
