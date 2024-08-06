@@ -131,7 +131,7 @@ class HomeActivityViewModel : ViewModel() {
 
 
     // search
-    private val _searchTravel = MutableLiveData<String>()
+    private val _searchTravel = MutableLiveData<String>("")
     val searchTravel : LiveData<String> get() = _searchTravel
 
     private val _searchDate = MutableLiveData<String>()
