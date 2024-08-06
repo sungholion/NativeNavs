@@ -7,6 +7,7 @@ import { getStringedDate } from "@/utils/get-stringed-date";
 import { getStringedTime } from "@/utils/get-stringed-time";
 import { getDateObjWithString } from "@/utils/get-date-obj-with-string";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const IMPOSSIBLE_CORD = -1000;
 
@@ -28,7 +29,7 @@ const reducer = (state, action) => {
     case "init":
       return action.data;
     case "date":
-      return { ...state, date: new Date(action.data) };
+      return { ...state, date: action.data };
     case "startAt":
     case "endAt":
       return { ...state, [action.type]: action.data };
@@ -46,10 +47,10 @@ const reducer = (state, action) => {
   }
 };
 
-const ReservationEditor = () => {
+const ReservationEditor = ({ onSubmit }) => {
   const [openMapModal, setToggleMapModal] = useState(false); //맵 지도와 관련된 모달 state
   const [maxParticipants, setMaxParticipants] = useState(10); //최대참가자수
-
+  const params = useParams();
   const openModal = () => {
     setToggleMapModal(true);
   };
@@ -60,14 +61,17 @@ const ReservationEditor = () => {
   useEffect(() => {
     dispatch({
       type: "init",
-      data: initData,
+      data: {
+        ...initData,
+        tourId: params.tour_id,
+      },
     });
-  }, []);
+  }, [params.tour_id]);
 
   const onChangeDate = (e) => {
     dispatch({
       type: "date",
-      data: e.target.value,
+      data: new Date(e.target.value),
     });
   };
 
@@ -175,7 +179,13 @@ const ReservationEditor = () => {
           )}
       </section>
       <section className="Res_ButtonSection">
-        <button onClick={() => {}}>예약하기</button>
+        <button
+          onClick={() => {
+            onSubmit(resInfo);
+          }}
+        >
+          예약하기
+        </button>
       </section>
     </div>
   );

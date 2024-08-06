@@ -15,7 +15,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 7vw;
+    font-size: 5vw;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -32,7 +32,7 @@
 
     input[type="date"] {
       position: relative;
-      font-size: 6vw;
+      font-size: 5vw;
       width: 50vw; /* 전체 너비를 차지하도록 설정 */
       height: 10vw;
       text-align: center;
@@ -59,7 +59,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 7vw;
+    font-size: 5vw;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -83,7 +83,7 @@
       align-items: center;
 
       span {
-        font-size: 6vw;
+        font-size: 5vw;
         margin-right: 10px;
         justify-content: start;
         flex: 1;
@@ -91,7 +91,7 @@
 
       input[type="time"] {
         position: relative;
-        font-size: 6vw;
+        font-size: 5vw;
         width: 37vw; /* 전체 너비를 차지하도록 설정 */
         height: 10vw;
         border-radius: 5px;
@@ -121,7 +121,7 @@
   justify-content: center;
   width: 90vw;
   h4 {
-    font-size: 7vw;
+    font-size: 5vw;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -151,7 +151,7 @@
   justify-content: center;
   width: 90vw;
   h4 {
-    font-size: 7vw;
+    font-size: 5vw;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
