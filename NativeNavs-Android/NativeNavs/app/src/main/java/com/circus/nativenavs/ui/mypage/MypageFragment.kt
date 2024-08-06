@@ -14,6 +14,7 @@ import com.circus.nativenavs.ui.login.LoginActivity
 import com.circus.nativenavs.util.LOGOUT
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MypageFragment :
     BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
@@ -46,14 +47,14 @@ class MypageFragment :
         homeActivityViewModel.withdrawalStatus.observe(viewLifecycleOwner) { statusCode ->
             when (statusCode) {
                 200 -> {
-                    showToast("회원 탈퇴 성공")
+                    showToast(getString(R.string.success))
                     SharedPref.remove(LOGOUT)
                     startActivity(Intent(requireContext(), LoginActivity::class.java))
                     activity?.finish()
                 }
 
                 else -> {
-                    showToast("회원 탈퇴 실패")
+                    showToast(getString(R.string.fail))
                 }
             }
 
@@ -91,7 +92,17 @@ class MypageFragment :
         }
 
         binding.mypageWithdrawalCl.setOnClickListener {
-            homeActivityViewModel.withdrawal()
+            val builder = MaterialAlertDialogBuilder(homeActivity)
+            builder.setTitle(getString(R.string.dialog_user_delete_title))
+            builder.setMessage(getString(R.string.dialog_user_delete_title))
+            builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
+                homeActivityViewModel.withdrawal()
+            }
+            builder.setNegativeButton(getString(R.string.dialog_cancel_btn)){ dialog, which ->
+                dialog.dismiss()
+            }
+
+            builder.show()
         }
     }
 

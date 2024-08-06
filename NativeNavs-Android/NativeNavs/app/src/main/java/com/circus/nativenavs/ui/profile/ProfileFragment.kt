@@ -23,6 +23,7 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
@@ -137,17 +138,17 @@ class ProfileFragment :
     }
 
     private fun checkPassDialog() {
-        val builder = AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(homeActivity)
         val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
 
         builder.setView(view)
-        builder.setTitle("비밀번호 입력")
-        builder.setMessage("비밀번호를 입력해주세요")
-        builder.setPositiveButton("확인") { dialog, which ->
+        builder.setTitle(getString(R.string.dialog_pass_title))
+        builder.setMessage(getString(R.string.dialog_pass_content))
+        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
             navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
 
-        builder.setNegativeButton("취소") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
             // 취소 버튼 클릭 시 수행할 동작
         }
         builder.show()

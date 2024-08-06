@@ -162,4 +162,17 @@
     <string name="dialog_register_tour_negative">계속 작성</string>
     <string name="dialog_register_tour_positive">종료</string>
 
+
+    <!--Dialog-->
+    <string name="dialog_pass_title">비밀번호 입력</string>
+    <string name="dialog_pass_content">비밀번호를 입력해주세요</string>
+    <string name="dialog_user_delete_title">회원 탈퇴</string>
+    <string name="dialog_user_delete_content">정말로 회원 탈퇴를 하시겠습니까</string>
+    <string name="dialog_ok_btn">확인</string>
+    <string name="dialog_cancel_btn">취소</string>
+
+
+    <!--etc-->
+    <string name="success">성공</string>
+    <string name="fail">실패</string>
 </resources>
