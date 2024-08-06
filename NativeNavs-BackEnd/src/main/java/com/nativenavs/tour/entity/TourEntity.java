@@ -1,5 +1,6 @@
 package com.nativenavs.tour.entity;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.tour.dto.TourDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -65,10 +68,14 @@ public class TourEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "tourId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanEntity> plans;
+
+
+    @OneToMany(mappedBy="tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> reservations = new ArrayList<>();
+
     //DTO -> Entity 로 옮겨닮기
     public static TourEntity toSaveEntity(TourDTO tourDTO){
         TourEntity tourEntity = new TourEntity();
-        tourEntity.setUserId(tourDTO.getUserId());
         tourEntity.setTitle(tourDTO.getTitle());
         tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
         tourEntity.setDescription(tourDTO.getDescription());

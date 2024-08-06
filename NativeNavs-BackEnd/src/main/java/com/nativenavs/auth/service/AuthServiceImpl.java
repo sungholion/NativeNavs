@@ -1,6 +1,5 @@
 package com.nativenavs.auth.service;
 
-import com.nativenavs.auth.mapper.AuthMapper;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;

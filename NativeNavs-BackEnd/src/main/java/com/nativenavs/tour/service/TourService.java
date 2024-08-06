@@ -1,24 +1,35 @@
 package com.nativenavs.tour.service;
 
+import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.reservation.service.ReservationService;
+import com.nativenavs.tour.dto.CategoryDTO;
+import com.nativenavs.tour.dto.GuideTourDTO;
 import com.nativenavs.tour.dto.PlanDTO;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.CategoryEntity;
 import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.tour.entity.TourCategoryEntity;
 import com.nativenavs.tour.entity.TourEntity;
-import com.nativenavs.tour.repository.CategoryRepository;
-import com.nativenavs.tour.repository.PlanRepository;
-import com.nativenavs.tour.repository.TourCategoryRepository;
-import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.tour.repository.*;
+import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.entity.UserEntity;
+import com.nativenavs.user.repository.UserRepository;
+import com.nativenavs.user.service.UserService;
+import com.nativenavs.user.service.UserServiceImpl;
+import com.nativenavs.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,9 +47,21 @@ public class TourService {
     private TourCategoryRepository tourCategoryRepository;
     @Autowired
     private PlanRepository planRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private WishlistRepository wishlistRepository;
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
-    public void addTour(TourDTO tourDTO){
+    public void addTour(TourDTO tourDTO, int userId){
         TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
+        tourEntity.setUserId(userId);
+
         TourEntity savedTour = tourRepository.save(tourEntity);
 
         List<Integer> categoryIds = tourDTO.getCategoryIds();
@@ -76,9 +99,24 @@ public class TourService {
     public List<TourDTO> findAllTours(){
         List<TourEntity> tourEntityList = tourRepository.findAll();
         List<TourDTO> tourDTOList = new ArrayList<>();
-        for (TourEntity tourEntity: tourEntityList){
 
-            tourDTOList.add(TourDTO.toTourDTO(tourEntity));
+        for (TourEntity tourEntity: tourEntityList){
+            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
+            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
+            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+                    .map(plan -> new PlanDTO(
+                            plan.getId(),
+                            plan.getField(),
+                            plan.getDescription(),
+                            plan.getImage(),
+                            plan.getLatitude(),
+                            plan.getLongitude(),
+                            plan.getAddressFull()))
+                    .collect(Collectors.toList());
+            tourDTO.setPlans(planDTOs);
+
+            tourDTOList.add(tourDTO);
         }
         return tourDTOList;
     }
@@ -88,7 +126,10 @@ public class TourService {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
+
+            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
+            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
 
             // Fetching categories
             List<Integer> categoryIds = tourEntity.getTourCategories().stream()
@@ -126,9 +167,7 @@ public class TourService {
             tourRepository.save(tourEntity);
         }
     }
-    public void deleteTour(int id){
 
-    }
     private void updateTourEntityFields(TourEntity tourEntity, TourDTO tourDTO) {
         tourEntity.setTitle(tourDTO.getTitle());
         tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
@@ -173,6 +212,7 @@ public class TourService {
                 planEntity.setImage(planDTO.getImage());
                 planEntity.setLatitude(planDTO.getLatitude());
                 planEntity.setLongitude(planDTO.getLongitude());
+                planEntity.setAddressFull(planDTO.getAddressFull());
                 planRepository.save(planEntity);
             }
         }
@@ -182,6 +222,48 @@ public class TourService {
         tourRepository.deleteById(id);
     }
 
+    public List<TourDTO> searchTours(String location, LocalDate date, Integer categoryId) {
+        Specification<TourEntity> spec = Specification.where(null);
 
+        if (location != null && !location.isEmpty()) {
+            spec = spec.and(TourSpecification.hasLocationContaining(location));
+        }
+        if (date != null) {
+            spec = spec.and(TourSpecification.isDateInRange(date));
+        }
+        if (categoryId != null) {
+            spec = spec.and(TourSpecification.hasCategory(categoryId));
+        }
+        List<TourEntity> tourEntities = tourRepository.findAll(spec);
+        return tourEntities.stream()
+                .map(tourEntity->{
+                    UserEntity userEntity = userRepository.findById(tourEntity.getUserId())
+                            .orElseThrow(() -> new NoSuchElementException("User not found"));
+                    // UserDTO로 변환
+                    UserDTO userDTO = UserDTO.toUserDTO(userEntity);
+                    // TourDTO로 변환 및 유저 정보 추가
+                    return TourDTO.toTourDTO(tourEntity, userDTO);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<GuideTourDTO> findToursByGuide(int guideId) {
+        List<TourEntity> tours = tourRepository.findByUserId(guideId);
+        return tours.stream().map(this::convertToGuideTourDTO).collect(Collectors.toList());
+    }
+
+
+    private GuideTourDTO convertToGuideTourDTO(TourEntity tour) {
+        GuideTourDTO dto = new GuideTourDTO();
+        dto.setTourId(tour.getId());
+        dto.setThumbnailImage(tour.getThumbnailImage());
+        dto.setReservationCount(reservationRepository.countByTour(tour));
+        dto.setWishedCount(wishlistRepository.countByTourId(tour.getId()));
+        dto.setTitle(tour.getTitle());
+        dto.setRemoved(tour.isRemoved());
+        dto.setStartDate(tour.getStartDate());
+        dto.setEndDate(tour.getEndDate());
+        return dto;
+    }
 
 }

@@ -20,6 +20,8 @@ class EmailServiceImpl implements EmailService{
 
     private final Map<String, String> authenticationStore = new ConcurrentHashMap<>();  // 이메일과 인증 코드를 임시 저장
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     public void sendAuthenticationCodeEmail(String email) {
         String authenticationCode = generateAuthenticationCode();
         String subject = "인증 코드를 확인해주세요";

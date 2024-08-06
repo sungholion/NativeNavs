@@ -1,5 +1,6 @@
 package com.nativenavs.user.service;
 
+import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.repository.UserRepository;
@@ -26,15 +27,22 @@ public class UserServiceImpl implements UserService {
 
     private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();   // 인증 회원을 임시 저장
 
-
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     public boolean checkDuplicatedEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+
     public boolean checkDuplicatedNickname(String nickname) {
         return userRepository.findByNickname(nickname).isPresent();
+    }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public void addAuthenticatedUser(String email){
+        authenticatedUsers.add(email);
     }
 
     @Override
@@ -44,46 +52,55 @@ public class UserServiceImpl implements UserService {
         }
 
         UserEntity userEntity = UserEntity.toSaveEntity(userDTO);
-        UserEntity savedUser = userRepository.save(userEntity);
-
+        userRepository.save(userEntity);
         authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     @Override
-    public List<UserDTO> searchAllUser() {
+    public List<UserSearchDTO> searchAllUser() {
         List<UserEntity> userEntities = userRepository.findAll();
         return userEntities.stream()
-                .map(UserDTO::toUserDTO)
+                .map(UserSearchDTO::toUserSearchDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDTO searchByEmail(String email) {
+    public UserSearchDTO searchById(int id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        return UserSearchDTO.toUserSearchDTO(userEntity);
+    }
+
+    @Override
+    public UserDTO searchByEmail(String email) {    // 로그인이나 내부에서 필요할 때 password를 포함하여 반환
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return UserDTO.toUserDTO(userEntity);
     }
 
-    @Override
-    public UserDTO searchById(int id) {
-        UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
-        return UserDTO.toUserDTO(userEntity);
+    public UserSearchDTO searchByEmailForClient(String email){  // 사용자가 조회 시, password를 빼고 반환
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
+        return UserSearchDTO.toUserSearchDTO(userEntity);
     }
 
     @Override
-    public UserDTO searchByNickname(String nickname) {
-        UserEntity userEntity = userRepository.findByNickname(nickname)
-                .orElseThrow(() -> new EntityNotFoundException("User with nickname " + nickname + " not found"));
-        return UserDTO.toUserDTO(userEntity);
-    }
-
-    @Override
-    public UserDTO searchByName(String name) {
+    public UserSearchDTO searchByName(String name) {
         UserEntity userEntity = userRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("User with name " + name + " not found"));
-        return UserDTO.toUserDTO(userEntity);
+        return UserSearchDTO.toUserSearchDTO(userEntity);
     }
+
+    @Override
+    public UserSearchDTO searchByNickname(String nickname) {
+        UserEntity userEntity = userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new EntityNotFoundException("User with nickname " + nickname + " not found"));
+        return UserSearchDTO.toUserSearchDTO(userEntity);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Transactional
     @Override
@@ -115,10 +132,14 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(findUserEntity.get());
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void addAuthenticatedUser(String email){
-        authenticatedUsers.add(email);
+    public int changeEmailToId(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
+        return userEntity.getId();
     }
+
 
 }
