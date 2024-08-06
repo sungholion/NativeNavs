@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,30 +38,13 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "리뷰 등록 API", description = "리뷰를 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
-                                        @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                                                description = ".",
-                                                required = true,
-                                                content = @Content(
-                                                        mediaType = "application/json",
-                                                        schema = @Schema(
-                                                                example =  "{\n" +
-                                                                        "  \"tourId\": 1,\n" +
-                                                                        "  \"score\": 4,\n" +
-                                                                        "  \"description\": \"Great tour! The guide was very knowledgeable.\",\n" +
-                                                                        "  \"imageUrls\": [\n" +
-                                                                        "    \"http://example.com/image1.jpg\",\n" +
-                                                                        "    \"http://example.com/image2.jpg\"\n" +
-                                                                        "  ]\n" +
-                                                                        "}"
-                                                        )
-                                                )
-                                        )@RequestBody ReviewRequestDTO reviewDTO){
+                                        @ModelAttribute ReviewRequestDTO reviewDTO){
         try {
             int userId = getUserIdFromJWT(token); // JWT에서 사용자 ID 추출
             UserEntity reviewer = userRepository.findById(userId)
