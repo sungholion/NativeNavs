@@ -137,6 +137,7 @@ public class TourController {
     }
 
     @GetMapping("/search")
+    @Operation(summary = "투어 검색 API", description = "투어를 검색하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))

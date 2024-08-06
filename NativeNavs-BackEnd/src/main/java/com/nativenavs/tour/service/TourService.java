@@ -3,6 +3,12 @@ package com.nativenavs.tour.service;
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.common.service.AwsS3ObjectStorage;
 import com.nativenavs.tour.dto.*;
+import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.reservation.service.ReservationService;
+import com.nativenavs.tour.dto.CategoryDTO;
+import com.nativenavs.tour.dto.GuideTourDTO;
+import com.nativenavs.tour.dto.PlanDTO;
+import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.CategoryEntity;
 import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.tour.entity.TourCategoryEntity;
@@ -48,6 +54,12 @@ public class TourService {
     private UserRepository userRepository;
     @Autowired
     private AwsS3ObjectStorage awsS3ObjectStorageUpload;
+    @Autowired
+    private WishlistRepository wishlistRepository;
+    @Autowired
+    private ReservationService reservationService;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
 
     public void addTour(TourRequestDTO tourRequestDTO, int userId){
@@ -185,6 +197,7 @@ public class TourService {
     private void updateTourCategories(TourEntity tourEntity, List<Integer> categoryIds) {
         // 기존 카테고리 삭제
         tourCategoryRepository.deleteByTourId(tourEntity.getId());
+
         // 새로운 카테고리 추가
         if (categoryIds != null) {
             for (Integer categoryId : categoryIds) {
@@ -252,6 +265,25 @@ public class TourService {
                     return TourDTO.toTourDTO(tourEntity, userDTO);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public List<GuideTourDTO> findToursByGuide(int guideId) {
+        List<TourEntity> tours = tourRepository.findByUserId(guideId);
+        return tours.stream().map(this::convertToGuideTourDTO).collect(Collectors.toList());
+    }
+
+
+    private GuideTourDTO convertToGuideTourDTO(TourEntity tour) {
+        GuideTourDTO dto = new GuideTourDTO();
+        dto.setTourId(tour.getId());
+        dto.setThumbnailImage(tour.getThumbnailImage());
+        dto.setReservationCount(reservationRepository.countByTour(tour));
+        dto.setWishedCount(wishlistRepository.countByTourId(tour.getId()));
+        dto.setTitle(tour.getTitle());
+        dto.setRemoved(tour.isRemoved());
+        dto.setStartDate(tour.getStartDate());
+        dto.setEndDate(tour.getEndDate());
+        return dto;
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Integer> {
     List<ReservationEntity> findByParticipantAndStatusOrderByCreatedAtDesc(UserEntity participant, ReservationStatus status);
-
+    int countByTour(TourEntity tour);
     List<ReservationEntity> findByTourAndGuideAndStatus(TourEntity tourId, UserEntity guide, ReservationStatus status);
     Optional<ReservationEntity> findById(Integer id);
 
