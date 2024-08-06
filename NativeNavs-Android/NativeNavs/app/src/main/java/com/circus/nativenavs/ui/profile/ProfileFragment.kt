@@ -25,6 +25,7 @@ import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+private const val TAG = "ProfileFragment"
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 

@@ -158,7 +158,13 @@
     <string name="search_reset_btn">reset</string>
     <string name="search_search_btn">search</string>
     <string name="search_title_theme_tv">Choose Category</string>
-    <string name="dialog_cancel_register_tour">Are you sure you want to finish creating your tour?</string>
+    <string name="dialog_cancel_register_tour">Are you sure you want to finish registering your tour?</string>
     <string name="dialog_register_tour_positive">Finish</string>
     <string name="dialog_register_tour_negative">Keep Creating</string>
+    <string name="dialog_register_fail">Tour registration failed. Please try again.</string>
+    <string name="dialog_confirm">Got it</string>
+    <string name="dialog_modify_fail">Tour modification failed. Please try again.</string>
+    <string name="dialog_cancel_modify_tour">Are you sure you want to finish modifying your tour?</string>
+    <string name="dialog_cancel_register_review">Are you sure you want to finish registering your review?</string>
+    <string name="dialog_register_review_fail">Review registration failed. Please try again.</string>
 </resources>

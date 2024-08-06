@@ -1,35 +1,30 @@
-package com.circus.nativenavs.ui.tour
+package com.circus.nativenavs.ui.review
 
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.google.gson.Gson
 
-private const val TAG = "싸피_TourDetailBridge"
+private const val TAG = "ReviewRegisterBridge"
 
-class TourDetailBridge(
+class ReviewRegisterBridge(
     private val homeActivity: HomeActivity,
-    private val fragment: TourDetailFragment,
+    private val fragment: ReviewRegisterFragment,
     private val webView: WebView
 ) {
+
     @JavascriptInterface
-    fun navigateToNavProfileFragment(navId: Int) {
-        fragment.navigateToNavProfileFragment(navId)
-        Log.d(TAG, "navigateToNavProfileFragment: $navId")
+    fun moveFromReviewRegisterToReviewListFragment(tourId: Int) {
+        fragment.moveFromReviewRegisterToReviewListFragment(tourId)
+        Log.d(TAG, "moveFromReviewRegisterToReviewListFragment: $tourId")
     }
 
     @JavascriptInterface
-    fun navigateToReviewListFragment(tourId: Int) {
-        fragment.navigateToReviewListFragment(tourId)
-        Log.d(TAG, "navigateToReviewListFragment: $tourId")
-    }
-
-    @JavascriptInterface
-    fun navigateToTourModifyFragment(tourId: Int) {
-        fragment.navigateToTourModifyFragment(tourId)
-        Log.d(TAG, "navigateToTourModifyFragment: $tourId")
+    fun showReviewRegisterFailDialog() {
+        fragment.showReviewRegisterFailDialog()
     }
 
     fun sendUserData(user: UserDto) {
@@ -49,5 +44,4 @@ class TourDetailBridge(
     ) {
         return webView.evaluateJavascript(script, callback)
     }
-
 }

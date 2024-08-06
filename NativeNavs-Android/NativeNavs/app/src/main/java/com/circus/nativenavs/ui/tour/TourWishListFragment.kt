@@ -31,6 +31,12 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
         homeActivity = context as HomeActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(true)
+        isPageLoaded = false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,16 +59,22 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
             setSupportZoom(false)
             domStorageEnabled = true
         }
+
         binding.tourWishListWv.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
                 }
             }
         }
-        binding.tourWishListWv.webViewClient = WebViewClient()
         binding.tourWishListWv.webChromeClient = WebChromeClient()
 
         val url = "https://i11d110.p.ssafy.io/trav/${SharedPref.userId}/wishlist"
@@ -80,12 +92,6 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
 
     fun navigateFromWishToTourListFragment() {
         navigate(R.id.action_tourWishListFragment_to_tourListFragment)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(true)
-        isPageLoaded = false
     }
 
 }

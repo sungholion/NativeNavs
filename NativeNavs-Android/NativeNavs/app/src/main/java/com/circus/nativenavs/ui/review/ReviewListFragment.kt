@@ -17,6 +17,7 @@ import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 
 private const val TAG = "ReviewListFragment"
@@ -59,6 +60,22 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     private fun initWebView() {
+        binding.reviewCustomWv.binding.customWebviewTitleWv.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (!isPageLoaded) {
+                    isPageLoaded = true
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
+                }
+            }
+        }
+
         var url = ""
         if (args.tourId != -1) {
             url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviews"

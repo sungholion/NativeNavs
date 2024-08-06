@@ -62,6 +62,7 @@ interface UserService {
     suspend fun updateUser(
         @Body signUpDTO: SignUpDto
     ):Response<Void>
+
     @DELETE("users/delete")
     suspend fun deleteUser():Response<Void>
 

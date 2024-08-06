@@ -4,14 +4,18 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.databinding.FragmentReviewPhotoBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.popBackStack
 
 private const val TAG = "ReviewPhotoFragment"
@@ -24,6 +28,9 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
     private lateinit var homeActivity: HomeActivity
     private val args: ReviewPhotoFragmentArgs by navArgs()
 
+    private var isPageLoaded = false
+    private lateinit var bridge: ReviewPhotoBridge
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -33,11 +40,33 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         showToast(args.toString())
+        initBridge()
         initCustomView()
         initWebView()
     }
 
+    private fun initBridge() {
+        bridge = ReviewPhotoBridge(homeActivity, this, binding.reviewPhotoCustomWv.binding.customWebviewTitleWv)
+    }
+
     private fun initWebView() {
+        binding.reviewPhotoCustomWv.binding.customWebviewTitleWv.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (!isPageLoaded) {
+                    isPageLoaded = true
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
+                }
+            }
+        }
+
+
         var url = ""
         if (args.tourId != -1) {
             url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviewphotos"
@@ -80,5 +109,6 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
+        isPageLoaded = false
     }
 }

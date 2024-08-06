@@ -7,29 +7,23 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
 
-private const val TAG = "싸피_TourDetailBridge"
+private const val TAG = "TourRegisterBridge"
 
-class TourDetailBridge(
+class TourRegisterBridge(
     private val homeActivity: HomeActivity,
-    private val fragment: TourDetailFragment,
+    private val fragment: TourRegisterFragment,
     private val webView: WebView
 ) {
+
     @JavascriptInterface
-    fun navigateToNavProfileFragment(navId: Int) {
-        fragment.navigateToNavProfileFragment(navId)
-        Log.d(TAG, "navigateToNavProfileFragment: $navId")
+    fun moveFromTourRegisterToTourDetailFragment(tourId: Int, navId: Int) {
+        fragment.moveFromTourRegisterToTourDetailFragment(tourId, navId)
+        Log.d(TAG, "moveFromTourRegisterToTourDetailFragment: $tourId ,$navId")
     }
 
     @JavascriptInterface
-    fun navigateToReviewListFragment(tourId: Int) {
-        fragment.navigateToReviewListFragment(tourId)
-        Log.d(TAG, "navigateToReviewListFragment: $tourId")
-    }
-
-    @JavascriptInterface
-    fun navigateToTourModifyFragment(tourId: Int) {
-        fragment.navigateToTourModifyFragment(tourId)
-        Log.d(TAG, "navigateToTourModifyFragment: $tourId")
+    fun showRegisterFailDialog() {
+        fragment.showRegisterFailDialog()
     }
 
     fun sendUserData(user: UserDto) {
@@ -49,5 +43,4 @@ class TourDetailBridge(
     ) {
         return webView.evaluateJavascript(script, callback)
     }
-
 }

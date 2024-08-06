@@ -19,6 +19,7 @@ import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlin.math.log
 
 private const val TAG = "싸피_TourDetailFragment"
 
@@ -49,12 +50,16 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     private fun initView() {
-        binding.tourDetailBottomBtn.apply {
-            if (SharedPref.isNav!!) {
-                text = getString(R.string.tour_detail_reservation)
+        if (SharedPref.isNav!!) {
+            if (args.navId == SharedPref.userId) {
+                binding.tourDetailBottomCl.visibility = View.VISIBLE
+                binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_reservation)
             } else {
-                text = getString(R.string.tour_detail_chat)
+                binding.tourDetailBottomCl.visibility = View.GONE
             }
+        } else {
+            binding.tourDetailBottomCl.visibility = View.VISIBLE
+            binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_chat)
         }
     }
 
@@ -82,7 +87,13 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(1, "use token", true))
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
                 }
             }
 
@@ -120,6 +131,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToNavProfileFragment(navId: Int) {
+        Log.d(TAG, "navigateToNavProfileFragment: $navId")
         val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(navId)
         navigate(action)
     }
@@ -127,6 +139,12 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     fun navigateToReviewListFragment(tourId: Int) {
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToReviewListFragment(tourId)
+        navigate(action)
+    }
+
+    fun navigateToTourModifyFragment(tourId: Int) {
+        val action =
+            TourDetailFragmentDirections.actionTourDetailFragmentToTourModifyFragment(tourId)
         navigate(action)
     }
 

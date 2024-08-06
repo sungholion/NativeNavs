@@ -164,4 +164,10 @@
     <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
     <string name="dialog_register_tour_positive">종료</string>
     <string name="dialog_register_tour_negative">계속 작성</string>
+    <string name="dialog_register_fail">투어 등록에 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="dialog_confirm">확인</string>
+    <string name="dialog_modify_fail">투어 수정에 실패하였습니다. 다시 시도해주세요.</string>
+    <string name="dialog_cancel_modify_tour">투어 수정을 종료하시겠습니까?</string>
+    <string name="dialog_cancel_register_review">리뷰 작성을 종료하시겠습니까?</string>
+    <string name="dialog_register_review_fail">리뷰 등록에 실패하였습니다. 다시 시도해주세요.</string>
 </resources>
