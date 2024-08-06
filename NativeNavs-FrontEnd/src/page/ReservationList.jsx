@@ -18,8 +18,7 @@ const ReservationList = () => {
   return (
     <div className={styles.ReservationList}>
       {/* 예약된 투어 리스트 */}
-      <h2 className={styles.TourListTitle}>Reservation</h2>
-      <h3>총 {tourData.length}개의 투어가 예약 중입니다</h3>
+      <h3 className={styles.reservationLength}>총 {tourData.length}개의 투어가 예약 중입니다</h3>
       <div className={styles.upcomingTourList}>
         <Carousel2 tourData={tourData} />
       </div>
