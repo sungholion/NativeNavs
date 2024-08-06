@@ -5,6 +5,9 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import { getImageUrl } from "@/utils/get-image-url";
+import { getStaticImage } from "@/utils/get-static-image";
+import { createPortal } from "react-dom";
+import MapModal from "@/components/MapModal/MapModal";
 
 const center = {
   lat: 37.5642,
@@ -12,15 +15,7 @@ const center = {
 };
 
 const PlanModal = ({ onClose, onSubmit, initData }) => {
-  const [markers, setMarkers] = useState([]);
-
-  const handleMapClick = (event) => {
-    const newMarker = {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng(),
-    };
-    setMarkers([...markers, newMarker]);
-  };
+  // 계획 등록 데이터
   const [planData, setPlanData] = useState({
     field: "",
     description: "",
@@ -29,10 +24,9 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     addressFull: "",
     image: "",
   });
-  const [searchQuery, setSearchQuery] = useState("");
-  const [mapCenter, setMapCenter] = useState({ lat: 37.5642, lng: 127.00169 });
-  const [planImg, setPlanImg] = useState("");
 
+  // 이미지 미리보기 전용
+  const [planImg, setPlanImg] = useState("");
   useEffect(() => {
     if (initData) {
       setPlanData({
@@ -42,6 +36,18 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
       getImageUrl(initData.image, setPlanImg);
     }
   }, [initData]);
+
+  // 지도 검색 결과 넣는 곳
+  const inputMapData = (data) => {
+    setPlanData({
+      ...planData,
+      latitude: data.lat,
+      longitude: data.lng,
+      addressFull: data.description,
+    });
+  };
+
+  const [isOpenMapModal, setIsOpenMapModal] = useState(false); // 맵 지도 검색 모달 띄울것인가?
 
   const onChangeEvent = (e) => {
     if (e.target.name === "image") {
@@ -59,19 +65,11 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     }
   };
 
-  const apiKey = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
-  const onClickEvent = (e) => {
-    e.stopPropagation;
-    onClose();
-  };
-
-  const handleSearchChange = (e) => {};
-
   return (
     <div
       className={styles.ModalBackground}
       onClick={(e) => {
-        onClickEvent(e);
+        e.stopPropagation();
       }}
     >
       <div
@@ -112,23 +110,31 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
         <section className={styles.ModalMap}>
           <div className={styles.ModalMapSearch}>
             <h3>위치 검색</h3>
-            <input
-              type="text"
-              placeholder="위치를 입력해 주세요"
-              value={searchQuery}
-              onChange={handleSearchChange}
+            <img
+              src={getStaticImage("search")}
+              alt=""
+              style={{ width: "20px", height: "20px" }}
+              onClick={() => {
+                setIsOpenMapModal(true);
+              }}
             />
-            <button>검색</button>
-
-            <APIProvider apiKey={apiKey}>
-              <Map
-                style={{ width: "80vw", height: "20vh" }}
-                defaultCenter={{ lat: 37.5642, lng: 127.00169 }}
-                defaultZoom={15}
-                gestureHandling={"greedy"}
-                disableDefaultUI={true}
-              />
-            </APIProvider>
+          </div>
+          {isOpenMapModal &&
+            createPortal(
+              <MapModal
+                onClose={() => {
+                  setIsOpenMapModal(false);
+                }}
+                onSubmit={inputMapData}
+              />,
+              document.body
+            )}
+          <div>
+            {planData.addressFull !== "" && (
+              <div>
+                <div>{planData.addressFull}</div>
+              </div>
+            )}
           </div>
         </section>
         <section className={styles.ModalContent}>
@@ -146,7 +152,8 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
             disabled={
               planData.field === "" ||
               planData.image === "" ||
-              planData.description === ""
+              planData.description === "" ||
+              planData.addressFull === ""
             }
             onClick={() => {
               if (planData.field === "") {

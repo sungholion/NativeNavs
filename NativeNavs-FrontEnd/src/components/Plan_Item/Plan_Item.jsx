@@ -29,6 +29,7 @@ const Plan_Item = ({
   description,
   latitude,
   longitude,
+  addressFull,
   image,
   onDeleteEvent,
   onClickEvent,
@@ -56,6 +57,7 @@ const Plan_Item = ({
         <div className={styles.text}>
           <div className={styles.field}>{field}</div>
           <div className={styles.description}>{description}</div>
+          <div className={styles.addressFull}>{addressFull}</div>
         </div>
       </div>
     </div>

@@ -27,7 +27,6 @@ const themeList = [
 ];
 
 const DefaultTourData = {
-  userId: 10,
   title: "",
   thumbnailImage: "",
   description: "",
@@ -35,10 +34,7 @@ const DefaultTourData = {
   price: 0,
   startDate: getStringedDate(new Date()),
   endDate: getStringedDate(new Date()),
-  reviewAverage: 0,
-  reviewCount: 0,
   maxParticipants: 1,
-  removed: false,
   categoryIds: [],
   plans: [],
 };
@@ -61,10 +57,6 @@ const reducer = (state, action) => {
       return { ...state, startDate: action.value };
     case "endDate":
       return { ...state, endDate: action.value };
-    case "reviewAverage":
-      return { ...state, reviewAverage: action.value };
-    case "reviewCount":
-      return { ...state, reviewCount: action.value };
     case "maxParticipants":
       return { ...state, maxParticipants: action.value };
     case "categoryIds":

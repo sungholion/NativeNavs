@@ -175,7 +175,9 @@
   align-self: center;
   align-items: center;
   position: fixed;
-  bottom: 2vh;
+  background-color: white;
+  width: 100vw;
+  bottom: 0;
 
   button {
     width: 20vw;
@@ -184,7 +186,7 @@
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
-    margin: 0px 20vw;
+    margin: 2vh 20vw;
   }
 
   button:active {
