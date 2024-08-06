@@ -10,6 +10,8 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.databinding.FragmentChatListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 
 private const val TAG = "ChatListFragment"
@@ -23,6 +25,7 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     private val chatListAdapter = ChatListAdapter()
 
     private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
+    private val homeViewModel: HomeActivityViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -46,10 +49,10 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
 
     private fun initEvent() {
         chatListAdapter.setItemClickListener(object : ChatListAdapter.ChatItemClickListener {
-            override fun onItemClicked(chatRoomId: Int) {
+            override fun onItemClicked(roomId: Int) {
                 val action =
                     ChatListFragmentDirections.actionChatListFragmentToChattingRoomFragment(
-                        chatRoomId
+                        roomId
                     )
                 navigate(action)
             }
@@ -60,20 +63,41 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     private fun initAdapter() {
         val chatList = arrayListOf(
             ChatRoomDto(
-                1, "남산투어 남산투어 남산투어 남산투어 남산투어",
-                "아린", "문의드립니다~",
-                System.currentTimeMillis(), "imgurl"
+                roomId = 1,
+                travId = SharedPref.userId!!,
+                navId = 17,
+                travNickname = homeViewModel.userDto.value!!.nickname,
+                navNickname = "김네브",
+                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+                imgUrl = "",
+                tourRegion = "서울",
+                recentMessage = "문의드립니다~",
+                recentMessageTime = System.currentTimeMillis()
             ),
             ChatRoomDto(
-                2, "남산투어 남산투어 남산투어 남산투어 남산투어",
-                "아린", "문의드립니다~",
-                System.currentTimeMillis(), "imgurl"
+                roomId = 2,
+                travId = SharedPref.userId!!,
+                navId = 17,
+                travNickname = homeViewModel.userDto.value!!.nickname,
+                navNickname = "김네브",
+                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+                imgUrl = "",
+                tourRegion = "서울",
+                recentMessage = "문의드립니다~",
+                recentMessageTime = System.currentTimeMillis()
             ),
             ChatRoomDto(
-                3, "남산투어 남산투어 남산투어 남산투어 남산투어",
-                "아린", "문의드립니다~",
-                System.currentTimeMillis(), "imgurl"
-            )
+                roomId = 3,
+                travId = SharedPref.userId!!,
+                navId = 17,
+                travNickname = homeViewModel.userDto.value!!.nickname,
+                navNickname = "김네브",
+                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+                imgUrl = "",
+                tourRegion = "서울",
+                recentMessage = "문의드립니다~",
+                recentMessageTime = System.currentTimeMillis()
+            ),
         )
 
         binding.chatListRv.adapter = chatListAdapter

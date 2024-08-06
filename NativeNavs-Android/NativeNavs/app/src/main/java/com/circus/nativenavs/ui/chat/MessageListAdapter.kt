@@ -18,7 +18,7 @@ class MessageListAdapter :
 
     companion object MessageComparator : DiffUtil.ItemCallback<MessageDto>() {
         override fun areItemsTheSame(oldItem: MessageDto, newItem: MessageDto): Boolean {
-            return oldItem.messageId == newItem.messageId
+            return oldItem.hashCode() == newItem.hashCode()
         }
 
         override fun areContentsTheSame(oldItem: MessageDto, newItem: MessageDto): Boolean {

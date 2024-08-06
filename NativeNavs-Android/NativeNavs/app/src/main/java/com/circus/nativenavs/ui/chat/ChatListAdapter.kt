@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
 import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.databinding.ItemChatroomBinding
+import com.circus.nativenavs.util.SharedPref
 
 class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>(ChatComparator) {
 
     companion object ChatComparator : DiffUtil.ItemCallback<ChatRoomDto>() {
         override fun areItemsTheSame(oldItem: ChatRoomDto, newItem: ChatRoomDto): Boolean {
-            return oldItem.chatId == newItem.chatId
+            return oldItem.roomId == newItem.roomId
         }
 
         override fun areContentsTheSame(oldItem: ChatRoomDto, newItem: ChatRoomDto): Boolean {
@@ -28,9 +29,10 @@ class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>
 
         fun bind(chatRoom: ChatRoomDto) {
             binding.chat = chatRoom
+            binding.userId = SharedPref.userId
 
             binding.root.setOnClickListener {
-                itemClickListener.onItemClicked(chatRoom.chatId)
+                itemClickListener.onItemClicked(chatRoom.roomId)
             }
         }
 
@@ -52,7 +54,7 @@ class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>
     }
 
     interface ChatItemClickListener {
-        fun onItemClicked(chatRoomId: Int)
+        fun onItemClicked(roomId: Int)
     }
 
     private lateinit var itemClickListener: ChatItemClickListener

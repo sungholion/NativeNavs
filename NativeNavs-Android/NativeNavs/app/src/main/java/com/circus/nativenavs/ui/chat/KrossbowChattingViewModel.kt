@@ -10,7 +10,6 @@ import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.service.ChatService
-import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
@@ -23,7 +22,6 @@ import org.hildan.krossbow.stomp.conversions.convertAndSend
 import org.hildan.krossbow.stomp.conversions.moshi.withMoshi
 import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
-import org.hildan.krossbow.stomp.use
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
 
@@ -97,7 +95,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://14.46.141.241/ws-stomp",
+                    url = "ws://192.168.100.185:8080/ws-stomp/websocket",
 //                    customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    ),
@@ -121,7 +119,7 @@ class KrossbowChattingViewModel : ViewModel() {
         try {
             val subscription = stompSession.subscribe(
                 StompSubscribeHeaders(
-                    destination = "/chat/$chatRoomId",
+                    destination = "/room/1",
 //                    customHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    )
@@ -157,9 +155,11 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
-    fun setUserId(userId: Int) {
+    fun setSenderInfo(senderId: Int, senderNickname: String, senderImg: String) {
         _uiState.value?.let {
-            it.userId = userId
+            it.senderId = senderId
+            it.senderNickName = senderNickname
+            it.senderImg = senderImg
         }
     }
 
@@ -184,13 +184,14 @@ class KrossbowChattingViewModel : ViewModel() {
             try {
                 stompSession.withMoshi(moshi).convertAndSend(
                     StompSendHeaders(
-                        destination = "/chat/$chatRoomId",
+                        destination = "/send/1",
 //                        customHeaders = mapOf(
 //                            "Authorization" to "${SharedPref.accessToken}"
 //                        )
                     ),
                     message
                 )
+
                 messageSent()
                 addMessage(message)
                 clearMessage()
@@ -210,20 +211,23 @@ class KrossbowChattingViewModel : ViewModel() {
     private fun message(): MessageDto {
         return _uiState.value?.let {
             MessageDto(
-                1, it.userId, "이현진",
-                "", it.message,
-                System.currentTimeMillis(), 1
+                roomId = chatRoomId.value!!,
+                senderId = it.senderId,
+                senderNickname = it.senderNickName,
+                senderProfileImage = it.senderImg,
+                content = it.message,
+                sendTime = System.currentTimeMillis(),
+                isRead = false
             )
-        } ?: MessageDto(
-            0, 0, "몰라",
-            "", "못 읽어요", System.currentTimeMillis(), 1
-        )
+        } ?: MessageDto()
     }
 
     fun disconnectWebSocket() {
         if (isConnected) {
             viewModelScope.launch {
                 stompSession.disconnect()
+                updateConnectionStatus(ConnectionStatus.CLOSED)
+                isConnected = false
             }
         }
 

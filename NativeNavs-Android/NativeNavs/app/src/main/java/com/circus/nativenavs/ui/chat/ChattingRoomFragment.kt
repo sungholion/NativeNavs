@@ -13,10 +13,12 @@ import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlin.math.log
 
 private const val TAG = "ChattingRoomFragment"
 
@@ -29,6 +31,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private val args: ChattingRoomFragmentArgs by navArgs()
 
     private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
+    private val homeViewModel: HomeActivityViewModel by activityViewModels()
 
     private val messageListAdapter = MessageListAdapter()
 
@@ -41,13 +44,17 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         super.onResume()
         homeActivity.hideBottomNav(false)
         chattingViewModel.setChatRoomId(args.chatId)
+        chattingViewModel.connectWebSocket()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        chattingViewModel.connectWebSocket()
-        chattingViewModel.setUserId(SharedPref.userId!!)
+        chattingViewModel.setSenderInfo(
+            SharedPref.userId!!,
+            homeViewModel.userDto.value!!.nickname,
+            homeViewModel.userDto.value!!.image
+        )
         initView()
         initAdapter()
         initObserve()
@@ -90,19 +97,31 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private fun initAdapter() {
         val messageList = arrayListOf(
             MessageDto(
-                1, SharedPref.userId!!, "안드류",
-                "", "문의드립니다~",
-                System.currentTimeMillis(), 1
+                roomId = args.chatId,
+                senderId = SharedPref.userId!!,
+                senderNickname = "현진",
+                senderProfileImage = "",
+                content = "안녕하세요",
+                sendTime = System.currentTimeMillis(),
+                isRead = false
             ),
             MessageDto(
-                2, 2, "아린",
-                "", "안녕하세요",
-                System.currentTimeMillis(), 1
+                roomId = args.chatId,
+                senderId = 1,
+                senderNickname = "아린",
+                senderProfileImage = "",
+                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
+                sendTime = System.currentTimeMillis(),
+                isRead = false
             ),
             MessageDto(
-                3, 2, "아린",
-                "", "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-                System.currentTimeMillis(), 1
+                roomId = args.chatId,
+                senderId = 1,
+                senderNickname = "아린",
+                senderProfileImage = "",
+                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
+                sendTime = System.currentTimeMillis(),
+                isRead = false
             ),
         )
         chattingViewModel.setMessages(messageList)
