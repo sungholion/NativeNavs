@@ -6,7 +6,6 @@ const Review_Item = ({
   user,
   score,
   description,
-  created_at,
   tour,
   needToShowTourTitle = false,
   imageList,

@@ -9,7 +9,7 @@ const Main = () => {
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(null);
 
-  // android로부터 유저 정보를 수신 및 파싱
+  // MB -> FE : 유저 정보 파싱
   useEffect(() => {
     window.getUserData = (userJson) => {
       console.log("Received user JSON:", userJson);
