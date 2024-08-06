@@ -2,6 +2,7 @@ package com.nativenavs.user.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -82,7 +83,7 @@ public class UserEntity extends BaseEntity {
     private List<ReservationEntity> participantReservations = new ArrayList<>();
 
     // DTO -> Entity
-    public static UserEntity toSaveEntity(UserDTO userDTO){
+    public static UserEntity toSaveEntity(UserRequestDTO userDTO){
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setId(userDTO.getId());
@@ -94,7 +95,7 @@ public class UserEntity extends BaseEntity {
         userEntity.setBirth(userDTO.getBirth());
         userEntity.setUserLanguage(userDTO.getUserLanguage());
         userEntity.setNation(userDTO.getNation());
-        userEntity.setImage(userDTO.getImage());
+//        userEntity.setImage(userDTO.getImage());
         userEntity.setNavReviewCount(userDTO.getNavReviewCount());
         userEntity.setNavReviewAverage(userDTO.getNavReviewAverage());
         userEntity.setTravReservationCount(userDTO.getTravReservationCount());

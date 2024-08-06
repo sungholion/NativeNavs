@@ -1,5 +1,7 @@
 package com.nativenavs.user.service;
 
+import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.dto.UserDTO;
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();   // 인증 회원을 임시 저장
+    @Autowired
+    private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -46,12 +50,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUp(UserDTO userDTO) {
+    public void signUp(UserRequestDTO userDTO) {
         if(!authenticatedUsers.contains(userDTO.getEmail())){  // 이메일 미인증시
             throw new IllegalStateException("이메일 인증이 완료되지 않았습니다.");
         }
 
         UserEntity userEntity = UserEntity.toSaveEntity(userDTO);
+        String imageUrl =  awsS3ObjectStorageUpload.uploadFile(userDTO.getImage());
+        userEntity.setImage(imageUrl);
+
         userRepository.save(userEntity);
         authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
     }
@@ -104,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(int existingId, UserDTO updateUserDTO){
+    public void updateUser(int existingId, UserRequestDTO updateUserDTO){
 
         Optional<UserEntity> findUserEntity = userRepository.findById(existingId);
         if (findUserEntity.isPresent()) {
@@ -118,8 +125,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO) {
-        updateUserEntity.setImage(updateUserDTO.getImage());
+    public void updateUserDTOFields(UserEntity updateUserEntity, UserRequestDTO updateUserDTO) {
+//        updateUserEntity.setImage(updateUserDTO.getImage());
+        if(updateUserEntity.getImage()!= null &&!updateUserDTO.getImage().isEmpty()){
+            awsS3ObjectStorageUpload.deleteFile(updateUserEntity.getImage());
+            String imageUrl =  awsS3ObjectStorageUpload.uploadFile(updateUserDTO.getImage());
+            updateUserEntity.setImage(imageUrl);
+        }
         updateUserEntity.setNickname(updateUserDTO.getNickname());
         updateUserEntity.setUserLanguage(updateUserDTO.getUserLanguage());
         updateUserEntity.setPhone(updateUserDTO.getPhone());

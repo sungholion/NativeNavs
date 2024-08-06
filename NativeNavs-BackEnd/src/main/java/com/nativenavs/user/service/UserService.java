@@ -1,6 +1,7 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
 
@@ -11,10 +12,10 @@ public interface UserService {
     public boolean checkDuplicatedNickname(String nickname);
 
     public void addAuthenticatedUser(String email);
-    public void signUp(UserDTO userDTO);
+    public void signUp(UserRequestDTO userDTO);
 
-    public void updateUser(int existingId, UserDTO updateUserDTO);
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO);
+    public void updateUser(int existingId, UserRequestDTO updateUserDTO);
+    public void updateUserDTOFields(UserEntity updateUserEntity, UserRequestDTO updateUserDTO);
     public void deleteUser(int id);
 
     public List<UserSearchDTO> searchAllUser();
