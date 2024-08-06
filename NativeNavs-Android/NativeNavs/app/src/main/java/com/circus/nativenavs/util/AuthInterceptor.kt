@@ -14,9 +14,10 @@ class AuthInterceptor(private var authToken: String) : Interceptor {
 
         val url = originalRequest.url.toString()
 
-        if(!url.contains("users/search") &&
-            !url.contains("users/checkDuplicated/nickname") &&
-            !url.contains("language") &&
+        if(!url.contains("users/search")
+            && !url.contains("users/checkDuplicated/nickname")
+            && !url.contains("language")
+            && !url.contains("auth/refresh")&&
             !url.contains("tours/category")){
             builder.header("Authorization", "Bearer $authToken")
         }
