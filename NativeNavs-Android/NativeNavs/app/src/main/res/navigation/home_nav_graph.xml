@@ -92,6 +92,10 @@
         <argument
             android:name="tourId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/tourDetailFragment"
@@ -184,7 +188,15 @@
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" />
+        tools:layout="@layout/fragment_reservation_register" >
+        <argument
+            android:name="tourId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_reservationRegisterFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewListFragment"
@@ -278,6 +290,9 @@
         <action
             android:id="@+id/action_myTripReservationListFragment_to_reservationDetailFragment"
             app:destination="@id/reservationDetailFragment" />
+        <action
+            android:id="@+id/action_myTripReservationListFragment_self"
+            app:destination="@id/myTripReservationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewPhotoFragment"
