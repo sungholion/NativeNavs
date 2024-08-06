@@ -157,4 +157,9 @@
     <string name="search_title_theme_tv">테마를 선택하세요</string>
     <string name="search_reset_btn">초기화</string>
     <string name="search_search_btn">검색</string>
+    <!--dialog-->
+    <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
+    <string name="dialog_register_tour_negative">계속 작성</string>
+    <string name="dialog_register_tour_positive">종료</string>
+
 </resources>
