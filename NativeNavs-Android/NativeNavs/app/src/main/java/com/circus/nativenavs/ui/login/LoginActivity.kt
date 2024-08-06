@@ -21,8 +21,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         if(SharedPref.userId != 0 && SharedPref.accessToken != null){
             ApplicationClass.setAuthToken(SharedPref.accessToken.toString())
             startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
-
+        Log.d("aa", "onCreate: ")
         initEvent()
 
         activityViewModel.loginStatusCode.observe(this, Observer { statusCode ->

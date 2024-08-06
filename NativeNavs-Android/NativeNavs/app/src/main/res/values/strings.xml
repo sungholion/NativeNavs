@@ -141,6 +141,22 @@
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
 
+    <!--search bar-->
+    <string name="search_title_travel">여행</string>
+    <string name="search_title_date">날짜</string>
+    <string name="search_title_travel_tv">여행지를 알려주세요</string>
+    <string name="search_title_popular_travel_tv">인기 여행지</string>
+    <string name="search_title_travel_seoul_btn">서울</string>
+    <string name="search_title_travel_Incheon_btn">인천</string>
+    <string name="search_title_travel_Daegu_btn">대구</string>
+    <string name="search_title_travel_Daejeon_btn">대전</string>
+    <string name="search_title_travel_Gwangju_btn">광주</string>
+    <string name="search_title_travel_Busan_btn">부산</string>
+    <string name="search_title_travel_Jeju_btn">제주</string>
+    <string name="search_title_theme">테마</string>
+    <string name="search_title_theme_tv">테마를 선택하세요</string>
+    <string name="search_reset_btn">초기화</string>
+    <string name="search_search_btn">검색</string>
     <!--dialog-->
     <string name="dialog_cancel_register_tour">투어 작성을 종료하시겠습니까?</string>
     <string name="dialog_register_tour_negative">계속 작성</string>
