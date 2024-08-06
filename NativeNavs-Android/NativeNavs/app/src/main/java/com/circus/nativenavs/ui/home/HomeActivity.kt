@@ -29,11 +29,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
         super.onCreate(savedInstanceState)
 
-        homeActivityViewModel.getUser(SharedPref.userId!!)
-        homeActivityViewModel.updateLanguageList()
+
+        initData()
         initView()
         Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
 
+    }
+
+    private fun initData(){
+        homeActivityViewModel.getUser(SharedPref.userId!!)
+        homeActivityViewModel.updateLanguageList()
+        homeActivityViewModel.updateCategoryList()
     }
 
     private fun initView() {

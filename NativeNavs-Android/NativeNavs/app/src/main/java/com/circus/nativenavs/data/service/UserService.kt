@@ -1,9 +1,11 @@
 package com.circus.nativenavs.data.service
 
+import com.circus.nativenavs.data.CategoryDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.data.LoginResponse
 import com.circus.nativenavs.data.ProfileUserDto
+import com.circus.nativenavs.data.RefreshResponse
 import com.circus.nativenavs.data.SignUpDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -11,6 +13,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -25,6 +28,11 @@ interface UserService {
     suspend fun Login(
         @Body loginDTO: LoginDto
     ) : Response<LoginResponse>
+
+    @POST("auth/refresh")
+    suspend fun refresh(
+        @Body refresh:Map<String,String>
+    ) :Response<RefreshResponse>
 
     @GET("users/authenticateEmail")
     suspend fun setEmailVerifyCode(
@@ -50,11 +58,14 @@ interface UserService {
         @Path(value = "id") userId: Int
     ): ProfileUserDto
 
-    @PATCH("users")
+    @PUT("users")
     suspend fun updateUser(
         @Body signUpDTO: SignUpDto
     ):Response<Void>
 
     @DELETE("users/delete")
     suspend fun deleteUser():Response<Void>
+
+    @GET("tours/category")
+    suspend fun getCategory():List<CategoryDto>
 }

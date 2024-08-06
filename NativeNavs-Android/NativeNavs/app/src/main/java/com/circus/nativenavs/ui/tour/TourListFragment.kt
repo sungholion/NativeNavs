@@ -55,8 +55,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
 
     private fun initEvent() {
         binding.tourSearchBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), VideoActivity::class.java))
-            Toast.makeText(requireContext(), "검색바 클릭", Toast.LENGTH_SHORT).show()
+            navigate(R.id.action_tourListFragment_to_tourSearchFragment)
         }
     }
 

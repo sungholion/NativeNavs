@@ -1,10 +1,12 @@
 package com.circus.nativenavs.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
+import com.circus.nativenavs.data.CategoryDto
 import com.circus.nativenavs.data.LanguageDto
 import com.circus.nativenavs.data.LanguageListDto
 import com.circus.nativenavs.data.LanguageServerDto
@@ -23,6 +25,12 @@ class HomeActivityViewModel : ViewModel() {
     private val _userDto = MutableLiveData<ProfileUserDto>()
     val userDto : LiveData<ProfileUserDto> get() = _userDto
 
+    fun updateUserNickName(nick : String){
+        _userDto.value?.nickname = nick
+    }
+    fun updateUserPhone(phone: String){
+        _userDto.value?.phone = phone
+    }
     private val userRetrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     fun getUser(userId : Int){
@@ -37,8 +45,13 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
-    private val _updateStatus = MutableLiveData<Int>()
+    private val _updateStatus = MutableLiveData<Int>(-1)
     val updateStatus : LiveData<Int> get() = _updateStatus
+
+    fun updateStatusCode(i : Int){
+        _updateStatus.value = i
+    }
+
 
     private val _profileModifyUser = MutableLiveData<SignUpDto>()
     val profileUserDto : LiveData<SignUpDto> get() = _profileModifyUser
@@ -114,5 +127,65 @@ class HomeActivityViewModel : ViewModel() {
             _withdrawalStatus.value = response.code()
         }
     }
+
+
+
+    // search
+    private val _searchTravel = MutableLiveData<String>()
+    val searchTravel : LiveData<String> get() = _searchTravel
+
+    private val _searchDate = MutableLiveData<String>()
+    val searchDate : LiveData<String> get() = _searchDate
+
+    private val _searchTheme = MutableLiveData<List<Int>>()
+    val searchTheme : LiveData<List<Int>> get() = _searchTheme
+
+    private val _categoryCheckList = MutableLiveData<List<CategoryDto>>()
+    val categoryCheckList : LiveData<List<CategoryDto>> get() = _categoryCheckList
+
+    fun updateCategoryList(){
+        viewModelScope.launch {
+            _categoryCheckList.value = userRetrofit.getCategory()
+            Log.d("category", "updateCategoryList: ${_categoryCheckList.value} ")
+        }
+    }
+    fun toggleCategory(id: Int) {
+        var updateList = _categoryCheckList.value
+        updateList?.apply {
+            map { if(it.id == id ) it.isChecked = !it.isChecked  }
+        }
+        Log.d("aa", "toggleCategory: ${updateList}")
+        updateList?.let { _categoryCheckList.value = it}
+    }
+    fun resetCheck() {
+        Log.d("ResetCheck", "Updated list: ${_categoryCheckList.value}")
+        val updatedList = _categoryCheckList.value?.map { item ->
+            item.copy(isChecked = false)
+        }
+        updatedList?.let {
+            _categoryCheckList.value = it.toList()
+        }
+        Log.d("ResetCheck", "Updated list: ${_categoryCheckList.value}")
+    }
+    fun updateCategory(){
+        _searchTheme.value = emptyList()
+    }
+
+    fun updateSearchTravel(travel : String){
+        _searchTravel.value = travel
+    }
+
+    fun updateSearchDate(travel : String){
+        _searchDate.value = travel
+    }
+
+    fun updateSearchTheme(){
+        var list = mutableListOf<Int>()
+        _categoryCheckList.value?.forEach {
+            if(it.isChecked) list.add(it.id)
+        }
+        _searchTheme.value = list
+    }
+
 
 }
