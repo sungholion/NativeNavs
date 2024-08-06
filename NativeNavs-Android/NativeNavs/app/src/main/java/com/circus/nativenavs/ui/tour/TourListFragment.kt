@@ -19,6 +19,7 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.LocaleUtils
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,7 +82,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         }
         binding.tourListWv.webChromeClient = WebChromeClient()
 
-        binding.tourListWv.loadUrl("https://i11d110.p.ssafy.io/main")
+        binding.tourListWv.loadUrl(WEBURL + "main")
     }
 
     fun moveToTourDetailFragment(tourId: Int, navId: Int) {

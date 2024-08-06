@@ -8,6 +8,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentReservationRegisterBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.tour.TourRegisterBridge
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 
@@ -18,6 +19,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
 
     private lateinit var homeActivity: HomeActivity
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -26,6 +28,8 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initWebView()
+
         binding.reservationRegisterCustomWv.setOnBackListener(object :
             CustomTitleWebView.OnBackClickListener {
             override fun onClick() {
@@ -33,6 +37,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             }
 
         })
+
 
         homeActivity.onBackPressedDispatcher.addCallback(
             this,
@@ -44,5 +49,11 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
                 }
 
             })
+    }
+
+    private fun initWebView(){
+        binding.reservationRegisterCustomWv.apply {
+
+        }
     }
 }

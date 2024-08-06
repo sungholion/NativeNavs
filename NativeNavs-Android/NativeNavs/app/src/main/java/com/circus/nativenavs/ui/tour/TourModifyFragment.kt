@@ -18,6 +18,7 @@ import com.circus.nativenavs.databinding.FragmentTourModifyBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -73,7 +74,7 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
 
         }
 
-        val url = "https://i11d110.p.ssafy.io/tour/edit/${args.tourId}"
+        val url = WEBURL + "tour/edit/${args.tourId}"
         Log.d(TAG, "initCustomView: $url")
         binding.tourModifyWv.loadWebViewUrl(url)
 

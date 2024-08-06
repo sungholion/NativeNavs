@@ -17,6 +17,7 @@ import com.circus.nativenavs.databinding.FragmentTourDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import kotlin.math.log
@@ -99,7 +100,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
         }
 
-        val url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}"
+        val url = WEBURL + "tour/detail/${args.tourId}"
         Log.d(TAG, "initCustomView: $url")
         binding.tourDetailWv.loadWebViewUrl(url)
 

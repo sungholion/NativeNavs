@@ -1,35 +1,22 @@
-package com.circus.nativenavs.ui.review
+package com.circus.nativenavs.ui.reservation
 
-import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.trip.MyTripFragment
+import com.circus.nativenavs.ui.review.ReviewListFragment
 import com.google.gson.Gson
-import kotlin.math.log
 
-
-class ReviewListBridge(
+class ReservationListBridge (
     private val homeActivity: HomeActivity,
-    private val fragment: ReviewListFragment,
+    private val fragment: ReservationListFragment,
     private val webView: WebView
 ) {
 
     @JavascriptInterface
-    fun navigateToTourReviewPhotoFragment(tourId: Int) {
-        fragment.navigateToTourReviewPhotoFragment(tourId)
-    }
-
-    @JavascriptInterface
-    fun navigateToNavReviewPhotoFragment(navId: Int) {
-        fragment.navigateToNavReviewPhotoFragment(navId)
-    }
-
-    @JavascriptInterface
-    fun navigateToTravReviewPhotoFragment(travId: Int) {
-        fragment.navigateToTravReviewPhotoFragment(travId)
+    fun navigateToReservationListFragmentReservationDetail(tourId: Int, reservationId : Int) {
+        fragment.navigateToReservationListFragmentReservationDetail(tourId,reservationId)
     }
 
 

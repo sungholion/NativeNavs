@@ -21,6 +21,7 @@ import com.circus.nativenavs.ui.tour.TourListBridge
 import com.circus.nativenavs.ui.tour.TourListFragmentDirections
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 
 class MyTripFragment :
@@ -68,7 +69,7 @@ class MyTripFragment :
         binding.myTripWv.webViewClient = WebViewClient()
         binding.myTripWv.webChromeClient = WebChromeClient()
 
-        val url = "https://i11d110.p.ssafy.io/nav/${SharedPref.userId}/tourlist"
+        val url = WEBURL + "nav/${SharedPref.userId}/tourlist"
         binding.myTripWv.loadUrl(url)
     }
 
