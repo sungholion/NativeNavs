@@ -37,7 +37,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
     @PostMapping
-    @Operation(summary = "예약 등록 API", description = "예약을 등록할때 사용하는 API")
+    @Operation(summary = "리뷰 등록 API", description = "리뷰를 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -76,6 +76,7 @@ public class ReviewController {
     }
 
     @GetMapping("/tour/{tourId}")
+    @Operation(summary = "투어 리뷰 조회 API", description = "투어 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -93,6 +94,7 @@ public class ReviewController {
     }
 
     @GetMapping("/guide/{guideId}")
+    @Operation(summary = "가이드 리뷰 조회 API", description = "가이드 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -110,6 +112,7 @@ public class ReviewController {
     }
 
     @GetMapping("/user")
+    @Operation(summary = "사용자 리뷰 조회 API", description = "사용자 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))

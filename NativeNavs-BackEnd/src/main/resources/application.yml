@@ -46,7 +46,7 @@ cloud:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-    #    key: ${JASYPT_ENCRYPTOR_KEY}
+     #   key: ${JASYPT_ENCRYPTOR_KEY}
     key: 110110
 
 

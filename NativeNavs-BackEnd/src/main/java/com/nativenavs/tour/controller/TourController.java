@@ -1,9 +1,12 @@
 package com.nativenavs.tour.controller;
 
+import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.tour.dto.CategoryDTO;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.dto.TourRequestDTO;
 import com.nativenavs.tour.service.CategoryService;
 import com.nativenavs.tour.service.TourService;
+import com.nativenavs.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,64 +30,23 @@ import java.util.List;
 public class TourController {
     private final TourService tourService;
     private final CategoryService categoryService;
-
+    private final UserService userService;
 
 
     @Operation(summary = "투어 등록 API", description = "여행 계획을 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> tourSave(
             @RequestHeader("Authorization") String token,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = ".",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    example = "{\n" +
-                                            "  \"title\": \"Summer Vacation\",\n" +
-                                            "  \"thumbnailImage\": \"http://example.com/image.jpg\",\n" +
-                                            "  \"description\": \"A relaxing summer vacation tour\",\n" +
-                                            "  \"location\": \"서울특별시 종로구\",\n" +
-                                            "  \"price\": 500000,\n" +
-                                            "  \"startDate\": \"2024-08-01\",\n" +
-                                            "  \"endDate\": \"2024-08-15\",\n" +
-                                            "  \"reviewAverage\": 0.0,\n" +
-                                            "  \"reviewCount\": 0,\n" +
-                                            "  \"maxParticipants\": 6,\n" +
-                                            "  \"removed\": false,\n" +
-                                            "  \"categoryIds\": [1, 2],\n" +
-                                            "  \"plans\": [\n" +
-                                            "    {\n" +
-                                            "      \"id\": 1,\n" +
-                                            "      \"field\": \"Field 1\",\n" +
-                                            "      \"description\": \"Description of plan 1\",\n" +
-                                            "      \"image\": \"http://example.com/plan1.jpg\",\n" +
-                                            "      \"latitude\": 37.5665,\n" +
-                                            "      \"longitude\": 126.978,\n" +
-                                            "      \"addressFull\": \"123 Example Street\"\n" +
-                                            "    },\n" +
-                                            "    {\n" +
-                                            "      \"id\": 2,\n" +
-                                            "      \"field\": \"Field 2\",\n" +
-                                            "      \"description\": \"Description of plan 2\",\n" +
-                                            "      \"image\": \"http://example.com/plan2.jpg\",\n" +
-                                            "      \"latitude\": 37.567,\n" +
-                                            "      \"longitude\": 126.979,\n" +
-                                            "      \"addressFull\": \"456 Example Avenue\"\n" +
-                                            "    }\n" +
-                                            "  ]\n" +
-                                            "}"
-                            )
-                    )
-            )
-            @RequestBody TourDTO tourDTO){
 
-        System.out.println("tourDTO : " + tourDTO);
+            @ModelAttribute TourRequestDTO tourRequestDTO){
         try {
-            tourService.addTour(tourDTO,token);
+
+            int userId = getUserIdFromJWT(token);
+
+            tourService.addTour(tourRequestDTO,userId);
             return ResponseEntity.ok("여행 등록 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
@@ -144,53 +107,10 @@ public class TourController {
     @PutMapping("/{id}")
     public ResponseEntity<?> tourModify(
             @RequestHeader("Authorization") String token,
-            @Parameter(description = "투어 ID", required = true, example = "10")
             @PathVariable int id,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = ".", required = true, content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(
-                            example = "{\n" +
-                                    "  \"userId\": 10,\n" +
-                                    "  \"title\": \"Summer Vacation2\",\n" +
-                                    "  \"thumbnailImage\": \"http://example.com/image.jpg2\",\n" +
-                                    "  \"description\": \"A relaxing summer vacation tour2\",\n" +
-                                    "  \"location\": \"서울특별시 종로구\",\n" +
-                                    "  \"price\": 7777,\n" +
-                                    "  \"startDate\": \"2024-08-01\",\n" +
-                                    "  \"endDate\": \"2024-08-15\",\n" +
-                                    "  \"reviewAverage\": 0.0,\n" +
-                                    "  \"reviewCount\": 0,\n" +
-                                    "  \"maxParticipants\": 10,\n" +
-                                    "  \"removed\": false,\n" +
-                                    "  \"categoryIds\": [2, 3],\n" +
-                                    "  \"plans\": [\n" +
-                                    "    {\n" +
-                                    "      \"id\": 3,\n" +
-                                    "      \"field\": \"Field 3\",\n" +
-                                    "      \"description\": \"Description of plan 3\",\n" +
-                                    "      \"image\": \"http://example.com/plan1.jpg\",\n" +
-                                    "      \"latitude\": 37.5665,\n" +
-                                    "      \"longitude\": 126.978,\n" +
-                                    "      \"addressFull\": \"123 Example Street\"\n" +
-                                    "    },\n" +
-                                    "    {\n" +
-                                    "      \"id\": 4,\n" +
-                                    "      \"field\": \"Field 4\",\n" +
-                                    "      \"description\": \"Description of plan 4\",\n" +
-                                    "      \"image\": \"http://example.com/plan2.jpg\",\n" +
-                                    "      \"latitude\": 37.567,\n" +
-                                    "      \"longitude\": 126.979,\n" +
-                                    "      \"addressFull\": \"456 Example Avenue\"\n" +
-                                    "    }\n" +
-                                    "  ]\n" +
-                                    "}"
-                    )
-            )
-            )
-            @RequestBody TourDTO tourDTO) {
+            @ModelAttribute TourRequestDTO tourRequestDTO) {
         try {
-            tourService.modifyTour(id, tourDTO);
+            tourService.modifyTour(id, tourRequestDTO);
             return ResponseEntity.ok("투어 수정 완료");
         } catch (Exception e) {
             e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
@@ -238,6 +158,14 @@ public class TourController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 검색 실패");
         }
+    }
+
+
+    //JWT에서 이메일 받아 id로 치환
+    private int getUserIdFromJWT(String token){
+        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String email = JwtTokenProvider.getEmailFromToken(jwtToken);
+        return userService.changeEmailToId(email);
     }
 
 }
