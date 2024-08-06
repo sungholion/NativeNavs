@@ -25,6 +25,7 @@ import ReservationList from "./page/ReservationList";
 import ReservationDetail from "./page/ReservationDetail";
 import ReservationListForTour from "./page/ReservationListForTour";
 import NavTourList from "./page/NavTourList";
+import ReservationCreate from "./page/ReservationCreate";
 
 function App() {
   const param = useSearchParams();
@@ -111,7 +112,7 @@ function App() {
           {/* 해당 투어에 대한 예약 목록 페이지 */}
           <Route path="list" element={<ReservationListForTour />} />
           {/* 예약 하기 페이지 */}
-          <Route path="create" element={<div>예약 하기</div>} />
+          <Route path="create" element={<ReservationCreate />} />
           {/* 예약 상세 정보 페이지 */}
           <Route path="detail/:res_id" element={<ReservationDetail />} />
         </Route>
