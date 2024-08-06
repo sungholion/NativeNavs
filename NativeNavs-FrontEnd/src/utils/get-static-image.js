@@ -6,6 +6,7 @@ import language from "@/assets/language.png";
 import minus from "@/assets/minus.png";
 import NativeNavs from "@/assets/NativeNavs.png";
 import RouterImg from "@/assets/router-img.svg";
+import search from "@/assets/search.svg";
 
 export function getStaticImage(type = "") {
   switch (type) {
@@ -23,6 +24,8 @@ export function getStaticImage(type = "") {
       return language;
     case "router-img":
       return RouterImg;
+    case "search":
+      return search;
     default:
       return type;
   }
