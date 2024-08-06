@@ -24,6 +24,7 @@ import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
+import kotlin.math.log
 
 private const val TAG = "KrossbowChattingViewMod"
 
@@ -61,6 +62,7 @@ class KrossbowChattingViewModel : ViewModel() {
 
     fun setChatRoomId(roomId: Int) {
         _chatRoomId.value = roomId
+        Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
     }
 
     fun getChatTourInfo(roomId: Int) {
@@ -95,7 +97,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://192.168.100.185:8080/ws-stomp/websocket",
+                    url = "ws://192.168.0.12:8080/ws-stomp/websocket",
 //                    customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    ),
@@ -119,7 +121,7 @@ class KrossbowChattingViewModel : ViewModel() {
         try {
             val subscription = stompSession.subscribe(
                 StompSubscribeHeaders(
-                    destination = "/room/1",
+                    destination = "/room/${chatRoomId.value}",
 //                    customHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    )
@@ -129,6 +131,7 @@ class KrossbowChattingViewModel : ViewModel() {
             isConnected = true
 
             subscription.collect { frame ->
+                Log.d(TAG, "frame observeMessages: $frame")
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
                 newMessage?.let {
                     handleOnMessageReceived(newMessage)
@@ -184,7 +187,7 @@ class KrossbowChattingViewModel : ViewModel() {
             try {
                 stompSession.withMoshi(moshi).convertAndSend(
                     StompSendHeaders(
-                        destination = "/send/1",
+                        destination = "/send/${chatRoomId.value}",
 //                        customHeaders = mapOf(
 //                            "Authorization" to "${SharedPref.accessToken}"
 //                        )
