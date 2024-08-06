@@ -2,6 +2,7 @@ package com.nativenavs.tour.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.dto.TourRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -69,24 +70,22 @@ public class TourEntity extends BaseEntity {
     @OneToMany(mappedBy = "tourId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanEntity> plans;
 
-
     @OneToMany(mappedBy="tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationEntity> reservations = new ArrayList<>();
 
     //DTO -> Entity 로 옮겨닮기
-    public static TourEntity toSaveEntity(TourDTO tourDTO){
+    public static TourEntity toSaveEntity(TourRequestDTO tourRequestDTO){
         TourEntity tourEntity = new TourEntity();
-        tourEntity.setTitle(tourDTO.getTitle());
-        tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
-        tourEntity.setDescription(tourDTO.getDescription());
-        tourEntity.setLocation(tourDTO.getLocation());
-        tourEntity.setPrice(tourDTO.getPrice());
-        tourEntity.setStartDate(tourDTO.getStartDate());
-        tourEntity.setEndDate(tourDTO.getEndDate());
-        tourEntity.setReviewAverage(tourDTO.getReviewAverage());
-        tourEntity.setReviewCount(tourDTO.getReviewCount());
-        tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
-        tourEntity.setRemoved(tourDTO.isRemoved());
+        tourEntity.setTitle(tourRequestDTO.getTitle());
+        tourEntity.setDescription(tourRequestDTO.getDescription());
+        tourEntity.setLocation(tourRequestDTO.getLocation());
+        tourEntity.setPrice(tourRequestDTO.getPrice());
+        tourEntity.setStartDate(tourRequestDTO.getStartDate());
+        tourEntity.setEndDate(tourRequestDTO.getEndDate());
+        tourEntity.setReviewAverage(0.0F);
+        tourEntity.setReviewCount(0);
+        tourEntity.setMaxParticipant(tourRequestDTO.getMaxParticipants());
+        tourEntity.setRemoved(false);
         return tourEntity;
     }
 }

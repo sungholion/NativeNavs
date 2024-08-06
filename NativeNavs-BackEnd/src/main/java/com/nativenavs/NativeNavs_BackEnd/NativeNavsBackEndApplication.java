@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableJpaAuditing
 
 public class NativeNavsBackEndApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(NativeNavsBackEndApplication.class, args);
 	}
