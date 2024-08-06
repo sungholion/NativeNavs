@@ -135,4 +135,12 @@
     <string name="profile_other_stamp">\'s Stamp</string>
     <string name="tour_detail_chat">1:1 Chat</string>
     <string name="tour_detail_reservation">Booking Status</string>
+    <string name="dialog_pass_title">Password</string>
+    <string name="dialog_pass_content">Please enter a password</string>
+    <string name="dialog_user_delete_title">Withdrawal</string>
+    <string name="dialog_user_delete_content">Do you  want to cancel your membership</string>
+    <string name="dialog_ok_btn">Ok</string>
+    <string name="dialog_cancel_btn">Cancel</string>
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
 </resources>

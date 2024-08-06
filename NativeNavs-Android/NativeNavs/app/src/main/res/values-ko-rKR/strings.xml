@@ -138,4 +138,12 @@
     <string name="profile_other_stamp">님의 스탬프</string>
     <string name="tour_detail_chat">1:1 문의하기</string>
     <string name="tour_detail_reservation">예약현황</string>
+    <string name="dialog_pass_title">비밀번호 입력</string>
+    <string name="dialog_pass_content">비밀번호를 입력해주세요</string>
+    <string name="dialog_user_delete_title">회원 탈퇴</string>
+    <string name="dialog_user_delete_content">정말로 회원 탈퇴를 하시겠습니까</string>
+    <string name="dialog_ok_btn">확인</string>
+    <string name="dialog_cancel_btn">취소</string>
+    <string name="success">성공</string>
+    <string name="fail">실패</string>
 </resources>
