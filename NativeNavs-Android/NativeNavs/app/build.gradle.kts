@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 
 }
 
@@ -72,4 +73,7 @@ dependencies {
         exclude(group = "com.android.support", module = "support-compat")
     }
     implementation(libs.threetenabp)
+
+    // FCM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
 }
