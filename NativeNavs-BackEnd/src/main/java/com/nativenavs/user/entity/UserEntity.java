@@ -83,7 +83,7 @@ public class UserEntity extends BaseEntity {
     private List<ReservationEntity> participantReservations = new ArrayList<>();
 
     // DTO -> Entity
-    public static UserEntity toSaveEntity(UserRequestDTO userDTO){
+    public static UserEntity toSaveEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setId(userDTO.getId());
