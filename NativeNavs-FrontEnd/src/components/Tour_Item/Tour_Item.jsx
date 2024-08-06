@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
 import Carousel from "@/components/Carousel/Carousel.jsx";
+import Carousel4 from "@/components/Carousel/Carousel4.jsx";
+import axios from "axios";
 
 const Tour_Item = ({
   tourId,
@@ -17,6 +19,7 @@ const Tour_Item = ({
   navigateFragment,
   user, // 추가: user 정보를 props로 받음
   wishList,
+  images,
 }) => {
   const [isWishListed, setIsWishListed] = useState(
     wishList ? wishList.includes(tourId) : false
@@ -30,21 +33,54 @@ const Tour_Item = ({
     navigateFragment(parseInt(tourId), parseInt(userId));
   };
 
-  // 위시리스트 이벤트
-  const toggleWishlist = (e) => {
+  useEffect(() => {
+    console.log(isWishListed);
+  }, [isWishListed]);
+
+  const toggleWishlist = async (e) => {
     e.stopPropagation();
-    setIsWishListed((current) => !current);
+    try {
+      if (isWishListed) {
+        // 위시리스트에서 제거
+        await axios.delete(
+          `https://i11d110.p.ssafy.io/api/wishlist/${tourId}`,
+          {
+            headers: {
+              Authorization: user.userToken,
+            },
+          }
+        );
+      } else {
+        // 위시리스트에 추가
+        await axios.post(
+          `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
+          null,
+          {
+            headers: {
+              // Authorization: `Bearer ${user.userToken}`,
+              Authorization: user.userToken,
+            },
+          }
+        );
+      }
+      setIsWishListed((isWishListed) => !isWishListed);
+      console.log(isWishListed);
+      console.log("하트클릭");
+    } catch (error) {
+      console.error("위시리스트 업데이트 중 오류 발생:", error);
+    }
   };
 
   return (
-    <div onClick={onClickTour} className={styles.tour_item}>
+    <div className={styles.Tour_Item} onClick={onClickTour}>
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
 
+        {/* <Carousel4 images={images} /> */}
         {/* <Carousel images={images} /> */}
         {/* {images.length > 1 ? (
-          // <Carousel images={images} />
+          <Carousel images={images} />
         ) : (
           <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         )} */}

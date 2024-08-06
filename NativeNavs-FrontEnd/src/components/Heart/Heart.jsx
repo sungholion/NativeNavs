@@ -9,15 +9,10 @@ import heart_off from "../../assets/heart_off.png";
 // onClickEvent : 클릭 이벤트 전달 -> 서버에전달용? 혹은 클라이언트에게 영향 주는 무언가?
 const Heart = ({ isWishListed, setIsWishListed, onClickEvent }) => {
   return (
-    <div
-      onClick={() => {
-        setIsWishListed((current) => !current);
-      }}
-      className={styles.heart_default}
-    >
+    <div>
       <Image
         url={isWishListed ? heart_on : heart_off}
-        size={0}
+        size={1}
         onClickEvent={onClickEvent}
       />
     </div>

@@ -4,6 +4,7 @@
   margin: 0px auto;
   align-items: center;
   width: 100%;
+  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
 }
 
 .thumbnail_container {

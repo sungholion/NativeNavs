@@ -9,6 +9,27 @@ const Main = () => {
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(null);
 
+  // android로부터 유저 정보를 수신 및 파싱
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received user JSON:", userJson);
+      try {
+        const parsedUser = JSON.parse(userJson);
+        console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`Token: ${parsedUser.userToken}`);
+        console.log(`isNav: ${parsedUser.isNav}`);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse user JSON", error);
+      }
+    };
+
+    if (window.getUserData) {
+      window.getUserData();
+    }
+  }, []);
+
+  // 투어 API
   useEffect(() => {
     console.log("useEffect - fetchTours");
     const fetchTours = async () => {
@@ -24,6 +45,7 @@ const Main = () => {
     fetchTours();
   }, []);
 
+  // 위시리스트 API
   useEffect(() => {
     const fetchWishLists = async () => {
       if (user && user.isNav == false) {
@@ -47,26 +69,6 @@ const Main = () => {
     fetchWishLists();
   }, [user]);
 
-  // android로부터 유저 정보를 수신 및 파싱
-  useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
-    };
-
-    if (window.getUserData) {
-      window.getUserData();
-    }
-  }, []);
-
   console.log(tours);
   console.log(user);
 
@@ -89,6 +91,10 @@ const Main = () => {
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
             wishList={wishList}
+            images={[
+              tour.thumbnailImage,
+              ...tour.plans.map((plan) => plan.image),
+            ]}
           />
         ))}
       </div>

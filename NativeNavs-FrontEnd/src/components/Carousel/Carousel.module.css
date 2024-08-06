@@ -11,6 +11,7 @@
 
 .slick-slider {
     display: relative;
+    width: 100%;
 }
 
 .slick-dots {
