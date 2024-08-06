@@ -34,9 +34,9 @@ class SignUpTosFragment : BaseFragment<FragmentSignUpTosBinding>(
             setSupportZoom(false)
             domStorageEnabled = true
         }
-
         binding.signupTosWv.webViewClient = WebViewClient()
         binding.signupTosWv.webChromeClient = WebChromeClient()
+        binding.signupTosWv.loadUrl("privacy_terms")
     }
 
     private fun initEvent() {

@@ -9,6 +9,7 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentTeamIntroBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.popBackStack
 
 class TeamIntroFragment : BaseFragment<FragmentTeamIntroBinding>(
@@ -31,6 +32,8 @@ class TeamIntroFragment : BaseFragment<FragmentTeamIntroBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initWebView()
+
         binding.teamCustomWv.setOnBackListener(object : CustomTitleWebView.OnBackClickListener{
             override fun onClick() {
                 popBackStack()
@@ -46,6 +49,9 @@ class TeamIntroFragment : BaseFragment<FragmentTeamIntroBinding>(
             }
 
         })
+    }
+    private fun initWebView(){
+        binding.teamCustomWv.loadWebViewUrl(WEBURL + "team")
     }
 
 }
