@@ -135,11 +135,13 @@
     <string name="profile_other_stamp">\'s Stamp</string>
     <string name="tour_detail_chat">1:1 Chat</string>
     <string name="tour_detail_reservation">Booking Status</string>
-    <string name="dialog_cancel_register_tour">Are you sure you want to finish creating your tour?</string>
+    <string name="dialog_cancel_register_tour">Are you sure you want to finish registering your tour?</string>
     <string name="dialog_register_tour_positive">Finish</string>
     <string name="dialog_register_tour_negative">Keep Creating</string>
     <string name="dialog_register_fail">Tour registration failed. Please try again.</string>
     <string name="dialog_confirm">Got it</string>
     <string name="dialog_modify_fail">Tour modification failed. Please try again.</string>
     <string name="dialog_cancel_modify_tour">Are you sure you want to finish modifying your tour?</string>
+    <string name="dialog_cancel_register_review">Are you sure you want to finish registering your review?</string>
+    <string name="dialog_register_review_fail">Review registration failed. Please try again.</string>
 </resources>

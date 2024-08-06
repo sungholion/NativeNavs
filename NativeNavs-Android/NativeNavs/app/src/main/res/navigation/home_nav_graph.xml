@@ -179,7 +179,7 @@
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register"></fragment>
+        tools:layout="@layout/fragment_reservation_register" />
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewListFragment"
@@ -205,7 +205,16 @@
         android:id="@+id/reviewRegisterFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewRegisterFragment"
         android:label="ReviewRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" />
+        tools:layout="@layout/fragment_reservation_register">
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_reviewRegisterFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment"
+            app:popUpTo="@id/reservationDetailFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/stampDetailFragment"
         android:name="com.circus.nativenavs.ui.mypage.StampDetailFragment"
@@ -286,7 +295,8 @@
     <fragment
         android:id="@+id/profileLanguageFragment"
         android:name="com.circus.nativenavs.ui.profile.ProfileLanguageFragment"
-        android:label="ProfileLanguageFragment">
+        android:label="ProfileLanguageFragment"
+        tools:layout="@layout/fragment_sign_up_language">
         <action
             android:id="@+id/action_profileLanguageFragment_to_profileModifylFragment"
             app:destination="@id/profileModifylFragment" />

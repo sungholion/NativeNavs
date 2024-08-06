@@ -1,42 +1,31 @@
 package com.circus.nativenavs.ui.review
 
-import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.trip.MyTripFragment
+import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.google.gson.Gson
-import kotlin.math.log
 
-private const val TAG = "ReviewListBridge"
+private const val TAG = "ReviewRegisterBridge"
 
-class ReviewListBridge(
+class ReviewRegisterBridge(
     private val homeActivity: HomeActivity,
-    private val fragment: ReviewListFragment,
+    private val fragment: ReviewRegisterFragment,
     private val webView: WebView
 ) {
 
     @JavascriptInterface
-    fun navigateToTourReviewPhotoFragment(tourId: Int) {
-        fragment.navigateToTourReviewPhotoFragment(tourId)
-        Log.d(TAG, "navigateToTourReviewPhotoFragment: $tourId")
+    fun moveFromReviewRegisterToReviewListFragment(tourId: Int) {
+        fragment.moveFromReviewRegisterToReviewListFragment(tourId)
+        Log.d(TAG, "moveFromReviewRegisterToReviewListFragment: $tourId")
     }
 
     @JavascriptInterface
-    fun navigateToNavReviewPhotoFragment(navId: Int) {
-        fragment.navigateToNavReviewPhotoFragment(navId)
-        Log.d(TAG, "navigateToNavReviewPhotoFragment: $navId")
+    fun showReviewRegisterFailDialog() {
+        fragment.showReviewRegisterFailDialog()
     }
-
-    @JavascriptInterface
-    fun navigateToTravReviewPhotoFragment(travId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
-        fragment.navigateToTravReviewPhotoFragment(travId)
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
-    }
-
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
@@ -55,5 +44,4 @@ class ReviewListBridge(
     ) {
         return webView.evaluateJavascript(script, callback)
     }
-
 }
