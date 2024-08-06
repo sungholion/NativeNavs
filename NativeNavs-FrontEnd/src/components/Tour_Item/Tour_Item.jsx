@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import Carousel from "@/components/Carousel/Carousel.jsx";
-import Carousel4 from "@/components/Carousel/Carousel4.jsx";
 import axios from "axios";
 
 const Tour_Item = ({
@@ -19,7 +17,6 @@ const Tour_Item = ({
   navigateFragment,
   user, // 추가: user 정보를 props로 받음
   wishList,
-  images,
 }) => {
   const [isWishListed, setIsWishListed] = useState(
     wishList ? wishList.includes(tourId) : false

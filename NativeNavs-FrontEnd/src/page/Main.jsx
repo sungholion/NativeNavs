@@ -23,10 +23,6 @@ const Main = () => {
         console.error("Failed to parse user JSON", error);
       }
     };
-
-    if (window.getUserData) {
-      window.getUserData();
-    }
   }, []);
 
   // 투어 API
@@ -67,10 +63,7 @@ const Main = () => {
       }
     };
     fetchWishLists();
-  }, [user]);
-
-  console.log(tours);
-  console.log(user);
+  }, [user, wishList]);
 
   return (
     <div className={styles.main}>
@@ -87,14 +80,9 @@ const Main = () => {
             reviewAverage={tour.reviewAverage}
             nav_profile_img={tour.thumbnailImage}
             nickname={tour.user.nickname}
-            plans={tour.plans}
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
             wishList={wishList}
-            images={[
-              tour.thumbnailImage,
-              ...tour.plans.map((plan) => plan.image),
-            ]}
           />
         ))}
       </div>

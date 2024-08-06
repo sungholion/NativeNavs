@@ -37,6 +37,7 @@
 body * {
   font-family: "Pretended";
   font-weight: normal;
+  letter-spacing: 0.07px; /* 모든 텍스트에 0.5px 자간 적용 */
 }
 
 ::-webkit-scrollbar {
