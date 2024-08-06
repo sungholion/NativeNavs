@@ -1,6 +1,7 @@
 package com.circus.nativenavs.ui.profile
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,8 @@ import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.circus.nativenavs.R
@@ -116,6 +119,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         homeActivityViewModel.updateNickNameCheck(true)
         binding.apply {
             homeActivityViewModel.profileUser.value?.let {
+                profileModifyUserImgIv.setImageURI(it.image.toUri())
                 profileModifyNameEt.setText(it.name)
                 profileModifyNicknameEt.setText(it.nickname)
                 profileModifyNationalityEt.setText(it.nation)
@@ -127,8 +131,23 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
 
     }
-
+    // 선택한 이미지 처리
+    private fun handleImage(imageUri: Uri) {
+        Log.d("YourFragment", "Selected Image URI: $imageUri")
+        binding.profileModifyUserImgIv.setImageURI(imageUri)
+        // 필요 시 이미지 업로드 추가 처리
+    }
+    // ActivityResultLauncher 선언
+    private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { handleImage(it) }
+    }
+    private fun openImagePicker() {
+        getImageLauncher.launch("image/*")
+    }
     fun initEvent() {
+        binding.profileModifyUserImgCv.setOnClickListener {
+            openImagePicker()
+        }
         binding.profileModifyCompleteBtn.setOnClickListener {
 
             val password = binding.profileModifyPasswordEt.text.toString()

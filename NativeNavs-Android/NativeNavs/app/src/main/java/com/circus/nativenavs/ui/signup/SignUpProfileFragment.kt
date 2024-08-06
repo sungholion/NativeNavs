@@ -1,15 +1,20 @@
 package com.circus.nativenavs.ui.signup
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -17,6 +22,11 @@ import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
 import com.circus.nativenavs.ui.setting.CustomSpinnerAdapter
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -191,12 +201,30 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             false
         }
     }
+    // 이미지 선택 인텐트 시작
+    private fun openImagePicker() {
+        getImageLauncher.launch("image/*")
+    }
+
+    // 선택한 이미지 처리
+    private fun handleImage(imageUri: Uri) {
+        Log.d("YourFragment", "Selected Image URI: $imageUri")
+        binding.signupProfileImgIv.setImageURI(imageUri)
+        // 필요 시 이미지 업로드 추가 처리
+    }
+    // ActivityResultLauncher 선언
+    private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { handleImage(it) }
+    }
 
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
 
+        binding.signupProfileImgCv.setOnClickListener {
+            openImagePicker()
+        }
 
         binding.signupNicknameCheckBtn.setOnClickListener {
 
