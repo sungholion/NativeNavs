@@ -5,6 +5,7 @@ import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.LoginDto
 import com.circus.nativenavs.data.LoginResponse
 import com.circus.nativenavs.data.ProfileUserDto
+import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.RefreshResponse
 import com.circus.nativenavs.data.SignUpDto
 import okhttp3.MultipartBody
@@ -75,4 +76,9 @@ interface UserService {
 
     @GET("tours/category")
     suspend fun getCategory():List<CategoryDto>
+
+    @GET("reviews/guide/{guideId}")
+    suspend fun getNavReview(
+        @Path(value = "guideId") guideId : Int
+    ) : ProfileUserReviewDto
 }
