@@ -7,7 +7,7 @@ import lombok.*;
 @Table(name = "rooms")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString

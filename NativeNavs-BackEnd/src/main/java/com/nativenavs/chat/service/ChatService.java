@@ -66,7 +66,7 @@ public class ChatService {
      * 채팅방 채팅내용 불러오기
      * @param roomId 채팅방 id
      */
-    public List<ChatDTO> findAllChatByRoomId(int roomId) {
+    public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
         return chatRepository.findAllByRoomId(roomId).stream()
                 .map(chatEntity -> ChatDTO.builder()
                         .id(chatEntity.getId().toHexString())

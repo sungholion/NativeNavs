@@ -7,66 +7,53 @@ import com.nativenavs.chat.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/rooms")
+@CrossOrigin("*") // 아직 고민..
 public class RoomController {
 
     private final ChatService chatService;
     private final RoomService roomService;
 
     // 채팅방 참여하기
-    @GetMapping("/{roomId}")
-    public String joinRoom(@PathVariable int roomId, Model model) {
-        List<ChatDTO> chatList = chatService.findAllChatByRoomId(roomId);
-        model.addAttribute("roomId", roomId);
-        model.addAttribute("chatList", chatList);
-        return "chat/room";
+    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
+    @Operation(summary = "채팅방 참여", description = "채팅방에 참여한다")
+    @GetMapping("enter/{roomId}")
+    public List<ChatDTO> joinRoom(@PathVariable int roomId, @RequestHeader("Authorization") String token, Model model) {
+
+        List<ChatDTO> chatList = chatService.findAllChatByRoomId(roomId,token);
+
+        return chatList;
     }
 
-    // 채팅방 등록
-//    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-//    @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
-//    @PostMapping("/room")
-//    public String createRoom(int tourId, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
-//        roomService.createRoom(tourId, senderId, senderNickname, senderIsNav, receiverId, receiverNickname, receiverIsNav);
-//
-//        return "redirect:/roomList";
-//    }
 
     // 채팅방 등록
     @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
     @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
-    @PostMapping("/room")
-    public String createRoom(int tourId, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
-        roomService.createRoom(tourId, senderId, senderNickname, senderIsNav, receiverId, receiverNickname, receiverIsNav);
+    @PostMapping("/create/{tourId}")
+    public RoomEntity createRoom( @PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
+        return roomService.createRoom(tourId, token);
 
-        return "redirect:/roomList";
     }
 
     /**
-     * 채팅방 리스트 보기
+     * 나의 채팅방 리스트 보기
      */
-    @GetMapping("/roomList")
-    public String roomList(Model model) {
-        List<RoomEntity> roomList = roomService.findAllRoom();
-        model.addAttribute("roomList", roomList);
-        return "chat/roomList";
+    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
+    @Operation(summary = "나의 채팅방 목록 보기", description = "나의 채팅방 목록을 본다")
+    @GetMapping("/search/all")
+    public ResponseEntity<?> roomList(@RequestHeader("Authorization") String token) {
+        List<RoomEntity> myRoomList = roomService.findAllRoom(token);
+
+        return ResponseEntity.ok(myRoomList);
     }
 
-    /**
-     * 방만들기 폼
-     */
-    @GetMapping("/roomForm")
-    public String roomForm() {
-        return "chat/roomForm";
-    }
 
 }
