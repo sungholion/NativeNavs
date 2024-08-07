@@ -48,7 +48,7 @@ public class ChatService {
                 .build();
     }
 
-    public ChatEntity createChat(int roomId, String senderId, String senderNickname, String senderProfileImage, String content) {
+    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content) {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
 

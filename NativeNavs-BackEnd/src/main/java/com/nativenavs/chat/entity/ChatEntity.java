@@ -16,7 +16,7 @@ public class ChatEntity {
 
     private int roomId;
 
-    private String senderId;
+    private int senderId;
     private String senderNickname;
     private String senderProfileImage;
     private String content;
@@ -24,7 +24,7 @@ public class ChatEntity {
     private long sendTime;
 
     @Builder
-    public ChatEntity(int roomId, String senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, long sendTime) {
+    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, long sendTime) {
         this.roomId = roomId;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
@@ -34,7 +34,7 @@ public class ChatEntity {
         this.sendTime = sendTime;
     }
 
-    public static ChatEntity createChat(int roomId, String senderId, String senderNickname, String senderProfileImage, String content, boolean isRead) {
+    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead) {
         return ChatEntity.builder()
                 .roomId(roomId)
                 .senderId(senderId)

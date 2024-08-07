@@ -32,11 +32,22 @@ public class RoomController {
     }
 
     // 채팅방 등록
+//    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
+//    @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
+//    @PostMapping("/room")
+//    public String createRoom(int tourId, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
+//        roomService.createRoom(tourId, senderId, senderNickname, senderIsNav, receiverId, receiverNickname, receiverIsNav);
+//
+//        return "redirect:/roomList";
+//    }
+
+    // 채팅방 등록
     @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 한다")
+    @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
     @PostMapping("/room")
     public String createRoom(int tourId, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
         roomService.createRoom(tourId, senderId, senderNickname, senderIsNav, receiverId, receiverNickname, receiverIsNav);
+
         return "redirect:/roomList";
     }
 
