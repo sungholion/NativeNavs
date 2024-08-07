@@ -5,6 +5,7 @@ import { getStringedDate } from "@utils/get-stringed-date";
 import Button from "../Button/Button";
 import { categoryItem } from "@/utils/constant";
 import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
+import { getImageUrl } from "@/utils/get-image-url";
 
 const TourEditor1 = ({ BeforePage, goAfterPage }) => {
   const {
@@ -19,19 +20,28 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
 
   const { onTourDataChange } = useContext(TourDispatchContext);
 
+  const [prevThumbnailImage, setPrevThumbnailImage] = useState(""); //썸네일 이미지 미리보기
   // onTourDataChange가 함수인지 확인
   if (typeof onTourDataChange !== "function") {
     throw new Error("onTourDataChange is not a function");
   }
 
+  // 썸네일 이미지
+  // 투어 생성인 경우 썸네일 이미지가 아직 객체 상태
+  // 아닌 경우 - 서버로드 이미지인경우 URL이니 그대로 사용
+  useEffect(() => {
+    getImageUrl(thumbnailImage, setPrevThumbnailImage);
+  }, [thumbnailImage]);
+
   const onImgChange = (e) => {
     const { files } = e.target;
     if (files && files.length > 0) {
       const uploadFile = files[0];
+      onTourDataChange("thumbnailImage", uploadFile);
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);
       reader.onloadend = () => {
-        onTourDataChange("thumbnailImage", reader.result);
+        setPrevThumbnailImage(reader.result);
       };
     }
   };
@@ -41,8 +51,8 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
       <div className={styles.Thumbnail}>
         <p>썸네일 사진</p>
         <label htmlFor="thumbnail">
-          {thumbnailImage !== "" ? (
-            <img src={thumbnailImage} alt="이미지 미리보기" />
+          {prevThumbnailImage !== "" ? (
+            <img src={prevThumbnailImage} alt="이미지 미리보기" />
           ) : (
             <div className={styles.emptythumbnail}>
               여기를 눌러
