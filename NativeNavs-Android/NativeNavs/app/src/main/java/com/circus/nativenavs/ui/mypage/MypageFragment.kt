@@ -12,10 +12,13 @@ import com.circus.nativenavs.databinding.FragmentMypageBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.login.LoginActivity
+import com.circus.nativenavs.ui.qr.CustomCaptureActivity
+import com.circus.nativenavs.ui.qr.QRCreateActivity
 import com.circus.nativenavs.util.LOGOUT
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.zxing.integration.android.IntentIntegrator
 
 class MypageFragment :
     BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
@@ -110,6 +113,35 @@ class MypageFragment :
             }
 
             builder.show()
+        }
+        binding.mypageQrTestCl.setOnClickListener {
+            startQRCodeScan()
+        }
+        binding.mypageQrCreateCl.setOnClickListener {
+            startActivity(Intent(requireContext(),QRCreateActivity::class.java).apply {
+                action = "17"
+            })
+        }
+
+    }
+
+    private fun startQRCodeScan() {
+        IntentIntegrator.forSupportFragment(this).apply {
+            setOrientationLocked(true)
+            setPrompt("Scan a QR Code")
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setCaptureActivity(CustomCaptureActivity::class.java)
+            initiateScan()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        intentResult?.contents?.let {
+            // Handle the scanned result here
+            showToast(it)
         }
     }
 

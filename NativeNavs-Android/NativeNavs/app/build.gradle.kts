@@ -75,4 +75,8 @@ dependencies {
 
     //이미지 Glide
     implementation(libs.glide)
+
+    //QR
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
 }

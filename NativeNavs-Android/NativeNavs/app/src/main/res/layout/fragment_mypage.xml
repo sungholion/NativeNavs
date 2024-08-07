@@ -318,5 +318,75 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mypage_withdrawal_cl" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mypage_qr_test_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_line7_view">
+
+            <ImageView
+                android:id="@+id/mypage_qr_test_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/icon_withdrawal"
+                app:layout_constraintBottom_toBottomOf="@+id/mypage_qr_test_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mypage_qr_test_tv" />
+
+            <TextView
+                android:id="@+id/mypage_qr_test_tv"
+                style="@style/regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:layout_marginStart="10dp"
+                android:text="qr test"
+                android:textSize="@dimen/font_size_mypage_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mypage_qr_test_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/mypage_line8_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/stroke_default"
+            android:background="@color/gray_d9d9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mypage_qr_test_cl" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mypage_qr_create_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mypage_line8_view">
+
+            <ImageView
+                android:id="@+id/mypage_qr_create_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/icon_withdrawal"
+                app:layout_constraintBottom_toBottomOf="@+id/mypage_qr_create_tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mypage_qr_create_tv" />
+
+            <TextView
+                android:id="@+id/mypage_qr_create_tv"
+                style="@style/regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:layout_marginStart="10dp"
+                android:text="qr 생성"
+                android:textSize="@dimen/font_size_mypage_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mypage_qr_create_iv"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
