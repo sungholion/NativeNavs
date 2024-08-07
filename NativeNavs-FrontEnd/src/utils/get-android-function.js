@@ -53,3 +53,20 @@ export function navigateFromWishToTourListFragment() {
     console.log('navigateFromWishToTourListFragment function is not defined');
   }
 }
+
+// 투어 작성 -> 투어 상세보기로 이동
+export function moveFromTourRegisterToTourDetailFragment(tourId, navId) {
+  if (window.Android && typeof window.Android.moveFromTourRegisterToTourDetailFragment === 'function') {
+    window.Android.moveFromTourRegisterToTourDetailFragment(tourId, navId);
+  } else {
+    console.log("moveFromTourRegisterToTourDetailFragment function is not defined")
+  }
+}
+
+export function showRegisterFailDialog() {
+  if (window.Android && typeof window.Android.showRegisterFailDialog === 'function') {
+    window.Android.showRegisterFailDialog();
+  } else {
+    console.log('showRegisterFailDialog function is not defined');
+  }
+}

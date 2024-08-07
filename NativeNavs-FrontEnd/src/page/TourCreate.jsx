@@ -1,6 +1,7 @@
 import TourEditorHead from "@/components/TourEditor/TourEditorHead";
 import axios from "axios";
 import { useRef, useEffect, useState } from "react";
+import {moveFromTourRegisterToTourDetailFragment} from "@/utils/get-android-function";
 
 const TourCreate = () => {
   const [user, setUser] = useState(null);
@@ -71,12 +72,11 @@ const TourCreate = () => {
       .post("https://i11d110.p.ssafy.io/api/tours", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization:
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMwMDIzNDUsImV4cCI6MTcyMzAwNTk0NX0.x5ECJw7goelL6tVz2Tb26bQprmdv6-PwhV6yWQnvwHvP0B3l7hragzHoscecn7EA5SlMwsdn_wBVtG7HdPuCUQ",
+          Authorization: user.userToken
         },
       })
       .then((res) => {
-        window.alert("성공");
+        moveFromTourRegisterToTourDetailFragment(1, Number(user.userId))
       })
       .catch((err) => {
         console.error(err);
