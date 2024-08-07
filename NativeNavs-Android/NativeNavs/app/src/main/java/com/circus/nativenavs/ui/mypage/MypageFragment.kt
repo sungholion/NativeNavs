@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentMypageBinding
@@ -41,6 +42,12 @@ class MypageFragment :
 
     private fun initObserve() {
         homeActivityViewModel.userDto.observe(viewLifecycleOwner) { it ->
+            Glide.with(this)
+                .load(it.image) // 불러올 이미지 url
+                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(binding.mypageProfileImgIv) // 이미지를 넣을 뷰
             binding.mypageNicknameTv.text = it.nickname
         }
 

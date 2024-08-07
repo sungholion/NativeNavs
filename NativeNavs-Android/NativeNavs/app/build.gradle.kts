@@ -72,4 +72,7 @@ dependencies {
         exclude(group = "com.android.support", module = "support-compat")
     }
     implementation(libs.threetenabp)
+
+    //이미지 Glide
+    implementation(libs.glide)
 }

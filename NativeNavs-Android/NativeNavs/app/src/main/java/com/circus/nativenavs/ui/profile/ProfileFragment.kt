@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ProfileReviewDto
@@ -89,8 +90,12 @@ class ProfileFragment :
         homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
             if (SharedPref.userId != it.id) binding.profileModifyBtn.visibility = INVISIBLE
             else binding.profileModifyBtn.visibility = VISIBLE
-
-            binding.profileUserIv.setImageURI(it.image.toUri())
+            Glide.with(this)
+                .load(it.image) // 불러올 이미지 url
+                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(binding.profileUserIv) // 이미지를 넣을 뷰
             binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
