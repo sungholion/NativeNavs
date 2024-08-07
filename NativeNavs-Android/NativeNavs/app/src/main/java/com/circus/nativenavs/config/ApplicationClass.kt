@@ -1,6 +1,10 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.webkit.WebView
 import android.util.Patterns
@@ -9,6 +13,7 @@ import com.circus.nativenavs.util.NATIVENAVS_URL
 import java.util.regex.Pattern
 import com.circus.nativenavs.util.PREF
 import com.circus.nativenavs.util.SharedPref
+import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -26,6 +31,15 @@ class ApplicationClass : Application() {
         fun setAuthToken(token: String) {
             authInterceptor.setAuthToken(token)
         }
+
+        // Notification Channel ID
+        const val channel_id = "ssafy_channel"
+
+        // ratrofit  수업 후 network 에 업로드 할 수 있도록 구성
+        fun uploadToken(token: String) {
+
+
+        }
     }
 
     override fun onCreate() {
@@ -33,6 +47,7 @@ class ApplicationClass : Application() {
 
         SharedPref.sharedPrefs = applicationContext.getSharedPreferences(PREF, MODE_PRIVATE)
         initRetrofitInstance()
+        FirebaseApp.initializeApp(this)
         initFcmToken()
     }
 
@@ -41,10 +56,20 @@ class ApplicationClass : Application() {
             if (task.isSuccessful) {
                 val token = task.result
                 SharedPref.fcmToken = token
+                Log.d("FCM", "initFcmToken: $token")
             } else {
                 Log.w("FCM", "Fetching FCM registration token failed", task.exception)
             }
         }
+    }
+
+    // Notification 수신을 위한 채널 추가
+    private fun createNotificationChannel(id: String, name: String) {
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.createNotificationChannel(NotificationChannel(id, name, importance))
     }
 
     val loggingInterceptor = HttpLoggingInterceptor().apply {
