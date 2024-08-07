@@ -1,6 +1,8 @@
 package com.nativenavs.tour.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.tour.dto.*;
 import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.dto.CategoryDTO;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -52,43 +55,57 @@ public class TourService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private AwsS3ObjectStorage awsS3ObjectStorageUpload;
+    @Autowired
     private WishlistRepository wishlistRepository;
     @Autowired
     private ReservationService reservationService;
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public void addTour(TourDTO tourDTO, int userId){
-        TourEntity tourEntity = TourEntity.toSaveEntity(tourDTO);
+
+    public void addTour(TourRequestDTO tourRequestDTO, int userId, MultipartFile thumbnailImage, List<MultipartFile> planImages) {
+        TourEntity tourEntity = TourEntity.toSaveEntity(tourRequestDTO);
+        // 썸네일 이미지
+        String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
+        tourEntity.setThumbnailImage(thumbnailUrl);
         tourEntity.setUserId(userId);
 
         TourEntity savedTour = tourRepository.save(tourEntity);
 
-        List<Integer> categoryIds = tourDTO.getCategoryIds();
         // 카테고리 정보 처리
+        List<Integer> categoryIds = tourRequestDTO.getCategoryIds();
         if (categoryIds != null && !categoryIds.isEmpty()) {
             for (Integer categoryId : categoryIds) {
                 CategoryEntity category = categoryRepository.findById(categoryId)
                         .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-
                 TourCategoryEntity tourCategoryEntity = new TourCategoryEntity();
                 tourCategoryEntity.setTour(savedTour);
                 tourCategoryEntity.setCategory(category);
                 tourCategoryRepository.save(tourCategoryEntity);
             }
         }
+
+        List<String> planImageUrls = new ArrayList<>();
+        for (MultipartFile planImage : planImages) {
+            String s = awsS3ObjectStorageUpload.uploadFile(planImage);
+            planImageUrls.add(s);
+        }
+        for(int i=0;i<tourRequestDTO.getPlans().size();i++){
+            tourRequestDTO.getPlans().get(i).setImage(planImageUrls.get(i));
+        }
         // 일정 정보 처리
-        List<PlanDTO> planDTOs = tourDTO.getPlans();
-        if (planDTOs != null && !planDTOs.isEmpty()) {
-            for (PlanDTO planDTO : planDTOs) {
+        List<PlanRequestDTO> planRequestDTOS = tourRequestDTO.getPlans();
+        if (planRequestDTOS != null && !planRequestDTOS.isEmpty()) {
+            for (PlanRequestDTO planRequestDTO: planRequestDTOS) {
                 PlanEntity planEntity = new PlanEntity();
                 planEntity.setTourId(savedTour);
-                planEntity.setField(planDTO.getField());
-                planEntity.setDescription(planDTO.getDescription());
-                planEntity.setImage(planDTO.getImage());
-                planEntity.setLatitude(planDTO.getLatitude());
-                planEntity.setLongitude(planDTO.getLongitude());
-                planEntity.setAddressFull(planDTO.getAddressFull());
+                planEntity.setField(planRequestDTO.getField());
+                planEntity.setDescription(planRequestDTO.getDescription());
+                planEntity.setImage(planRequestDTO.getImage());
+                planEntity.setLatitude(planRequestDTO.getLatitude());
+                planEntity.setLongitude(planRequestDTO.getLongitude());
+                planEntity.setAddressFull(planRequestDTO.getAddressFull());
                 planRepository.save(planEntity);
             }
         }
@@ -157,28 +174,36 @@ public class TourService {
     }
 
     @Transactional
-    public void modifyTour(int id, TourDTO tourDTO){
+    public void modifyTour(int id, TourRequestDTO tourRequestDTO,MultipartFile thumbnailImage, List<MultipartFile> planImages) {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-            updateTourEntityFields(tourEntity, tourDTO);
-            updateTourCategories(tourEntity, tourDTO.getCategoryIds());
-            updateTourPlans(tourEntity, tourDTO.getPlans());
+
+            updateTourEntityFields(tourEntity, tourRequestDTO, thumbnailImage);
+            updateTourCategories(tourEntity, tourRequestDTO.getCategoryIds());
+            updateTourPlans(tourEntity, tourRequestDTO.getPlans(), planImages);
+
             tourRepository.save(tourEntity);
         }
     }
 
-    private void updateTourEntityFields(TourEntity tourEntity, TourDTO tourDTO) {
-        tourEntity.setTitle(tourDTO.getTitle());
-        tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
-        tourEntity.setDescription(tourDTO.getDescription());
-        tourEntity.setLocation(tourDTO.getLocation());
-        tourEntity.setPrice(tourDTO.getPrice());
-        tourEntity.setStartDate(tourDTO.getStartDate());
-        tourEntity.setEndDate(tourDTO.getEndDate());
-        tourEntity.setReviewAverage(tourDTO.getReviewAverage());
-        tourEntity.setReviewCount(tourDTO.getReviewCount());
-        tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
+    private void updateTourEntityFields(TourEntity tourEntity, TourRequestDTO tourRequestDTO, MultipartFile thumbnailImage) {
+        tourEntity.setTitle(tourRequestDTO.getTitle());
+
+        if(tourEntity.getThumbnailImage() != null && !thumbnailImage.isEmpty()){
+            if (tourEntity.getThumbnailImage() != null) {
+                awsS3ObjectStorageUpload.deleteFile(tourEntity.getThumbnailImage());
+            }
+        }
+        String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
+        tourEntity.setThumbnailImage(thumbnailUrl);
+
+        tourEntity.setDescription(tourRequestDTO.getDescription());
+        tourEntity.setLocation(tourRequestDTO.getLocation());
+        tourEntity.setPrice(tourRequestDTO.getPrice());
+        tourEntity.setStartDate(tourRequestDTO.getStartDate());
+        tourEntity.setEndDate(tourRequestDTO.getEndDate());
+        tourEntity.setMaxParticipant(tourRequestDTO.getMaxParticipants());
     }
 
     private void updateTourCategories(TourEntity tourEntity, List<Integer> categoryIds) {
@@ -199,21 +224,49 @@ public class TourService {
         }
     }
 
-    private void updateTourPlans(TourEntity tourEntity, List<PlanDTO> plans) {
-        // 기존 플랜 삭제
-        planRepository.deleteByTourId(tourEntity.getId());
-        // 새로운 플랜 추가
-        if (plans != null) {
-            for (PlanDTO planDTO : plans) {
-                PlanEntity planEntity = new PlanEntity();
+    private void updateTourPlans(TourEntity tourEntity, List<PlanRequestDTO> plans, List<MultipartFile> planImages) {
+        List<PlanEntity> currentPlans = planRepository.findByTourId(tourEntity.getId());
+        int imageIndex = 0;
+
+        for (int i = 0; i < plans.size(); i++) {
+            PlanRequestDTO planDTO = plans.get(i);
+            PlanEntity planEntity = null;
+
+            // 기존 플랜 수정 또는 새로운 플랜 추가
+            if (i < currentPlans.size()) {
+                planEntity = currentPlans.get(i);
+            } else {
+                planEntity = new PlanEntity();
                 planEntity.setTourId(tourEntity);
-                planEntity.setField(planDTO.getField());
-                planEntity.setDescription(planDTO.getDescription());
-                planEntity.setImage(planDTO.getImage());
-                planEntity.setLatitude(planDTO.getLatitude());
-                planEntity.setLongitude(planDTO.getLongitude());
-                planEntity.setAddressFull(planDTO.getAddressFull());
-                planRepository.save(planEntity);
+            }
+
+            planEntity.setField(planDTO.getField());
+            planEntity.setDescription(planDTO.getDescription());
+
+            // 이미지가 제공된 경우에만 처리
+            if (planImages != null && imageIndex < planImages.size() && planImages.get(imageIndex) != null) {
+                MultipartFile image = planImages.get(imageIndex);
+                if (!image.isEmpty()) {
+                    if (planEntity.getImage() != null) {
+                        awsS3ObjectStorageUpload.deleteFile(planEntity.getImage());
+                    }
+                    String imageUrl = awsS3ObjectStorageUpload.uploadFile(image);
+                    planEntity.setImage(imageUrl);
+                }
+                imageIndex++;
+            }
+
+            planEntity.setLatitude(planDTO.getLatitude());
+            planEntity.setLongitude(planDTO.getLongitude());
+            planEntity.setAddressFull(planDTO.getAddressFull());
+
+            planRepository.save(planEntity);
+        }
+
+        // 남은 기존 플랜 삭제
+        if (plans.size() < currentPlans.size()) {
+            for (int i = plans.size(); i < currentPlans.size(); i++) {
+                planRepository.delete(currentPlans.get(i));
             }
         }
     }

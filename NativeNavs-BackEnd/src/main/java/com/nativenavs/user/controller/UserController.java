@@ -2,6 +2,7 @@ package com.nativenavs.user.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/users")
@@ -149,13 +151,15 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody UserDTO user) {
+            @RequestPart("user") UserDTO user,
+            @RequestPart("profileImage") MultipartFile profileImage)           //@RequestBody UserDTO user
+             {
         try {
             if (userService.checkDuplicatedEmail(user.getEmail())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 email 입니다");
             }
 
-            userService.signUp(user);
+            userService.signUp(user,profileImage);
             return ResponseEntity.accepted().body("회원 가입에 성공했습니다");
         } catch (Exception e) {
             e.printStackTrace();
@@ -294,7 +298,10 @@ public class UserController {
                             )
                     )
             )
-            @RequestBody UserDTO updateUserDTO) {
+            @RequestPart("user") UserDTO updateUserDTO,
+            @RequestPart("profileImage") MultipartFile profileImage)
+//            @RequestBody UserDTO updateUserDTO
+    {
         try {
             String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
             String email = JwtTokenProvider.getEmailFromToken(jwtToken);
@@ -304,7 +311,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다");
             }
 
-            userService.updateUser(existingUserDTO.getId(), updateUserDTO);
+            userService.updateUser(existingUserDTO.getId(), updateUserDTO, profileImage);
             return ResponseEntity.ok("회원 정보 수정에 성공했습니다");
 
         } catch (Exception e) {

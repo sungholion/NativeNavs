@@ -1,5 +1,6 @@
 package com.nativenavs.review.service;
 
+import com.nativenavs.common.service.AwsS3ObjectStorage;
 import com.nativenavs.review.dto.*;
 import com.nativenavs.review.entity.ReviewEntity;
 import com.nativenavs.review.entity.ReviewImageEntity;
@@ -13,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,9 +34,11 @@ public class ReviewService {
 
     @Autowired
     private TourRepository tourRepository;
+    @Autowired
+    private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
     @Transactional
-    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer) {
+    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images) {
         // Tour, Guide와 Reviewer 정보를 조회
         TourEntity tour = tourRepository.findById(reviewRequestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
@@ -53,11 +57,14 @@ public class ReviewService {
         review = reviewRepository.save(review);
 
         // 리뷰와 관련된 이미지 저장
-        if (reviewRequestDTO.getImageUrls() != null) {
-            for (String imageUrl : reviewRequestDTO.getImageUrls()) {
+        if (images != null) {
+            for (MultipartFile image : images) {
                 ReviewImageEntity reviewImage = new ReviewImageEntity();
                 reviewImage.setReview(review);
-                reviewImage.setImage(imageUrl);
+
+                String url = awsS3ObjectStorageUpload.uploadFile(image);
+                reviewImage.setImage(url);
+
                 reviewImageRepository.save(reviewImage);
             }
         }
