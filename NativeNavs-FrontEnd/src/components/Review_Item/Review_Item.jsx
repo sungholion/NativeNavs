@@ -3,12 +3,12 @@ import StarScore from "../Star/StarScore";
 import Review_Item_img from "./Review_Item_img";
 
 const Review_Item = ({
+  description,
+  imageList,
   user,
   score,
-  description,
-  tour,
+  tourTitle,
   needToShowTourTitle = false,
-  imageList,
 }) => {
   return (
     <div className={styles.Review_Item}>
@@ -26,7 +26,7 @@ const Review_Item = ({
         </div>
       </section>
       <section className={styles.Review_Item_content}>
-        {needToShowTourTitle ? <div>[ {tour.title} ]</div> : null}
+        {needToShowTourTitle ? <div>[ {tourTitle} ]</div> : null}
         <div className={styles.Review_Item_tour_description}>{description}</div>
         <div className={styles.Review_Item_image}></div>
       </section>

@@ -45,20 +45,23 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
-        console.log(tour)
+        console.log("Tours response data : ", response.data);
+        console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
       }
     };
-    
+
     fetchTour();
   }, [params.tour_id]);
-  
+
   // NavLanguages 관리 state
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
-      const userLanguage = tour.user.userLanguage.split(',').map(lang => lang.trim());
+      const userLanguage = tour.user.userLanguage
+        .split(",")
+        .map((lang) => lang.trim());
       setNavLanguages(userLanguage);
       console.log(navLanguages);
     }
@@ -74,15 +77,14 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
         );
         setReviewData(response.data);
-        console.log("Fetched reviewData:", response.data); // 응답 데이터 확인
+        console.log("Reviews response data : ", response.data);
       } catch (error) {
         console.error("Error fetching reviewData:", error);
       }
     };
 
     fetchReviewData();
-  }, [params.tour_id]);
-
+  }, []);
 
   // 첫 번째 리뷰를 변수에 저장
   const firstReview =
@@ -193,7 +195,13 @@ const Detail = () => {
             />
           </div>
           <div className={styles.navInfoText}>
-            <p className={styles.navNickname}>Navs : {tour.userId}님</p>
+            {tour && tour.user ? (
+              <p className={styles.navNickname}>
+                Navs : {tour.user.nickname}님
+              </p>
+            ) : (
+              <p>loading..</p>
+            )}
             <p className={styles.navLanguage}>
               언어 : {navLanguages.join(", ")}
             </p>
