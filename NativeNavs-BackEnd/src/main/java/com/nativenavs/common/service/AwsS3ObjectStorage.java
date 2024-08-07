@@ -1,6 +1,7 @@
 package com.nativenavs.common.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -28,8 +29,10 @@ public class AwsS3ObjectStorage {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
+
         try {
             amazonS3.putObject(bucket, fileName, multipartFile.getInputStream(), metadata);
+            amazonS3.setObjectAcl(bucket, fileName, CannedAccessControlList.PublicRead);
         } catch (IOException ioException) {
             ioException.printStackTrace(); //to-do exeception handler 작성후 수정
         }

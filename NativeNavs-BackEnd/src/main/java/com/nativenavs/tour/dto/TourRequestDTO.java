@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TourRequestDTO {
     private String title;
-    private MultipartFile thumbnailImage;
+    private String thumbnailImage;
     private String description;
     private String location;
     private int price;

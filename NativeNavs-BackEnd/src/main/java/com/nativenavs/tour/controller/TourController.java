@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,7 +30,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/tours")
 @Tag(name = "tour API", description = "tour")
-public class TourController implements Serializable {
+public class TourController {
     private final TourService tourService;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -42,16 +43,18 @@ public class TourController implements Serializable {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> tourSave(
             @RequestHeader("Authorization") String token,
+            @RequestPart("tour") TourRequestDTO tourRequestDTO,
+            @RequestPart("thumbnailImage") MultipartFile thumbnailImage,
+            @RequestPart("planImages") List<MultipartFile> planImages) {
 
-            @ModelAttribute TourRequestDTO tourRequestDTO){
         try {
 
             int userId = getUserIdFromJWT(token);
-
-            tourService.addTour(tourRequestDTO,userId);
+            tourService.addTour(tourRequestDTO,userId,thumbnailImage, planImages);
             return ResponseEntity.ok("여행 등록 완료");
         } catch (Exception e) {
-            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
+            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 등록 실패");
         }
     }
@@ -110,9 +113,11 @@ public class TourController implements Serializable {
     public ResponseEntity<?> tourModify(
             @RequestHeader("Authorization") String token,
             @PathVariable int id,
-            @ModelAttribute TourRequestDTO tourRequestDTO) {
+            @RequestPart("tour") TourRequestDTO tourRequestDTO,
+            @RequestPart("thumbnailImage") MultipartFile thumbnailImage,
+            @RequestPart("planImages") List<MultipartFile> planImages) {
         try {
-            tourService.modifyTour(id, tourRequestDTO);
+            tourService.modifyTour(id, tourRequestDTO, thumbnailImage, planImages);
             return ResponseEntity.ok("투어 수정 완료");
         } catch (Exception e) {
             e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요

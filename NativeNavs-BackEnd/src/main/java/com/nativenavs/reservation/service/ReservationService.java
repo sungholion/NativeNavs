@@ -46,9 +46,9 @@ public class ReservationService {
         reservation.setDate(requestDTO.getDate());
         reservation.setParticipant(participant);
         reservation.setStartAt(requestDTO.getStartAt());
+        reservation.setMeetingAddress(requestDTO.getMeetingAddress());
         reservation.setEndAt(requestDTO.getEndAt());
         reservation.setParticipantCount(requestDTO.getParticipantCount());
-        reservation.setDescription(requestDTO.getDescription());
         reservation.setMeetingLatitude(requestDTO.getMeetingLatitude());
         reservation.setMeetingLongitude(requestDTO.getMeetingLongitude());
         reservation.setStatus(ReservationStatus.RESERVATION);

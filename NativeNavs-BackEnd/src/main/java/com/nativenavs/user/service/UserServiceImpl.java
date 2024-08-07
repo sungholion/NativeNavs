@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,13 +51,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signUp(UserRequestDTO userDTO) {
+    public void signUp(UserDTO userDTO, MultipartFile profileFile) {
         if(!authenticatedUsers.contains(userDTO.getEmail())){  // 이메일 미인증시
             throw new IllegalStateException("이메일 인증이 완료되지 않았습니다.");
         }
 
         UserEntity userEntity = UserEntity.toSaveEntity(userDTO);
-        String imageUrl =  awsS3ObjectStorageUpload.uploadFile(userDTO.getImage());
+        String imageUrl =  awsS3ObjectStorageUpload.uploadFile(profileFile);
         userEntity.setImage(imageUrl);
 
         userRepository.save(userEntity);
@@ -111,12 +112,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(int existingId, UserRequestDTO updateUserDTO){
+    public void updateUser(int existingId, UserDTO updateUserDTO, MultipartFile profileImage) {
 
         Optional<UserEntity> findUserEntity = userRepository.findById(existingId);
         if (findUserEntity.isPresent()) {
             UserEntity updateUserEntity = findUserEntity.get();
-            updateUserDTOFields(updateUserEntity, updateUserDTO);
+            updateUserDTOFields(updateUserEntity, updateUserDTO, profileImage);
             userRepository.save(updateUserEntity);
 
         } else {
@@ -125,11 +126,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserRequestDTO updateUserDTO) {
+    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
 //        updateUserEntity.setImage(updateUserDTO.getImage());
         if(updateUserEntity.getImage()!= null &&!updateUserDTO.getImage().isEmpty()){
             awsS3ObjectStorageUpload.deleteFile(updateUserEntity.getImage());
-            String imageUrl =  awsS3ObjectStorageUpload.uploadFile(updateUserDTO.getImage());
+            String imageUrl =  awsS3ObjectStorageUpload.uploadFile(profileImage);
             updateUserEntity.setImage(imageUrl);
         }
         updateUserEntity.setNickname(updateUserDTO.getNickname());
