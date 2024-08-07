@@ -79,7 +79,7 @@ class MypageFragment :
 
         binding.mypageProfileCl.setOnClickListener {
             val action =
-                MypageFragmentDirections.actionMypageFragmentToProfileFragment(SharedPref.userId!!)
+                MypageFragmentDirections.actionMypageFragmentToProfileFragment(userId = SharedPref.userId!!, 0,0)
             navigate(action)
         }
 

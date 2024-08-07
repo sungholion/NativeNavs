@@ -133,7 +133,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     fun navigateToNavProfileFragment(navId: Int) {
         Log.d(TAG, "navigateToNavProfileFragment: $navId")
-        val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(navId)
+        val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(userId = navId, navId = navId,0)
         navigate(action)
     }
 
