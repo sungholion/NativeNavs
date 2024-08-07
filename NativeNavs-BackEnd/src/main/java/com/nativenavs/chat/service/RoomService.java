@@ -76,11 +76,11 @@ public class RoomService {
 
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity, navUserDTO);
 
-            newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
+            newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
-            chatService.createChat(newRoomDTO.getId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.");
+            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.");
 
             return newRoom;
 

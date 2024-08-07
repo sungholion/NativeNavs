@@ -15,6 +15,7 @@ public class RoomDTO {
     private int tourId;
     private String tourTitle;
     private String tourImgUrl;
+    private String tourRegion;
 
     private int senderId;
     private String senderNickname;
@@ -31,6 +32,7 @@ public class RoomDTO {
         roomDTO.setRoomId(roomEntity.getId());
         roomDTO.setTourId(roomEntity.getTourId());
         roomDTO.setTourTitle(roomEntity.getTourTitle());
+        roomDTO.setTourRegion(roomEntity.getTourRegion());
         roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
         roomDTO.setSenderId(roomEntity.getSenderId());
         roomDTO.setSenderNickname(roomEntity.getSenderNickname());

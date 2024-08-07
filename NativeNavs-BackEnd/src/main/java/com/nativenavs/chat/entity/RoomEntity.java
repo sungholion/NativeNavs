@@ -27,6 +27,9 @@ public class RoomEntity {
     @Column(name = "tour_img_url", nullable = false)
     private String tourImgUrl;
 
+    @Column(name = "tour_region", nullable = false)
+    private String tourRegion;
+
     @Column(name = "sender_id", nullable = false)
     private int senderId;
 
@@ -63,11 +66,12 @@ public class RoomEntity {
      * @param receiverIsNav 수신자 NAV 여부
      * @return Room Entity
      */
-    public static RoomEntity createRoom(int tourId, String tourTitle, String tourImgUrl, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
+    public static RoomEntity createRoom(int tourId, String tourTitle, String tourImgUrl, String tourRegion, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
         return RoomEntity.builder()
                 .tourId(tourId)
                 .tourTitle(tourTitle)
                 .tourImgUrl(tourImgUrl)
+                .tourRegion(tourRegion)
                 .senderId(senderId)
                 .senderNickname(senderNickname)
                 .senderIsNav(senderIsNav)
