@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.signup
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,9 @@ import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
 import kotlinx.coroutines.launch
+import java.io.File
 
+private const val TAG = "SignUpActivityViewModel"
 class SignUpActivityViewModel : ViewModel() {
 
     private val _signUpDTO = MutableLiveData(
@@ -87,7 +90,10 @@ class SignUpActivityViewModel : ViewModel() {
 
     fun signUp() {
         viewModelScope.launch {
-            val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
+            val response = _signUpDTO.value?.let {
+                Log.d(TAG, "signUp: $it")
+                retrofit.postSignUp(it)
+            }
 
             // HTTP 상태 코드 출력
             println(_signUpDTO.value)

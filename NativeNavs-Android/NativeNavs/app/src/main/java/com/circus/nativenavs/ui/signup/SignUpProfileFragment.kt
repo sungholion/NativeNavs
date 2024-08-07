@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,7 +27,9 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -205,12 +208,29 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     private fun openImagePicker() {
         getImageLauncher.launch("image/*")
     }
+    private fun uriToFile(context: Context, uri: Uri): File {
+        val contentResolver = context.contentResolver
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
 
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(file).use { outputStream ->
+                val buffer = ByteArray(1024)
+                var length: Int
+                while (inputStream.read(buffer).also { length = it } > 0) {
+                    outputStream.write(buffer, 0, length)
+                }
+            }
+        }
+        Log.d("FileConversion", "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes")
+        return file
+    }
     // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
         Log.d("YourFragment", "Selected Image URI: $imageUri")
         binding.signupProfileImgIv.setImageURI(imageUri)
-        // 필요 시 이미지 업로드 추가 처리
+        val file = uriToFile(requireContext(), imageUri)
+
+
     }
     // ActivityResultLauncher 선언
     private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
