@@ -63,9 +63,11 @@ interface UserService {
         @Path(value = "id") userId: Int
     ): ProfileUserDto
 
+    @Multipart
     @PUT("users")
     suspend fun updateUser(
-        @Body signUpDTO: SignUpDto
+        @Part userDto: MultipartBody.Part,
+        @Part image : MultipartBody.Part?
     ):Response<Void>
 
     @DELETE("users/delete")
