@@ -7,7 +7,7 @@
 
         <variable
             name="chatRoom"
-            type="com.circus.nativenavs.data.ChatTourInfoDto" />
+            type="com.circus.nativenavs.data.ChatRoomDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
 
                 <ImageView
                     android:id="@+id/chat_tour_info_img_iv"
-                    imgUrl="@{chatRoom.imgUrl}"
+                    imgUrl="@{chatRoom.tourImgUrl}"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     tools:src="@drawable/logo_nativenavs" />

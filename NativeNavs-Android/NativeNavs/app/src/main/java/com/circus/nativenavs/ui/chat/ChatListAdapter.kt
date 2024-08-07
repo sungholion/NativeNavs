@@ -32,7 +32,7 @@ class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>
             binding.userId = SharedPref.userId
 
             binding.root.setOnClickListener {
-                itemClickListener.onItemClicked(chatRoom.roomId)
+                itemClickListener.onItemClicked(chatRoom)
             }
         }
 
@@ -54,7 +54,7 @@ class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>
     }
 
     interface ChatItemClickListener {
-        fun onItemClicked(roomId: Int)
+        fun onItemClicked(chatRoom: ChatRoomDto)
     }
 
     private lateinit var itemClickListener: ChatItemClickListener

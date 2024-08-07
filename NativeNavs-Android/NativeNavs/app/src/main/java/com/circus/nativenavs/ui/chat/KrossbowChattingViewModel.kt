@@ -36,7 +36,7 @@ class KrossbowChattingViewModel : ViewModel() {
     private val _currentChatRoom = MutableLiveData<ChatRoomDto>()
     val currentChatRoom: LiveData<ChatRoomDto> = _currentChatRoom
 
-    private val _chatRoomId = MutableLiveData<Int>()
+    private val _chatRoomId = MutableLiveData<Int>(-1)
     val chatRoomId: LiveData<Int> = _chatRoomId
 
     private val _chatTourInfo = MutableLiveData<ChatTourInfoDto>()
@@ -58,13 +58,21 @@ class KrossbowChattingViewModel : ViewModel() {
         .build()
 
     fun createChatRoom(tourId: Int) {
+        Log.d(TAG, "createChatRoom: 실행전")
         viewModelScope.launch {
             _currentChatRoom.value = chatRetrofit.createChatRoom(tourId)
+            Log.d(TAG, "createChatRoom: ${currentChatRoom.value}")
+            currentChatRoom.value?.let {
+                _chatRoomId.value = it.roomId
+            }
         }
     }
 
     fun setCurrentChatRoom(chatRoom: ChatRoomDto) {
         _currentChatRoom.value = chatRoom
+        currentChatRoom.value?.let {
+            _chatRoomId.value = it.roomId
+        }
     }
 
     fun getChatRoomList() {
@@ -110,7 +118,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://i11d110.p.ssafy.io:8081/api/ws-stomp/websocket",
+                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
 //                    customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    ),

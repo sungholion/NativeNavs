@@ -92,40 +92,40 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initView() {
-        binding.chatRoom = ChatTourInfoDto(1, "남산타워 투어", "서울", "", "아린")
+        binding.chatRoom = chattingViewModel.currentChatRoom.value!!
     }
 
     private fun initAdapter() {
-        val messageList = arrayListOf(
-            MessageDto(
-                roomId = args.chatId,
-                senderId = SharedPref.userId!!,
-                senderNickname = "현진",
-                senderProfileImage = "",
-                content = "안녕하세요",
-                sendTime = System.currentTimeMillis(),
-                isRead = false
-            ),
-            MessageDto(
-                roomId = args.chatId,
-                senderId = 1,
-                senderNickname = "아린",
-                senderProfileImage = "",
-                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-                sendTime = System.currentTimeMillis(),
-                isRead = false
-            ),
-            MessageDto(
-                roomId = args.chatId,
-                senderId = 1,
-                senderNickname = "아린",
-                senderProfileImage = "",
-                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-                sendTime = System.currentTimeMillis(),
-                isRead = false
-            ),
-        )
-        chattingViewModel.setMessages(messageList)
+//        val messageList = arrayListOf(
+//            MessageDto(
+//                roomId = args.chatId,
+//                senderId = SharedPref.userId!!,
+//                senderNickname = "현진",
+//                senderProfileImage = "",
+//                content = "안녕하세요",
+//                sendTime = System.currentTimeMillis(),
+//                isRead = false
+//            ),
+//            MessageDto(
+//                roomId = args.chatId,
+//                senderId = 1,
+//                senderNickname = "아린",
+//                senderProfileImage = "",
+//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
+//                sendTime = System.currentTimeMillis(),
+//                isRead = false
+//            ),
+//            MessageDto(
+//                roomId = args.chatId,
+//                senderId = 1,
+//                senderNickname = "아린",
+//                senderProfileImage = "",
+//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
+//                sendTime = System.currentTimeMillis(),
+//                isRead = false
+//            ),
+//        )
+//        chattingViewModel.setMessages(messageList)
         binding.chatMessageRv.adapter = messageListAdapter
     }
 
