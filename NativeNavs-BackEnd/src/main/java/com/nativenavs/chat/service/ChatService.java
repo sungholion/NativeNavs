@@ -19,35 +19,6 @@ public class ChatService {
     private final ChatRepository chatRepository;
 
     //채팅 생성
-
-    public ChatDTO saveChat(int roomId, ChatDTO chatDTO) {
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId));
-
-        ChatEntity chatEntity = ChatEntity.builder()
-                .roomId(roomId)
-                .senderId(chatDTO.getSenderId())
-                .senderNickname(chatDTO.getSenderNickname())
-                .senderProfileImage(chatDTO.getSenderProfileImage())
-                .content(chatDTO.getContent())
-                .isRead(chatDTO.isRead())
-                .sendTime(System.currentTimeMillis())
-                .build();
-
-        chatEntity = chatRepository.save(chatEntity);
-
-        return ChatDTO.builder()
-                .id(chatEntity.getId().toHexString())
-                .roomId(chatEntity.getRoomId())
-                .senderId(chatEntity.getSenderId())
-                .senderNickname(chatEntity.getSenderNickname())
-                .senderProfileImage(chatEntity.getSenderProfileImage())
-                .content(chatEntity.getContent())
-                .isRead(chatEntity.isRead())
-                .sendTime(chatEntity.getSendTime())
-                .build();
-    }
-
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content) {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
@@ -79,6 +50,19 @@ public class ChatService {
                         .sendTime(chatEntity.getSendTime())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public ChatDTO toChatDTO(ChatEntity chatEntity) {
+        return ChatDTO.builder()
+                .id(chatEntity.getId().toHexString())
+                .roomId(chatEntity.getRoomId())
+                .senderId(chatEntity.getSenderId())
+                .senderNickname(chatEntity.getSenderNickname())
+                .senderProfileImage(chatEntity.getSenderProfileImage())
+                .content(chatEntity.getContent())
+                .isRead(chatEntity.isRead())
+                .sendTime(chatEntity.getSendTime())
+                .build();
     }
 
 }

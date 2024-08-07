@@ -32,16 +32,7 @@ public class ChatController {
                 chatDTO.getContent()
         );
 
-        return ChatDTO.builder()
-                .id(chatEntity.getId().toHexString())  // Convert ObjectId to String
-                .roomId(roomId)
-                .senderId(chatEntity.getSenderId())
-                .senderNickname(chatEntity.getSenderNickname())
-                .senderProfileImage(chatEntity.getSenderProfileImage())
-                .content(chatEntity.getContent())
-                .sendTime(chatEntity.getSendTime())
-                .isRead(chatEntity.isRead())
-                .build();
+        return chatService.toChatDTO(chatEntity);
     }
 
 }

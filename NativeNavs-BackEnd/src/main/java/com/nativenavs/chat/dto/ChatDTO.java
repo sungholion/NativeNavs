@@ -18,4 +18,7 @@ public class ChatDTO {
     private String content;
     private boolean isRead;
     private long sendTime;
+
+
+
 }
