@@ -35,6 +35,7 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        chattingViewModel.getChatRoomList()
         initAdapter()
         initEvent()
         initObserve()
@@ -61,47 +62,47 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     }
 
     private fun initAdapter() {
-        val chatList = arrayListOf(
-            ChatRoomDto(
-                roomId = 1,
-                travId = SharedPref.userId!!,
-                navId = 17,
-                travNickname = homeViewModel.userDto.value!!.nickname,
-                navNickname = "김네브",
-                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-                imgUrl = "",
-                tourRegion = "서울",
-                recentMessage = "문의드립니다~",
-                recentMessageTime = System.currentTimeMillis()
-            ),
-            ChatRoomDto(
-                roomId = 2,
-                travId = SharedPref.userId!!,
-                navId = 17,
-                travNickname = homeViewModel.userDto.value!!.nickname,
-                navNickname = "김네브",
-                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-                imgUrl = "",
-                tourRegion = "서울",
-                recentMessage = "문의드립니다~",
-                recentMessageTime = System.currentTimeMillis()
-            ),
-            ChatRoomDto(
-                roomId = 3,
-                travId = SharedPref.userId!!,
-                navId = 17,
-                travNickname = homeViewModel.userDto.value!!.nickname,
-                navNickname = "김네브",
-                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-                imgUrl = "",
-                tourRegion = "서울",
-                recentMessage = "문의드립니다~",
-                recentMessageTime = System.currentTimeMillis()
-            ),
-        )
+//        val chatList = arrayListOf(
+//            ChatRoomDto(
+//                roomId = 1,
+//                senderId = SharedPref.userId!!,
+//                receiverId = 17,
+//                senderNickname = homeViewModel.userDto.value!!.nickname,
+//                receiverNickname = "김네브",
+//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+//                imgUrl = "",
+//                tourRegion = "서울",
+//                recentMessage = "문의드립니다~",
+//                recentMessageTime = System.currentTimeMillis()
+//            ),
+//            ChatRoomDto(
+//                roomId = 2,
+//                senderId = SharedPref.userId!!,
+//                receiverId = 17,
+//                senderNickname = homeViewModel.userDto.value!!.nickname,
+//                receiverNickname = "김네브",
+//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+//                imgUrl = "",
+//                tourRegion = "서울",
+//                recentMessage = "문의드립니다~",
+//                recentMessageTime = System.currentTimeMillis()
+//            ),
+//            ChatRoomDto(
+//                roomId = 3,
+//                senderId = SharedPref.userId!!,
+//                receiverId = 17,
+//                senderNickname = homeViewModel.userDto.value!!.nickname,
+//                receiverNickname = "김네브",
+//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
+//                imgUrl = "",
+//                tourRegion = "서울",
+//                recentMessage = "문의드립니다~",
+//                recentMessageTime = System.currentTimeMillis()
+//            ),
+//        )
 
         binding.chatListRv.adapter = chatListAdapter
-        chatListAdapter.submitList(chatList)
+//        chatListAdapter.submitList(chatList)
     }
 
     override fun onResume() {

@@ -44,6 +44,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         super.onResume()
         homeActivity.hideBottomNav(false)
         chattingViewModel.setChatRoomId(args.chatId)
+        chattingViewModel.getChatMessages(args.chatId)
         chattingViewModel.connectWebSocket()
     }
 

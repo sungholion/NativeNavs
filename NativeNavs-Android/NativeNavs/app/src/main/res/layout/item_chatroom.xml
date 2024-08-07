@@ -7,6 +7,7 @@
         <variable
             name="chat"
             type="com.circus.nativenavs.data.ChatRoomDto" />
+
         <variable
             name="userId"
             type="Integer" />
@@ -49,7 +50,7 @@
             style="@style/regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{userId == chat.travId ? chat.navNickname : chat.travNickname }"
+            android:text="@{userId == chat.senderId ? chat.receiverNickname : chat.senderNickname }"
             android:textColor="@color/gray_5858"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
