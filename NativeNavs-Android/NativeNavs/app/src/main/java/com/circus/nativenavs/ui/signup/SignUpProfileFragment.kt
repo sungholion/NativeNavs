@@ -46,7 +46,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 ) {
 
     private lateinit var signUpActivity: SignUpActivity
-    private lateinit var body :MultipartBody.Part
+    private var body :MultipartBody.Part? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         signUpActivity = context as SignUpActivity

@@ -93,18 +93,21 @@ class SignUpActivityViewModel : ViewModel() {
        }
     }
 
-    fun signUp(image : MultipartBody.Part) {
+    fun signUp(image : MultipartBody.Part?) {
         viewModelScope.launch {
 
-            val userJson = Gson().toJson(_signUpDTO.value)
-            val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
-            val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
-            val response = retrofit.postSignUp(requestBody,image)
-            Log.d(TAG, "signUp: $requestBody $image")
-            // HTTP 상태 코드 출력
-            _signStatus.postValue(response?.code())
-            println("HTTP 상태 코드: ${response?.code()}")
-            println("HTTP 상태: ${response?.body()}")
+            if (image != null ){
+                val userJson = Gson().toJson(_signUpDTO.value)
+                val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
+                val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
+                val response = retrofit.postSignUp(requestBody,image)
+                Log.d(TAG, "signUp: $requestBody $image")
+                // HTTP 상태 코드 출력
+                _signStatus.postValue(response?.code())
+                println("HTTP 상태 코드: ${response?.code()}")
+                println("HTTP 상태: ${response?.body()}")
+            }
+            else _signStatus.postValue(999)
         }
     }
 
