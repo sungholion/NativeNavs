@@ -19,7 +19,6 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
     plans,
     categoryIds,
   } = useContext(TourDataContext);
-  console.log(thumbnailImage);
   const [thumbnailImgUrl, setThumbnailImagUrl] = useState(""); //실제 사용자게에 보여줄 썸내일 이미지 담긴 것
   useEffect(() => {
     getImageUrl(thumbnailImage, setThumbnailImagUrl);
