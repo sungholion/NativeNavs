@@ -1,6 +1,7 @@
 package com.nativenavs.chat.controller;
 
 import com.nativenavs.chat.dto.ChatDTO;
+import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.service.ChatService;
 import com.nativenavs.chat.service.RoomService;
@@ -38,7 +39,7 @@ public class RoomController {
     @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
     @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
     @PostMapping("/create/{tourId}")
-    public RoomEntity createRoom( @PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
+    public RoomDTO createRoom(@PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
         return roomService.createRoom(tourId, token);
 
     }

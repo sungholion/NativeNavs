@@ -58,7 +58,7 @@ public class RoomService {
     }
 
     // 채팅방 만들기
-    public RoomEntity createRoom(int tourId, String token) {
+    public RoomDTO createRoom(int tourId, String token) {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(tourId);
         RoomEntity newRoom;
         if (optionalTourEntity.isPresent()) {
@@ -82,7 +82,7 @@ public class RoomService {
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
             chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.");
 
-            return newRoom;
+            return newRoomDTO;
 
         } else {
             return null;
