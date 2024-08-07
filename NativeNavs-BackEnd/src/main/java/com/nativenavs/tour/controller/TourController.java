@@ -30,7 +30,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/tours")
 @Tag(name = "tour API", description = "tour")
-public class TourController implements Serializable {
+public class TourController {
     private final TourService tourService;
     private final CategoryService categoryService;
     private final UserService userService;
