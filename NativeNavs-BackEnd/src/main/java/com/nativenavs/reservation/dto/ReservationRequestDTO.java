@@ -22,7 +22,6 @@ public class ReservationRequestDTO {
     private String meetingAddress;
     private int participantCount;
     private LocalDate date;
-    private String description;
     private BigDecimal meetingLatitude;
     private BigDecimal meetingLongitude;
 }

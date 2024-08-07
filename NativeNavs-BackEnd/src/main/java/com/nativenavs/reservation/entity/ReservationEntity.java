@@ -67,8 +67,8 @@ public class ReservationEntity {
     @Column(name = "tagging-at")
     private LocalDateTime taggingAt;
 
-    @Column(columnDefinition = "TEXT")
-    private String description; // 추가요청사항
+//    @Column(columnDefinition = "TEXT")
+//    private String description; // 추가요청사항
 
     @Column(name = "meeting_latitude", precision = 10, scale = 8)
     private BigDecimal meetingLatitude;

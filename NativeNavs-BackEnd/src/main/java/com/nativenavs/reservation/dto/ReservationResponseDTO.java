@@ -33,7 +33,6 @@ public class ReservationResponseDTO {
     private int participantCount; // 참여 인원
     private BigDecimal meetingLatitude; // 만남 장소 위도
     private BigDecimal meetingLongitude; // 만남 장소 경도
-    private String description; // 추가 요청사항
 
     public static ReservationResponseDTO toReservationDTO(ReservationEntity reservationEntity) {
         ReservationResponseDTO dto = new ReservationResponseDTO();
@@ -51,7 +50,6 @@ public class ReservationResponseDTO {
         dto.setParticipantCount(reservationEntity.getParticipantCount());
         dto.setMeetingLatitude(reservationEntity.getMeetingLatitude());
         dto.setMeetingLongitude(reservationEntity.getMeetingLongitude());
-        dto.setDescription(reservationEntity.getDescription());
         return dto;
     }
 }

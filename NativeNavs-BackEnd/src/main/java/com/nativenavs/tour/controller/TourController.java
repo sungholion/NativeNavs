@@ -50,11 +50,11 @@ public class TourController {
         try {
 
             int userId = getUserIdFromJWT(token);
-
             tourService.addTour(tourRequestDTO,userId,thumbnailImage, planImages);
             return ResponseEntity.ok("여행 등록 완료");
         } catch (Exception e) {
-            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
+            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 등록 실패");
         }
     }
