@@ -21,6 +21,12 @@ public class RoomEntity {
     @Column(name = "tour_id", nullable = false)
     private int tourId;
 
+    @Column(name = "tour_title", nullable = false)
+    private String tourTitle;
+
+    @Column(name = "tour_img_url", nullable = false)
+    private String tourImgUrl;
+
     @Column(name = "sender_id", nullable = false)
     private int senderId;
 
@@ -45,6 +51,7 @@ public class RoomEntity {
     @Column(name = "recent_message_time")
     private long recentMessageTime;
 
+
     /**
      * 채팅방 생성
      * @param tourId 투어 ID
@@ -56,9 +63,11 @@ public class RoomEntity {
      * @param receiverIsNav 수신자 NAV 여부
      * @return Room Entity
      */
-    public static RoomEntity createRoom(int tourId, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
+    public static RoomEntity createRoom(int tourId, String tourTitle, String tourImgUrl, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
         return RoomEntity.builder()
                 .tourId(tourId)
+                .tourTitle(tourTitle)
+                .tourImgUrl(tourImgUrl)
                 .senderId(senderId)
                 .senderNickname(senderNickname)
                 .senderIsNav(senderIsNav)
@@ -69,4 +78,6 @@ public class RoomEntity {
                 .recentMessageTime(0L)
                 .build();
     }
+
+
 }

@@ -2,7 +2,6 @@ package com.nativenavs.user.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.user.dto.UserDTO;
-import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.service.EmailService;
 import com.nativenavs.user.service.UserService;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -132,7 +132,7 @@ public class UserController {
 
     @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송/인증 필수)")
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> signUp (
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "이메일, 패스워드, 이미지, 이름, 생년월일(Date), 전화번호('-' 없이 String), 국가, " +
@@ -143,7 +143,7 @@ public class UserController {
                             mediaType = "application/json",
                             schema = @Schema(
                                     example = "{\"email\": \"eoblue23@gmail.com\", \"password\": \"1234\", " +
-                                            "\"isNav\": false, \"image\": \"profile.png\"," +
+                                            "\"isNav\": false," +
                                             "\"nickname\": \"bts\", \"nation\": \"USA\"," +
                                             "\"userLanguage\": \"english, japanese\"," +
                                             "\"name\": \"kevin\", \"birth\": \"1998-08-23\"," +

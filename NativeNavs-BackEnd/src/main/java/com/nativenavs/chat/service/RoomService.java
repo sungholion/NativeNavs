@@ -1,6 +1,7 @@
 package com.nativenavs.chat.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.tour.dto.TourDTO;
@@ -28,6 +29,7 @@ public class RoomService {
     private final TourRepository tourRepository;
 
     private final UserRepository userRepository;
+    private final ChatService chatService;
 
     /**
      * 모든 채팅방 찾기
@@ -74,15 +76,18 @@ public class RoomService {
 
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity, navUserDTO);
 
-            newRoom = new RoomEntity();
-            newRoom = RoomEntity.createRoom(tourId, travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
-
+            newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);
+
+            RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
+            chatService.createChat(newRoomDTO.getId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.");
+
+            return newRoom;
+
         } else {
             return null;
         }
 
-        return newRoom;
 
     }
 
