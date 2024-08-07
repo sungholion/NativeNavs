@@ -19,6 +19,7 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.LocaleUtils
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +55,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
 
     private fun initEvent() {
         binding.tourSearchBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), VideoActivity::class.java))
-            Toast.makeText(requireContext(), "검색바 클릭", Toast.LENGTH_SHORT).show()
+            navigate(R.id.action_tourListFragment_to_tourSearchFragment)
         }
     }
 
@@ -81,7 +81,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         }
         binding.tourListWv.webChromeClient = WebChromeClient()
 
-        binding.tourListWv.loadUrl("https://i11d110.p.ssafy.io/main")
+        binding.tourListWv.loadUrl(WEBURL + "main")
     }
 
     fun moveToTourDetailFragment(tourId: Int, navId: Int) {

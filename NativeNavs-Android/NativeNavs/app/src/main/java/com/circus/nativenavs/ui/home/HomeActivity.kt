@@ -14,6 +14,7 @@ import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
 import com.circus.nativenavs.ui.chat.KrossbowChattingViewModel
 import com.circus.nativenavs.ui.home.mypage.MypageFragment
+import com.circus.nativenavs.ui.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
@@ -31,11 +32,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
         super.onCreate(savedInstanceState)
 
-        homeActivityViewModel.getUser(SharedPref.userId!!)
-        homeActivityViewModel.updateLanguageList()
+
+        initData()
         initView()
         Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
 
+    }
+
+    private fun initData(){
+        homeActivityViewModel.getUser(SharedPref.userId!!)
+        homeActivityViewModel.updateLanguageList()
+        homeActivityViewModel.updateCategoryList()
     }
 
     private fun initView() {

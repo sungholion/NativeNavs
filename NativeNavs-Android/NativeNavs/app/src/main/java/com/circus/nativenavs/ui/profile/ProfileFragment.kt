@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ProfileReviewDto
@@ -23,7 +24,9 @@ import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+private const val TAG = "ProfileFragment"
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
 
@@ -87,9 +90,13 @@ class ProfileFragment :
         homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
             if (SharedPref.userId != it.id) binding.profileModifyBtn.visibility = INVISIBLE
             else binding.profileModifyBtn.visibility = VISIBLE
-
-            binding.profileUserIv.setImageURI(it.image.toUri())
-            binding.profileUserNameTv.text = it.name
+            Glide.with(this)
+                .load(it.image) // 불러올 이미지 url
+                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(binding.profileUserIv) // 이미지를 넣을 뷰
+            binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
             binding.profileUserNation.apply {
@@ -116,11 +123,11 @@ class ProfileFragment :
 
                 if (it.isNav) {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_nav_review)
+                        text = it.nickname + getString(R.string.profile_other_nav_review)
                     }
                 } else {
                     binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_trav_review)
+                        text = it.nickname + getString(R.string.profile_other_trav_review)
                     }
                 }
             }
@@ -136,18 +143,18 @@ class ProfileFragment :
         }
     }
 
-    private fun checkPassDialog(){
-        val builder = AlertDialog.Builder(context)
+    private fun checkPassDialog() {
+        val builder = MaterialAlertDialogBuilder(homeActivity)
         val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
 
         builder.setView(view)
-        builder.setTitle("비밀번호 입력")
-        builder.setMessage("비밀번호를 입력해주세요")
-        builder.setPositiveButton("확인") { dialog, which ->
+        builder.setTitle(getString(R.string.dialog_pass_title))
+        builder.setMessage(getString(R.string.dialog_pass_content))
+        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
             navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
 
-        builder.setNegativeButton("취소") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
             // 취소 버튼 클릭 시 수행할 동작
         }
         builder.show()

@@ -1,4 +1,4 @@
-package com.circus.nativenavs.ui.home.mypage
+package com.circus.nativenavs.ui.mypage
 
 import android.content.Context
 import android.os.Bundle

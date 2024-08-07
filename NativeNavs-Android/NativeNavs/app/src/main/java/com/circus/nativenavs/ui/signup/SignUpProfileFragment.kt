@@ -1,15 +1,23 @@
 package com.circus.nativenavs.ui.signup
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -17,6 +25,15 @@ import com.circus.nativenavs.databinding.FragmentSignUpProfileBinding
 import com.circus.nativenavs.ui.setting.CustomSpinnerAdapter
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -29,7 +46,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 ) {
 
     private lateinit var signUpActivity: SignUpActivity
-
+    private var body :MultipartBody.Part? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         signUpActivity = context as SignUpActivity
@@ -191,12 +208,71 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             false
         }
     }
+    // 이미지 선택 인텐트 시작
+    private fun openImagePicker() {
+        getImageLauncher.launch("image/*")
+    }
+    private fun uriToFile(context: Context, uri: Uri): File {
+        val contentResolver = context.contentResolver
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
+
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(file).use { outputStream ->
+                val buffer = ByteArray(1024)
+                var length: Int
+                while (inputStream.read(buffer).also { length = it } > 0) {
+                    outputStream.write(buffer, 0, length)
+                }
+            }
+        }
+        Log.d("FileConversion", "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes")
+        return file
+    }
+    private fun compressImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        val compressedFile = File(file.parent, "compressed_${file.name}")
+        FileOutputStream(compressedFile).use { outputStream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // 80% 압축 품질
+        }
+        return compressedFile
+    }
+    // 선택한 이미지 처리
+    private fun handleImage(imageUri: Uri) {
+        Log.d("YourFragment", "Selected Image URI: $imageUri")
+        binding.signupProfileImgIv.setImageURI(imageUri)
+
+        var file = uriToFile(requireContext(), imageUri)
+
+        val maxSize = 10 * 1024 * 1024 // 10MB
+        if (file.length() > maxSize) {
+            file = compressImage(file)
+
+            // 압축 후에도 파일 크기가 허용 범위를 초과하는지 확인
+            if (file.length() > maxSize) {
+                showToast("File size still exceeds limit after compression")
+                return
+            }
+        }
+        Log.d("handle", "handleImage: ${file.length()}")
+        // 파일을 MultipartBody.Part로 변환
+        val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
+        body = MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
+
+
+    }
+    // ActivityResultLauncher 선언
+    private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { handleImage(it) }
+    }
 
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
 
+        binding.signupProfileImgCv.setOnClickListener {
+            openImagePicker()
+        }
 
         binding.signupNicknameCheckBtn.setOnClickListener {
 
@@ -243,7 +319,8 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 signUpViewModel.updatePhone(phone)
                 signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
-                signUpViewModel.signUp()
+
+                signUpViewModel.signUp(body)
 
             }
         }

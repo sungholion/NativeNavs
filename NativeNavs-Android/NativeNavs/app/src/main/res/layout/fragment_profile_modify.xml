@@ -60,6 +60,7 @@
                             android:id="@+id/profile_modify_user_img_iv"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/logo_nativenavs"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

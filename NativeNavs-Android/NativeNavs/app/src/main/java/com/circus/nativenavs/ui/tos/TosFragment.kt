@@ -9,6 +9,7 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentTosBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.popBackStack
 
 
@@ -29,6 +30,8 @@ class TosFragment : BaseFragment<FragmentTosBinding>(FragmentTosBinding::bind,R.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initWebView()
+
         binding.tosCustomWv.setOnBackListener(object : CustomTitleWebView.OnBackClickListener{
             override fun onClick() {
                 popBackStack()
@@ -44,5 +47,8 @@ class TosFragment : BaseFragment<FragmentTosBinding>(FragmentTosBinding::bind,R.
             }
 
         })
+    }
+    private fun initWebView(){
+        binding.tosCustomWv.loadWebViewUrl(WEBURL + "privacy_terms")
     }
 }

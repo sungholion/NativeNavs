@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,18 @@ class LoginActivityViewModel : ViewModel() {
 
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
+    private val _autoLogin = MutableLiveData<Int>()
+    val autoLogin: LiveData<Int> get() = _autoLogin
+
+    fun getAccessToken(){
+        viewModelScope.launch {
+            val response = retrofit.refresh(mapOf("refreshToken" to SharedPref.refreshToken!!))
+            SharedPref.accessToken = response.body()?.accessToken
+
+            _autoLogin.postValue(response.code())
+        }
+    }
+
     fun Login(login: LoginDto) {
         viewModelScope.launch {
 
@@ -35,7 +48,6 @@ class LoginActivityViewModel : ViewModel() {
                 SharedPref.accessToken = loginResponse?.accessToken
                 SharedPref.refreshToken = loginResponse?.refreshToken
                 SharedPref.userId = loginResponse?.id
-//                SharedPref.userEmail = loginResponse?.email
                 SharedPref.isNav = loginResponse?.isNav
 
                 println("${SharedPref.accessToken.toString()}")

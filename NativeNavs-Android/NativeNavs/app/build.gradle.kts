@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {
@@ -75,4 +76,16 @@ dependencies {
     implementation(libs.krossbow.stomp.core)
     implementation(libs.krossbow.websocket.okhttp)
     implementation(libs.krossbow.stomp.moshi)
+
+    implementation(libs.material.calendarview){
+        exclude(group = "com.android.support", module = "support-compat")
+    }
+    implementation(libs.threetenabp)
+
+    //이미지 Glide
+    implementation(libs.glide)
+
+    //QR
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
 }

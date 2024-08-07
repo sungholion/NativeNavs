@@ -16,6 +16,7 @@ import com.circus.nativenavs.databinding.FragmentReservationListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
@@ -47,7 +48,7 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     }
 
     private fun initWebView() {
-        val url = "https://i11d110.p.ssafy.io/reservation/${args.tourId}/list"
+        val url = WEBURL + "reservation/${args.tourId}/list"
         Log.d(TAG, "initCustomView: $url")
         binding.myTripReservationListWv.loadWebViewUrl(url)
 

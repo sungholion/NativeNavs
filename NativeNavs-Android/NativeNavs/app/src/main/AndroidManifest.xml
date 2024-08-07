@@ -2,13 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 파일 읽기 권한 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- SDK API 33 부터는 세분화된 권한필요 - Image 읽기 권한  -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!-- 파일 읽기 권한 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!-- SDK API 33 부터는 세분화된 권한필요 - Image 읽기 권한 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- 인터넷 권한 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".config.ApplicationClass"
@@ -17,12 +21,15 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NativeNavs"
         android:usesCleartextTraffic="true"
-        android:localeConfig="@xml/locales_config"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.qr.QRCreateActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.video.VideoActivity"
             android:exported="false" />
@@ -44,9 +51,11 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.qr.CustomCaptureActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

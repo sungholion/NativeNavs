@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.signup
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,15 @@ import com.circus.nativenavs.data.LanguageListDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
+private const val TAG = "SignUpActivityViewModel"
 class SignUpActivityViewModel : ViewModel() {
 
     private val _signUpDTO = MutableLiveData(
@@ -85,15 +93,21 @@ class SignUpActivityViewModel : ViewModel() {
        }
     }
 
-    fun signUp() {
+    fun signUp(image : MultipartBody.Part?) {
         viewModelScope.launch {
-            val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
 
-            // HTTP 상태 코드 출력
-            println(_signUpDTO.value)
-            _signStatus.postValue(response?.code())
-            println("HTTP 상태 코드: ${response?.code()}")
-            println("HTTP 상태: ${response?.body()}")
+            if (image != null ){
+                val userJson = Gson().toJson(_signUpDTO.value)
+                val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
+                val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
+                val response = retrofit.postSignUp(requestBody,image)
+                Log.d(TAG, "signUp: $requestBody $image")
+                // HTTP 상태 코드 출력
+                _signStatus.postValue(response?.code())
+                println("HTTP 상태 코드: ${response?.code()}")
+                println("HTTP 상태: ${response?.body()}")
+            }
+            else _signStatus.postValue(999)
         }
     }
 
