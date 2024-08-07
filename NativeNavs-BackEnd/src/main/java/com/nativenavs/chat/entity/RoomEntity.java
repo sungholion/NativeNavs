@@ -15,7 +15,7 @@ public class RoomEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "tour_id", nullable = false)
