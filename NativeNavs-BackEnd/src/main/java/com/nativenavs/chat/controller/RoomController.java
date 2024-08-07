@@ -40,7 +40,9 @@ public class RoomController {
     @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
     @PostMapping("/create/{tourId}")
     public RoomDTO createRoom(@PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
-        return roomService.createRoom(tourId, token);
+        RoomDTO newRoom = roomService.createRoom(tourId,token);
+        System.out.println("Backend RoomController return roomId is : newRoom.getRoomId()");
+        return newRoom;
 
     }
 
