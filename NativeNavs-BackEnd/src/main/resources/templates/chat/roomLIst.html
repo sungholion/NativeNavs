@@ -1,13 +1,40 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a th:href="@{/roomForm}">방만들기</a><br>
-<tr th:each="room : ${roomList}">
-    <td><a th:href="@{/{roomId}(roomId=${room.getId()})}" th:text="${room.getName()}"></a></td>
-</tr>
-</body>
-</html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Room List</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<a th:href="@{/roomForm}">방만들기</a><br>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Tour ID</th>-->
+<!--        <th>Sender ID</th>-->
+<!--        <th>Sender Nickname</th>-->
+<!--        <th>Sender is Nav</th>-->
+<!--        <th>Receiver ID</th>-->
+<!--        <th>Receiver Nickname</th>-->
+<!--        <th>Receiver is Nav</th>-->
+<!--        <th>Recent Message Content</th>-->
+<!--        <th>Recent Message Time</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="room : ${roomList}">-->
+<!--        <td><a th:href="@{/{roomId}(roomId=${room.id})}" th:text="${room.id}"></a></td>-->
+<!--        <td th:text="${room.tourId}"></td>-->
+<!--        <td th:text="${room.senderId}"></td>-->
+<!--        <td th:text="${room.senderNickname}"></td>-->
+<!--        <td th:text="${room.senderIsNav}"></td>-->
+<!--        <td th:text="${room.receiverId}"></td>-->
+<!--        <td th:text="${room.receiverNickname}"></td>-->
+<!--        <td th:text="${room.receiverIsNav}"></td>-->
+<!--        <td th:text="${room.recentMessageContent}"></td>-->
+<!--        <td th:text="${#dates.format(room.recentMessageTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->

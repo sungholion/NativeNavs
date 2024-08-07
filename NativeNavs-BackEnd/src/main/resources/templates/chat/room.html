@@ -27,12 +27,16 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="name">대화명</label>
-                    <input type="text" id="sender" class="form-control" placeholder="Your name here...">
+                    <label for="senderId">Sender ID</label>
+                    <input type="text" id="senderId" class="form-control" placeholder="Sender ID">
                 </div>
                 <div class="form-group">
-                    <label for="name">내용</label>
-                    <input type="text" id="message" class="form-control" placeholder="메시지 내용">
+                    <label for="senderNickname">Sender Nickname</label>
+                    <input type="text" id="senderNickname" class="form-control" placeholder="Sender Nickname">
+                </div>
+                <div class="form-group">
+                    <label for="message">Content</label>
+                    <input type="text" id="message" class="form-control" placeholder="Message Content">
                 </div>
                 <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
@@ -95,28 +99,38 @@
 
     //html 에서 입력값, roomId 를 받아서 Controller 로 전달
     function sendChat() {
-        stompClient.send("/send/"+roomId, {},
+        var messageContent = $("#message").val();
+        var senderId = $("#senderId").val();
+        var senderNickname = $("#senderNickname").val();
+
+        stompClient.send("/send/" + roomId, {},
             JSON.stringify({
-                'sender': $("#sender").val(),
-                'message' : $("#message").val()
+                'roomId': roomId,
+                'senderId': senderId,
+                'senderNickname': senderNickname,  // Use the correct senderNickname
+                'senderProfileImage': '',  // Add appropriate field or leave it empty if not used
+                'content': messageContent,
+                'isRead': false,  // New messages are not read initially
+                'sendTime': new Date().getTime()
             }));
+
+        // Optionally, clear the input field after sending the message
+        $("#message").val("");
     }
 
-    //저장된 채팅 불러오기
-    function loadChat(chatList){
-        if(chatList != null) {
-            for(chat in chatList) {
-                $("#chatting").append(
-                    "<tr><td>" + "[" + chatList[chat].sender + "]" + chatList[chat].message + "</td></tr>"
-                );
-            }
+    // 저장된 채팅 불러오기
+    function loadChat(chatList) {
+        if (chatList != null) {
+            chatList.forEach(chat => {
+                showChat(chat);
+            });
         }
     }
 
     //보낸 채팅 보기
     function showChat(chatMessage) {
         $("#chatting").append(
-            "<tr><td>" + "[" + chatMessage.sender + "]" + chatMessage.message + "</td></tr>"
+            "<tr data-id='" + chatMessage.id + "'><td>" + "[" + chatMessage.senderNickname + "] " + chatMessage.content + "</td></tr>"
         );
     }
 
@@ -128,8 +142,6 @@
         $( "#disconnect" ).click(function() { disconnect(); });
         $( "#send" ).click(function() { sendChat(); });
     });
-
-
 </script>
 <script>
     //창 키면 바로 연결
