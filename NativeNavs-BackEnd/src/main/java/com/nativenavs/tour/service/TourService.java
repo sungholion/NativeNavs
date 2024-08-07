@@ -191,12 +191,10 @@ public class TourService {
         tourEntity.setTitle(tourRequestDTO.getTitle());
 
         if(tourEntity.getThumbnailImage() != null && !thumbnailImage.isEmpty()){
-            if (tourEntity.getThumbnailImage() != null) {
                 awsS3ObjectStorageUpload.deleteFile(tourEntity.getThumbnailImage());
-            }
+                String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
+                tourEntity.setThumbnailImage(thumbnailUrl);
         }
-        String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
-        tourEntity.setThumbnailImage(thumbnailUrl);
 
         tourEntity.setDescription(tourRequestDTO.getDescription());
         tourEntity.setLocation(tourRequestDTO.getLocation());
@@ -225,7 +223,9 @@ public class TourService {
     }
 
     private void updateTourPlans(TourEntity tourEntity, List<PlanRequestDTO> plans, List<MultipartFile> planImages) {
+        //해당 투어플랜
         List<PlanEntity> currentPlans = planRepository.findByTourId(tourEntity.getId());
+
         int imageIndex = 0;
 
         for (int i = 0; i < plans.size(); i++) {

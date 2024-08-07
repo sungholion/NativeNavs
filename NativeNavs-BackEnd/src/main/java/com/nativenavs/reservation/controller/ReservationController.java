@@ -173,6 +173,8 @@ public class ReservationController {
     }
 
 
+
+
     //JWT에서 이메일 받아 id로 치환
     private int getUserIdFromJWT(String token){
         String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
