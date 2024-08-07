@@ -34,11 +34,15 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/chat/"+roomId, {},
+    stompClient.send("/send/"+roomId, {},
         JSON.stringify({
-            'roomId' : roomId,
-            'name': $("#name").val(),
-            'message' : $("#message").val()
+            'roomId': roomId,
+            'senderId': $("#sender").val(),
+            'senderNickname': $("#sender").val(),  // Assuming senderId and senderNickname are the same
+            'senderProfileImage': '',  // Add appropriate field or leave it empty if not used
+            'content': $("#message").val(),
+            'isRead': false,  // New messages are not read initially
+            'sendTime': new Date().getTime()
         }));
 }
 
