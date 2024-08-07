@@ -1,6 +1,7 @@
 package com.circus.nativenavs.config
 
 import android.app.Application
+import android.util.Log
 import android.webkit.WebView
 import android.util.Patterns
 import com.circus.nativenavs.util.AuthInterceptor
@@ -8,6 +9,7 @@ import com.circus.nativenavs.util.NATIVENAVS_URL
 import java.util.regex.Pattern
 import com.circus.nativenavs.util.PREF
 import com.circus.nativenavs.util.SharedPref
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -31,10 +33,24 @@ class ApplicationClass : Application() {
 
         SharedPref.sharedPrefs = applicationContext.getSharedPreferences(PREF, MODE_PRIVATE)
         initRetrofitInstance()
+        initFcmToken()
     }
+
+    private fun initFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                SharedPref.fcmToken = token
+            } else {
+                Log.w("FCM", "Fetching FCM registration token failed", task.exception)
+            }
+        }
+    }
+
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+
     private fun initRetrofitInstance() {
         val client = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)

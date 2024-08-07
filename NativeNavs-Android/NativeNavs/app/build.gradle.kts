@@ -75,5 +75,6 @@ dependencies {
     implementation(libs.threetenabp)
 
     // FCM
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(libs.firebase.bom)
+    implementation(libs.google.firebase.messaging.ktx)
 }
