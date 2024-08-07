@@ -2,6 +2,7 @@ package com.nativenavs.tour.dto;
 
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TourDTO {
     private int id;
-    private int userId;
+    private UserDTO user;
     private String title;
     private String thumbnailImage;
     private String description;
@@ -31,15 +32,12 @@ public class TourDTO {
     private LocalDateTime updatedAt;
     private boolean isRemoved;
 
-    private UserDTO user;
-
     private List<Integer> categoryIds;
     private List<PlanDTO> plans;
 
-    public static TourDTO toTourDTO(TourEntity tourEntity, UserDTO userDTO){
+    public static TourDTO toTourDTO(TourEntity tourEntity){
         TourDTO tourDTO = new TourDTO();
         tourDTO.setId(tourEntity.getId());
-        tourDTO.setUserId(tourEntity.getUserId());
         tourDTO.setTitle(tourEntity.getTitle());
         tourDTO.setThumbnailImage(tourEntity.getThumbnailImage());
         tourDTO.setDescription(tourEntity.getDescription());
@@ -53,7 +51,11 @@ public class TourDTO {
         tourDTO.setUpdatedAt(tourEntity.getUpdatedAt());
         tourDTO.setMaxParticipants(tourEntity.getMaxParticipant());
         tourDTO.setRemoved(tourEntity.isRemoved());
-        tourDTO.setUser(userDTO);
+
+        if (tourEntity.getUser() != null) {
+            UserDTO userDTO = UserDTO.toUserDTO(tourEntity.getUser()); // UserDTO 변환 메서드 호출
+            tourDTO.setUser(userDTO);
+        }
 
         return tourDTO;
     }

@@ -44,8 +44,8 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
 
         //투어 정보에 해당하는 guidId 찾기
-        UserEntity guide = userRepository.findById(tour.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Guide not found"));
+        UserEntity guide = tour.getUser();
+
         // 리뷰 생성
         ReviewEntity review = new ReviewEntity();
         review.setReviewer(reviewer);
@@ -143,10 +143,10 @@ public class ReviewService {
         return responseDTO;
     }
 
-    public TravReviewDTO findReviewByUserId(int userId){
-        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("guide not found"));
+    public TravReviewDTO findReviewByUserId(int travId){
+//        UserEntity trav = userRepository.findById(travId).orElseThrow(() -> new IllegalArgumentException("guide not found"));
 
-        List<ReviewEntity> reviewEntities = reviewRepository.findByReviewerId(userId);
+        List<ReviewEntity> reviewEntities = reviewRepository.findByReviewerId(travId);
 
         List<ReviewResponseDTO> reviewDTOs = reviewEntities.stream()
                 .map(ReviewResponseDTO::toReviewDTO)

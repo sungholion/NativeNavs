@@ -53,6 +53,7 @@ public class ReservationService {
         reservation.setMeetingLongitude(requestDTO.getMeetingLongitude());
         reservation.setStatus(ReservationStatus.RESERVATION);
         reservation.setCreatedAt(LocalDateTime.now());
+        reservation.setDescription(requestDTO.getDescription());
 
         return reservationRepository.save(reservation);
     }
