@@ -45,11 +45,39 @@ export function navigateToTourDetailFragment(tour_id, user_id) {
   }
 }
 
-// 위시리스트 -> 메인 페이지로 이동
+// Trav 위시리스트 -> 메인 페이지로 이동
 export function navigateFromWishToTourListFragment() {
   if (window.Android && typeof window.Android.navigateFromWishToTourListFragment === 'function') {
     window.Android.navigateFromWishToTourListFragment();
   } else {
     console.log('navigateFromWishToTourListFragment function is not defined');
+  }
+}
+
+// Trav 예약 리스트 페이지 -> 예약 상세 페이지로 이동
+export function navigateToReservationListFragmentReservationDetail(tour_id, reservation_id) {
+  if (window.Android && typeof window.Android.navigateToReservationListFragmentReservationDetail === 'function') {
+    window.Android.navigateToReservationListFragmentReservationDetail(tour_id, reservation_id);
+  } else {
+    console.log('navigateToReservationListFragmentReservationDetail function is not defined');
+  }
+}
+
+
+// Trav 예약 상세 페이지 -> 채팅방으로 이동
+export function navigateToReservationDetailChattingRoom(chat_id, ) {
+  if (window.Android && typeof window.Android.navigateToReservationDetailChattingRoom === 'function') {
+    window.Android.navigateToReservationDetailChattingRoom(chat_id);
+  } else {
+    console.log('navigateToReservationDetailChattingRoom function is not defined');
+  }
+}
+
+// Trav 예약 상세 페이지 -> 뒤로가기
+export function navigateBack() {
+  if (window.Android && typeof window.Android.navigateBack === 'function') {
+    window.Android.navigateBack();
+  } else {
+    console.log('navigateBack function is not defined');
   }
 }

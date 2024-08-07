@@ -48,6 +48,7 @@ const Tour_Item = ({
           }
         );
       } else {
+        console.log(tourId);
         // 위시리스트에 추가
         await axios.post(
           `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
