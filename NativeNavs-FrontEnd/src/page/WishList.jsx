@@ -62,7 +62,7 @@ function WishList() {
       }
     };
     fetchWishLists();
-  }, [user, wishList]);
+  }, [user, ]);
 
   return (
     <div className={styles.container}>

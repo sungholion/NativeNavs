@@ -17,11 +17,7 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
   console.log(params);
 
   const onClickButton = () => {
-    if (params.tour_id) {
-      navigateToReviewPhotoFragment(params.tour_id);
-    } else {
-      navigateToReviewPhotoFragment(params.user_id);
-    }
+    navigateToReviewPhotoFragment(params.user_id);
   };
 
   // FE -> BE : ReviewData API 요청
