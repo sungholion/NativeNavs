@@ -21,6 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -44,13 +47,14 @@ public class ReviewController {
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
-                                        @ModelAttribute ReviewRequestDTO reviewDTO){
+                                        @RequestPart("review") ReviewRequestDTO reviewDTO,
+                                        @RequestPart("reviewImages") List<MultipartFile> images){
         try {
             int userId = getUserIdFromJWT(token); // JWT에서 사용자 ID 추출
             UserEntity reviewer = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer);
+            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images);
             //반환 여부 토론
             return ResponseEntity.ok("리뷰 작성 완료");
 

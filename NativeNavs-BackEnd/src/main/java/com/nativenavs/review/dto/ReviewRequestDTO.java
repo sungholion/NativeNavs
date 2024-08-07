@@ -18,6 +18,6 @@ public class ReviewRequestDTO {
     private int tourId;
     private int score;
     private String description;
-    private List<MultipartFile> imageUrls;
+    private List<String> imageUrls;
     // Getters and Setters
 }

@@ -38,7 +38,7 @@ public class ReviewService {
     private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
     @Transactional
-    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer) {
+    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images) {
         // Tour, Guide와 Reviewer 정보를 조회
         TourEntity tour = tourRepository.findById(reviewRequestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
@@ -57,8 +57,8 @@ public class ReviewService {
         review = reviewRepository.save(review);
 
         // 리뷰와 관련된 이미지 저장
-        if (reviewRequestDTO.getImageUrls() != null) {
-            for (MultipartFile image : reviewRequestDTO.getImageUrls()) {
+        if (images != null) {
+            for (MultipartFile image : images) {
                 ReviewImageEntity reviewImage = new ReviewImageEntity();
                 reviewImage.setReview(review);
 
