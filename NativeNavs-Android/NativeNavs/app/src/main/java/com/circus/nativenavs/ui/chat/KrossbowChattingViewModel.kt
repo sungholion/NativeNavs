@@ -146,7 +146,8 @@ class KrossbowChattingViewModel : ViewModel() {
     private fun handleOnMessageReceived(message: MessageDto) {
         Log.d(TAG, "handleOnMessageReceived: $message")
         try {
-            addMessage(message)
+            if (message.senderId != uiState.value!!.senderId)
+                addMessage(message)
         } catch (e: Exception) {
             Log.e(TAG, "handleOnMessageReceived: ", e)
         }
