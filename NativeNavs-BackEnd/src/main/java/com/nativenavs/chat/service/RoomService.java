@@ -65,7 +65,7 @@ public class RoomService {
             TourEntity tourEntity = optionalTourEntity.get();
 
             // 투어 작성자
-            UserEntity navUserEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(() -> new NoSuchElementException("User not found"));
+            UserEntity navUserEntity = tourEntity.getUser();
             UserDTO navUserDTO = UserDTO.toUserDTO(navUserEntity);
 
             // 여행자 (방만들기 신청하는 사람 sender)
@@ -74,7 +74,7 @@ public class RoomService {
 
             UserDTO travUserDTO = userService.searchByEmail(email);
 
-            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity, navUserDTO);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
 
             newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);

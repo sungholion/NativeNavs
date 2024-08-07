@@ -14,5 +14,4 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
     int countByTour(TourEntity tour);
     List<ReservationEntity> findByTourAndGuideAndStatus(TourEntity tourId, UserEntity guide, ReservationStatus status);
     Optional<ReservationEntity> findById(Integer id);
-
 }

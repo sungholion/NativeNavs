@@ -100,16 +100,16 @@ public class ReviewController {
 
     }
 
-    @GetMapping("/user")
-    @Operation(summary = "사용자 리뷰 조회 API", description = "사용자 리뷰를 조회할때 사용하는 API")
+    @GetMapping("/user/{travId}")
+    @Operation(summary = "Trav 리뷰 조회 API", description = "Trav가 쓴 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
-    public ResponseEntity<?> reviewFindByUserId(@RequestHeader("Authorization") String token){
+    public ResponseEntity<?> reviewFindByTravId(@Parameter(description = "조회 기준이 될 Trav ID", required = true, example = "10")
+                                                    @PathVariable("travId") int travId){
         //jwt 사용자 정보가 필요한가?? 보류
         try {
-            int userId = getUserIdFromJWT(token);
-            TravReviewDTO travReviewDTO = reviewService.findReviewByUserId(userId);
+            TravReviewDTO travReviewDTO = reviewService.findReviewByUserId(travId);
             return ResponseEntity.ok(travReviewDTO);
         } catch (Exception e) {
             e.printStackTrace();

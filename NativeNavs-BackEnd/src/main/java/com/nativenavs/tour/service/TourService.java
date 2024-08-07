@@ -69,7 +69,11 @@ public class TourService {
         // 썸네일 이미지
         String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
         tourEntity.setThumbnailImage(thumbnailUrl);
-        tourEntity.setUserId(userId);
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        // UserEntity를 TourEntity에 설정
+        tourEntity.setUser(userEntity);
 
         TourEntity savedTour = tourRepository.save(tourEntity);
 
@@ -118,9 +122,7 @@ public class TourService {
         List<TourDTO> tourDTOList = new ArrayList<>();
 
         for (TourEntity tourEntity: tourEntityList){
-            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
-            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
             List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
                     .map(plan -> new PlanDTO(
                             plan.getId(),
@@ -143,10 +145,7 @@ public class TourService {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
         if(optionalTourEntity.isPresent()){
             TourEntity tourEntity = optionalTourEntity.get();
-
-            UserEntity userEntity = userRepository.findById(tourEntity.getUserId()).orElseThrow(()-> new NoSuchElementException("User not found"));
-            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity,userDTO);
+            TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
 
             // Fetching categories
             List<Integer> categoryIds = tourEntity.getTourCategories().stream()
@@ -290,12 +289,8 @@ public class TourService {
         List<TourEntity> tourEntities = tourRepository.findAll(spec);
         return tourEntities.stream()
                 .map(tourEntity->{
-                    UserEntity userEntity = userRepository.findById(tourEntity.getUserId())
-                            .orElseThrow(() -> new NoSuchElementException("User not found"));
-                    // UserDTO로 변환
-                    UserDTO userDTO = UserDTO.toUserDTO(userEntity);
                     // TourDTO로 변환 및 유저 정보 추가
-                    return TourDTO.toTourDTO(tourEntity, userDTO);
+                    return TourDTO.toTourDTO(tourEntity);
                 })
                 .collect(Collectors.toList());
     }

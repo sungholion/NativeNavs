@@ -24,7 +24,6 @@ public class WishlistController {
     private final WishlistService wishlistService;
     public WishlistController(WishlistService wishlistService){
         this.wishlistService = wishlistService;
-
     }
 
     @Autowired
@@ -40,9 +39,6 @@ public class WishlistController {
     , @Parameter(description = "위시에 등록할 여행지 ID", example = "1") @RequestParam int tourId
     ){
         try {
-//            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
-//            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-//            int userIdFromEmail = userService.changeEmailToId(email);
             int userIdFromEmail = getUserIdFromJWT(token);
             wishlistService.addWishlist(userIdFromEmail, tourId);
             return ResponseEntity.ok("위시리스트 등록 성공");
@@ -60,9 +56,6 @@ public class WishlistController {
     @GetMapping
     public ResponseEntity<?> wishlistFind( @RequestHeader("Authorization") String token){
         try {
-//            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
-//            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-//            int userIdFromEmail = userService.changeEmailToId(email);
             int userIdFromEmail = getUserIdFromJWT(token);
             List<TourDTO> wishlist = wishlistService.findWishlist(userIdFromEmail);
             return ResponseEntity.ok(wishlist);
@@ -81,9 +74,6 @@ public class WishlistController {
     public ResponseEntity<?> wishlistRemvove( @RequestHeader("Authorization") String token,
                                               @Parameter(description = "투어 ID", required = true, example = "1") @PathVariable int tourId ){
         try{
-//            String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
-//            String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-//            int userIdFromEmail = userService.changeEmailToId(email);
             int userIdFromEmail = getUserIdFromJWT(token); // JWT에서 이���일 받아 id로 ��환
             wishlistService.removeWishlist(userIdFromEmail, tourId);
             return ResponseEntity.ok("위시리스트 삭제 성공");
