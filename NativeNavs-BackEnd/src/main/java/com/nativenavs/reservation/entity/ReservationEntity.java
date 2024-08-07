@@ -55,6 +55,9 @@ public class ReservationEntity {
     @Column(nullable = false, name ="participant_count",columnDefinition = "INT DEFAULT 1")
     private int participantCount;
 
+    @Column(name="meeting_address", nullable = false)
+    private String meetingAddress;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 

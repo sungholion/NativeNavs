@@ -27,6 +27,7 @@ public class ReservationResponseDTO {
     private LocalTime startAt; // 만남 시작 시간
     private LocalTime endAt; // 만남 종료 시간
     private LocalDate date;
+    private String meetingAddress;
     private UserDTO guide; // 가이드 정보
     private UserDTO participant; // 참여자 정보
     private int participantCount; // 참여 인원
@@ -43,6 +44,7 @@ public class ReservationResponseDTO {
                 .map(PlanEntity::getImage)
                 .toList());
         dto.setStartAt(reservationEntity.getStartAt());
+        dto.setMeetingAddress(reservationEntity.getMeetingAddress());
         dto.setEndAt(reservationEntity.getEndAt());
         dto.setGuide(UserDTO.toUserDTO(reservationEntity.getGuide()));
         dto.setParticipant(UserDTO.toUserDTO(reservationEntity.getParticipant())); // 참여자 정보
