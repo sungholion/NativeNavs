@@ -109,6 +109,7 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 예약을 찾을 수 없습니다: " + reservationId));
         // 상태를 DONE으로 변경합니다.
         reservation.setStatus(ReservationStatus.DONE);
+        reservation.setTaggingAt(LocalDateTime.now());
         // 변경된 예약을 저장합니다.
         reservationRepository.save(reservation);
     }
