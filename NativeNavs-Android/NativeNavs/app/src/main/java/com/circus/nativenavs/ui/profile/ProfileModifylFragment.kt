@@ -25,6 +25,7 @@ import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.isPasswordValid
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import java.io.File
 
 class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
     FragmentProfileModifyBinding::bind,
@@ -171,7 +172,6 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                                 phone = profileModifyPhoneEt.text.toString(),
                                 nation = it.userDto.value!!.nation,
                                 birth = it.userDto.value!!.birth,
-                                image = " ",
                                 device = it.userDto.value!!.device,
                                 isKorean = it.userDto.value!!.korean
                             )
