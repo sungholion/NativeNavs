@@ -11,6 +11,7 @@ import com.circus.nativenavs.data.LanguageDto
 import com.circus.nativenavs.data.LanguageListDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.ProfileUserDto
+import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
 import com.google.gson.Gson
@@ -21,6 +22,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import kotlin.math.log
 
 
 class HomeActivityViewModel : ViewModel() {
@@ -222,5 +224,21 @@ class HomeActivityViewModel : ViewModel() {
         _searchTheme.value = list
     }
 
+
+    private val _profileUserReview = MutableLiveData<ProfileUserReviewDto>()
+    val profileUserReviewDto : LiveData<ProfileUserReviewDto> get() = _profileUserReview
+
+    private val _reviewStatus = MutableLiveData<Int>(-1)
+    val reviewStatus : LiveData<Int> get() = _reviewStatus
+    fun getNavReview(id : Int){
+        viewModelScope.launch {
+            Log.d("review", "getNavReview: \"나는 여기\"")
+            _profileUserReview.value = userRetrofit.getNavReview(id)
+            _reviewStatus.value = 1
+         }
+    }
+    fun getTravReview(id : Int){
+
+    }
 
 }

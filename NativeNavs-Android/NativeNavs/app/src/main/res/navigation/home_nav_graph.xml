@@ -169,6 +169,12 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <argument
+            android:name="navId"
+            app:argType="integer" />
+        <argument
+            android:name="travId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/profileModifylFragment"
