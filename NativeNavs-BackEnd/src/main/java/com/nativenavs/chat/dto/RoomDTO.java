@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RoomDTO {
-    private int id;
+    private int roomId;
     private int tourId;
     private String tourTitle;
     private String tourImgUrl;
@@ -28,7 +28,7 @@ public class RoomDTO {
 
     public static RoomDTO toRoomDTO(RoomEntity roomEntity){
         RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setId(roomEntity.getId());
+        roomDTO.setRoomId(roomEntity.getId());
         roomDTO.setTourId(roomEntity.getTourId());
         roomDTO.setTourTitle(roomEntity.getTourTitle());
         roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
