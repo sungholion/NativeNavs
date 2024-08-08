@@ -18,6 +18,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -46,7 +47,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 ) {
 
     private lateinit var signUpActivity: SignUpActivity
-    private var body :MultipartBody.Part? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         signUpActivity = context as SignUpActivity
@@ -62,6 +62,10 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         initEvent()
         initSpinner()
         initTextWatcher()
+
+        signUpViewModel.body.observe(viewLifecycleOwner){
+            if(it != null) binding.signupProfileImgIv.setImageURI(signUpViewModel.imageUri.value)
+        }
 
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             binding.signupSelectedLanguageTv.text = languageList.language.joinToString(", ")
@@ -239,8 +243,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
         Log.d("YourFragment", "Selected Image URI: $imageUri")
-        binding.signupProfileImgIv.setImageURI(imageUri)
-
         var file = uriToFile(requireContext(), imageUri)
 
         val maxSize = 10 * 1024 * 1024 // 10MB
@@ -256,7 +258,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         Log.d("handle", "handleImage: ${file.length()}")
         // 파일을 MultipartBody.Part로 변환
         val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
-        body = MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
+        signUpViewModel.updateImageFile(MultipartBody.Part.createFormData("profileImage", file.name, requestFile),imageUri)
 
 
     }
@@ -320,7 +322,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 signUpViewModel.updateUserLanguage(userLanguage)
                 println(signUpViewModel.toString())
 
-                signUpViewModel.signUp(body)
+                signUpViewModel.signUp()
 
             }
         }

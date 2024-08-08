@@ -1,5 +1,6 @@
 package com.circus.nativenavs.ui.signup
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -62,6 +63,15 @@ class SignUpActivityViewModel : ViewModel() {
     private val _checkCount = MutableLiveData<Int>(0)
     val checkCount : LiveData<Int> get() = _checkCount
 
+    private var _body = MutableLiveData<MultipartBody.Part?>(null)
+    val body : LiveData<MultipartBody.Part?> get() = _body
+    private var _imageUri = MutableLiveData<Uri>()
+    val imageUri : LiveData<Uri> = _imageUri
+    fun updateImageFile(image :MultipartBody.Part, uri : Uri){
+        _imageUri.value = uri
+        _body.value = image
+    }
+
     fun updateCheckList(language : String, isChecked: Boolean){
         var count = 0
         _languageCheckList.value?.onEach {
@@ -93,15 +103,15 @@ class SignUpActivityViewModel : ViewModel() {
        }
     }
 
-    fun signUp(image : MultipartBody.Part?) {
+    fun signUp() {
         viewModelScope.launch {
 
-            if (image != null ){
+            if (_body.value != null ){
                 val userJson = Gson().toJson(_signUpDTO.value)
                 val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
                 val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
-                val response = retrofit.postSignUp(requestBody,image)
-                Log.d(TAG, "signUp: $requestBody $image")
+                val response = retrofit.postSignUp(requestBody, _body.value!!)
+                Log.d(TAG, "signUp: $requestBody ${_body.value}")
                 // HTTP 상태 코드 출력
                 _signStatus.postValue(response?.code())
                 println("HTTP 상태 코드: ${response?.code()}")
