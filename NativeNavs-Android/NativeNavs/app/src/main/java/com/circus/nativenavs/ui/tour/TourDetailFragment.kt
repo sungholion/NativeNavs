@@ -136,16 +136,25 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToReviewListFragment(tourId: Int) {
+        Log.d(TAG, "navigateToReviewListFragment: $tourId")
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToReviewListFragment(tourId)
         navigate(action)
     }
 
     fun navigateToTourModifyFragment(tourId: Int) {
+        Log.d(TAG, "navigateToReviewListFragment: $tourId")
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToTourModifyFragment(tourId)
         navigate(action)
     }
+
+    fun navigateToTourListFragment(){
+        val action =
+            TourDetailFragmentDirections.actionTourDetailFragmentToTourListFragment()
+        navigate(action)
+    }
+
 
     override fun onResume() {
         super.onResume()
