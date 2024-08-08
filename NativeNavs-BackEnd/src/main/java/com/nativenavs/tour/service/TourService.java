@@ -1,14 +1,9 @@
 package com.nativenavs.tour.service;
 
-import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.common.service.AwsS3ObjectStorage;
-import com.nativenavs.tour.dto.*;
 import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.reservation.service.ReservationService;
-import com.nativenavs.tour.dto.CategoryDTO;
-import com.nativenavs.tour.dto.GuideTourDTO;
-import com.nativenavs.tour.dto.PlanDTO;
-import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.dto.*;
 import com.nativenavs.tour.entity.CategoryEntity;
 import com.nativenavs.tour.entity.PlanEntity;
 import com.nativenavs.tour.entity.TourCategoryEntity;
@@ -18,7 +13,6 @@ import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.user.service.UserService;
-import com.nativenavs.user.service.UserServiceImpl;
 import com.nativenavs.wishlist.repository.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -135,8 +127,7 @@ public class TourService {
                     .collect(Collectors.toList());
             tourDTO.setPlans(planDTOs);
 
-            tourDTOList.add(tourDTO);
-        }
+            tourDTOList.add(tourDTO);        }
         return tourDTOList;
     }
 

@@ -60,7 +60,6 @@ public class RoomService {
     // 채팅방 만들기
     public RoomDTO createRoom(int tourId, String token) {
         Optional<TourEntity> optionalTourEntity = tourRepository.findById(tourId);
-        RoomEntity newRoom;
         if (optionalTourEntity.isPresent()) {
             TourEntity tourEntity = optionalTourEntity.get();
 
@@ -76,11 +75,13 @@ public class RoomService {
 
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
 
-            newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
+            RoomEntity newRoom = RoomEntity.createRoom(tourId, tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
             chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.");
+
+
 
             return newRoomDTO;
 
@@ -88,8 +89,13 @@ public class RoomService {
             return null;
         }
 
-
     }
 
+
+    public RoomDTO findRoomDTOById(int roomId) {
+        RoomEntity roomEntity = roomRepository.findById(roomId)
+                .orElseThrow(() -> new NoSuchElementException("Room not found with id: " + roomId));
+        return RoomDTO.toRoomDTO(roomEntity);
+    }
 
 }
