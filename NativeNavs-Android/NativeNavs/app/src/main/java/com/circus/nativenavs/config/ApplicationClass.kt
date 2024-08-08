@@ -33,7 +33,7 @@ class ApplicationClass : Application() {
         }
 
         // Notification Channel ID
-        const val channel_id = "ssafy_channel"
+        const val channel_id = "NativeNavs_Channel"
 
         // ratrofit  수업 후 network 에 업로드 할 수 있도록 구성
         fun uploadToken(token: String) {
