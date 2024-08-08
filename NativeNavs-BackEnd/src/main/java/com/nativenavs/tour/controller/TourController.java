@@ -2,6 +2,7 @@ package com.nativenavs.tour.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.tour.dto.CategoryDTO;
+import com.nativenavs.tour.dto.GuideTourDTO;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.dto.TourRequestDTO;
 import com.nativenavs.tour.service.CategoryService;
@@ -168,6 +169,23 @@ public class TourController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 검색 실패");
         }
     }
+
+    @GetMapping("/guide")
+    @Operation(summary = "가이드가 등록한 투어리스트 검색 API", description = "가이드가 등록한 투어리스트 검색하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> tourSearchByGuide(@RequestHeader("Authorization") String token){
+        try {
+            int guideId = getUserIdFromJWT(token);
+            List<GuideTourDTO> myTourList = tourService.findToursByGuide(guideId);
+            return ResponseEntity.ok(myTourList);
+        } catch (Exception e) {
+            e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 리스트 조회 실패");
+        }
+    }
+
 
 
     //JWT에서 이메일 받아 id로 치환
