@@ -13,6 +13,8 @@ import {
   navigateToTourModifyFragment,
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
+import NativeNavs from '@/assets/NativeNavs.png';
+
 
 const Detail = () => {
   const params = useParams();
@@ -89,7 +91,7 @@ const Detail = () => {
     fetchTour();
   }, [user]);
 
-  // NavLanguages 관리 state
+  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
@@ -256,13 +258,13 @@ const Detail = () => {
           <div className={styles.navInfoText}>
             {tour && tour.user ? (
               <p className={styles.navNickname}>
-                Navs : {tour.user.nickname}님
+                <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />(Nav) : {tour.user.nickname}님
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              언어 : {navLanguages.join(", ")}
+            🌏(language) : {navLanguages.join(", ")}
             </p>
           </div>
         </div>

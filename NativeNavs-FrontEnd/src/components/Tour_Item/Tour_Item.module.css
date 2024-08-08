@@ -81,29 +81,20 @@
 }
 
 .nav_img {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   border: 1px solid #d9d9d9;
   margin-right: 5px;
 }
 
-.tour_nav_language {
-  margin: 1px 0px;
-  font-size: 15px;
-  font-weight: 500;
-  font-weight: 500;
+.navLanguagesContainer {
   display: flex;
+  width: 130px;
   justify-content: end;
-  align-items: center;
 }
 
-.tour_nav_language > img {
-  width: 18px;
-  height: 18px;
-  margin-right: 2px;
-}
-
-.tour_nav_language > p {
+.navLanguages {
+  font-size: 14px;
   margin: 0;
 }

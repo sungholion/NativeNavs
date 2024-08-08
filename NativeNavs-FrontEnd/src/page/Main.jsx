@@ -5,7 +5,7 @@ import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
 
 const Main = () => {
-  const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음 
+  const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(null);
 
@@ -18,7 +18,7 @@ const Main = () => {
     }
   }, []);
 
-  // 위시리스트 API 
+  // 위시리스트 API
   const fetchWishLists = async () => {
     if (user && user.isNav == false) {
       try {
@@ -59,7 +59,6 @@ const Main = () => {
     fetchWishLists();
   }, [user]);
 
-
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
@@ -84,6 +83,7 @@ const Main = () => {
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
             wishList={wishList}
+            userLanguages={tour.user.userLanguage}
           />
         ))}
       </div>

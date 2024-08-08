@@ -17,6 +17,7 @@ const Tour_Item = ({
   navigateFragment,
   user,
   wishList,
+  userLanguages,
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
@@ -64,6 +65,18 @@ const Tour_Item = ({
     }
   };
 
+  // NavLanguages 관리 state : 문자열을 배열로 변환
+  const [navLanguages, setNavLanguages] = useState([]);
+  useEffect(() => {
+    if (userLanguages) {
+      const userLanguageList = userLanguages
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguageList);
+      console.log(navLanguages);
+    }
+  }, [userLanguages]);
+
   return (
     <div className={styles.Tour_Item} onClick={onClickTour}>
       <div className={styles.thumbnail_container}>
@@ -95,6 +108,15 @@ const Tour_Item = ({
               className={styles.nav_img}
             />
             <p style={{ cursor: "pointer" }}>{nickname}</p>
+          </div>
+          <div className={styles.navLanguagesContainer}>
+            {navLanguages.length > 1 ? (
+              <p className={styles.navLanguages}>
+                🌏{navLanguages[0]} 외 {navLanguages.length - 1}개
+              </p>
+            ) : (
+              <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
+            )}
           </div>
         </div>
       </section>
