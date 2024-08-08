@@ -26,7 +26,7 @@ public class RoomDTO {
     private String receiverNickname;
     private boolean receiverIsNav;
     private String recentMessageContent;
-    private LocalDateTime recentMessageTime;
+    private String recentMessageTime;
 
     public static RoomDTO toRoomDTO(RoomEntity roomEntity){
         return RoomDTO.builder()

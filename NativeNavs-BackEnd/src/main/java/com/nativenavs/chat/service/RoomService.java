@@ -80,10 +80,7 @@ public class RoomService {
             roomRepository.save(newRoom);
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
-            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", LocalDateTime.now());
-
-
-
+            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", LocalDateTime.now().toString());
 
             return newRoomDTO;
 
