@@ -189,8 +189,8 @@ class ProfileFragment :
             reviewStatus.observe(viewLifecycleOwner) {
                 if (it != -1) {
                     this.profileUserReviewDto.value?.reviews?.let { review ->
+                        reviewList.removeAll(reviewList)
                         review.map { it }.take(3).forEach { dto ->
-                            reviewList.removeAll(reviewList)
                             reviewList.add(ProfileReviewDto(
                                 dto.score.toInt(),
                                 formatDate(dto.createdAt.toString()),
