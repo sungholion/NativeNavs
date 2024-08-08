@@ -18,6 +18,27 @@ const Main = () => {
     }
   }, []);
 
+  // 위시리스트 API 
+  const fetchWishLists = async () => {
+    if (user && user.isNav == false) {
+      try {
+        const response = await axios.get(
+          "https://i11d110.p.ssafy.io/api/wishlist",
+          {
+            headers: {
+              Authorization: `Bearer ${user.userToken}`,
+              accept: "application/json",
+            },
+          }
+        );
+        console.log("Fetched wishlist data:", response.data);
+        setWishList(response.data.map((item) => item.id));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   // 투어 API
   useEffect(() => {
     console.log("투어 API 요청 시작");
@@ -27,38 +48,16 @@ const Main = () => {
           "https://i11d110.p.ssafy.io/api/tours/search"
         );
         console.log("투어 API 요청 성공", response.data);
+        console.log("위시리스트 API 요청 시작");
+        fetchWishLists();
         setTours(response.data);
       } catch (error) {
         console.error("투어 API 요청 실패", error);
       }
     };
     fetchTours();
-  }, []);
-
-  // 위시리스트 API
-  useEffect(() => {
-    console.log("위시리스트 API 요청 시작");
-    const fetchWishLists = async () => {
-      if (user && user.isNav == false) {
-        try {
-          const response = await axios.get(
-            "http://i11d110.p.ssafy.io/api/wishlist",
-            {
-              headers: {
-                Authorization: `Bearer ${user.userToken}`,
-                accept: "application/json",
-              },
-            }
-          );
-          console.log("위시리스트 API 요청 성공", response.data);
-          setWishList(response.data.map((item) => item.id));
-        } catch (error) {
-          console.error("위시리스트 API 요청 성공", error);
-        }
-      }
-    };
-    fetchWishLists();
   }, [user]);
+
 
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };

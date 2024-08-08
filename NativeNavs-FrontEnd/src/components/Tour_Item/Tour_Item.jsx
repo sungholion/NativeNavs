@@ -35,7 +35,6 @@ const Tour_Item = ({
   }, [isWishListed]);
 
   const toggleWishlist = async (e) => {
-    e.stopPropagation();
     try {
       if (isWishListed) {
         // 위시리스트에서 제거
@@ -85,7 +84,6 @@ const Tour_Item = ({
           <div className={styles.heart_container}>
             <Heart
               isWishListed={isWishListed}
-              setIsWishListed={setIsWishListed}
               onClickEvent={toggleWishlist}
               wishList={wishList}
             />
