@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.VISIBLE
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
@@ -13,7 +15,6 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentReservationDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourRegisterFragmentDirections
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
@@ -96,7 +97,16 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             }
 
         })
+        binding.reservationDetailCustomWv.setOnClickListener {
+            (object :
+                CustomTitleWebView.OnQRClickLisetner {
+                override fun onClick() {
+                    showToast("클릭")
+                }
 
+            })
+        }
+        binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility = VISIBLE
         homeActivity.onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {

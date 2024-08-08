@@ -4,17 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentMyTripReservationListBinding
-import com.circus.nativenavs.databinding.FragmentReservationListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate

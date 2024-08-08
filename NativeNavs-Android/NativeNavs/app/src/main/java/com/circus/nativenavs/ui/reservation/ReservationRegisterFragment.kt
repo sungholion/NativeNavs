@@ -1,13 +1,9 @@
 package com.circus.nativenavs.ui.reservation
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.ValueCallback
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
@@ -17,7 +13,6 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentReservationRegisterBinding
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL

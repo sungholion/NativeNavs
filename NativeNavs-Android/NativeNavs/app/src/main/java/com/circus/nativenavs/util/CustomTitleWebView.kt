@@ -2,7 +2,6 @@ package com.circus.nativenavs.util
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.webkit.WebChromeClient
@@ -46,6 +45,9 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
         binding.customWebviewTitleBackIv.setOnClickListener {
             onBackClickListener?.onClick()
         }
+        binding.customWebviewTitleQrIv.setOnClickListener {
+            onQRClickListener?.onClick()
+        }
     }
 
     fun backWebView(): Boolean {
@@ -88,6 +90,11 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
     private var onBackClickListener: OnBackClickListener? = null
 
     interface OnBackClickListener {
+        fun onClick()
+    }
+
+    private var onQRClickListener: OnQRClickLisetner? = null
+    interface OnQRClickLisetner{
         fun onClick()
     }
 }
