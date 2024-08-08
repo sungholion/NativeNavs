@@ -1,17 +1,22 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styles from "./Reservation_Item.module.css";
 
-
-const Reservation_Item = ({ participantInfo }) => {
-  useEffect(() => 
-    console.log(participantInfo)
-  , [participantInfo])
+const Reservation_Item = ({
+  participantInfo,
+  navigateToReservationDetailFragment,
+}) => {
+  useEffect(() => console.log(participantInfo), [participantInfo]);
   const formattedDate = new Date(
     participantInfo.reservationDate
   ).toLocaleDateString();
 
   return (
-    <div className={styles.Reservation_Item}>
+    <div
+      className={styles.Reservation_Item}
+      onClick={() =>
+        navigateToReservationDetailFragment(participantInfo.reservationId)
+      }
+    >
       {/* 상단 */}
       <div className={styles.Reservation_Top}>
         <img
@@ -21,7 +26,9 @@ const Reservation_Item = ({ participantInfo }) => {
         />
         <div className={styles.Profile_Info}>
           <div className={styles.Profile_Info_Name}>
-            <p className={styles.Profile_Name}>{participantInfo.userNickName} 님</p>
+            <p className={styles.Profile_Name}>
+              {participantInfo.userNickName} 님
+            </p>
             <p> 님</p>
           </div>
           <p className={styles.Profile_Count}>

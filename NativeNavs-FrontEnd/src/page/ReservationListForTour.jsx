@@ -66,10 +66,10 @@ const ReservationListForTour = () => {
           <h4>📘총 {bookCount}개의 예약이 있습니다</h4>
         </div>
         {participantsInfo.length > 0 ? (
-          participantsInfo.map((participantInfo) => (
+          participantsInfo.map((participantInfo, index) => (
             <Reservation_Item
-              key={participantInfo.id}
-              // onClick={() => navigateToReservationDetailFragment()} ★★★★★★★★★★★
+              key={index}
+              navigateToReservationDetailFragment={navigateToReservationDetailFragment}
               participantInfo={participantInfo}
             />
           ))
