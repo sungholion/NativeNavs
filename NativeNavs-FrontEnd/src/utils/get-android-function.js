@@ -65,7 +65,7 @@ export function navigateToReservationListFragmentReservationDetail(tour_id, rese
 
 
 // Trav 예약 상세 페이지 -> 채팅방으로 이동
-export function navigateToReservationDetailChattingRoom(chat_id, ) {
+export function navigateToReservationDetailChattingRoom(chat_id) {
   if (window.Android && typeof window.Android.navigateToReservationDetailChattingRoom === 'function') {
     window.Android.navigateToReservationDetailChattingRoom(chat_id);
   } else {

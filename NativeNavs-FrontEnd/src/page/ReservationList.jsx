@@ -21,16 +21,6 @@ const ReservationList = () => {
     }
   }, []);
 
-  // // 필요한 정보를 포함한 객체 리스트 생성
-  // const tourData = upcomingTours.map((tour) => ({
-  //   thumbnail: tour.thumbnailImage[0],
-  //   title: tour.title,
-  //   date: tour.start_date,
-  //   reviewAverage: tour.review_average,
-  //   languages: tour.language,
-  //   navImage: tour.image,
-  //   navNickname: tour.nickname,
-  // }));
 
   // // MB -> FE : 유저 정보 파싱
   // useEffect(() => {

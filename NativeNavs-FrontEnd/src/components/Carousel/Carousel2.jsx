@@ -101,11 +101,7 @@ export default function Carousel2({
                 <p className={styles.navNickname}>{tour.navNickname}</p>
               </div>
               <div className={styles.navLanguage}>
-                <img
-                  className={styles.navLanguageImage}
-                  src={language}
-                  alt=""
-                />
+                🌏
                 <p className={styles.navLanguageText}>
                   {tour.languages.length === 1
                     ? tour.languages[0]
@@ -166,11 +162,7 @@ export default function Carousel2({
                       <p className={styles.navNickname}>{tour.navNickname}</p>
                     </div>
                     <div className={styles.navLanguage}>
-                      <img
-                        className={styles.navLanguageImage}
-                        src={language}
-                        alt=""
-                      />
+                      🌏
                       <p className={styles.navLanguageText}>
                         {formattedLanguages.length === 1
                           ? formattedLanguages[0]
