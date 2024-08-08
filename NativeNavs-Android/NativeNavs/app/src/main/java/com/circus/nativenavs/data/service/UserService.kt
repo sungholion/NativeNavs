@@ -81,4 +81,9 @@ interface UserService {
     suspend fun getNavReview(
         @Path(value = "guideId") guideId : Int
     ) : ProfileUserReviewDto
+
+    @GET("reviews/user/{travId}")
+    suspend fun getTravReview(
+        @Path(value = "travId") guideId : Int
+    ) : ProfileUserReviewDto
 }

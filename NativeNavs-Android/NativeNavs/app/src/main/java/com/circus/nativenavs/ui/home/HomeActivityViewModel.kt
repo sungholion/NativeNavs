@@ -234,11 +234,18 @@ class HomeActivityViewModel : ViewModel() {
         viewModelScope.launch {
             Log.d("review", "getNavReview: \"나는 여기\"")
             _profileUserReview.value = userRetrofit.getNavReview(id)
-            _reviewStatus.value = 1
+            _reviewStatus.value?.let { it+1 }
          }
     }
     fun getTravReview(id : Int){
-
+        viewModelScope.launch {
+            Log.d("review", "getTravReview: \"나는 여기\"")
+            _profileUserReview.value = userRetrofit.getTravReview(id)
+            var count = _reviewStatus.value
+            if (count != null) {
+                _reviewStatus.value = count+1
+            }
+        }
     }
 
 }

@@ -38,7 +38,8 @@ class ProfileFragment :
             "무플 방지 위원회에서 나왔습니다.. \uD83D\uDE0A 리뷰를 작성해보세요!",
             "res/drawable/logo_nativenavs.png",
             "도움이",
-            "영어"
+            "영어",
+            ""
         )
     )
 
@@ -72,7 +73,7 @@ class ProfileFragment :
             it.getProfileUser(args.userId)
             if (args.userId == SharedPref.userId) {
                 if (SharedPref.isNav == true) it.getNavReview(args.userId)
-                else it.getNavReview(args.userId)
+                else it.getTravReview(args.userId)
             } else {
                 if (args.navId != 0) it.getNavReview(args.navId)
                 else it.getTravReview(args.travId)
@@ -187,7 +188,6 @@ class ProfileFragment :
         homeActivityViewModel.apply {
             reviewStatus.observe(viewLifecycleOwner) {
                 if (it != -1) {
-                    Log.d(TAG, "initObserve: review여기까지")
                     this.profileUserReviewDto.value?.reviews?.let { review ->
                         review.map { it }.take(3).forEach { dto ->
                             reviewList.removeAll(reviewList)
@@ -197,13 +197,14 @@ class ProfileFragment :
                                 dto.description,
                                 dto.imageUrls[0],
                                 dto.reviewer.nickname,
-                                dto.reviewer.userLanguage
+                                dto.reviewer.userLanguage,
+                                dto.reviewer.image
                             ))
 
                         }
+
                         if(reviewList.size == 0 ) profileReviewAdapter.submitList(dummy)
                         else profileReviewAdapter.submitList(reviewList)
-                        profileReviewAdapter.notifyDataSetChanged()
                     }
 
 
@@ -215,7 +216,9 @@ class ProfileFragment :
         // 기존 날짜 문자열 포맷 정의
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
         // 새로운 날짜 문자열 포맷 정의
-        val outputFormatter = DateTimeFormatter.ofPattern("yyyy년 M월")
+        val outputFormatter =
+            if(SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
+            else DateTimeFormatter.ofPattern("MMMM yyyy");
 
         // 날짜 문자열을 LocalDateTime 객체로 파싱
         val dateTime = LocalDateTime.parse(inputDate, inputFormatter)
