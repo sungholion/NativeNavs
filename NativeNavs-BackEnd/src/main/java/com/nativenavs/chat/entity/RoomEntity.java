@@ -3,6 +3,8 @@ package com.nativenavs.chat.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "rooms")
 @Getter
@@ -52,7 +54,7 @@ public class RoomEntity {
     private String recentMessageContent;
 
     @Column(name = "recent_message_time")
-    private long recentMessageTime;
+    private LocalDateTime recentMessageTime;
 
 
     /**
@@ -79,7 +81,7 @@ public class RoomEntity {
                 .receiverNickname(receiverNickname)
                 .receiverIsNav(receiverIsNav)
                 .recentMessageContent(null)
-                .recentMessageTime(0L)
+                .recentMessageTime(LocalDateTime.now())
                 .build();
     }
 

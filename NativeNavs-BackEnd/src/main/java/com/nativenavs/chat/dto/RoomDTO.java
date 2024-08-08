@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,26 +26,44 @@ public class RoomDTO {
     private String receiverNickname;
     private boolean receiverIsNav;
     private String recentMessageContent;
-    private long recentMessageTime;
-
+    private LocalDateTime recentMessageTime;
 
     public static RoomDTO toRoomDTO(RoomEntity roomEntity){
-        RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setRoomId(roomEntity.getRoomId());
-        roomDTO.setTourId(roomEntity.getTourId());
-        roomDTO.setTourTitle(roomEntity.getTourTitle());
-        roomDTO.setTourRegion(roomEntity.getTourRegion());
-        roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
-        roomDTO.setSenderId(roomEntity.getSenderId());
-        roomDTO.setSenderNickname(roomEntity.getSenderNickname());
-        roomDTO.setSenderIsNav(roomEntity.isSenderIsNav());
-        roomDTO.setReceiverId(roomEntity.getReceiverId());
-        roomDTO.setReceiverNickname(roomEntity.getReceiverNickname());
-        roomDTO.setReceiverIsNav(roomEntity.isReceiverIsNav());
-        roomDTO.setRecentMessageContent(roomEntity.getRecentMessageContent());
-        roomDTO.setRecentMessageTime(roomEntity.getRecentMessageTime());
-
-        return roomDTO;
+        return RoomDTO.builder()
+                .roomId(roomEntity.getRoomId())
+                .tourId(roomEntity.getTourId())
+                .tourTitle(roomEntity.getTourTitle())
+                .tourImgUrl(roomEntity.getTourImgUrl())
+                .tourRegion(roomEntity.getTourRegion())
+                .senderId(roomEntity.getSenderId())
+                .senderNickname(roomEntity.getSenderNickname())
+                .senderIsNav(roomEntity.isSenderIsNav())
+                .receiverId(roomEntity.getReceiverId())
+                .receiverNickname(roomEntity.getReceiverNickname())
+                .receiverIsNav(roomEntity.isReceiverIsNav())
+                .recentMessageContent(roomEntity.getRecentMessageContent())
+                .recentMessageTime(roomEntity.getRecentMessageTime())
+                .build();
     }
+
+
+//    public static RoomDTO toRoomDTO(RoomEntity roomEntity){
+//        RoomDTO roomDTO = new RoomDTO();
+//        roomDTO.setRoomId(roomEntity.getRoomId());
+//        roomDTO.setTourId(roomEntity.getTourId());
+//        roomDTO.setTourTitle(roomEntity.getTourTitle());
+//        roomDTO.setTourRegion(roomEntity.getTourRegion());
+//        roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
+//        roomDTO.setSenderId(roomEntity.getSenderId());
+//        roomDTO.setSenderNickname(roomEntity.getSenderNickname());
+//        roomDTO.setSenderIsNav(roomEntity.isSenderIsNav());
+//        roomDTO.setReceiverId(roomEntity.getReceiverId());
+//        roomDTO.setReceiverNickname(roomEntity.getReceiverNickname());
+//        roomDTO.setReceiverIsNav(roomEntity.isReceiverIsNav());
+//        roomDTO.setRecentMessageContent(roomEntity.getRecentMessageContent());
+//        roomDTO.setRecentMessageTime(roomEntity.getRecentMessageTime());
+//
+//        return roomDTO;
+//    }
 
 }

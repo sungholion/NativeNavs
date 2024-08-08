@@ -5,6 +5,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "chats")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,20 +23,20 @@ public class ChatEntity {
     private String senderProfileImage;
     private String content;
     private boolean isRead;
-    private long sendTime;
+    private LocalDateTime sendTime;
 
     @Builder
-    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, long sendTime) {
+    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, LocalDateTime sendTime) {
         this.roomId = roomId;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
         this.senderProfileImage = senderProfileImage;
         this.content = content;
         this.isRead = isRead;
-        this.sendTime = sendTime;
+        this.sendTime = LocalDateTime.now();
     }
 
-    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead) {
+    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, LocalDateTime sendTime) {
         return ChatEntity.builder()
                 .roomId(roomId)
                 .senderId(senderId)
@@ -42,7 +44,7 @@ public class ChatEntity {
                 .senderProfileImage(senderProfileImage)
                 .content(content)
                 .isRead(isRead)
-                .sendTime(System.currentTimeMillis())
+                .sendTime(sendTime)
                 .build();
     }
 }
