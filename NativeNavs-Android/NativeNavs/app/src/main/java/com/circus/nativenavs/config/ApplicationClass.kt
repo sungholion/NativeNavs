@@ -31,15 +31,6 @@ class ApplicationClass : Application() {
         fun setAuthToken(token: String) {
             authInterceptor.setAuthToken(token)
         }
-
-        // Notification Channel ID
-        const val channel_id = "NativeNavs_Channel"
-
-        // ratrofit  수업 후 network 에 업로드 할 수 있도록 구성
-        fun uploadToken(token: String) {
-
-
-        }
     }
 
     override fun onCreate() {
@@ -63,15 +54,6 @@ class ApplicationClass : Application() {
         }
     }
 
-    // Notification 수신을 위한 채널 추가
-    private fun createNotificationChannel(id: String, name: String) {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.createNotificationChannel(NotificationChannel(id, name, importance))
-    }
-
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -90,40 +72,5 @@ class ApplicationClass : Application() {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
         WebView.setWebContentsDebuggingEnabled(true)
-
-//        initRetrofitInstance()
     }
-
-//    // retrofit 인스턴스 생성, 레트로핏에 설정값 지정
-//    private fun initRetrofitInstance() {
-//        val client: OkHttpClient = OkHttpClient.Builder()
-//            .addInterceptor { chain ->
-//                val request = chain.request().newBuilder()
-//                    .addHeader("Authorization", "Bearer $GPT_KEY")
-//                    .build()
-//                chain.proceed(request)
-//            }
-//            .addInterceptor(HttpLoggingInterceptor().apply {
-//                level = HttpLoggingInterceptor.Level.BODY
-//            })
-//            .readTimeout(30, TimeUnit.SECONDS)
-//            .connectTimeout(30, TimeUnit.SECONDS)
-//            .build()
-//
-//        // retrofit 전역변수에 API url, 인터셉터, Gson 넣어주고 빌드
-//        GPTRetrofit = Retrofit.Builder()
-//            .baseUrl(GPT_BASE_URL)
-//            .client(client)
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build()
-//
-//        weatherRetrofit = Retrofit.Builder()
-//            .baseUrl(WEATHER_BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .build()
-//    }
-
-//    private val gson: Gson = GsonBuilder()
-//        .setLenient()
-//        .create()
 }

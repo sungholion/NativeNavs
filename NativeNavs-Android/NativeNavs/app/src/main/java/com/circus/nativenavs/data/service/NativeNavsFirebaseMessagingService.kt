@@ -12,11 +12,12 @@ import androidx.core.app.NotificationCompat
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.util.CHANNEL_ID
 import com.circus.nativenavs.util.SharedPref
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
-private const val TAG = "NativeNavsFirebaseMessa"
+private const val TAG = "fcm"
 
 class NativeNavsFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -30,69 +31,53 @@ class NativeNavsFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(message)
         Log.d(TAG, "onMessageReceived: $message")
 
+        // notification - 포그라운드
+        if (message.notification != null) {
+            Log.d(TAG, "onMessageReceived: ${message.notification?.title!!}")
+            sendNotification(message.notification?.title!!, message.notification?.body!!)
+        }else{
+            Log.d(TAG, "onMessageReceived: notification이 비어있습니다. 메시지를 수신하지 못했습니다.")
+            Log.d(TAG, "onMessageReceived: ${message.notification}")
+        }
+
+        // data - 백그라운드
         if (message.data.isNotEmpty()) {
             Log.d(TAG, "onMessageReceived: 타이틀 ${message.data["title"].toString()}")
             Log.d(TAG, "onMessageReceived: 바디 ${message.data["body"].toString()}")
-            sendNotification(message)
+            sendNotification(message.data["title"].toString(), message.data["body"].toString())
         } else {
             Log.d(TAG, "onMessageReceived: data가 비어있습니다. 메시지를 수신하지 못했습니다.")
             Log.d(TAG, "onMessageReceived: ${message.data}")
         }
 
-//        message.notification?.let { message ->
-//            Log.d(TAG, "onMessageReceived: $message")
-//            val messageTitle = message.title
-//            val messageContent = message.body
-//
-//            val mainIntent = Intent(this, HomeActivity::class.java).apply {
-//                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//            }
-//
-//            val mainPendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
-//
-//            val builder1 = NotificationCompat.Builder(this, ApplicationClass.channel_id)
-//                .setSmallIcon(android.R.drawable.ic_dialog_info)
-//                .setContentTitle(messageTitle)
-//                .setContentText(messageContent)
-//                .setAutoCancel(true) // 알림 클릭하면 알림 지우기
-//                .setContentIntent(mainPendingIntent)
-//
-//            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.notify(101, builder1.build())
-
-//        }
-
     }
 
-    private fun sendNotification(message: RemoteMessage){
+    private fun sendNotification(title: String, body: String) {
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
         val intent = Intent(this, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남긴다. A-B-C-D-B => A-B
-        val pendingIntent = PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_ONE_SHOT)
-
-
-        // 알림 채널 이름
-        val channelId = ApplicationClass.channel_id
+        val pendingIntent =
+            PendingIntent.getActivity(this, uniId, intent, PendingIntent.FLAG_IMMUTABLE)
 
         // 알림 소리
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         // 알림에 대한 UI 정보와 작업을 지정한다.
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher) // 아이콘 설정
-            .setContentTitle(message.data["body"].toString()) // 제목
-            .setContentText(message.data["title"].toString()) // 메시지 내용
+            .setContentTitle(title) // 제목
+            .setContentText(body) // 메시지 내용
             .setAutoCancel(true)
             .setSound(soundUri) // 알림 소리
-//            .setContentIntent(pendingIntent) // 알림 실행 시 Intent
+            .setContentIntent(pendingIntent) // 알림 실행 시 Intent
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // 오레오 버전 이후에는 채널이 필요하다.
         val channel =
-            NotificationChannel(channelId, "Notice", NotificationManager.IMPORTANCE_DEFAULT)
+            NotificationChannel(CHANNEL_ID, "Notice", NotificationManager.IMPORTANCE_DEFAULT)
         notificationManager.createNotificationChannel(channel)
 
         // 알림 생성
