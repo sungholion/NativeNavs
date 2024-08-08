@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import styles from "./Carousel2.module.css";
-import language from "../../assets/language.png";
 
 const StyledSlider = styled(Slider)`
   .slick-slide {
@@ -103,12 +102,12 @@ export default function Carousel2({
               <div className={styles.navLanguage}>
                 🌏
                 <p className={styles.navLanguageText}>
-                  {tour.languages.length === 1
-                    ? tour.languages[0]
-                    : `${tour.languages[0]} 외 ${
-                        tour.languages.length - 1
-                      }개국어`}
-                </p>
+                        {formattedLanguages.length === 1
+                          ? formattedLanguages[0]
+                          : `${formattedLanguages[0]} 외 ${
+                              formattedLanguages.length - 1
+                            }개국어`}
+                      </p>
               </div>
             </div>
           </div>

@@ -40,15 +40,14 @@ const ReservationList = () => {
 
   // FE -> BE : 예정된 투어 정보 요청
   const getReservationList = async (e) => {
-    // e.stopPropagation();
     try {
       const response = await axios.get(
         "https://i11d110.p.ssafy.io/api/reservations",
         {
           headers: {
-            Authorization: user.userToken,
-            // Authorization:
-            // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkbGd1c3dsczQ1NkBuYXZlci5jb20iLCJpYXQiOjE3MjMwMTE3ODIsImV4cCI6MTcyMzAxNTM4Mn0.5SuyzqKssTYosZvzpkYznYkmMiL5kmT5HbjLW5AuK-c1H5VVVTU-ZJDNtoUT0HO9sW5ln6NISDCjvBHyNqRULw",
+            // Authorization: user.userToken,
+            Authorization:
+            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
           },
         }
       );
@@ -74,7 +73,9 @@ const ReservationList = () => {
         {/* 총 {tourData.length}개의 투어가 예약 중입니다 */}
       </h3>
       <div className={styles.upcomingTourList}>
-        <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={navigateToReservationListFragmentReservationDetail} />
+        {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
+        {reservationsInProgress.length > 0 && <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} />}
+
       </div>
       {/* 완료된 투어 리스트 */}
       <h2 className={styles.TourListTitle}>완료된 Tour</h2>

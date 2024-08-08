@@ -22,7 +22,9 @@
 }
   
 .tourInfoBottomContainer {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     padding-top: 10px;
 }
 
