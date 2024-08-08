@@ -52,7 +52,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.qr.CustomCaptureActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

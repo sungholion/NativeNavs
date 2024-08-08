@@ -6,7 +6,11 @@
 
         <variable
             name="chat"
-            type="com.circus.nativenavs.data.ChatListDto" />
+            type="com.circus.nativenavs.data.ChatRoomDto" />
+
+        <variable
+            name="userId"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,6 +23,7 @@
             android:id="@+id/chat_tour_img_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            imgUrl="@{chat.tourImgUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +51,7 @@
             style="@style/regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{chat.senderNickname}"
+            android:text="@{userId == chat.senderId ? chat.receiverNickname : chat.senderNickname }"
             android:textColor="@color/gray_5858"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
@@ -63,7 +68,7 @@
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{chat.recentMessage}"
+            android:text="@{chat.recentMessageContent}"
             android:textColor="@color/gray_5858"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/chat_tour_img_iv"

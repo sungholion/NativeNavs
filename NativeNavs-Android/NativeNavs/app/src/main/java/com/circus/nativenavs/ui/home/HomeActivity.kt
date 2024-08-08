@@ -12,6 +12,7 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseActivity
 import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
+import com.circus.nativenavs.ui.chat.KrossbowChattingViewModel
 import com.circus.nativenavs.ui.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
@@ -24,6 +25,7 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
     private val homeActivityViewModel : HomeActivityViewModel by viewModels()
+    private val chattingViewModel : KrossbowChattingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

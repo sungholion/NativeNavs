@@ -7,17 +7,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.circus.nativenavs.R
-import com.circus.nativenavs.data.ChatListDto
+import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.databinding.ItemChatroomBinding
+import com.circus.nativenavs.util.SharedPref
 
-class ChatListAdapter : ListAdapter<ChatListDto, ChatListAdapter.ChatViewHolder>(ChatComparator) {
+class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>(ChatComparator) {
 
-    companion object ChatComparator : DiffUtil.ItemCallback<ChatListDto>() {
-        override fun areItemsTheSame(oldItem: ChatListDto, newItem: ChatListDto): Boolean {
-            return oldItem.chatId == newItem.chatId
+    companion object ChatComparator : DiffUtil.ItemCallback<ChatRoomDto>() {
+        override fun areItemsTheSame(oldItem: ChatRoomDto, newItem: ChatRoomDto): Boolean {
+            return oldItem.roomId == newItem.roomId
         }
 
-        override fun areContentsTheSame(oldItem: ChatListDto, newItem: ChatListDto): Boolean {
+        override fun areContentsTheSame(oldItem: ChatRoomDto, newItem: ChatRoomDto): Boolean {
             return oldItem == newItem
         }
 
@@ -26,11 +27,12 @@ class ChatListAdapter : ListAdapter<ChatListDto, ChatListAdapter.ChatViewHolder>
     inner class ChatViewHolder(val binding: ItemChatroomBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(chat: ChatListDto) {
-            binding.chat = chat
+        fun bind(chatRoom: ChatRoomDto) {
+            binding.chat = chatRoom
+            binding.userId = SharedPref.userId
 
             binding.root.setOnClickListener {
-                itemClickListener.onItemClicked(chat.chatId)
+                itemClickListener.onItemClicked(chatRoom)
             }
         }
 
@@ -52,7 +54,7 @@ class ChatListAdapter : ListAdapter<ChatListDto, ChatListAdapter.ChatViewHolder>
     }
 
     interface ChatItemClickListener {
-        fun onItemClicked(chatId: Int)
+        fun onItemClicked(chatRoom: ChatRoomDto)
     }
 
     private lateinit var itemClickListener: ChatItemClickListener
