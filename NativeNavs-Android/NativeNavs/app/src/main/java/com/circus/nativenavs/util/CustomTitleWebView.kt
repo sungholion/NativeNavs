@@ -92,9 +92,13 @@ class CustomTitleWebView(context: Context, attrs: AttributeSet) : ConstraintLayo
     interface OnBackClickListener {
         fun onClick()
     }
+    fun setOnQRClickListener(listener: OnQRClickListener) {
+        onQRClickListener = listener
+    }
 
-    private var onQRClickListener: OnQRClickLisetner? = null
-    interface OnQRClickLisetner{
+    private var onQRClickListener: OnQRClickListener? = null
+
+    interface OnQRClickListener {
         fun onClick()
     }
 }

@@ -17,6 +17,7 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentReservationDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.qr.CustomCaptureActivity
+import com.circus.nativenavs.ui.qr.QRCreateActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
@@ -100,16 +101,19 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             }
 
         })
-        binding.reservationDetailCustomWv.setOnClickListener {
-            (object :
-                CustomTitleWebView.OnQRClickLisetner {
-                override fun onClick() {
-                    if(SharedPref.isNav == false) showToast("Nav 클릭")
-                    else showToast("Trav 클릭")
+        binding.reservationDetailCustomWv.setOnQRClickListener(
+            object : CustomTitleWebView.OnQRClickListener {
+            override fun onClick() {
+                if (SharedPref.isNav == true) {
+                    startQRCodeScan()
                 }
-
-            })
-        }
+                else {
+                    startActivity(Intent(requireContext(), QRCreateActivity::class.java).apply {
+                        action = "17"
+                    })
+                }
+            }
+        })
         binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility = VISIBLE
         homeActivity.onBackPressedDispatcher.addCallback(
             this,
