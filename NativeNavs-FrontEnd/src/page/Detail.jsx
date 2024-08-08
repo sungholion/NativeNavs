@@ -8,6 +8,11 @@ import Carousel from "@/components/Carousel/Carousel.jsx";
 import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
+import { getStaticImage } from "@/utils/get-static-image";
+import {
+  navigateToTourModifyFragment,
+  navigateToTourListFragment,
+} from "@/utils/get-android-function";
 
 const Detail = () => {
   const params = useParams();
@@ -43,8 +48,28 @@ const Detail = () => {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
+      console.log("User data : ", parsedUser);
+    } else {
+      console.log("No login user data");
     }
   }, []);
+
+  const onDeleteEvent = async () => {
+    await axios
+      .delete(`https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`, {
+        headers: {
+          Authorization: user.userToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        navigateToTourListFragment();
+      })
+      .catch((err) => {
+        console.err(err);
+      });
+  };
+
   // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
@@ -95,10 +120,13 @@ const Detail = () => {
     fetchReviewData();
   }, []);
 
+  // 작성자 전용 -> 수정, 삭제 버튼 클릭 시 옵션창 열기
+  const [openOption, setOpenOption] = useState(false);
+
   // 첫 번째 리뷰를 변수에 저장
   const firstReview =
     reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
-  console.log(firstReview);
+  // console.log(firstReview);
 
   // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
@@ -138,6 +166,41 @@ const Detail = () => {
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
+      {
+        // 해당 글 작성자와 로그인한 유저가 같고, 글 작성자가 Nav인 경우
+        // 수정 & 삭제 버튼을 보여줌
+        user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
+          <div className={styles.WriterOnlyOptionSection}>
+            <img
+              src={getStaticImage("menu_vertical_button")}
+              style={{ width: "30px", height: "30px" }}
+              onClick={() => setOpenOption((cur) => !cur)} // 토글
+            />
+            {openOption && (
+              <div className={styles.WriterOptions}>
+                {/* 해당 버튼 클릭시 수정 버튼 이동 */}
+                <button
+                  className={styles.buttonEdit}
+                  onClick={() => {
+                    navigateToTourModifyFragment(Number(params.tour_id));
+                  }}
+                >
+                  수정
+                </button>
+                {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
+                <button
+                  className={styles.buttonDelete}
+                  onClick={() => {
+                    onDeleteEvent();
+                  }}
+                >
+                  삭제
+                </button>
+              </div>
+            )}
+          </div>
+        )
+      }
       <Carousel images={images} />
 
       {/* 투어 정보(간략하게) */}

@@ -71,7 +71,9 @@ const reducer = (state, action) => {
 export const TourDataContext = createContext(null);
 export const TourDispatchContext = createContext(null);
 
-const TourEditorHead = ({ initData, onSubmit }) => {
+// sucessFunc :  성공시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
+// FailFunc : 실패시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
+const TourEditorHead = ({ initData, onSubmit, sucessFunc, failFunc }) => {
   const [Tourdata, dispatch] = useReducer(reducer, {
     ...DefaultTourData,
     start_date: new Date().getTime(),
@@ -102,7 +104,7 @@ const TourEditorHead = ({ initData, onSubmit }) => {
   return (
     <div>
       <TourDataContext.Provider value={Tourdata}>
-        <TourDispatchContext.Provider value={{ onTourDataChange }}>
+        <TourDispatchContext.Provider value={{ onTourDataChange}}>
           {nowPageLook === 1 ? (
             <TourEditor1 goAfterPage={goAfterPage} />
           ) : nowPageLook === 2 ? (
