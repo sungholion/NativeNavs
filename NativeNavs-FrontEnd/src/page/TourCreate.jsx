@@ -1,7 +1,7 @@
 import TourEditorHead from "@/components/TourEditor/TourEditorHead";
 import axios from "axios";
 import { useRef, useEffect, useState } from "react";
-import {moveFromTourRegisterToTourDetailFragment} from "@/utils/get-android-function";
+import { moveFromTourRegisterToTourDetailFragment } from "@/utils/get-android-function";
 
 const TourCreate = () => {
   const [user, setUser] = useState(null);
@@ -72,11 +72,15 @@ const TourCreate = () => {
       .post("https://i11d110.p.ssafy.io/api/tours", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: user.userToken
+          Authorization: user.userToken,
         },
       })
       .then((res) => {
-        moveFromTourRegisterToTourDetailFragment(1, Number(user.userId))
+        console.log(res.data.tourId);
+        moveFromTourRegisterToTourDetailFragment(
+          Number(res.data.tourId),
+          user.userId
+        );
       })
       .catch((err) => {
         console.error(err);
