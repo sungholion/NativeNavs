@@ -62,6 +62,7 @@ public class ReservationController {
                                                                              "  \"startAt\": \"2024-08-10T09:00:00\",\n" +
                                                                              "  \"endAt\": \"2024-08-10T12:00:00\",\n" +
                                                                              "  \"participantCount\": 4,\n" +
+                                                                             "  \"meetingAddress\": \"hongdae street\",\n" +
                                                                              " \"date\": \"2024-08-15\",\n" +                                                                             "  \"description\": \"Extra luggage assistance needed\",\n" +
                                                                              "  \"meetingLatitude\": 37.5665,\n" +
                                                                              "  \"meetingLongitude\": 126.978\n" +
@@ -96,7 +97,7 @@ public class ReservationController {
     }
 
     @PostMapping("/{reservationId}/cancel")
-    @Operation(summary = "투어 삭제 API", description = "투어를 삭제하는 API")
+    @Operation(summary = "예약 취소 API", description = "예약을 취소하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "404", description = "예약을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
@@ -171,24 +172,6 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-//    @PutMapping("/{reservationId}/done")
-//    @Operation(summary = "예약 완료 상태로 변경 API", description = "특정 예약을 예약 완료 상태로 변경하는 API")
-//    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
-//    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
-//    @ApiResponse(responseCode = "404", description = "예약을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
-//    public ResponseEntity<?> reservationFinish(@RequestHeader("Authorization") String token,
-//                                               @Parameter(description = "변경할 예약 ID", required = true, example = "3") @PathVariable int reservationId){
-//        try {
-//            reservationService.finishReservation(reservationId);
-//            return ResponseEntity.ok("예약이 완료 상태로 변경되었습니다.");
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
 
 
     //JWT에서 이메일 받아 id로 치환

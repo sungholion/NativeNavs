@@ -48,6 +48,7 @@ public class ReviewService {
 
         // 리뷰 생성
         ReviewEntity review = new ReviewEntity();
+
         review.setReviewer(reviewer);
         review.setTour(tour);
         review.setGuide(guide);

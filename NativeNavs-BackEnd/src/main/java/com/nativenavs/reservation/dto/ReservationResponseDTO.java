@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class ReservationResponseDTO {
     private float tourReviewScore; // 투어 상세 정보
     private UserDTO guide; // 가이드 정보
 
+    private String reservationNumber; // 예약번호
     private int reservationId; // 예약 번호
 
     private UserDTO participant; // 참여자 정보
@@ -47,6 +49,7 @@ public class ReservationResponseDTO {
         TourEntity tourEntity = reservationEntity.getTour();
 
         dto.setTourId(tourEntity.getId());
+        dto.setReservationNumber(reservationEntity.getReservationNumber());
         dto.setTourTitle(tourEntity.getTitle());
         dto.setThumbnailImage(tourEntity.getThumbnailImage());
         dto.setPlanImages(tourEntity.getPlans().stream()

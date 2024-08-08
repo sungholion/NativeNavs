@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,7 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
 
         ReservationEntity reservation = new ReservationEntity();
+        reservation.setReservationNumber(UUID.randomUUID().toString().substring(0, 8));
         reservation.setGuide(guide);
         reservation.setTour(tour);
         reservation.setDate(requestDTO.getDate());
