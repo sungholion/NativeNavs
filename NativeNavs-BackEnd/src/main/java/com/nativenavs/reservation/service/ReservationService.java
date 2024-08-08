@@ -115,6 +115,7 @@ public class ReservationService {
         List<ParticipantDTO> participants = new ArrayList<>();
         for( ReservationEntity r : reservations){
             ParticipantDTO participantDTO = new ParticipantDTO();
+            participantDTO.setReservationId(r.getId());
             participantDTO.setParticipantCount(r.getParticipantCount());
             participantDTO.setReservationDate(r.getDate());
             participantDTO.setReservationNumber(r.getReservationNumber());
