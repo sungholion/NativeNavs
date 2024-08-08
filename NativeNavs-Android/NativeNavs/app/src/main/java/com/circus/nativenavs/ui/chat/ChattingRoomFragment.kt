@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
@@ -34,6 +35,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private val homeViewModel: HomeActivityViewModel by activityViewModels()
 
     private val messageListAdapter = MessageListAdapter()
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
