@@ -1,7 +1,5 @@
 package com.circus.nativenavs.data
 
-import java.time.LocalDateTime
-
 data class ChatRoomDto(
     val roomId: Int,
     val senderId: Int,
@@ -15,5 +13,5 @@ data class ChatRoomDto(
     val tourImgUrl: String,
     val tourRegion: String,
     val recentMessage: String,
-    val recentMessageTime: LocalDateTime
+    val recentMessageTime: String
 )

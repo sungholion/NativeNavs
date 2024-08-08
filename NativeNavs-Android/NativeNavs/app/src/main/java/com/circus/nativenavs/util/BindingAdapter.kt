@@ -5,8 +5,6 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @BindingAdapter("imgUrl")
 fun ImageView.loadImageUrl(imgUrl: String) {
@@ -20,6 +18,6 @@ fun ImageView.loadImageUrl(imgUrl: String) {
 }
 
 @BindingAdapter("time")
-fun TextView.setTimeText(time: LocalDateTime) {
-    this.text = time.format(DateTimeFormatter.ofPattern("MM월 dd일 HH시 mm분"))
+fun TextView.setTimeText(time: String) {
+    this.text = time
 }
