@@ -18,15 +18,37 @@ private const val TAG = "LoginActivity"
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private val activityViewModel: LoginActivityViewModel by viewModels()
+    private lateinit var homeActivityIntent: Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initIntent()
+        autoLogin()
+        initEvent()
+        initObserve()
+    }
+
+    private fun initIntent() {
+        homeActivityIntent = Intent(this, HomeActivity::class.java).apply {
+            if (intent != null) {
+                putExtra("flag", intent.getIntExtra("flag", -1))
+                putExtra("roomId", intent.getIntExtra("roomId", -1))
+                putExtra("reservationId", intent.getIntExtra("reservationId", -1))
+                putExtra("tourId", intent.getIntExtra("tourId", -1))
+            }
+        }
+    }
+
+    private fun autoLogin() {
         if (SharedPref.userId != 0 && SharedPref.accessToken != null) {
             Log.d(TAG, "onCreate: ${SharedPref.fcmToken}")
             Log.d(TAG, "onCreate: ${FirebaseMessaging.getInstance().getToken()}")
             activityViewModel.getAccessToken()
         }
+    }
 
+    private fun initObserve() {
         activityViewModel.autoLogin.observe(this) { statusCode ->
             when (statusCode) {
                 400 -> {
@@ -35,27 +57,23 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
                 200 -> {
                     ApplicationClass.setAuthToken(SharedPref.accessToken!!)
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    startActivity(homeActivityIntent)
                     finish()
                 }
             }
 
         }
 
-        initEvent()
-
-        activityViewModel.loginStatusCode.observe(this, Observer { statusCode ->
+        activityViewModel.loginStatusCode.observe(this) { statusCode ->
             // 상태 코드 처리
             if (statusCode == 200) {
                 showToast("로그인 성공")
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(homeActivityIntent)
                 finish()
             } else {
                 showToast("로그인 실패")
             }
-        })
-
-
+        }
     }
 
     private fun initEvent() {
