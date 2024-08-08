@@ -22,6 +22,6 @@ public class ReservationTourDTO {
     private TourDTO tourDTO;
     private int bookCount;
     private int wishCount;
-    private List<ReservationResponseDTO> reservationResponseDTOList;
+    private List<ParticipantDTO> reservationResponseDTOList;
 
 }

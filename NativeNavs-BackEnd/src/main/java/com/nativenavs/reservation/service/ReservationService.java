@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -111,11 +112,17 @@ public class ReservationService {
         reservationTourDTO.setBookCount(reservationRepository.countByTour(tour));
         reservationTourDTO.setWishCount(wishlistRepository.countByTourId(tour.getId()));
 
-        reservationTourDTO.setReservationResponseDTOList(
-                reservations.stream()
-                        .map(ReservationResponseDTO::toReservationDTO)
-                        .collect(Collectors.toList())
-        );
+        List<ParticipantDTO> participants = new ArrayList<>();
+        for( ReservationEntity r : reservations){
+            ParticipantDTO participantDTO = new ParticipantDTO();
+            participantDTO.setParticipantCount(r.getParticipantCount());
+            participantDTO.setReservationDate(r.getDate());
+            participantDTO.setReservationNumber(r.getReservationNumber());
+            participantDTO.setUserImage(r.getParticipant().getImage());
+            participantDTO.setUserNickName(r.getParticipant().getNickname());
+            participants.add(participantDTO);
+        }
+        reservationTourDTO.setReservationResponseDTOList(participants);
 
         return reservationTourDTO;
 
