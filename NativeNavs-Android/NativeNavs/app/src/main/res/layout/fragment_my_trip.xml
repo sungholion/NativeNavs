@@ -6,19 +6,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.trip.MyTripFragment">
-
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/mytourlist_title_tv"
+            style="@style/bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/app_bar_my_trip_list"
+            android:textSize="44sp"
+            app:layout_constraintBottom_toTopOf="@+id/my_trip_wv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <WebView
             android:id="@+id/my_trip_wv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:overScrollMode="never"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/mytourlist_title_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
