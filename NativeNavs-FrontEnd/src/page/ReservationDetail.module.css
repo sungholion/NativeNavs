@@ -112,12 +112,17 @@
 
 /* 버튼 */
 .buttonContainer {
+    height: 30px;
     padding: 10px;
     display: flex;
     justify-content: end;
+    align-items: center;
 }
 
 .reserveButton {
+    height: 30px;
+    width: 70px;
+
     background-color: #20bec9;
     border-radius: 5px;
     border: none;

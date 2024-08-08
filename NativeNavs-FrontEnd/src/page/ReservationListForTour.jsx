@@ -16,7 +16,7 @@ const ReservationListForTour = () => {
         <Tour_Item4 tour={tour} />
       </div>
 
-      {/* 예역 목록 */}
+      {/* 예약 목록 */}
       <div className={styles.ReservationList}>
         {reservations.map((reservation) => {
           return (
