@@ -21,22 +21,21 @@ const ReservationList = () => {
     }
   }, []);
 
-
   // // MB -> FE : 유저 정보 파싱
-  // useEffect(() => {
-  //   window.getUserData = (userJson) => {
-  //     console.log("Received user JSON:", userJson);
-  //     try {
-  //       const parsedUser = JSON.parse(userJson);
-  //       console.log(`User ID: ${parsedUser.userId}`);
-  //       console.log(`Token: ${parsedUser.userToken}`);
-  //       console.log(`isNav: ${parsedUser.isNav}`);
-  //       setUser(parsedUser);
-  //     } catch (error) {
-  //       console.error("Failed to parse user JSON", error);
-  //     }
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received user JSON:", userJson);
+      try {
+        const parsedUser = JSON.parse(userJson);
+        console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`Token: ${parsedUser.userToken}`);
+        console.log(`isNav: ${parsedUser.isNav}`);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Failed to parse user JSON", error);
+      }
+    };
+  }, []);
 
   // FE -> BE : 예정된 투어 정보 요청
   const getReservationList = async (e) => {
@@ -45,9 +44,9 @@ const ReservationList = () => {
         "https://i11d110.p.ssafy.io/api/reservations",
         {
           headers: {
-            // Authorization: user.userToken,
-            Authorization:
-            "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
+            Authorization: user.userToken,
+            // Authorization:
+              // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
           },
         }
       );
@@ -74,14 +73,26 @@ const ReservationList = () => {
       </h3>
       <div className={styles.upcomingTourList}>
         {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
-        {reservationsInProgress.length > 0 && <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} />}
-
+        {reservationsInProgress.length > 0 && (
+          <Carousel2
+            reservationsInProgress={reservationsInProgress}
+            navigateToReservationListFragmentReservationDetail={
+              navigateToReservationListFragmentReservationDetail
+            }
+          />
+        )}
       </div>
       {/* 완료된 투어 리스트 */}
       <h2 className={styles.TourListTitle}>완료된 Tour</h2>
       <div className={styles.completedTourList}>
-        {tours.map((tour) => (
-          <Tour_Item3 key={tour.tour_id} tour={tour} />
+        {reservationsCompleted.map((tour) => (
+          <Tour_Item3
+            key={tour.tourId}
+            tour={tour}
+            navigateToReservationListFragmentReservationDetail={
+              navigateToReservationListFragmentReservationDetail
+            }
+          />
         ))}
       </div>
     </div>

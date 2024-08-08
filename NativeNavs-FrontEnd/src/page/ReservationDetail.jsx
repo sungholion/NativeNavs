@@ -33,9 +33,9 @@ const ReservationDetail = () => {
         `https://i11d110.p.ssafy.io/api/reservations/${params.res_id}`,
         {
           headers: {
-            // Authorization: user.userToken,
-            Authorization:
-              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMwNjQwNTMsImV4cCI6MTcyMzA2NzY1M30.Y_v9RMO9EOTFqRqB77IvYUmg_AZ99O2U_MF8Ptg8QsRMY5Hqj2DdmAQJgP3J5a6if4KtRMb9a_C_Nx8U6cx-Cw",
+            Authorization: user.userToken,
+            // Authorization:
+              // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMwNjQwNTMsImV4cCI6MTcyMzA2NzY1M30.Y_v9RMO9EOTFqRqB77IvYUmg_AZ99O2U_MF8Ptg8QsRMY5Hqj2DdmAQJgP3J5a6if4KtRMb9a_C_Nx8U6cx-Cw",
           },
         }
       );

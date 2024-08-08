@@ -24,7 +24,7 @@ const Main = () => {
     const fetchTours = async () => {
       try {
         const response = await axios.get(
-          "https://i11d110.p.ssafy.io/api/tours"
+          "https://i11d110.p.ssafy.io/api/tours/search"
         );
         console.log("투어 API 요청 성공", response.data);
         setTours(response.data);
