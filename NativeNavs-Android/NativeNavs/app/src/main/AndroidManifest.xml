@@ -4,8 +4,7 @@
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <!-- 파일 읽기 권한 -->
+        android:maxSdkVersion="32" /> <!-- 파일 읽기 권한 -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -13,10 +12,10 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <!--푸시 알림 권한-->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-
-    <!-- 인터넷 권한 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name=".config.ApplicationClass"
@@ -31,6 +30,9 @@
         android:theme="@style/Theme.NativeNavs"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.qr.QRCreateActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.video.VideoActivity"
             android:exported="false" />
@@ -53,7 +55,10 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.qr.CustomCaptureActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service
             android:name=".data.service.NativeNavsFirebaseMessagingService"

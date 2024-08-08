@@ -1,8 +1,11 @@
 package com.circus.nativenavs.ui.profile
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.LanguageDto
@@ -25,6 +29,11 @@ import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.isPasswordValid
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.io.FileOutputStream
 
 class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
     FragmentProfileModifyBinding::bind,
@@ -32,7 +41,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
-
+    private var body :MultipartBody.Part? = null
     private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
@@ -119,7 +128,14 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         homeActivityViewModel.updateNickNameCheck(true)
         binding.apply {
             homeActivityViewModel.profileUser.value?.let {
-                profileModifyUserImgIv.setImageURI(it.image.toUri())
+
+                Glide.with(requireContext())
+                    .load(it.image)
+                    .placeholder(R.drawable.logo_nativenavs)
+                    .error(R.drawable.logo_nativenavs)
+                    .fallback(R.drawable.logo_nativenavs)
+                    .into(binding.profileModifyUserImgIv)
+
                 profileModifyNameEt.setText(it.name)
                 profileModifyNicknameEt.setText(it.nickname)
                 profileModifyNationalityEt.setText(it.nation)
@@ -131,19 +147,64 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
 
     }
+
+    // 이미지 선택 인텐트 시작
+    private fun openImagePicker() {
+        getImageLauncher.launch("image/*")
+    }
+    private fun uriToFile(context: Context, uri: Uri): File {
+        val contentResolver = context.contentResolver
+        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
+
+        contentResolver.openInputStream(uri)?.use { inputStream ->
+            FileOutputStream(file).use { outputStream ->
+                val buffer = ByteArray(1024)
+                var length: Int
+                while (inputStream.read(buffer).also { length = it } > 0) {
+                    outputStream.write(buffer, 0, length)
+                }
+            }
+        }
+        Log.d("FileConversion", "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes")
+        return file
+    }
+    private fun compressImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        val compressedFile = File(file.parent, "compressed_${file.name}")
+        FileOutputStream(compressedFile).use { outputStream ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // 80% 압축 품질
+        }
+        return compressedFile
+    }
     // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
         Log.d("YourFragment", "Selected Image URI: $imageUri")
         binding.profileModifyUserImgIv.setImageURI(imageUri)
-        // 필요 시 이미지 업로드 추가 처리
+
+        var file = uriToFile(requireContext(), imageUri)
+
+        val maxSize = 10 * 1024 * 1024 // 10MB
+        if (file.length() > maxSize) {
+            file = compressImage(file)
+
+            // 압축 후에도 파일 크기가 허용 범위를 초과하는지 확인
+            if (file.length() > maxSize) {
+                showToast("File size still exceeds limit after compression")
+                return
+            }
+        }
+        Log.d("handle", "handleImage: ${file.length()}")
+        // 파일을 MultipartBody.Part로 변환
+        val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
+        body = MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
+
+
     }
     // ActivityResultLauncher 선언
     private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { handleImage(it) }
     }
-    private fun openImagePicker() {
-        getImageLauncher.launch("image/*")
-    }
+
     fun initEvent() {
         binding.profileModifyUserImgCv.setOnClickListener {
             openImagePicker()
@@ -171,13 +232,13 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                                 phone = profileModifyPhoneEt.text.toString(),
                                 nation = it.userDto.value!!.nation,
                                 birth = it.userDto.value!!.birth,
-                                image = " ",
                                 device = it.userDto.value!!.device,
+                                image = it.userDto.value!!.image,
                                 isKorean = it.userDto.value!!.korean
                             )
                         )
                     }
-                    it.updateUser()
+                    it.updateUser(body)
                 }
             }
         }

@@ -5,16 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentMypageBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.login.LoginActivity
+import com.circus.nativenavs.ui.qr.CustomCaptureActivity
+import com.circus.nativenavs.ui.qr.QRCreateActivity
 import com.circus.nativenavs.util.LOGOUT
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.zxing.integration.android.IntentIntegrator
 
 class MypageFragment :
     BaseFragment<FragmentMypageBinding>(FragmentMypageBinding::bind, R.layout.fragment_mypage) {
@@ -41,6 +45,12 @@ class MypageFragment :
 
     private fun initObserve() {
         homeActivityViewModel.userDto.observe(viewLifecycleOwner) { it ->
+            Glide.with(this)
+                .load(it.image) // 불러올 이미지 url
+                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(binding.mypageProfileImgIv) // 이미지를 넣을 뷰
             binding.mypageNicknameTv.text = it.nickname
         }
 
@@ -103,6 +113,35 @@ class MypageFragment :
             }
 
             builder.show()
+        }
+        binding.mypageQrTestCl.setOnClickListener {
+            startQRCodeScan()
+        }
+        binding.mypageQrCreateCl.setOnClickListener {
+            startActivity(Intent(requireContext(),QRCreateActivity::class.java).apply {
+                action = "17"
+            })
+        }
+
+    }
+
+    private fun startQRCodeScan() {
+        IntentIntegrator.forSupportFragment(this).apply {
+            setOrientationLocked(true)
+            setPrompt("Scan a QR Code")
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setCaptureActivity(CustomCaptureActivity::class.java)
+            initiateScan()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        intentResult?.contents?.let {
+            // Handle the scanned result here
+            showToast(it)
         }
     }
 

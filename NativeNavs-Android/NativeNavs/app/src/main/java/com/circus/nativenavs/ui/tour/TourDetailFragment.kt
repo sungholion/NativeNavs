@@ -8,18 +8,21 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourDetailBinding
+import com.circus.nativenavs.ui.chat.KrossbowChattingViewModel
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlinx.coroutines.runBlocking
 import kotlin.math.log
 
 private const val TAG = "싸피_TourDetailFragment"
@@ -28,6 +31,8 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     FragmentTourDetailBinding::bind,
     R.layout.fragment_tour_detail
 ) {
+
+    private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
 
     private lateinit var homeActivity: HomeActivity
     private val args: TourDetailFragmentArgs by navArgs()
@@ -48,6 +53,20 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         initCustomView()
         initWebView()
         initEvent()
+
+        chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
+            if (roomId != -1) {
+                Log.d(TAG, "onViewCreated: 화면 이동")
+                val action =
+                    TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
+                        chatId = roomId
+//                        chatId = chattingViewModel.currentChatRoom.value!!.roomId
+
+                    )
+                navigate(action)
+            }
+
+        }
     }
 
     private fun initView() {
@@ -66,19 +85,15 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     private fun initEvent() {
         binding.tourDetailBottomBtn.setOnClickListener {
-            val action: NavDirections
             if (SharedPref.isNav!!) {
-                action =
+                val action =
                     TourDetailFragmentDirections.actionTourDetailFragmentToMyTripReservationListFragment(
                         args.tourId
                     )
+                navigate(action)
             } else {
-                action =
-                    TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
-                        chatId = 0
-                    )
+                chattingViewModel.createChatRoom(args.tourId)
             }
-            navigate(action)
         }
     }
 
@@ -153,5 +168,11 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         super.onResume()
         homeActivity.hideBottomNav(false)
         isPageLoaded = false
+        chattingViewModel.setChatRoomId(-1)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        chattingViewModel.setChatRoomId(-1)
     }
 }
