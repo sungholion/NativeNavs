@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_reservationListFragment_to_reservationDetailFragment"
             app:destination="@id/reservationDetailFragment" />
+        <action
+            android:id="@+id/action_reservationListFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourRegisterFragment"
@@ -123,6 +126,9 @@
         <action
             android:id="@+id/action_tourDetailFragment_to_tourModifyFragment"
             app:destination="@id/tourModifyFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"

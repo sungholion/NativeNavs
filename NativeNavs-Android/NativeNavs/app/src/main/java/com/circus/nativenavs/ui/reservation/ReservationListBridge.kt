@@ -24,7 +24,12 @@ class ReservationListBridge (
         }
 
     }
-
+    @JavascriptInterface
+    fun navigateToReservationListFragmentTourList(){
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToReservationListFragmentTourList()
+        }
+    }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()

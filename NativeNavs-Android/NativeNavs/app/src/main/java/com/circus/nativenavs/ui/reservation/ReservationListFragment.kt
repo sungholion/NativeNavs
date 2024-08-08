@@ -78,5 +78,9 @@ class ReservationListFragment : BaseFragment<FragmentReservationListBinding>(
         )
         navigate(action)
     }
+    fun navigateToReservationListFragmentTourList(){
+        val action = ReservationListFragmentDirections.actionReservationListFragmentToTourListFragment()
+        navigate(action)
+    }
 
 }
