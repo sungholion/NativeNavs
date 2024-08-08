@@ -1,6 +1,10 @@
 package com.circus.nativenavs.ui.login
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -17,6 +21,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     private val activityViewModel: LoginActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initNewtWorkCheck()
+
 
         if(SharedPref.userId != 0 && SharedPref.accessToken != null){
             activityViewModel.getAccessToken()
@@ -52,6 +59,19 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     }
 
+    private fun initNewtWorkCheck(){
+        if (!isNetworkAvailable()) {
+            showToast("인터넷에 연결되어 있지 않습니다.")
+            finish() // 앱 종료
+        }
+    }
+    @SuppressLint("ServiceCast")
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return networkCapabilities != null && (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
     private fun initEvent() {
         binding.loginBtn.setOnClickListener {
             val email = binding.loginEmailEt.text.toString()
