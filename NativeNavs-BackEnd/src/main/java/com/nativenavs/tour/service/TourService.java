@@ -294,7 +294,7 @@ public class TourService {
     }
 
 
-    private GuideTourDTO convertToGuideTourDTO(TourEntity tour) {
+    public GuideTourDTO convertToGuideTourDTO(TourEntity tour) {
         GuideTourDTO dto = new GuideTourDTO();
         dto.setTourId(tour.getId());
         dto.setThumbnailImage(tour.getThumbnailImage());
