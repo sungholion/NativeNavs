@@ -112,7 +112,7 @@ const Tour_Item = ({
           <div className={styles.navLanguagesContainer}>
             {navLanguages.length > 1 ? (
               <p className={styles.navLanguages}>
-                🌏{navLanguages[0]} 외 {navLanguages.length - 1}개
+                🌏 {navLanguages[0]} 외 {navLanguages.length - 1}개
               </p>
             ) : (
               <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>

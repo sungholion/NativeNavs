@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./Tour_Item4.module.css";
 
-const Tour_Item4 = ({ tour, onClickEvent }) => {
+const Tour_Item4 = ({ tour, onClickEvent, wishCount, bookCount }) => {
   // data formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -25,7 +25,7 @@ const Tour_Item4 = ({ tour, onClickEvent }) => {
           {formatDate(tour.startDate)} ~ {formatDate(tour.endDate)}
         </div>
         <div className={styles.TourMeta}>
-          📘 {tour.reservationCount} 💗 {tour.wishedCount}
+          📘 {bookCount} 💗 {wishCount}
         </div>
       </div>
     </div>

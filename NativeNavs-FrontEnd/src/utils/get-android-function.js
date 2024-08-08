@@ -200,3 +200,15 @@ export function navigateToMyTripDetailFragment(tourId) {
   }
 }
 
+// Nav 투어 예약현황 페이지 -> 예약 상세 페이지로 이동
+export function navigateToReservationDetailFragment(tourId) {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToReservationDetailFragment === "function"
+  ) {
+    window.Android.navigateToReservationDetailFragment(tourId);
+  } else {
+    console.log("navigateToReservationDetailFragment function is not defined");
+  }
+}
+

@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from "./Reservation_Item.module.css";
 
-const Reservation_Item = ({ reservation }) => {
-  console.log(reservation);
+
+const Reservation_Item = ({ participantInfo }) => {
+  useEffect(() => 
+    console.log(participantInfo)
+  , [participantInfo])
   const formattedDate = new Date(
-    reservation.reservation_date
+    participantInfo.reservationDate
   ).toLocaleDateString();
 
   return (
@@ -13,16 +16,16 @@ const Reservation_Item = ({ reservation }) => {
       <div className={styles.Reservation_Top}>
         <img
           className={styles.Profile_Image}
-          src={reservation.trav_profile_image}
+          src={participantInfo.userImage}
           alt="프로필 이미지"
         />
         <div className={styles.Profile_Info}>
           <div className={styles.Profile_Info_Name}>
-            <p className={styles.Profile_Name}>{reservation.trav_name} </p>
+            <p className={styles.Profile_Name}>{participantInfo.userNickName} 님</p>
             <p> 님</p>
           </div>
           <p className={styles.Profile_Count}>
-            인원 수: {reservation.trav_people}명
+            인원 수: {participantInfo.participantCount}명
           </p>
         </div>
       </div>
@@ -30,7 +33,7 @@ const Reservation_Item = ({ reservation }) => {
       <div className={styles.Reservation_Bottom}>
         <div className={styles.Reservation_Number}>
           <p>예약 번호</p>
-          <p>{reservation.reservation_number}</p>
+          <p>{participantInfo.reservationNumber}</p>
         </div>
         <div className={styles.Reservation_Date}>
           <p>예약 날짜</p>
@@ -38,7 +41,7 @@ const Reservation_Item = ({ reservation }) => {
         </div>
         <div className={styles.Reservation_Message}>
           <p>요청 사항</p>
-          <p>{reservation.trav_message}</p>
+          {/* <p>{participantInfo.trav_message}</p> */}
         </div>
       </div>
     </div>
