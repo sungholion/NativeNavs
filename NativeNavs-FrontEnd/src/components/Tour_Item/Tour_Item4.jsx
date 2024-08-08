@@ -3,20 +3,32 @@ import React from "react";
 import styles from "./Tour_Item4.module.css";
 
 const Tour_Item4 = ({ tour }) => {
-  const Image = tour.thumbnailImage[0];
+  // data formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, ""); // 마지막 점 제거
+  };
   return (
     <div className={styles.Tour_Item4}>
       <div className={styles.TourImageContainer}>
-        <img className={styles.TourImage} src={Image} alt="Tour Thumbnail" />
-        {tour.isEnded && <div className={styles.Overlay}>종료</div>}
+        <img
+          className={styles.TourImage}
+          src={tour.thumbnailImage}
+          alt="Tour Thumbnail"
+        />
+        {tour.removed && <div className={styles.Overlay}>종료</div>}
       </div>
       <div className={styles.TourDetailContainer}>
         <div className={styles.TourTitle}>{tour.title}</div>
         <div className={styles.TourDate}>
-          {tour.start_date.toLocaleDateString()} - {tour.end_date.toLocaleDateString()}
+          {formatDate(tour.startDate)} - {formatDate(tour.endDate)}
         </div>
         <div className={styles.TourMeta}>
-          🌏{tour.language.length} 💗: {tour.review_average}
+          🌏
+          {/* {tour.language.length}  */}
+          💗:
+          {/* {tour.review_average} */}
         </div>
       </div>
     </div>

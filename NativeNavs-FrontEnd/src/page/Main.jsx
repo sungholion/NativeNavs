@@ -5,7 +5,7 @@ import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
 
 const Main = () => {
-  const [tours, setTours] = useState([]);
+  const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음 
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(null);
 
@@ -38,6 +38,7 @@ const Main = () => {
       }
     }
   };
+  // 투어 API 정의
   const fetchTours = async () => {
     try {
       const response = await axios.get(
@@ -50,9 +51,10 @@ const Main = () => {
       console.error("투어 API 요청 실패", error);
     }
   };
-  // 투어 API
+
+  // user 정보로 useEffect(투어 API & 위시리스트 API)
   useEffect(() => {
-    console.log("투어 API 요청 시작");
+    console.log("API 요청 시작");
     fetchTours();
     fetchWishLists();
   }, [user]);
