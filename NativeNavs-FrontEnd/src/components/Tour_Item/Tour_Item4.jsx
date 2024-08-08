@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./Tour_Item4.module.css";
 
-const Tour_Item4 = ({ tour }) => {
+const Tour_Item4 = ({ tour, onClickEvent }) => {
   // data formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -10,7 +10,7 @@ const Tour_Item4 = ({ tour }) => {
     return dateString.replace(/\.$/, ""); // 마지막 점 제거
   };
   return (
-    <div className={styles.Tour_Item4}>
+    <div onClick={() => onClickEvent(tour.tourId)} className={styles.Tour_Item4}>
       <div className={styles.TourImageContainer}>
         <img
           className={styles.TourImage}
@@ -25,7 +25,7 @@ const Tour_Item4 = ({ tour }) => {
           {formatDate(tour.startDate)} ~ {formatDate(tour.endDate)}
         </div>
         <div className={styles.TourMeta}>
-          🌏 {tour.reservationCount} 💗 {tour.wishedCount}
+          📘 {tour.reservationCount} 💗 {tour.wishedCount}
         </div>
       </div>
     </div>

@@ -2,6 +2,8 @@ import styles from "./NavTourList.module.css";
 import { useState, useEffect } from "react";
 import Tour_Item4 from "@components/Tour_Item/Tour_Item4";
 import axios from "axios";
+import { navigateToMyTripDetailFragment } from "../utils/get-android-function"
+
 
 const NavTourList = () => {
   const [user, setUser] = useState();
@@ -46,7 +48,7 @@ const NavTourList = () => {
     <div className={styles.NavTourList}>
       <div className={styles.TourList}>
         {tours.map((tour) => (
-          <Tour_Item4 key={tour.tourId} tour={tour} />
+          <Tour_Item4 key={tour.tourId} tour={tour}  onClickEvent={navigateToMyTripDetailFragment} />
         ))}
       </div>
     </div>
