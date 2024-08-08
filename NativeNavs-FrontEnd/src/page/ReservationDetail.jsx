@@ -52,38 +52,37 @@ const ReservationDetail = () => {
     }
   };
 
-  
   // user 상태가 설정된 후 예정된 투어 요청 함수 호출
   useEffect(() => {
-      getReservationDetail();
-    }, [user]);
-    
-    // tour 정보를 받아온 후 실행
-    useEffect(() => {
-      if (tour && tour.thumbnailImage && tour.planImages) {
-        setImages([tour.thumbnailImage, ...tour.planImages]);
-      }
-    }, [tour]);
-    
-    // FE -> BE : 투어 예약 취소 api
-    const cancelTourReservation = async (e) => {
-      try {
-        const response = await axios.post(
-          `https://i11d110.p.ssafy.io/api/reservations/${params.res_id}/cancel`,
-          {}, // 빈 객체를 데이터로 전달 -> 세 번째 인자 headers를 전달해야하므로!
-          {
-            headers: {
-              Authorization: user.userToken,
-            },
-          }
-        );
-        console.log("투어 예약 취소 결과:", response.data);
-      } catch (error) {
-        console.error("투어 예약 취소 실패:", error);
-      }
-    };
+    getReservationDetail();
+  }, [user]);
 
-  // date formatting 
+  // tour 정보를 받아온 후 실행
+  useEffect(() => {
+    if (tour && tour.thumbnailImage && tour.planImages) {
+      setImages([tour.thumbnailImage, ...tour.planImages]);
+    }
+  }, [tour]);
+
+  // FE -> BE : 투어 예약 취소 api
+  const cancelTourReservation = async (e) => {
+    try {
+      const response = await axios.post(
+        `https://i11d110.p.ssafy.io/api/reservations/${params.res_id}/cancel`,
+        {}, // 빈 객체를 데이터로 전달 -> 세 번째 인자 headers를 전달해야하므로!
+        {
+          headers: {
+            Authorization: user.userToken,
+          },
+        }
+      );
+      console.log("투어 예약 취소 결과:", response.data);
+    } catch (error) {
+      console.error("투어 예약 취소 실패:", error);
+    }
+  };
+
+  // date formatting
   const formatDate = (date) => {
     const dateObj = new Date(date);
     const year = dateObj.getFullYear();
@@ -117,7 +116,9 @@ const ReservationDetail = () => {
                 <p className={styles.value2}>
                   {formatDate(tour.reservationDate)}
                 </p>
-                <p className={styles.value2}>{formatTime(tour.meetingStartAt)}</p>
+                <p className={styles.value2}>
+                  {formatTime(tour.meetingStartAt)}
+                </p>
               </div>
               <div className={styles.tourInfoTopTextRight}>
                 <p className={styles.value1}>만남 시작</p>
@@ -127,16 +128,23 @@ const ReservationDetail = () => {
                 <p className={styles.value2}>{formatTime(tour.meetingEndAt)}</p>
               </div>
             </div>
-            {/* 채팅 아이디 수정 필요 */}
+            {/* 채팅 아이디 수정 필요 ★★★★★★★★★★★★★★ */}
             <div
               onClick={() => navigateToReservationDetailChattingRoom()}
               className={styles.tourInfoTopTextBottom}
             >
               <img className={styles.messageBox} src={messageBox} alt="" />
-              <div>
-                <p className={styles.value3}>Nav에게 메세지 남기기</p>
-                <p className={styles.value4}>{tour.guide.nickname}님</p>
-              </div>
+              {user && user.isNav == true ? (
+                <div>
+                  <p className={styles.value3}>Trav에게 메세지 남기기</p>
+                  <p className={styles.value4}>{tour.participant.nickname}님</p>
+                </div>
+              ) : (
+                <div>
+                  <p className={styles.value3}>Nav에게 메세지 남기기</p>
+                  <p className={styles.value4}>{tour.guide.nickname}님</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -179,7 +187,12 @@ const ReservationDetail = () => {
                   예약 취소
                 </button>
               ) : (
-                <Modal2 cancelTourReservation={cancelTourReservation} navigateBack={navigateBack} clickModal={clickModal} className={styles.reserveButton} />
+                <Modal2
+                  cancelTourReservation={cancelTourReservation}
+                  navigateBack={navigateBack}
+                  clickModal={clickModal}
+                  className={styles.reserveButton}
+                />
               )}
             </div>
           </div>
