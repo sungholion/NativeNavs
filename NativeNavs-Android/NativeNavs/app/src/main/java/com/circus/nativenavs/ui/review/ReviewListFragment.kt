@@ -90,6 +90,7 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTourReviewPhotoFragment(tourId: Int) {
+        Log.d(TAG, "navigateToTravReviewPhotoFragment: $tourId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(tourId = tourId)
         navigate(action)
