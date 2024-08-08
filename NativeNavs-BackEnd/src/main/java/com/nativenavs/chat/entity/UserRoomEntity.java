@@ -18,7 +18,7 @@ public class UserRoomEntity {
     private int userRoomId;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "room_id", referencedColumnName = "room_id", nullable = false)
     private RoomEntity room;
 
     @ManyToOne
