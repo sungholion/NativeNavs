@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -50,8 +51,8 @@ public class TourController {
         try {
 
             int userId = getUserIdFromJWT(token);
-            tourService.addTour(tourRequestDTO,userId,thumbnailImage, planImages);
-            return ResponseEntity.ok("여행 등록 완료");
+            int tourId = tourService.addTour(tourRequestDTO,userId,thumbnailImage, planImages);
+            return ResponseEntity.ok(Collections.singletonMap("tourId", tourId));
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세
 

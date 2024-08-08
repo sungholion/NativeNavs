@@ -56,7 +56,7 @@ public class TourService {
     private ReservationRepository reservationRepository;
 
 
-    public void addTour(TourRequestDTO tourRequestDTO, int userId, MultipartFile thumbnailImage, List<MultipartFile> planImages) {
+    public int addTour(TourRequestDTO tourRequestDTO, int userId, MultipartFile thumbnailImage, List<MultipartFile> planImages) {
         TourEntity tourEntity = TourEntity.toSaveEntity(tourRequestDTO);
         // 썸네일 이미지
         String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
@@ -105,6 +105,8 @@ public class TourService {
                 planRepository.save(planEntity);
             }
         }
+
+        return savedTour.getId();
 
     }
 
@@ -221,7 +223,6 @@ public class TourService {
         for (int i = 0; i < plans.size(); i++) {
             PlanRequestDTO planDTO = plans.get(i);
             PlanEntity planEntity = null;
-
             // 기존 플랜 수정 또는 새로운 플랜 추가
             if (i < currentPlans.size()) {
                 planEntity = currentPlans.get(i);
@@ -229,10 +230,8 @@ public class TourService {
                 planEntity = new PlanEntity();
                 planEntity.setTourId(tourEntity);
             }
-
             planEntity.setField(planDTO.getField());
             planEntity.setDescription(planDTO.getDescription());
-
             // 이미지가 제공된 경우에만 처리
             if (planImages != null && imageIndex < planImages.size() && planImages.get(imageIndex) != null) {
                 MultipartFile image = planImages.get(imageIndex);
@@ -245,7 +244,6 @@ public class TourService {
                 }
                 imageIndex++;
             }
-
             planEntity.setLatitude(planDTO.getLatitude());
             planEntity.setLongitude(planDTO.getLongitude());
             planEntity.setAddressFull(planDTO.getAddressFull());
