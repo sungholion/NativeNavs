@@ -74,7 +74,6 @@ const Tour_Item = ({
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-
         {/* <Carousel4 images={images} /> */}
         {/* <Carousel images={images} /> */}
         {/* {images.length > 1 ? (
@@ -82,15 +81,16 @@ const Tour_Item = ({
         ) : (
           <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         )} */}
-
-        <div className={styles.heart_container}>
-          <Heart
-            isWishListed={isWishListed}
-            setIsWishListed={setIsWishListed}
-            onClickEvent={toggleWishlist}
-            wishList={wishList}
-          />
-        </div>
+        {!user.isNav && (
+          <div className={styles.heart_container}>
+            <Heart
+              isWishListed={isWishListed}
+              setIsWishListed={setIsWishListed}
+              onClickEvent={toggleWishlist}
+              wishList={wishList}
+            />
+          </div>
+        )}
       </div>
 
       {/* 투어 정보 */}
