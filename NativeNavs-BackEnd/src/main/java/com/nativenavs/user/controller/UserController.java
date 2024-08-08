@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")   // 고민해보기
+@Tag(name = "user API", description = "user")
 public class UserController {
 
     /**
@@ -46,31 +49,30 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
-    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 한다")
+
+    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 하는 API")
     @GetMapping("/checkDuplicated/email/{email}")
     public ResponseEntity<String> checkDuplicatedEmail(
             @Parameter(
                     description = "Email",
                     required = true,
-                    example = "eoblue23@gmail.com"
+                    example = "trav@gmail.com"
             )
             @PathVariable("email") String email) {
         try {
             boolean isDuplicated = userService.checkDuplicatedEmail(email);
 
             if (!isDuplicated) {
-                return ResponseEntity.ok("사용 가능한 email 입니다");
+                return ResponseEntity.ok("사용 가능한 email");
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 email 입니다");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 email");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error sending email: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 에러 입니다");
         }
     }
 
-    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
     @Operation(summary = "nickname 중복 체크 API", description = "nickname 중복 체크를 한다")
     @GetMapping("/checkDuplicated/nickname/{nickname}")
     public ResponseEntity<String> checkDuplicatedNickname(
@@ -96,7 +98,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
     @PostMapping("/sendEmail")
     public ResponseEntity<?> sendEmail(
@@ -119,7 +120,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 인증 API", description = "이메일과 인증 코드를 입력하여 이메일 인증을 합니다.")
     @GetMapping("/authenticateEmail")
     public ResponseEntity<?> authenticateEmail(
@@ -145,7 +145,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송/인증 필수)")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> signUp (
@@ -184,7 +183,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "전체 회원 검색 API", description = "가입된 전체 회원 목록을 검색합니다")
     @GetMapping("/search/all")
     public ResponseEntity<?> searchAllUser() {
@@ -196,7 +194,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
     @GetMapping("/search/id/{id}")
     public ResponseEntity<?> searchById(
@@ -220,7 +217,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
     @GetMapping("/search/email/{email}")
     public ResponseEntity<?> searchByEmailForClient(
@@ -244,7 +240,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "name으로 회원 검색 API", description = "name을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/search/name/{name}")
@@ -269,7 +264,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "nickname으로 회원 검색 API", description = "nickname을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/search/nickname/{nickname}")
@@ -296,7 +290,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정합니다")
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUser(
@@ -324,7 +317,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUser(
@@ -349,7 +341,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "Email <-> Id 변환 API", description = "user Email을 id로 전환")
     @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/changeEmailToId/{email}")
