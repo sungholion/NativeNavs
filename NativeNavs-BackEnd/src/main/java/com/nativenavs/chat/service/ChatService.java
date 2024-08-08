@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class ChatService {
 
     //채팅 생성
     @Transactional
-    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, LocalDateTime sendTime) {
+    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
 
@@ -75,8 +74,5 @@ public class ChatService {
                 .build();
     }
 
-    public void updateRecentMessageAndTime(int roomId, String content, LocalDateTime sendTime) {
-
-    }
 
 }
