@@ -48,6 +48,7 @@ const Tour_Item = ({
           }
         );
       } else {
+        console.log(tourId);
         // 위시리스트에 추가
         await axios.post(
           `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
@@ -73,7 +74,6 @@ const Tour_Item = ({
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-
         {/* <Carousel4 images={images} /> */}
         {/* <Carousel images={images} /> */}
         {/* {images.length > 1 ? (
@@ -81,15 +81,16 @@ const Tour_Item = ({
         ) : (
           <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         )} */}
-
-        <div className={styles.heart_container}>
-          <Heart
-            isWishListed={isWishListed}
-            setIsWishListed={setIsWishListed}
-            onClickEvent={toggleWishlist}
-            wishList={wishList}
-          />
-        </div>
+        {!user.isNav && (
+          <div className={styles.heart_container}>
+            <Heart
+              isWishListed={isWishListed}
+              setIsWishListed={setIsWishListed}
+              onClickEvent={toggleWishlist}
+              wishList={wishList}
+            />
+          </div>
+        )}
       </div>
 
       {/* 투어 정보 */}

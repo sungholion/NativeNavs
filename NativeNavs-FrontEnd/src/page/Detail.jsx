@@ -37,6 +37,14 @@ const Detail = () => {
     totalImageCount: 0,
   });
 
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
+  }, []);
   // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
@@ -90,21 +98,6 @@ const Detail = () => {
   const firstReview =
     reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
   console.log(firstReview);
-  // MB -> FE : 유저 정보 파싱
-  useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
-    };
-  }, []);
 
   // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {

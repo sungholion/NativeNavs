@@ -1,22 +1,37 @@
 import styles from "./Tour_item3.module.css";
 
-const Tour_Item3 = ({ tour }) => {
+const Tour_Item3 = ({
+  tour,
+  navigateToReservationListFragmentReservationDetail,
+}) => {
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, ""); // 마지막 점 제거
+  };
+
   return (
-    <div className={styles.Tour_Item3}>
+    <div
+      onClick={() =>
+        navigateToReservationListFragmentReservationDetail(
+          tour.tourId,
+          tour.reservationId
+        )
+      }
+      className={styles.Tour_Item3}
+    >
       <div className={styles.tour_left_info}>
-        <img className={styles.img_url} src={tour.img_url} alt="투어 이미지" />
+        <img
+          className={styles.thumbnailImage}
+          src={tour.thumbnailImage}
+          alt="투어 이미지"
+        />
       </div>
       <div className={styles.tour_right_info}>
-        <p className={styles.title}>{tour.title}</p>
-        <p>{tour.nickname}</p>
-        <p>
-          {tour.date.toLocaleDateString("ko-KR", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })}{" "}
-          , {tour.regional_information}
-        </p>
+        <p className={styles.title}>{tour.tourTitle}</p>
+        <p>{tour.guide.nickname}</p>
+        <p>{formatDate(tour.reservationDate)}</p>
       </div>
     </div>
   );
