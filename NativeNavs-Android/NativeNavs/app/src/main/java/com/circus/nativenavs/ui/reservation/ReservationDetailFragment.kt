@@ -1,6 +1,7 @@
 package com.circus.nativenavs.ui.reservation
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,11 +16,13 @@ import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentReservationDetailBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.qr.CustomCaptureActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import com.google.zxing.integration.android.IntentIntegrator
 
 class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>(
     FragmentReservationDetailBinding::bind,
@@ -101,7 +104,8 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             (object :
                 CustomTitleWebView.OnQRClickLisetner {
                 override fun onClick() {
-                    showToast("클릭")
+                    if(SharedPref.isNav == false) showToast("Nav 클릭")
+                    else showToast("Trav 클릭")
                 }
 
             })
@@ -129,4 +133,27 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
     fun navigateBack(){
         popBackStack()
     }
+
+
+
+    private fun startQRCodeScan() {
+        IntentIntegrator.forSupportFragment(this).apply {
+            setOrientationLocked(true)
+            setPrompt("Scan a QR Code")
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setCaptureActivity(CustomCaptureActivity::class.java)
+            initiateScan()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        intentResult?.contents?.let {
+            // Handle the scanned result here
+            showToast(it)
+        }
+    }
+
 }
