@@ -67,6 +67,7 @@
 .navNickname {
     font-weight: bold;
     margin: 0px;
+    margin-left: 5px;
 }
 
 .navLanguage {

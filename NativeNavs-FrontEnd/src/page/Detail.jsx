@@ -54,6 +54,7 @@ const Detail = () => {
         );
         setTour(response.data);
         console.log("Tours response data : ", response.data);
+        console.log("Tours response data : ", response.data.user.id);
         console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
@@ -61,7 +62,7 @@ const Detail = () => {
     };
 
     fetchTour();
-  }, [params.tour_id]);
+  }, [user]);
 
   // NavLanguages 관리 state
   const [navLanguages, setNavLanguages] = useState([]);
@@ -101,12 +102,11 @@ const Detail = () => {
 
   // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToNavProfileFragment === "function"
     ) {
-      window.Android.navigateToNavProfileFragment(parseInt(tour.userId));
+      window.Android.navigateToNavProfileFragment(parseInt(tour.user.id));
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
@@ -114,7 +114,6 @@ const Detail = () => {
 
   // MB : 리뷰 클릭 이벤트 정의
   const onClickReview = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToReviewListFragment === "function"
@@ -181,11 +180,15 @@ const Detail = () => {
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
-            <img
-              src={tour.thumbnailImage}
-              alt={tour.userId}
-              className={styles.nav_img}
-            />
+            {tour.user ? (
+              <img
+                src={tour.user.image}
+                alt={tour.userId}
+                className={styles.nav_img}
+              />
+            ) : (
+              <div></div>
+            )}
           </div>
           <div className={styles.navInfoText}>
             {tour && tour.user ? (
@@ -238,7 +241,7 @@ const Detail = () => {
             imageList={firstReview.imageUrls}
           />
         ) : (
-          <p>Loading...</p>
+          <p>첫 리뷰를 남겨주세요!</p>
         )}
       </div>
     </div>

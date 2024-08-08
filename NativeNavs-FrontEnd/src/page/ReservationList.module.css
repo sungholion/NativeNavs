@@ -25,3 +25,45 @@
   margin-bottom: 20px;
 }
 
+.MiddleContainer {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.MiddleContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.MiddleContainer h2 {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.MiddleContainer h5 {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 180px;
+  text-align: center;
+} 
+
+.TopContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.WishListTitle {
+  font-weight: bold; /* 굵게 설정 */
+  margin: 20px;
+}
+
+.NativeNavsImg {
+  width: 80px;
+  height: 80px;
+}

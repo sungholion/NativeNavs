@@ -63,6 +63,15 @@ export function navigateToReservationListFragmentReservationDetail(tour_id, rese
   }
 }
 
+// Trav 예약 리스트 페이지 -> 예약 상세 페이지로 이동
+export function navigateToReservationListFragmentTourList() {
+  if (window.Android && typeof window.Android.navigateToReservationListFragmentTourList === 'function') {
+    window.Android.navigateToReservationListFragmentTourList();
+  } else {
+    console.log('navigateToReservationListFragmentTourList function is not defined');
+  }
+}
+
 
 // Trav 예약 상세 페이지 -> 채팅방으로 이동
 export function navigateToReservationDetailChattingRoom(chat_id) {
@@ -81,3 +90,4 @@ export function navigateBack() {
     console.log('navigateBack function is not defined');
   }
 }
+

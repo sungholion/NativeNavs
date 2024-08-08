@@ -51,7 +51,7 @@ const ReservationDetail = () => {
     // if (user) {
     getReservationDetail();
     // }
-  }, []);
+  }, [user]);
 
   // tour 정보를 받아온 후 실행
   useEffect(() => {

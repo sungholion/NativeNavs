@@ -1,10 +1,14 @@
 import Carousel2 from "@/components/Carousel/Carousel2";
 import styles from "./ReservationList.module.css";
-import { tours, upcomingTours, nav } from "../dummy";
 import Tour_Item3 from "@/components/Tour_Item/Tour_Item3";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { navigateToReservationListFragmentReservationDetail } from "../utils/get-android-function";
+import {
+  navigateToReservationListFragmentReservationDetail,
+  navigateToReservationListFragmentTourList,
+} from "../utils/get-android-function";
+import Button from "@/components/Button/Button";
+import NativeNavs from "../assets/NativeNavs.png";
 
 const ReservationList = () => {
   const [user, setUser] = useState(null);
@@ -46,7 +50,7 @@ const ReservationList = () => {
           headers: {
             Authorization: user.userToken,
             // Authorization:
-              // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
+            // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
           },
         }
       );
@@ -65,38 +69,59 @@ const ReservationList = () => {
     // }
   }, [user]);
 
-  return (
-    <div className={styles.ReservationList}>
-      {/* 예약된 투어 리스트 */}
-      <h3 className={styles.reservationLength}>
-        {/* 총 {tourData.length}개의 투어가 예약 중입니다 */}
-      </h3>
-      <div className={styles.upcomingTourList}>
-        {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
-        {reservationsInProgress.length > 0 && (
-          <Carousel2
-            reservationsInProgress={reservationsInProgress}
-            navigateToReservationListFragmentReservationDetail={
-              navigateToReservationListFragmentReservationDetail
-            }
-          />
-        )}
+  if (reservationsCompleted.length != 0) {
+    return (
+      <div className={styles.ReservationList}>
+        {/* 예약된 투어 리스트 */}
+        <h3 className={styles.reservationLength}>
+          {/* 총 {tourData.length}개의 투어가 예약 중입니다 */}
+        </h3>
+        <div className={styles.upcomingTourList}>
+          {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
+          {reservationsInProgress.length > 0 && (
+            <Carousel2
+              reservationsInProgress={reservationsInProgress}
+              navigateToReservationListFragmentReservationDetail={
+                navigateToReservationListFragmentReservationDetail
+              }
+            />
+          )}
+        </div>
+        {/* 완료된 투어 리스트 */}
+        <h2 className={styles.TourListTitle}>완료된 Tour</h2>
+        <div className={styles.completedTourList}>
+          {reservationsCompleted.map((tour) => (
+            <Tour_Item3
+              key={tour.tourId}
+              tour={tour}
+              navigateToReservationListFragmentReservationDetail={
+                navigateToReservationListFragmentReservationDetail
+              }
+            />
+          ))}
+        </div>
       </div>
-      {/* 완료된 투어 리스트 */}
-      <h2 className={styles.TourListTitle}>완료된 Tour</h2>
-      <div className={styles.completedTourList}>
-        {reservationsCompleted.map((tour) => (
-          <Tour_Item3
-            key={tour.tourId}
-            tour={tour}
-            navigateToReservationListFragmentReservationDetail={
-              navigateToReservationListFragmentReservationDetail
-            }
-          />
-        ))}
+    );
+  }
+  return (
+    <div className={styles.TopContainer}>
+      <div className={styles.MiddleContainer}>
+        <img
+          className={styles.NativeNavsImg}
+          src={NativeNavs}
+          alt="NativeNavs"
+        />
+        <h2>아직 예약한 Tour가 없어요!</h2>
+        <h5>NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!</h5>
+        <Button
+          size="4"
+          text={"둘러보기"}
+          onClickEvent={() => {
+            navigateToReservationListFragmentTourList(); // 네이티브 함수 호출
+          }}
+        />
       </div>
     </div>
   );
 };
-
 export default ReservationList;

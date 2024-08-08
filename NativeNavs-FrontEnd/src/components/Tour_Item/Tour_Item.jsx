@@ -15,14 +15,16 @@ const Tour_Item = ({
   nav_profile_img,
   nickname,
   navigateFragment,
-  user, // 추가: user 정보를 props로 받음
+  user,
   wishList,
 }) => {
-  const [isWishListed, setIsWishListed] = useState(
-    wishList ? wishList.includes(tourId) : false
-  );
+  const [isWishListed, setIsWishListed] = useState(false);
 
-  // const images = [thumbnailImage, ...plans.map((plan) => plan.image)];
+  // wishList가 변경될 때마다 isWishListed를 업데이트
+  useEffect(() => {
+    setIsWishListed(wishList ? wishList.includes(tourId) : false);
+  }, [wishList, tourId]);
+
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
@@ -30,11 +32,8 @@ const Tour_Item = ({
     navigateFragment(parseInt(tourId), parseInt(userId));
   };
 
-  useEffect(() => {
-    console.log(isWishListed);
-  }, [isWishListed]);
-
   const toggleWishlist = async (e) => {
+    e.stopPropagation(); // 이벤트 전파 방지
     try {
       if (isWishListed) {
         // 위시리스트에서 제거
@@ -42,27 +41,24 @@ const Tour_Item = ({
           `https://i11d110.p.ssafy.io/api/wishlist/${tourId}`,
           {
             headers: {
-              Authorization: user.userToken,
+              Authorization: `Bearer ${user.userToken}`,
             },
           }
         );
       } else {
-        console.log(tourId);
         // 위시리스트에 추가
         await axios.post(
           `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
           null,
           {
             headers: {
-              // Authorization: `Bearer ${user.userToken}`,
-              Authorization: user.userToken,
+              Authorization: `Bearer ${user.userToken}`,
             },
           }
         );
       }
-      setIsWishListed((isWishListed) => !isWishListed);
-      console.log(isWishListed);
-      console.log("하트클릭");
+      // 위시리스트 상태를 토글
+      setIsWishListed((prev) => !prev);
     } catch (error) {
       console.error("위시리스트 업데이트 중 오류 발생:", error);
     }
@@ -70,16 +66,8 @@ const Tour_Item = ({
 
   return (
     <div className={styles.Tour_Item} onClick={onClickTour}>
-      {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-        {/* <Carousel4 images={images} /> */}
-        {/* <Carousel images={images} /> */}
-        {/* {images.length > 1 ? (
-          <Carousel images={images} />
-        ) : (
-          <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-        )} */}
         {!user.isNav && (
           <div className={styles.heart_container}>
             <Heart
@@ -91,9 +79,7 @@ const Tour_Item = ({
         )}
       </div>
 
-      {/* 투어 정보 */}
       <section className={styles.tour_info}>
-        {/* 왼쪽 정보 */}
         <div className={styles.tour_leftinfo}>
           <p className={styles.tour_title}>{title}</p>
           <p className={styles.tour_duration}>
@@ -101,16 +87,13 @@ const Tour_Item = ({
           </p>
           <Rating avg={reviewAverage} />
         </div>
-        {/* 오른쪽 정보 */}
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_nav}>
-            {/* Nav 프로필 이미지 */}
             <img
               src={nav_profile_img}
               alt={nickname}
               className={styles.nav_img}
             />
-            {/* Nav 닉네임 */}
             <p style={{ cursor: "pointer" }}>{nickname}</p>
           </div>
         </div>

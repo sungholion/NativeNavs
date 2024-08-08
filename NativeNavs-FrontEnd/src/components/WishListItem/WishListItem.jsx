@@ -30,7 +30,7 @@ const WishListItem = ({ user, tours, wishList }) => {
                   startDate={new Date(tour.startDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
                   endDate={new Date(tour.endDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
                   reviewAverage={tour.reviewAverage}
-                  nav_profile_img={tour.thumbnailImage}
+                  nav_profile_img={tour.user.image}
                   nickname={tour.user.nickname}
                   plans={tour.plans}
                   navigateFragment={navigateToWishDetailFragment}

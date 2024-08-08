@@ -93,7 +93,7 @@ export default function Carousel2({
             <div className={styles.tourRightInfo}>
               <div className={styles.navImageNickname}>
                 <img
-                  src={tour.image}
+                  src={tour.guide.image}
                   alt="Nav 이미지"
                   className={styles.navImage}
                 />

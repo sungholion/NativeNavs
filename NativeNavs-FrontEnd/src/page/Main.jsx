@@ -38,24 +38,23 @@ const Main = () => {
       }
     }
   };
-
+  const fetchTours = async () => {
+    try {
+      const response = await axios.get(
+        "https://i11d110.p.ssafy.io/api/tours/search"
+      );
+      console.log("투어 API 요청 성공", response.data);
+      console.log("위시리스트 API 요청 시작");
+      setTours(response.data);
+    } catch (error) {
+      console.error("투어 API 요청 실패", error);
+    }
+  };
   // 투어 API
   useEffect(() => {
     console.log("투어 API 요청 시작");
-    const fetchTours = async () => {
-      try {
-        const response = await axios.get(
-          "https://i11d110.p.ssafy.io/api/tours/search"
-        );
-        console.log("투어 API 요청 성공", response.data);
-        console.log("위시리스트 API 요청 시작");
-        fetchWishLists();
-        setTours(response.data);
-      } catch (error) {
-        console.error("투어 API 요청 실패", error);
-      }
-    };
     fetchTours();
+    fetchWishLists();
   }, [user]);
 
 
@@ -78,7 +77,7 @@ const Main = () => {
             startDate={formatDate(tour.startDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
             endDate={formatDate(tour.endDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
             reviewAverage={tour.reviewAverage}
-            nav_profile_img={tour.thumbnailImage}
+            nav_profile_img={tour.user.image}
             nickname={tour.user.nickname}
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달

@@ -8,18 +8,16 @@ function WishList() {
   const [tours, setTours] = useState([]);
   const [wishList, setWishList] = useState([]);
 
-    // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
-    useEffect(() => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        console.log(11, user)
-        console.log(22, parsedUser)
-      }
-    }, []);
-
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      console.log(11, user);
+      console.log(22, parsedUser);
+    }
+  }, []);
 
   // // android로부터 유저 정보를 수신 및 파싱
   // useEffect(() => {
