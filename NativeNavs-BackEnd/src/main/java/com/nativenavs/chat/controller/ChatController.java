@@ -29,8 +29,12 @@ public class ChatController {
                 chatDTO.getSenderId(),
                 chatDTO.getSenderNickname(),
                 chatDTO.getSenderProfileImage(),
-                chatDTO.getContent()
+                chatDTO.getContent(),
+                chatDTO.getSendTime()
         );
+
+        // 채팅 할때마다 가장 최신의 메세지를 room에 전달
+        chatService.updateRecentMessageAndTime(roomId, chatDTO.getContent(), chatDTO.getSendTime());
 
         return chatService.toChatDTO(chatEntity);
     }
