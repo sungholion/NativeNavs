@@ -9,7 +9,10 @@ import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
 import { getStaticImage } from "@/utils/get-static-image";
-import { navigateToTourModifyFragment } from "@/utils/get-android-function";
+import {
+  navigateToTourModifyFragment,
+  navigateToTourListFragment,
+} from "@/utils/get-android-function";
 
 const Detail = () => {
   const params = useParams();
@@ -60,7 +63,7 @@ const Detail = () => {
       })
       .then((res) => {
         console.log(res);
-        window.alert("삭제되었습니다.");
+        navigateToTourListFragment();
       })
       .catch((err) => {
         console.err(err);

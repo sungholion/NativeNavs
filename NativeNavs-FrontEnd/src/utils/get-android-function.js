@@ -153,3 +153,14 @@ export function navigateToTourModifyFragment(tour_id) {
     console.log("navigateToTourModifyFragment function is not defined");
   }
 }
+// 투어 상세 페이지 -> 메인 페이지 이동
+export function navigateToTourListFragment() {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToTourListFragment === "function"
+  ) {
+    window.Android.navigateToTourListFragment();
+  } else {
+    console.log("navigateToTourListFragment function is not defined");
+  }
+}
