@@ -10,7 +10,7 @@
 .thumbnail_container {
   position: relative;
   width: 100%;
-  height: 336px;
+  aspect-ratio: 1 / 1; /* 너비와 동일한 높이 설정 */
 }
 
 .tour_thumbnail {

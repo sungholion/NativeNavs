@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import Carousel from "@/components/Carousel/Carousel.jsx";
-import Carousel4 from "@/components/Carousel/Carousel4.jsx";
 import axios from "axios";
 
 const Tour_Item = ({
@@ -19,7 +17,6 @@ const Tour_Item = ({
   navigateFragment,
   user, // 추가: user 정보를 props로 받음
   wishList,
-  images,
 }) => {
   const [isWishListed, setIsWishListed] = useState(
     wishList ? wishList.includes(tourId) : false
@@ -38,7 +35,6 @@ const Tour_Item = ({
   }, [isWishListed]);
 
   const toggleWishlist = async (e) => {
-    e.stopPropagation();
     try {
       if (isWishListed) {
         // 위시리스트에서 제거
@@ -51,6 +47,7 @@ const Tour_Item = ({
           }
         );
       } else {
+        console.log(tourId);
         // 위시리스트에 추가
         await axios.post(
           `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
@@ -76,7 +73,6 @@ const Tour_Item = ({
       {/* 투어 이미지 */}
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-
         {/* <Carousel4 images={images} /> */}
         {/* <Carousel images={images} /> */}
         {/* {images.length > 1 ? (
@@ -84,15 +80,15 @@ const Tour_Item = ({
         ) : (
           <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         )} */}
-
-        <div className={styles.heart_container}>
-          <Heart
-            isWishListed={isWishListed}
-            setIsWishListed={setIsWishListed}
-            onClickEvent={toggleWishlist}
-            wishList={wishList}
-          />
-        </div>
+        {!user.isNav && (
+          <div className={styles.heart_container}>
+            <Heart
+              isWishListed={isWishListed}
+              onClickEvent={toggleWishlist}
+              wishList={wishList}
+            />
+          </div>
+        )}
       </div>
 
       {/* 투어 정보 */}

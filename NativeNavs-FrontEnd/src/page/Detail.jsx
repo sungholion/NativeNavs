@@ -11,6 +11,8 @@ import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
 
 const Detail = () => {
   const params = useParams();
+  const [user, setUser] = useState(null);
+  // tour state 정의
   const [tour, setTour] = useState({
     price: 0,
     title: "",
@@ -26,7 +28,24 @@ const Detail = () => {
     removed: false,
   });
 
-  // BE로 API 요청
+  // review state 정의
+  const [reviewData, setReviewData] = useState({
+    imageUrls: [],
+    reviewAverage: 0,
+    reviewCount: 0,
+    reviews: [],
+    totalImageCount: 0,
+  });
+
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
+  }, []);
+  // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -34,6 +53,8 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
+        console.log("Tours response data : ", response.data);
+        console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
       }
@@ -41,26 +62,44 @@ const Detail = () => {
 
     fetchTour();
   }, [params.tour_id]);
-  
-  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
-  console.log(images);
 
-  // MB로부터 유저 데이터 파싱
+  // NavLanguages 관리 state
+  const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
+    if (tour && tour.user && tour.user.userLanguage) {
+      const userLanguage = tour.user.userLanguage
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguage);
+      console.log(navLanguages);
+    }
+  }, [tour]);
+
+  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
+
+  // FE -> BE : ReviewData API 요청
+  useEffect(() => {
+    const fetchReviewData = async () => {
       try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
-        console.log(`isNav: ${parsedUser.isNav}`);
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+        );
+        setReviewData(response.data);
+        console.log("Reviews response data : ", response.data);
       } catch (error) {
-        console.error("Failed to parse user JSON", error);
+        console.error("Error fetching reviewData:", error);
       }
     };
+
+    fetchReviewData();
   }, []);
 
+  // 첫 번째 리뷰를 변수에 저장
+  const firstReview =
+    reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
+  console.log(firstReview);
 
+  // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     if (
@@ -73,6 +112,7 @@ const Detail = () => {
     }
   };
 
+  // MB : 리뷰 클릭 이벤트 정의
   const onClickReview = (e) => {
     e.stopPropagation(); // 이벤트 전파 방지
     if (
@@ -85,6 +125,7 @@ const Detail = () => {
     }
   };
 
+  // Date 객체 formatting
   const formattedStartDate = tour.startDate
     ? new Date(tour.startDate).toLocaleDateString()
     : "N/A";
@@ -92,35 +133,8 @@ const Detail = () => {
     ? new Date(tour.endDate).toLocaleDateString()
     : "N/A";
 
+  // price 변수 fotmatting
   const formattedPrice = tour.price.toLocaleString();
-
-  // 예시 리뷰 데이터
-  const reviewData = {
-    user: {
-      user_id: 1,
-      image:
-        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTZfMTMx%2FMDAxNjcxMTg2NTM1MDYx.0vuGB7rfq1YZPV1kA8Wbuz51yLAS5Tvs0Zeuhiz-kswg.0iqBKg3vLwCvwnln6AqxZpV67RYgvEQ8qV7Y2wnqoI4g.JPEG.loivme%2F%25B8%25F1%25B5%25B5%25B8%25AE.jpg&type=sc960_832",
-      nickname: "오리",
-      nation: "미국",
-    },
-    score: 4.2,
-    description: "너무 맛있어요",
-    created_at: new Date(2024, 3, 2),
-    tour: {
-      tour_id: 2,
-      title: "무진장 투어",
-    },
-    needToShowTourTitle: true,
-    imageList: [
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MTlfMTgg%2FMDAxNzE4NzkzODA1MTQ5.5WZpqKWvIOCPc_v8V9tqTKZbQxC-cegb4Ql6zjOVdGgg.kOY5ndrPZE1VI_qj_5Mdoq0vjqAkx8bxEuzv0etqb-Ag.JPEG%2FIMG_9138.JPG&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20140922_33%2Fholaha00_1411349776141T4rkI_JPEG%2F%25B9%25D9%25B4%25D9_%25B9%25E8%25B0%25E6%25BB%25E7%25C1%25F8_%25B8%25F0%25C0%25BD_%25281%2529.jpg&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MThfNDkg%2FMDAxNjI5Mjk0ODk2MTE3.9xQesy494fYu0DXNAk50hFRL3feTyiQAjP3FB5agcgog.s-21YxuWQNkPWcFv46a_i9krhMFZohStNgomCpu1E_gg.GIF.cooolsydney%2F%25BF%25C0%25B8%25AE%25BA%25D2%25B0%25ED%25B1%25E2.gif&type=a340",
-    ],
-  };
-
-  if (!tour) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className={styles.Detail}>
@@ -150,13 +164,13 @@ const Detail = () => {
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
-            🌏
-              {tour.categoryIds.length > 1 ? (
+              🌏
+              {navLanguages.length > 1 ? (
                 <p>
-                  {tour.categoryIds[0]} 외 {tour.categoryIds.length - 1}개 국어
+                  {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
                 </p>
               ) : (
-                <p>{tour.categoryIds[0]}</p>
+                <p>{navLanguages[0]}</p>
               )}
             </div>
           </div>
@@ -174,9 +188,15 @@ const Detail = () => {
             />
           </div>
           <div className={styles.navInfoText}>
-            <p className={styles.navNickname}>Navs : {tour.userId}님</p>
+            {tour && tour.user ? (
+              <p className={styles.navNickname}>
+                Navs : {tour.user.nickname}님
+              </p>
+            ) : (
+              <p>loading..</p>
+            )}
             <p className={styles.navLanguage}>
-              언어 : {tour.categoryIds.join(", ")}
+              언어 : {navLanguages.join(", ")}
             </p>
           </div>
         </div>
@@ -208,16 +228,18 @@ const Detail = () => {
       </div>
       {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
-        <Review_Item
-          user={reviewData.user}
-          tour_id={tour.id}
-          score={reviewData.score}
-          description={reviewData.description}
-          created_at={reviewData.created_at}
-          tour={reviewData.tour}
-          needToShowTourTitle={reviewData.needToShowTourTitle}
-          imageList={reviewData.imageList}
-        />
+        {firstReview ? (
+          <Review_Item
+            user={firstReview.reviewer}
+            score={firstReview.score}
+            description={firstReview.description}
+            tour={firstReview.tourTitle}
+            needToShowTourTitle={false}
+            imageList={firstReview.imageUrls}
+          />
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   );

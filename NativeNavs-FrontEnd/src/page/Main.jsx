@@ -9,68 +9,61 @@ const Main = () => {
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(null);
 
-  // android로부터 유저 정보를 수신 및 파싱
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
-    };
-
-    if (window.getUserData) {
-      window.getUserData();
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
     }
   }, []);
 
+  // 위시리스트 API 
+  const fetchWishLists = async () => {
+    if (user && user.isNav == false) {
+      try {
+        const response = await axios.get(
+          "https://i11d110.p.ssafy.io/api/wishlist",
+          {
+            headers: {
+              Authorization: `Bearer ${user.userToken}`,
+              accept: "application/json",
+            },
+          }
+        );
+        console.log("Fetched wishlist data:", response.data);
+        setWishList(response.data.map((item) => item.id));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   // 투어 API
   useEffect(() => {
-    console.log("useEffect - fetchTours");
+    console.log("투어 API 요청 시작");
     const fetchTours = async () => {
       try {
         const response = await axios.get(
-          "https://i11d110.p.ssafy.io/api/tours"
+          "https://i11d110.p.ssafy.io/api/tours/search"
         );
+        console.log("투어 API 요청 성공", response.data);
+        console.log("위시리스트 API 요청 시작");
+        fetchWishLists();
         setTours(response.data);
       } catch (error) {
-        console.error("Error fetching tours:", error);
+        console.error("투어 API 요청 실패", error);
       }
     };
     fetchTours();
-  }, []);
-
-  // 위시리스트 API
-  useEffect(() => {
-    const fetchWishLists = async () => {
-      if (user && user.isNav == false) {
-        try {
-          const response = await axios.get(
-            "https://i11d110.p.ssafy.io/api/wishlist",
-            {
-              headers: {
-                Authorization: `Bearer ${user.userToken}`,
-                accept: "application/json",
-              },
-            }
-          );
-          console.log("Fetched wishlist data:", response.data);
-          setWishList(response.data.map((item) => item.id));
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-    fetchWishLists();
   }, [user]);
 
-  console.log(tours);
-  console.log(user);
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, ""); // 마지막 점 제거
+  };
 
   return (
     <div className={styles.main}>
@@ -82,19 +75,14 @@ const Main = () => {
             userId={tour.userId}
             title={tour.title}
             thumbnailImage={tour.thumbnailImage}
-            startDate={new Date(tour.startDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
-            endDate={new Date(tour.endDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
+            startDate={formatDate(tour.startDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
+            endDate={formatDate(tour.endDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
             reviewAverage={tour.reviewAverage}
             nav_profile_img={tour.thumbnailImage}
             nickname={tour.user.nickname}
-            plans={tour.plans}
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
             wishList={wishList}
-            images={[
-              tour.thumbnailImage,
-              ...tour.plans.map((plan) => plan.image),
-            ]}
           />
         ))}
       </div>

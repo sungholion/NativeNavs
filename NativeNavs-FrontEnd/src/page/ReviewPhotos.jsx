@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { reviews } from "../dummy"; // 더미 데이터를 가져옵니다.
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import Modal from "@/components/Modal/Modal";
 import styles from "./ReviewPhotos.module.css";
@@ -8,6 +8,13 @@ const ReviewPhotos = () => {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState("");
+  const [reviewData, setReviewData] = useState({
+    imageUrls: [],
+    reviewAverage: 0,
+    reviewCount: 0,
+    reviews: [],
+    totalImageCount: 0,
+  });
 
   const handlePhotoClick = (photo) => {
     setSelectedPhoto(photo);
@@ -19,9 +26,26 @@ const ReviewPhotos = () => {
     setSelectedPhoto("");
   };
 
+  // FE -> BE : ReviewData API 요청
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      try {
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+        );
+        setReviewData(response.data);
+        console.log("Reviews response data : ", response.data);
+      } catch (error) {
+        console.error("Error fetching reviewData:", error);
+      }
+    };
+
+    fetchReviewData();
+  }, []);
+
   return (
     <div className={styles.ReviewPhotos}>
-      {reviews.img_urls.map((photo, index) => (
+      {reviewData.imageUrls.map((photo, index) => (
         <img
           key={index}
           src={photo}
