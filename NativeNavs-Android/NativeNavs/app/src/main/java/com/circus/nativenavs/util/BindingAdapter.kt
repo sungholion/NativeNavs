@@ -18,6 +18,6 @@ fun ImageView.loadImageUrl(imgUrl: String) {
 }
 
 @BindingAdapter("time")
-fun TextView.setTimeText(time: Long) {
-    this.text = time.toString()
+fun TextView.setTimeText(time: String) {
+    this.text = time
 }

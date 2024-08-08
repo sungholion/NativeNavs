@@ -7,6 +7,6 @@ data class MessageDto(
     val senderNickname: String = "",
     val senderProfileImage: String = "",
     val content: String = "",
-    val sendTime: Long = 0,
+    val sendTime: String = "",
     val isRead: Boolean = false
 )

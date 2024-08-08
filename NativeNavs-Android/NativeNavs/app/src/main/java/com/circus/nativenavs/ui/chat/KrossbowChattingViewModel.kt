@@ -169,7 +169,7 @@ class KrossbowChattingViewModel : ViewModel() {
     private fun handleOnMessageReceived(message: MessageDto) {
         Log.d(TAG, "handleOnMessageReceived: $message")
         try {
-            if (message.senderId != uiState.value!!.senderId)
+//            if (message.senderId != uiState.value!!.senderId)
                 addMessage(message)
         } catch (e: Exception) {
             Log.e(TAG, "handleOnMessageReceived: ", e)
@@ -220,7 +220,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 )
 
                 messageSent()
-                addMessage(message)
+//                addMessage(message)
                 clearMessage()
             } catch (e: Exception) {
                 Log.e(TAG, "Message sending failed: ", e)
@@ -243,7 +243,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 senderNickname = it.senderNickName,
                 senderProfileImage = it.senderImg,
                 content = it.message,
-                sendTime = System.currentTimeMillis(),
+                sendTime = System.currentTimeMillis().toString(),
                 isRead = false
             )
         } ?: MessageDto()
