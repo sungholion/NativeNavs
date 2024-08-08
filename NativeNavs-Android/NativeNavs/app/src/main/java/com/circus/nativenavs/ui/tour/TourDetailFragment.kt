@@ -56,6 +56,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
         chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
             if (roomId != -1) {
+                Log.d(TAG, "onViewCreated: 화면 이동")
                 val action =
                     TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
                         chatId = roomId
@@ -84,20 +85,14 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     private fun initEvent() {
         binding.tourDetailBottomBtn.setOnClickListener {
-            val action: NavDirections
             if (SharedPref.isNav!!) {
-                action =
+                val action =
                     TourDetailFragmentDirections.actionTourDetailFragmentToMyTripReservationListFragment(
                         args.tourId
                     )
                 navigate(action)
             } else {
                 chattingViewModel.createChatRoom(args.tourId)
-//                action =
-//                    TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
-//                        chatId = chattingViewModel.currentChatRoom.value!!.roomId
-//                    )
-
             }
         }
     }

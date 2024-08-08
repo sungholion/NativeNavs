@@ -43,7 +43,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
-        chattingViewModel.setChatRoomId(args.chatId)
+//        chattingViewModel.setChatRoomId(args.chatId)
         chattingViewModel.getChatMessages(args.chatId)
         chattingViewModel.connectWebSocket()
     }
@@ -132,5 +132,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onPause() {
         super.onPause()
         chattingViewModel.disconnectWebSocket()
+        chattingViewModel.setChatRoomId(-1)
     }
 }

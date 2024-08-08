@@ -18,6 +18,7 @@ class AuthInterceptor(private var authToken: String) : Interceptor {
             && !url.contains("users/checkDuplicated/nickname")
             && !url.contains("language")
             && !url.contains("auth/refresh")&&
+            !url.contains("auth/login")&&
             !url.contains("tours/category")){
             builder.header("Authorization", "Bearer $authToken")
         }

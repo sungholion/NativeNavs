@@ -77,7 +77,9 @@ class KrossbowChattingViewModel : ViewModel() {
 
     fun getChatRoomList() {
         viewModelScope.launch {
+            Log.d(TAG, "getChatRoomList raw: ${chatRetrofit.getChatRoomList()}")
             _chatRoomList.value = chatRetrofit.getChatRoomList()
+            Log.d(TAG, "getChatRoomList: ${chatRoomList.value}")
         }
     }
 
