@@ -29,8 +29,10 @@ public class ChatController {
                 chatDTO.getSenderId(),
                 chatDTO.getSenderNickname(),
                 chatDTO.getSenderProfileImage(),
-                chatDTO.getContent()
+                chatDTO.getContent(),
+                chatDTO.getSendTime()
         );
+
 
         return chatService.toChatDTO(chatEntity);
     }

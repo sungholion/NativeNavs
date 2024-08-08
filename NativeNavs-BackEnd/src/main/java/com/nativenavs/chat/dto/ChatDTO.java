@@ -17,7 +17,7 @@ public class ChatDTO {
     private String senderProfileImage;
     private String content;
     private boolean isRead;
-    private long sendTime;
+    private String sendTime;
 
 
 

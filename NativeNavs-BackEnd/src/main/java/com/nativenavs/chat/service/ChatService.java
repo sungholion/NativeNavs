@@ -5,6 +5,7 @@ import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.chat.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,16 @@ public class ChatService {
     private final ChatRepository chatRepository;
 
     //채팅 생성
-    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content) {
+    @Transactional
+    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
         RoomEntity room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
+
+        // sendTime을 변환
+
+        room.setRecentMessageContent(content);
+        room.setRecentMessageTime(sendTime);
+        roomRepository.save(room);
 
         return chatRepository.save(ChatEntity.createChat(
                 roomId,
@@ -29,7 +37,8 @@ public class ChatService {
                 senderNickname,
                 senderProfileImage,
                 content,
-                false // Assuming new messages are not read initially
+                false,
+                sendTime
         ));
     }
 
@@ -64,5 +73,6 @@ public class ChatService {
                 .sendTime(chatEntity.getSendTime())
                 .build();
     }
+
 
 }

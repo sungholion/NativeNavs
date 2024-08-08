@@ -21,10 +21,10 @@ public class ChatEntity {
     private String senderProfileImage;
     private String content;
     private boolean isRead;
-    private long sendTime;
+    private String sendTime;
 
     @Builder
-    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, long sendTime) {
+    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, String sendTime) {
         this.roomId = roomId;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
@@ -34,7 +34,7 @@ public class ChatEntity {
         this.sendTime = sendTime;
     }
 
-    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead) {
+    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, String sendTime) {
         return ChatEntity.builder()
                 .roomId(roomId)
                 .senderId(senderId)
@@ -42,7 +42,7 @@ public class ChatEntity {
                 .senderProfileImage(senderProfileImage)
                 .content(content)
                 .isRead(isRead)
-                .sendTime(System.currentTimeMillis())
+                .sendTime(sendTime)
                 .build();
     }
 }

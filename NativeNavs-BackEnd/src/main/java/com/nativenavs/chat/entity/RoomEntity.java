@@ -52,7 +52,7 @@ public class RoomEntity {
     private String recentMessageContent;
 
     @Column(name = "recent_message_time")
-    private long recentMessageTime;
+    private String recentMessageTime;
 
 
     /**
@@ -79,7 +79,7 @@ public class RoomEntity {
                 .receiverNickname(receiverNickname)
                 .receiverIsNav(receiverIsNav)
                 .recentMessageContent(null)
-                .recentMessageTime(0L)
+                .recentMessageTime(null)
                 .build();
     }
 
