@@ -1,10 +1,13 @@
 package com.circus.nativenavs.util
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.circus.nativenavs.R
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @BindingAdapter("imgUrl")
 fun ImageView.loadImageUrl(imgUrl: String) {
@@ -19,5 +22,8 @@ fun ImageView.loadImageUrl(imgUrl: String) {
 
 @BindingAdapter("time")
 fun TextView.setTimeText(time: String) {
-    this.text = time
+    Log.d("date time", "setTimeText: $time")
+    val localDateTime = LocalDateTime.parse(time)
+    val formattedTime = localDateTime.format(DateTimeFormatter.ofPattern("MM/dd HH:mm"))
+    this.text = formattedTime
 }

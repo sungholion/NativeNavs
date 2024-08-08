@@ -24,6 +24,8 @@ import org.hildan.krossbow.stomp.headers.StompSendHeaders
 import org.hildan.krossbow.stomp.headers.StompSubscribeHeaders
 import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.log
 
 private const val TAG = "KrossbowChattingViewMod"
@@ -243,7 +245,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 senderNickname = it.senderNickName,
                 senderProfileImage = it.senderImg,
                 content = it.message,
-                sendTime = System.currentTimeMillis().toString(),
+                sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString(),
                 isRead = false
             )
         } ?: MessageDto()

@@ -12,6 +12,6 @@ data class ChatRoomDto(
     val tourTitle: String,
     val tourImgUrl: String,
     val tourRegion: String,
-    val recentMessage: String,
+    val recentMessageContent: String,
     val recentMessageTime: String
 )
