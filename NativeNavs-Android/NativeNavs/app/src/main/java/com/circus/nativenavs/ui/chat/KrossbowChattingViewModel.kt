@@ -120,7 +120,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
-                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
+                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
 //                    customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    ),
