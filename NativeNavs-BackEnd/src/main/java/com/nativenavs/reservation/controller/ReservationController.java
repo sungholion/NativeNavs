@@ -135,6 +135,7 @@ public class ReservationController {
         }
     }
 
+
     @GetMapping("/tour/{tourId}/participants")
     @Operation(summary = "투어 참여자 조회 API", description = "특정 투어에 대한 예약을 조회하고, 예약 중인 참여자 정보를 반환하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))

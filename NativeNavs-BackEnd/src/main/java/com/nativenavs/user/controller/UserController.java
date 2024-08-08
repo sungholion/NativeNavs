@@ -283,21 +283,10 @@ public class UserController {
 
     @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정합니다")
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUser(
             @RequestHeader("Authorization") String token,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = ".",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    example = "{\"image\": \"profile.png\", \"nickname\": \"supernova\", " +
-                                            "\"userLanguage\": \"russian, spanish\",\"phone\": \"01045678989\"," +
-                                            "\"password\": \"4567\"}"
-                            )
-                    )
-            )
+
             @RequestPart("user") UserDTO updateUserDTO,
             @RequestPart("profileImage") MultipartFile profileImage)
 //            @RequestBody UserDTO updateUserDTO
@@ -345,7 +334,7 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "Email <-> Id 변환ㅑㅅ API", description = "user Email을 id로 전환")
+    @Tag(name = "Email <-> Id 변환 API", description = "user Email을 id로 전환")
     @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/changeEmailToId/{email}")

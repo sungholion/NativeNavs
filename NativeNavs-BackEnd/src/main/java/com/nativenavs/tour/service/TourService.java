@@ -259,6 +259,8 @@ public class TourService {
         }
     }
 
+
+
     public void removeTour(int id){
         tourRepository.deleteById(id);
     }
@@ -286,7 +288,9 @@ public class TourService {
 
     public List<GuideTourDTO> findToursByGuide(int guideId) {
         List<TourEntity> tours = tourRepository.findByUserId(guideId);
+
         return tours.stream().map(this::convertToGuideTourDTO).collect(Collectors.toList());
+
     }
 
 
