@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 
 @Entity
@@ -26,6 +27,11 @@ public class ReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+//    @Column(nullable = false,name="reservation_number", unique = true,updatable = false)
+//    private UUID reservationNumber=UUID.randomUUID();
+    @Column(length=8, unique = true)
+    private String reservationNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id", nullable = false)
