@@ -22,13 +22,10 @@ const Tour_Item4 = ({ tour }) => {
       <div className={styles.TourDetailContainer}>
         <div className={styles.TourTitle}>{tour.title}</div>
         <div className={styles.TourDate}>
-          {formatDate(tour.startDate)} - {formatDate(tour.endDate)}
+          {formatDate(tour.startDate)} ~ {formatDate(tour.endDate)}
         </div>
         <div className={styles.TourMeta}>
-          🌏
-          {/* {tour.language.length}  */}
-          💗:
-          {/* {tour.review_average} */}
+          🌏 {tour.reservationCount} 💗 {tour.wishedCount}
         </div>
       </div>
     </div>
