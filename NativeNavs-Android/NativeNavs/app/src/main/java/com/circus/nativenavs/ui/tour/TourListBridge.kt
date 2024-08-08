@@ -35,6 +35,7 @@ class TourListBridge(
 
     }
 
+
     private fun evaluateWebViewFunction(
         script: String,
         callback: ((String) -> Unit)? = null,

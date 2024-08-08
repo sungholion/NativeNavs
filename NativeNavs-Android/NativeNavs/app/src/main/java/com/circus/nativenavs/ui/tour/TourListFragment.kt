@@ -10,6 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
@@ -34,6 +35,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
     private lateinit var homeActivity: HomeActivity
     private lateinit var bridge: TourListBridge
     private var isPageLoaded = false
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

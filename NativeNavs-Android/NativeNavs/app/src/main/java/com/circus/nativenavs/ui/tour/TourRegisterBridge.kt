@@ -6,6 +6,9 @@ import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "TourRegisterBridge"
 
@@ -17,8 +20,10 @@ class TourRegisterBridge(
 
     @JavascriptInterface
     fun moveFromTourRegisterToTourDetailFragment(tourId: Int, navId: Int) {
-        fragment.moveFromTourRegisterToTourDetailFragment(tourId, navId)
-        Log.d(TAG, "moveFromTourRegisterToTourDetailFragment: $tourId ,$navId")
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.moveFromTourRegisterToTourDetailFragment(tourId, navId)
+            Log.d(TAG, "moveFromTourRegisterToTourDetailFragment: $tourId ,$navId")
+        }
     }
 
     @JavascriptInterface
