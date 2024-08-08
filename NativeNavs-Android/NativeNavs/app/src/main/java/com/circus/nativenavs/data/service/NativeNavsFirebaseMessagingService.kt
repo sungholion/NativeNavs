@@ -27,7 +27,7 @@ class NativeNavsFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.d(TAG, "onMessageReceived: $message")
+        Log.d(TAG, "onMessageReceived: ${message.data}")
 
         // data - 백그라운드
         if (message.data.isNotEmpty()) {

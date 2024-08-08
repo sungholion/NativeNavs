@@ -45,7 +45,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
-//        chattingViewModel.setChatRoomId(args.chatId)
         chattingViewModel.getChatMessages(args.chatId)
         chattingViewModel.connectWebSocket()
     }
@@ -98,36 +97,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initAdapter() {
-//        val messageList = arrayListOf(
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = SharedPref.userId!!,
-//                senderNickname = "현진",
-//                senderProfileImage = "",
-//                content = "안녕하세요",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = 1,
-//                senderNickname = "아린",
-//                senderProfileImage = "",
-//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = 1,
-//                senderNickname = "아린",
-//                senderProfileImage = "",
-//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//        )
-//        chattingViewModel.setMessages(messageList)
         binding.chatMessageRv.adapter = messageListAdapter
     }
 

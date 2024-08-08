@@ -76,6 +76,7 @@ class HomeActivityViewModel : ViewModel() {
         // MultipartBody.Part 생성
         return MultipartBody.Part.createFormData(name, "empty_image.png", requestBody)
     }
+
     fun updateUser(image: MultipartBody.Part?) {
         viewModelScope.launch {
             val userJson = Gson().toJson(_profileModifyUser.value)
@@ -161,10 +162,9 @@ class HomeActivityViewModel : ViewModel() {
     }
 
 
-
     // search
     private val _searchTravel = MutableLiveData<String>("")
-    val searchTravel : LiveData<String> get() = _searchTravel
+    val searchTravel: LiveData<String> get() = _searchTravel
 
     private val _searchDate = MutableLiveData<String>()
     val searchDate: LiveData<String> get() = _searchDate
@@ -220,6 +220,35 @@ class HomeActivityViewModel : ViewModel() {
             if (it.isChecked) list.add(it.id)
         }
         _searchTheme.value = list
+    }
+
+    //notification
+    private val _notiFlag = MutableLiveData<Int>(-1)
+    val notiFlag: LiveData<Int> get() = _notiFlag
+
+    private val _notiRoomId = MutableLiveData<Int>(-1)
+    val notiRoomId: LiveData<Int> get() = _notiRoomId
+
+    private val _notiReservationId = MutableLiveData<Int>(-1)
+    val notiReservationId: LiveData<Int> get() = _notiReservationId
+
+    private val _notiTourId = MutableLiveData<Int>(-1)
+    val notiTourId: LiveData<Int> get() = _notiTourId
+
+    fun setNotiFlag(flag: Int) {
+        _notiFlag.value = flag
+    }
+
+    fun setNotiRoomId(roomId: Int) {
+        _notiRoomId.value = roomId
+    }
+
+    fun setNotiReservationId(reservationId: Int) {
+        _notiReservationId.value = reservationId
+    }
+
+    fun setNotiTourId(tourId: Int) {
+        _notiTourId.value = tourId
     }
 
 

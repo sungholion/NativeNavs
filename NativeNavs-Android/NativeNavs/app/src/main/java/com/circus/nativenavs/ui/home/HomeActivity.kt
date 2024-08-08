@@ -24,47 +24,11 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
-    private val homeActivityViewModel : HomeActivityViewModel by viewModels()
-    private val chattingViewModel : KrossbowChattingViewModel by viewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by viewModels()
+    private val chattingViewModel: KrossbowChattingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (intent != null) {
-            val flag = intent.getIntExtra("flag", -1)
-            when (flag) {
-                1 -> { // 채팅 -> 룸id 필요
-                    val roomId = intent.getIntExtra("roomId", -1)
-                    if (roomId != -1) {
-//                        findNavController(R.id.home_fcv).navigate(R.id.)
-                    }
-                }
-
-                2 -> { // 예약 신청 완료 -> 예약, 투어 id
-                    val reservationId = intent.getIntExtra("reservationId", -1)
-                    val tourId = intent.getIntExtra("tourId", -1)
-                    if (reservationId != -1 && tourId != -1) {
-
-                    }
-                }
-
-                3 -> { // 투어 종료 -> 예약, 투어 id
-                    val reservationId = intent.getIntExtra("reservationId", -1)
-                    val tourId = intent.getIntExtra("tourId", -1)
-                    if (reservationId != -1 && tourId != -1) {
-
-                    }
-                }
-
-                4 -> { // 투어 예정 알림 -> 예약, 투어 id
-                    val reservationId = intent.getIntExtra("reservationId", -1)
-                    val tourId = intent.getIntExtra("tourId", -1)
-                    if (reservationId != -1 && tourId != -1) {
-
-                    }
-                }
-            }
-        }
 
         initData()
         initView()
@@ -76,6 +40,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         homeActivityViewModel.getUser(SharedPref.userId!!)
         homeActivityViewModel.updateLanguageList()
         homeActivityViewModel.updateCategoryList()
+
+        if (intent != null) {
+            homeActivityViewModel.setNotiFlag(intent.getIntExtra("flag", -1))
+            homeActivityViewModel.setNotiRoomId(intent.getIntExtra("roomId", -1))
+            homeActivityViewModel.setNotiReservationId(intent.getIntExtra("reservationId", -1))
+            homeActivityViewModel.setNotiTourId(intent.getIntExtra("tourId", -1))
+        }
     }
 
     private fun initView() {
