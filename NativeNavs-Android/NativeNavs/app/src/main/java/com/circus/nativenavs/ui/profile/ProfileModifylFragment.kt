@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
@@ -41,9 +42,8 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
-    private var body :MultipartBody.Part? = null
     private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
-
+    private var clicked: Boolean = false
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -76,13 +76,15 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
     private fun initViewModelEvent() {
         homeActivityViewModel.apply {
             updateStatus.observe(viewLifecycleOwner) { statusCode ->
-                if(statusCode != -1){
+                clicked = false
+                if (statusCode != -1) {
                     when (statusCode) {
                         200 -> {
                             showToast("업데이트 성공")
                             updateUserNickName(binding.profileModifyNicknameEt.text.toString())
                             updateUserPhone(binding.profileModifyPhoneEt.text.toString())
                             updateStatusCode(-1)
+                            getProfileUser(SharedPref.userId!!)
                             popBackStack()
                         }
 
@@ -120,6 +122,13 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                 if (languageList != LanguageListDto(emptyList())) binding.profileModifySelectedLanguageTv.text =
                     languageList.language.joinToString(", ")
             }
+
+            body.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    binding.profileModifyUserImgIv.setImageURI(imageUri.value)
+                }
+            }
+
         }
     }
 
@@ -127,21 +136,27 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
         homeActivityViewModel.updateNickNameCheck(true)
         binding.apply {
-            homeActivityViewModel.profileUser.value?.let {
+            homeActivityViewModel.let { vm ->
+                vm.profileUser.value?.let {
 
-                Glide.with(requireContext())
-                    .load(it.image)
-                    .placeholder(R.drawable.logo_nativenavs)
-                    .error(R.drawable.logo_nativenavs)
-                    .fallback(R.drawable.logo_nativenavs)
-                    .into(binding.profileModifyUserImgIv)
+                    if (homeActivityViewModel.body.value != null) {
+                        binding.profileModifyUserImgIv.setImageURI(vm.imageUri.value)
+                    } else {
+                        Glide.with(requireContext())
+                            .load(it.image)
+                            .placeholder(R.drawable.logo_nativenavs)
+                            .error(R.drawable.logo_nativenavs)
+                            .fallback(R.drawable.logo_nativenavs)
+                            .into(binding.profileModifyUserImgIv)
+                    }
 
-                profileModifyNameEt.setText(it.name)
-                profileModifyNicknameEt.setText(it.nickname)
-                profileModifyNationalityEt.setText(it.nation)
-                profileModifyBirthEt.setText(it.birth.substring(0, 9))
-                profileModifySelectedLanguageTv.setText(it.userLanguage)
-                profileModifyPhoneEt.setText(it.phone)
+                    profileModifyNameEt.setText(it.name)
+                    profileModifyNicknameEt.setText(it.nickname)
+                    profileModifyNationalityEt.setText(it.nation)
+                    profileModifyBirthEt.setText(it.birth.substring(0, 9))
+                    profileModifySelectedLanguageTv.setText(it.userLanguage)
+                    profileModifyPhoneEt.setText(it.phone)
+                }
             }
         }
 
@@ -152,9 +167,11 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
     private fun openImagePicker() {
         getImageLauncher.launch("image/*")
     }
+
     private fun uriToFile(context: Context, uri: Uri): File {
         val contentResolver = context.contentResolver
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
+        val file =
+            File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
 
         contentResolver.openInputStream(uri)?.use { inputStream ->
             FileOutputStream(file).use { outputStream ->
@@ -165,9 +182,13 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                 }
             }
         }
-        Log.d("FileConversion", "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes")
+        Log.d(
+            "FileConversion",
+            "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes"
+        )
         return file
     }
+
     private fun compressImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
         val compressedFile = File(file.parent, "compressed_${file.name}")
@@ -176,11 +197,9 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         }
         return compressedFile
     }
+
     // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
-        Log.d("YourFragment", "Selected Image URI: $imageUri")
-        binding.profileModifyUserImgIv.setImageURI(imageUri)
-
         var file = uriToFile(requireContext(), imageUri)
 
         val maxSize = 10 * 1024 * 1024 // 10MB
@@ -196,49 +215,64 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         Log.d("handle", "handleImage: ${file.length()}")
         // 파일을 MultipartBody.Part로 변환
         val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
-        body = MultipartBody.Part.createFormData("profileImage", file.name, requestFile)
-
+        homeActivityViewModel.updateImageFile(
+            MultipartBody.Part.createFormData(
+                "profileImage",
+                file.name,
+                requestFile
+            ), imageUri
+        )
 
     }
+
     // ActivityResultLauncher 선언
-    private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { handleImage(it) }
-    }
+    private val getImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { handleImage(it) }
+        }
 
     fun initEvent() {
         binding.profileModifyUserImgCv.setOnClickListener {
             openImagePicker()
         }
         binding.profileModifyCompleteBtn.setOnClickListener {
-
-            val password = binding.profileModifyPasswordEt.text.toString()
-            val passwordCheck = binding.profileModifyPasswordCheckEt.text.toString()
-            if (!isPasswordValid(password)) {
-                showToast(getString(R.string.profile_password_message))
-            } else if (passwordCheck != password) {
-                showToast(getString(R.string.profile_password_check_message))
-            } else if (homeActivityViewModel.nicknameCheck.value == false) showToast(getString(R.string.profile_nickname_check))
+            if (clicked) showToast("잠시만 기다려 주세요")
             else {
-                homeActivityViewModel.let {
-                    binding.apply {
-                        it.updateProfileModifyUser(
-                            SignUpDto(
-                                email = it.userDto.value!!.email,
-                                password = profileModifyPasswordEt.text.toString(),
-                                isNav = it.userDto.value!!.isNav,
-                                nickname = profileModifyNicknameEt.text.toString(),
-                                userLanguage = profileModifySelectedLanguageTv.text.toString(),
-                                name = it.userDto.value!!.name,
-                                phone = profileModifyPhoneEt.text.toString(),
-                                nation = it.userDto.value!!.nation,
-                                birth = it.userDto.value!!.birth,
-                                device = it.userDto.value!!.device,
-                                image = it.userDto.value!!.image,
-                                isKorean = it.userDto.value!!.korean
+                clicked = true
+                val password = binding.profileModifyPasswordEt.text.toString()
+                val passwordCheck = binding.profileModifyPasswordCheckEt.text.toString()
+                if (!isPasswordValid(password)) {
+                    clicked = false
+                    showToast(getString(R.string.profile_password_message))
+                } else if (passwordCheck != password) {
+                    showToast(getString(R.string.profile_password_check_message))
+                    clicked = false
+                } else if (homeActivityViewModel.nicknameCheck.value == false){
+                    showToast(getString(R.string.profile_nickname_check))
+                    clicked = false
+                }
+                else {
+                    homeActivityViewModel.let {
+                        binding.apply {
+                            it.updateProfileModifyUser(
+                                SignUpDto(
+                                    email = it.userDto.value!!.email,
+                                    password = profileModifyPasswordEt.text.toString(),
+                                    isNav = it.userDto.value!!.isNav,
+                                    nickname = profileModifyNicknameEt.text.toString(),
+                                    userLanguage = profileModifySelectedLanguageTv.text.toString(),
+                                    name = it.userDto.value!!.name,
+                                    phone = profileModifyPhoneEt.text.toString(),
+                                    nation = it.userDto.value!!.nation,
+                                    birth = it.userDto.value!!.birth,
+                                    device = it.userDto.value!!.device,
+                                    image = it.userDto.value!!.image,
+                                    isKorean = it.userDto.value!!.korean
+                                )
                             )
-                        )
+                        }
+                        it.updateUser()
                     }
-                    it.updateUser(body)
                 }
             }
         }

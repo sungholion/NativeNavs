@@ -1,6 +1,8 @@
 package com.circus.nativenavs.ui.home
 
+import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,9 +32,18 @@ class HomeActivityViewModel : ViewModel() {
     private val _profileUser = MutableLiveData<ProfileUserDto>()
     val profileUser: LiveData<ProfileUserDto> get() = _profileUser
 
-
     private val _userDto = MutableLiveData<ProfileUserDto>()
     val userDto: LiveData<ProfileUserDto> get() = _userDto
+
+    private var _body = MutableLiveData<MultipartBody.Part?>(null)
+    val body : LiveData<MultipartBody.Part?> get() = _body
+    private var _imageUri = MutableLiveData<Uri>()
+
+    val imageUri : LiveData<Uri> = _imageUri
+    fun updateImageFile(image :MultipartBody.Part, uri : Uri){
+        _imageUri.value = uri
+        _body.value = image
+    }
 
     fun updateUserNickName(nick: String) {
         _userDto.value?.nickname = nick
@@ -78,17 +89,17 @@ class HomeActivityViewModel : ViewModel() {
         // MultipartBody.Part 생성
         return MultipartBody.Part.createFormData(name, "empty_image.png", requestBody)
     }
-    fun updateUser(image: MultipartBody.Part?) {
+    fun updateUser() {
         viewModelScope.launch {
             val userJson = Gson().toJson(_profileModifyUser.value)
             val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
             val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
             // image가 null인 경우 빈 이미지 파일 생성
-            val imagePart = image ?: createEmptyImagePart("profileImage")
+            val imagePart = _body.value ?: createEmptyImagePart("profileImage")
 
-            Log.d("notaaaaaaa", "updateUser: ${image}")
+            Log.d("notaaaaaaa", "updateUser: ${_body.value}")
 
-            Log.d("update", "updateUser: ${image}")
+            Log.d("update", "updateUser: ${_body.value}")
             Log.d("update", "updateUser: ${_profileModifyUser.value}")
             val response = userRetrofit.updateUser(requestBody, imagePart)
             _updateStatus.value = response?.code()
