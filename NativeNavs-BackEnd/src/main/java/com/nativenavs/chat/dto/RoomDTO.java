@@ -29,7 +29,7 @@ public class RoomDTO {
 
     public static RoomDTO toRoomDTO(RoomEntity roomEntity){
         RoomDTO roomDTO = new RoomDTO();
-        roomDTO.setRoomId(roomEntity.getId());
+        roomDTO.setRoomId(roomEntity.getRoomId());
         roomDTO.setTourId(roomEntity.getTourId());
         roomDTO.setTourTitle(roomEntity.getTourTitle());
         roomDTO.setTourRegion(roomEntity.getTourRegion());
