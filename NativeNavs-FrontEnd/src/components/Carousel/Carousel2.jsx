@@ -93,21 +93,21 @@ export default function Carousel2({
             <div className={styles.tourRightInfo}>
               <div className={styles.navImageNickname}>
                 <img
-                  src={tour.navImage}
+                  src={tour.image}
                   alt="Nav 이미지"
                   className={styles.navImage}
                 />
-                <p className={styles.navNickname}>{tour.navNickname}</p>
+                <p className={styles.navNickname}>{tour.guide.nickname}</p>
               </div>
               <div className={styles.navLanguage}>
                 🌏
                 <p className={styles.navLanguageText}>
-                        {formattedLanguages.length === 1
-                          ? formattedLanguages[0]
-                          : `${formattedLanguages[0]} 외 ${
-                              formattedLanguages.length - 1
-                            }개국어`}
-                      </p>
+                  {formattedLanguages.length === 1
+                    ? formattedLanguages[0]
+                    : `${formattedLanguages[0]} 외 ${
+                        formattedLanguages.length - 1
+                      }개국어`}
+                </p>
               </div>
             </div>
           </div>
