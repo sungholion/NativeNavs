@@ -192,7 +192,7 @@ class ProfileFragment :
                         review.map { it }.take(3).forEach { dto ->
                             reviewList.removeAll(reviewList)
                             reviewList.add(ProfileReviewDto(
-                                dto.score,
+                                dto.score.toInt(),
                                 formatDate(dto.createdAt.toString()),
                                 dto.description,
                                 dto.imageUrls[0],

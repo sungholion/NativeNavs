@@ -21,12 +21,9 @@ import com.circus.nativenavs.databinding.FragmentReviewRegisterBinding
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourRegisterBridge
-import com.circus.nativenavs.ui.tour.TourRegisterFragmentDirections
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
-import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 private const val TAG = "ReviewRegisterFragment"

@@ -7,6 +7,9 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.review.ReviewListFragment
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReservationListBridge (
     private val homeActivity: HomeActivity,
@@ -16,7 +19,10 @@ class ReservationListBridge (
 
     @JavascriptInterface
     fun navigateToReservationListFragmentReservationDetail(tourId: Int, reservationId : Int) {
-        fragment.navigateToReservationListFragmentReservationDetail(tourId,reservationId)
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToReservationListFragmentReservationDetail(tourId,reservationId)
+        }
+
     }
 
 

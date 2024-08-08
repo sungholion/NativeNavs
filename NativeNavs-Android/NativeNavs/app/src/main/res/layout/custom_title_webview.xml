@@ -29,11 +29,11 @@
             tools:text="@string/booking_page_title" />
 
         <ImageView
-            android:id="@+id/custom_webview_title_noti_iv"
+            android:id="@+id/custom_webview_title_qr_iv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/margin_horizontal_page"
-            android:src="@drawable/icon_notifications"
+            android:src="@drawable/icon_qr"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/custom_webview_title_tv"
             app:layout_constraintEnd_toEndOf="parent"

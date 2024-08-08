@@ -11,7 +11,7 @@ data class Reviewer(
     val korean: Boolean,
     val name: String,
     val nation: String,
-    val navReviewAverage: Int,
+    val navReviewAverage: Double,
     val navReviewCount: Int,
     val nickname: String,
     val password: String,

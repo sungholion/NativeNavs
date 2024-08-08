@@ -1,7 +1,6 @@
 package com.circus.nativenavs.ui.tour
 
 import android.content.Context
-import android.graphics.Path.Direction
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,7 +19,6 @@ import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
-import kotlin.math.log
 
 private const val TAG = "싸피_TourDetailFragment"
 

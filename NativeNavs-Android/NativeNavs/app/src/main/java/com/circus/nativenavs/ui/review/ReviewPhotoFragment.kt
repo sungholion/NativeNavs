@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
-import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.databinding.FragmentReviewPhotoBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView

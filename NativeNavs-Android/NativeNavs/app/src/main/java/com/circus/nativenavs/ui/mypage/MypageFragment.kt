@@ -114,35 +114,7 @@ class MypageFragment :
 
             builder.show()
         }
-        binding.mypageQrTestCl.setOnClickListener {
-            startQRCodeScan()
-        }
-        binding.mypageQrCreateCl.setOnClickListener {
-            startActivity(Intent(requireContext(),QRCreateActivity::class.java).apply {
-                action = "17"
-            })
-        }
 
-    }
-
-    private fun startQRCodeScan() {
-        IntentIntegrator.forSupportFragment(this).apply {
-            setOrientationLocked(true)
-            setPrompt("Scan a QR Code")
-            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            setCaptureActivity(CustomCaptureActivity::class.java)
-            initiateScan()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        intentResult?.contents?.let {
-            // Handle the scanned result here
-            showToast(it)
-        }
     }
 
 }

@@ -6,6 +6,6 @@ data class Review(
     val id: Int,
     val imageUrls: List<String>,
     val reviewer: Reviewer,
-    val score: Int,
+    val score: Double,
     val tourTitle: String
 )

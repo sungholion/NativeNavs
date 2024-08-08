@@ -15,8 +15,6 @@ import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailBridge
-import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
