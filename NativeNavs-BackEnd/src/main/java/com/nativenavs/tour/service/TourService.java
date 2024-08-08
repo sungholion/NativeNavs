@@ -215,47 +215,37 @@ public class TourService {
     }
 
     private void updateTourPlans(TourEntity tourEntity, List<PlanRequestDTO> plans, List<MultipartFile> planImages) {
-        //해당 투어플랜
+        // 기존 플랜 가져오기
         List<PlanEntity> currentPlans = planRepository.findByTourId(tourEntity.getId());
+
+        // 기존 플랜을 모두 삭제
+        planRepository.deleteAll(currentPlans);
 
         int imageIndex = 0;
 
-        for (int i = 0; i < plans.size(); i++) {
-            PlanRequestDTO planDTO = plans.get(i);
-            PlanEntity planEntity = null;
-            // 기존 플랜 수정 또는 새로운 플랜 추가
-            if (i < currentPlans.size()) {
-                planEntity = currentPlans.get(i);
-            } else {
-                planEntity = new PlanEntity();
-                planEntity.setTourId(tourEntity);
-            }
+        // 새로운 플랜 저장
+        for (PlanRequestDTO planDTO : plans) {
+            PlanEntity planEntity = new PlanEntity();
+            planEntity.setTourId(tourEntity);
             planEntity.setField(planDTO.getField());
             planEntity.setDescription(planDTO.getDescription());
-            // 이미지가 제공된 경우에만 처리
-            if (planImages != null && imageIndex < planImages.size() && planImages.get(imageIndex) != null) {
-                MultipartFile image = planImages.get(imageIndex);
-                if (!image.isEmpty()) {
-                    if (planEntity.getImage() != null) {
-                        awsS3ObjectStorageUpload.deleteFile(planEntity.getImage());
-                    }
-                    String imageUrl = awsS3ObjectStorageUpload.uploadFile(image);
-                    planEntity.setImage(imageUrl);
-                }
-                imageIndex++;
-            }
             planEntity.setLatitude(planDTO.getLatitude());
             planEntity.setLongitude(planDTO.getLongitude());
             planEntity.setAddressFull(planDTO.getAddressFull());
 
-            planRepository.save(planEntity);
-        }
-
-        // 남은 기존 플랜 삭제
-        if (plans.size() < currentPlans.size()) {
-            for (int i = plans.size(); i < currentPlans.size(); i++) {
-                planRepository.delete(currentPlans.get(i));
+            // 플랜 이미지 처리
+            if (planDTO.getImage() != null && !planDTO.getImage().isEmpty()) {
+                // 기존 플랜의 이미지가 있는 경우 그대로 사용
+                planEntity.setImage(planDTO.getImage());
+            } else if (planImages != null && imageIndex < planImages.size() && planImages.get(imageIndex) != null && !planImages.get(imageIndex).isEmpty()) {
+                // 새 플랜에 대한 이미지 업로드 처리
+                String imageUrl = awsS3ObjectStorageUpload.uploadFile(planImages.get(imageIndex));
+                planEntity.setImage(imageUrl);
+                imageIndex++;
             }
+
+            // 플랜 엔티티 저장
+            planRepository.save(planEntity);
         }
     }
 

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class ParticipantDTO {
     private String userImage;
     private String userNickName;
+    private int reservationId;
     private LocalDate reservationDate;
     private String reservationNumber;
     private int participantCount;
