@@ -128,7 +128,9 @@
             app:destination="@id/tourModifyFragment" />
         <action
             android:id="@+id/action_tourDetailFragment_to_tourListFragment"
-            app:destination="@id/tourListFragment" />
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@layout/fragment_tour_list"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
