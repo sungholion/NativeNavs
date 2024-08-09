@@ -45,7 +45,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onResume() {
         super.onResume()
         homeActivity.hideBottomNav(false)
-//        chattingViewModel.setChatRoomId(args.chatId)
         chattingViewModel.getChatMessages(args.chatId)
         chattingViewModel.connectWebSocket()
     }
@@ -85,7 +84,12 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         }
 
         binding.chatTourBookLl.setOnClickListener {
-            navigate(R.id.action_chattingRoomFragment_to_reservationRegisterFragment)
+            val action =
+                ChattingRoomFragmentDirections.actionChattingRoomFragmentToReservationRegisterFragment(
+                    tourId = chattingViewModel.currentChatRoom.value!!.tourId,
+                    travId = chattingViewModel.currentChatRoom.value!!.senderId
+                )
+            navigate(action)
         }
 
         binding.chatTourCallLl.setOnClickListener {
@@ -95,6 +99,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 
     private fun initView() {
         binding.chatRoom = chattingViewModel.currentChatRoom.value!!
+        binding.chatTourBookLl.visibility = if (SharedPref.isNav!!) View.VISIBLE else View.GONE
     }
 
     private fun initAdapter() {

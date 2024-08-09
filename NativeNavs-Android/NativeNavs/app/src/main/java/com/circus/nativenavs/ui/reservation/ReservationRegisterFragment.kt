@@ -108,7 +108,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
 
             }
 
-        val url = WEBURL + "reservation/create/${args.tourId}"
+        val url = WEBURL + "reservation/${args.tourId}/create/${args.travId}"
         Log.d(TAG, "initCustomView: $url")
         binding.reservationRegisterCustomWv.loadWebViewUrl(url)
 
