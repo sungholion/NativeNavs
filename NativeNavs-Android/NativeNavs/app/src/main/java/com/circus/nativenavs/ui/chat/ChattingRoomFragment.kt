@@ -100,6 +100,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initView() {
+        binding.userId = SharedPref.userId
         binding.chatRoom = chattingViewModel.currentChatRoom.value!!
         binding.chatTourBookLl.visibility = if (SharedPref.isNav!!) View.VISIBLE else View.GONE
     }
