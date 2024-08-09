@@ -6,3 +6,8 @@
 .ReservationList {
     padding: 10px;
 }
+
+.ReservationCount {
+    display: flex;
+    justify-content: center;
+}

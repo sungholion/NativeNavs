@@ -7,7 +7,7 @@ import styles from "./ReviewPhotos.module.css";
 const ReviewPhotos = () => {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState("");
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -16,14 +16,14 @@ const ReviewPhotos = () => {
     totalImageCount: 0,
   });
 
-  const handlePhotoClick = (photo) => {
-    setSelectedPhoto(photo);
+  const handlePhotoClick = (index) => {
+    setSelectedPhotoIndex(index);
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    setSelectedPhoto("");
+    setSelectedPhotoIndex(0);
   };
 
   // FE -> BE : ReviewData API 요청
@@ -51,11 +51,19 @@ const ReviewPhotos = () => {
           src={photo}
           alt={`리뷰 사진 ${index + 1}`}
           className={styles.photo}
-          onClick={() => handlePhotoClick(photo)}
+          onClick={() => handlePhotoClick(index)}
         />
       ))}
 
-      <Modal show={showModal} onClose={closeModal} photo={selectedPhoto} />
+      {showModal && (
+        <Modal
+          show={showModal}
+          onClose={closeModal}
+          photos={reviewData.imageUrls}
+          selectedPhotoIndex={selectedPhotoIndex}
+          setSelectedPhotoIndex={setSelectedPhotoIndex}
+        />
+      )}
     </div>
   );
 };

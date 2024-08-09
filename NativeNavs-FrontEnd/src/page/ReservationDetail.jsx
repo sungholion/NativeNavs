@@ -8,11 +8,19 @@ import {
   navigateToReservationDetailChattingRoom,
   navigateBack,
 } from "../utils/get-android-function";
+import Modal2 from "../components/Modal/Modal2";
 
 const ReservationDetail = () => {
   const [tour, setTour] = useState();
   const [user, setUser] = useState();
   const [images, setImages] = useState([]);
+
+  // 모달
+  const [modal, setModal] = useState(false);
+
+  const clickModal = () => {
+    setModal((current) => !current);
+  };
 
   const params = useParams();
   console.log(params.res_id);
@@ -26,7 +34,7 @@ const ReservationDetail = () => {
     }
   }, []);
 
-  // FE -> BE : 예정된 투어 정보 요청
+  // FE -> BE : 투어 정보 요청 api
   const getReservationDetail = async (e) => {
     try {
       const response = await axios.get(
@@ -34,8 +42,6 @@ const ReservationDetail = () => {
         {
           headers: {
             Authorization: user.userToken,
-            // Authorization:
-              // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMwNjQwNTMsImV4cCI6MTcyMzA2NzY1M30.Y_v9RMO9EOTFqRqB77IvYUmg_AZ99O2U_MF8Ptg8QsRMY5Hqj2DdmAQJgP3J5a6if4KtRMb9a_C_Nx8U6cx-Cw",
           },
         }
       );
@@ -48,9 +54,7 @@ const ReservationDetail = () => {
 
   // user 상태가 설정된 후 예정된 투어 요청 함수 호출
   useEffect(() => {
-    // if (user) {
     getReservationDetail();
-    // }
   }, [user]);
 
   // tour 정보를 받아온 후 실행
@@ -60,14 +64,32 @@ const ReservationDetail = () => {
     }
   }, [tour]);
 
-  const formatDate = (date) => {
-    const dateObj = new Date(date);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    return `${year} / ${month} / ${day}`;
+  // FE -> BE : 투어 예약 취소 api
+  const cancelTourReservation = async (e) => {
+    try {
+      const response = await axios.post(
+        `https://i11d110.p.ssafy.io/api/reservations/${params.res_id}/cancel`,
+        {}, // 빈 객체를 데이터로 전달 -> 세 번째 인자 headers를 전달해야하므로!
+        {
+          headers: {
+            Authorization: user.userToken,
+          },
+        }
+      );
+      console.log("투어 예약 취소 결과:", response.data);
+    } catch (error) {
+      console.error("투어 예약 취소 실패:", error);
+    }
   };
 
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+  };
+
+  // time formatting
   const formatTime = (time) => {
     const dateObj = new Date(`1970-01-01T${time}Z`);
     const hours = dateObj.getUTCHours();
@@ -76,20 +98,6 @@ const ReservationDetail = () => {
     const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
     return `${formattedHours}:${minutes} ${period}`;
   };
-
-  // 예약 번호 생성(임시)
-  const generateReservationNumber = (length) => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
-  const reservationNumber = generateReservationNumber(16);
-
 
   return (
     <div>
@@ -106,7 +114,9 @@ const ReservationDetail = () => {
                 <p className={styles.value2}>
                   {formatDate(tour.reservationDate)}
                 </p>
-                <p className={styles.value2}>{tour.meetingStartAt}</p>
+                <p className={styles.value2}>
+                  {formatTime(tour.meetingStartAt)}
+                </p>
               </div>
               <div className={styles.tourInfoTopTextRight}>
                 <p className={styles.value1}>만남 시작</p>
@@ -116,16 +126,23 @@ const ReservationDetail = () => {
                 <p className={styles.value2}>{formatTime(tour.meetingEndAt)}</p>
               </div>
             </div>
-            {/* 채팅 아이디 수정 필요 */}
+            {/* 채팅 아이디 수정 필요 ★★★★★★★★★★★★★★ */}
             <div
               onClick={() => navigateToReservationDetailChattingRoom()}
               className={styles.tourInfoTopTextBottom}
             >
               <img className={styles.messageBox} src={messageBox} alt="" />
-              <div>
-                <p className={styles.value3}>Nav에게 메세지 남기기</p>
-                <p className={styles.value4}>{tour.guide.nickname}님</p>
-              </div>
+              {user && user.isNav == true ? (
+                <div>
+                  <p className={styles.value3}>Trav에게 메세지 남기기</p>
+                  <p className={styles.value4}>{tour.participant.nickname}님</p>
+                </div>
+              ) : (
+                <div>
+                  <p className={styles.value3}>Nav에게 메세지 남기기</p>
+                  <p className={styles.value4}>{tour.guide.nickname}님</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -144,7 +161,7 @@ const ReservationDetail = () => {
             <div className={styles.tourInfoBottominfoItem}>
               <p className={styles.tourInfoBottominfoItemTitle}>예약 번호</p>
               <p className={styles.tourInfoBottominfoItemContent}>
-                {reservationNumber}
+                {tour.reservationNumber}
               </p>
             </div>
             <div className={styles.tourInfoBottominfoItem}>
@@ -163,8 +180,18 @@ const ReservationDetail = () => {
               </p>
             </div>
             <div className={styles.buttonContainer}>
-              <button className={styles.reserveButton}>예약 취소</button>
-              
+              {!modal ? (
+                <button onClick={clickModal} className={styles.reserveButton}>
+                  예약 취소
+                </button>
+              ) : (
+                <Modal2
+                  cancelTourReservation={cancelTourReservation}
+                  navigateBack={navigateBack}
+                  clickModal={clickModal}
+                  className={styles.reserveButton}
+                />
+              )}
             </div>
           </div>
         </>

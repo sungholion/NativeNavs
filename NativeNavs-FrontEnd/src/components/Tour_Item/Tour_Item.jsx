@@ -17,6 +17,7 @@ const Tour_Item = ({
   navigateFragment,
   user,
   wishList,
+  userLanguages,
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
@@ -27,8 +28,10 @@ const Tour_Item = ({
 
   // 투어 클릭 이벤트
   const onClickTour = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
+    console.log(parseInt(tourId));
+    console.log(userId);
+    console.log(user);
     navigateFragment(parseInt(tourId), parseInt(userId));
   };
 
@@ -64,6 +67,18 @@ const Tour_Item = ({
     }
   };
 
+  // NavLanguages 관리 state : 문자열을 배열로 변환
+  const [navLanguages, setNavLanguages] = useState([]);
+  useEffect(() => {
+    if (userLanguages) {
+      const userLanguageList = userLanguages
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguageList);
+      console.log(navLanguages);
+    }
+  }, [userLanguages]);
+
   return (
     <div className={styles.Tour_Item} onClick={onClickTour}>
       <div className={styles.thumbnail_container}>
@@ -79,23 +94,35 @@ const Tour_Item = ({
         )}
       </div>
 
-      <section className={styles.tour_info}>
-        <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{title}</p>
-          <p className={styles.tour_duration}>
-            {startDate} ~ {endDate}
-          </p>
-          <Rating avg={reviewAverage} />
-        </div>
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav}>
-            <img
-              src={nav_profile_img}
-              alt={nickname}
-              className={styles.nav_img}
-            />
-            <p style={{ cursor: "pointer" }}>{nickname}</p>
+      <section className={styles.infoContainer}>
+        <div className={styles.infoTopContainer}>
+          <div className={styles.infoTopLeftContainer}>
+            <p className={styles.tour_title}>{title}</p>
+            <p className={styles.tour_duration}>
+              {startDate} ~ {endDate}
+            </p>
           </div>
+          <div className={styles.infoTopRightContainer}>
+            <div className={styles.tour_nav}>
+              <img
+                src={nav_profile_img}
+                alt={nickname}
+                className={styles.nav_img}
+              />
+              <p className={styles.tour_nav}>{nickname}</p>
+            </div>
+          </div>
+        </div>
+        <div className={styles.infoBottomContainer}>
+          <Rating reviewAverage={reviewAverage} />
+
+          {navLanguages.length > 1 ? (
+            <p className={styles.navLanguages}>
+              🌏 {navLanguages[0]} 외 {navLanguages.length - 1}개
+            </p>
+          ) : (
+            <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
+          )}
         </div>
       </section>
     </div>

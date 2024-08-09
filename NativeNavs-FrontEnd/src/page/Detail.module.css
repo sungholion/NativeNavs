@@ -92,16 +92,19 @@
 
 .navInfo {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
 
 .navInfo_inner {
   display: flex;
+  align-items: center;
   margin: 20px;
-  width: 250px;
+  width: 100%;
 }
 
 .navInfoImage {
@@ -112,24 +115,31 @@
 }
 
 .nav_img {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   border-radius: 70%;
   border: 1px solid #d9d9d9;
 }
 
 .navInfoText * {
-  width: 200px;
+  width: 100%;
   font-weight: bold;
 }
 
 .navNickname {
+  display: flex;
+  align-items: center;
   margin-bottom: 0px;
 }
 
 .navLanguage {
   margin-top: 2px;
   font-size: 15px;
+}
+
+.NativeNavs {
+  width: 19px;
+  height: 19px;
 }
 
 /* 투어 일정 */

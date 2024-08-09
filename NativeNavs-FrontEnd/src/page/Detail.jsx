@@ -13,6 +13,7 @@ import {
   navigateToTourModifyFragment,
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
+import NativeNavs from "@/assets/NativeNavs.png";
 
 const Detail = () => {
   const params = useParams();
@@ -89,7 +90,7 @@ const Detail = () => {
     fetchTour();
   }, [user]);
 
-  // NavLanguages 관리 state
+  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
@@ -152,13 +153,12 @@ const Detail = () => {
     }
   };
 
-  // Date 객체 formatting
-  const formattedStartDate = tour.startDate
-    ? new Date(tour.startDate).toLocaleDateString()
-    : "N/A";
-  const formattedEndDate = tour.endDate
-    ? new Date(tour.endDate).toLocaleDateString()
-    : "N/A";
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+  };
 
   // price 변수 fotmatting
   const formattedPrice = tour.price.toLocaleString();
@@ -212,7 +212,7 @@ const Detail = () => {
             최대 인원 : {tour.maxParticipants}명
           </p>
           <p className={styles.tour_duration}>
-            {formattedStartDate} ~ {formattedEndDate}
+            {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </p>
         </div>
 
@@ -256,13 +256,14 @@ const Detail = () => {
           <div className={styles.navInfoText}>
             {tour && tour.user ? (
               <p className={styles.navNickname}>
-                Navs : {tour.user.nickname}님
+                <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
+                (Nav) : {tour.user.nickname}님
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              언어 : {navLanguages.join(", ")}
+              🌏(Language) : {navLanguages.join(", ")}
             </p>
           </div>
         </div>
