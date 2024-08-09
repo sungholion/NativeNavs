@@ -87,8 +87,9 @@ interface UserService {
         @Path(value = "travId") guideId : Int
     ) : ProfileUserReviewDto
 
-    @GET("users/fcm")
+    @PUT("users/fcmToken")
     suspend fun postFcmToken(
-        @Body fcmToken: Map<String, String>
+        @Query("userId") userId: Int,
+        @Query("fcmToken") fcmToken: String
     ): Response<Void>
 }
