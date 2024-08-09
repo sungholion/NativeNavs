@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByName(String name);
     Optional<UserEntity> findByEmailAndPassword(String email, String password);
 
+    @Query("SELECT u.fcmToken FROM UserEntity u WHERE u.id = :id")
     String findFcmTokenById(int id);
 
     @Modifying

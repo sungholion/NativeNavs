@@ -78,6 +78,8 @@ public class ReservationController {
         try{
             int userId = getUserIdFromJWT(token);
             ReservationEntity reservationEntity = reservationService.addReservation(reservationRequestDTO, userId);
+            System.out.println("userId : " + userId);
+            System.out.println("reservationEntityId : " + reservationEntity.getId());
             fcmService.sendMessageTo(2, userId, reservationEntity.getId(), -1, -1);
 
             return ResponseEntity.ok("예약 완료");

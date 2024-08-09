@@ -66,6 +66,7 @@ public class FcmServiceImpl implements FcmService {
         ObjectMapper om = new ObjectMapper();
 
         String sendToken = userRepository.findFcmTokenById(userId);
+        System.out.println(sendToken);
         String sendFlag = String.valueOf(flag);
         String sendTitle;
         String sendMessage;
