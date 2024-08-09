@@ -30,6 +30,7 @@ public class UserSearchDTO {
     private int travReservationCount;
     private boolean isKorean;
     private String device;
+    private String fcmToken;
 
     // Entity -> DTO
     public static UserSearchDTO toUserSearchDTO(UserEntity userEntity){
@@ -51,6 +52,7 @@ public class UserSearchDTO {
         userSearchDTO.setTravReservationCount(userEntity.getTravReservationCount());
         userSearchDTO.setKorean(userEntity.isKorean());
         userSearchDTO.setDevice(userEntity.getDevice());
+        userSearchDTO.setFcmToken(userEntity.getFcmToken());
 
         return userSearchDTO;
     }

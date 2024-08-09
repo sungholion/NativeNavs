@@ -1,6 +1,7 @@
 package com.nativenavs.reservation.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.notification.service.FcmService;
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
@@ -23,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +31,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 @Tag(name = "reservation API", description = "reservation")
 public class ReservationController {
+
     private final ReservationService reservationService;
     @Autowired
     private UserService userService;
@@ -39,6 +40,9 @@ public class ReservationController {
     private UserRepository userRepository;
     @Autowired
     private TourRepository tourRepository;
+
+    @Autowired
+    private FcmService fcmService;
 
 
     public ReservationController(ReservationService reservationService) {
@@ -74,6 +78,8 @@ public class ReservationController {
         try{
             int userId = getUserIdFromJWT(token);
             ReservationEntity reservationEntity = reservationService.addReservation(reservationRequestDTO, userId);
+            fcmService.sendMessageTo(2, userId, reservationEntity.getId(), -1, -1);
+
             return ResponseEntity.ok("예약 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요

@@ -1,7 +1,6 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.user.dto.UserDTO;
-import com.nativenavs.user.dto.UserRequestDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,4 +26,6 @@ public interface UserService {
     public UserSearchDTO searchByNickname(String nickname);
 
     public int changeEmailToId(String email);
+
+    public void updateFcmToken(int userId, String fcmToken);
 }
