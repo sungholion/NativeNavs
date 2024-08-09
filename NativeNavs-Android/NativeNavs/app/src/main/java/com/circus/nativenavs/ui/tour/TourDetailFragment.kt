@@ -183,6 +183,6 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     override fun onPause() {
         super.onPause()
-        chattingViewModel.setChatRoomId(-1)
+//        chattingViewModel.setChatRoomId(-1)
     }
 }
