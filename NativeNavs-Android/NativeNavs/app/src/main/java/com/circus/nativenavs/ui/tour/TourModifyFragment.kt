@@ -1,12 +1,18 @@
 package com.circus.nativenavs.ui.tour
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -51,7 +57,26 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
         initCustomView()
         initWebView()
 
+
     }
+
+
+    private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private var fileChooserLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (filePathCallback != null) {
+                    filePathCallback?.onReceiveValue(arrayOf(uri!!))
+                    filePathCallback = null
+                }
+            } else {
+                if (filePathCallback != null) {
+                    filePathCallback?.onReceiveValue(null)
+                    filePathCallback = null
+                }
+            }
+        }
 
     private fun initWebView() {
         binding.tourModifyWv.binding.customWebviewTitleWv.webViewClient = object : WebViewClient() {
@@ -70,6 +95,22 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
             }
 
         }
+        binding.tourModifyWv.binding.customWebviewTitleWv.webChromeClient =
+            object : WebChromeClient() {
+                override fun onShowFileChooser(
+                    webView: WebView?,
+                    filePathCallback: ValueCallback<Array<Uri>>?,
+                    fileChooserParams: FileChooserParams?
+                ): Boolean {
+                    this@TourModifyFragment.filePathCallback = filePathCallback
+
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/*"
+                    fileChooserLauncher.launch(intent)
+                    return true
+                }
+            }
 
         val url = WEBURL + "tour/edit/${args.tourId}"
         Log.d(TAG, "initCustomView: $url")
