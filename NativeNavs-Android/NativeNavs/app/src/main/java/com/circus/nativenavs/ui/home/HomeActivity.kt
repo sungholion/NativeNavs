@@ -34,6 +34,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         initView()
         Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
 
+        homeActivityViewModel.postFcmToken()
     }
 
     private fun initData() {

@@ -13,6 +13,7 @@ import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
+import com.circus.nativenavs.util.SharedPref
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -63,9 +64,9 @@ class HomeActivityViewModel : ViewModel() {
         _updateStatus.value = i
     }
 
-
     private val _profileModifyUser = MutableLiveData<SignUpDto>()
     val profileUserDto: LiveData<SignUpDto> get() = _profileModifyUser
+
     fun createEmptyImagePart(name: String): MultipartBody.Part {
         // 빈 바이트 배열 생성
         val emptyData = ByteArray(0)
@@ -251,5 +252,10 @@ class HomeActivityViewModel : ViewModel() {
         _notiTourId.value = tourId
     }
 
-
+    fun postFcmToken() {
+        viewModelScope.launch {
+            Log.d("fcm", "postFcmToken: ${SharedPref.fcmToken!!}")
+            userRetrofit.postFcmToken(SharedPref.userId!!, SharedPref.fcmToken!!)
+        }
+    }
 }
