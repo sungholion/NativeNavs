@@ -9,7 +9,7 @@ export function navigateToReservationListFragmentReservationDetail(
   if (
     window.Android &&
     typeof window.Android.navigateToReservationListFragmentReservationDetail ===
-    "function"
+      "function"
   ) {
     window.Android.navigateToReservationListFragmentReservationDetail(
       tour_id,
@@ -24,13 +24,18 @@ export function navigateToReservationListFragmentReservationDetail(
 
 // Trav 예약 리스트 페이지 -> 예약 상세 페이지로 이동
 export function navigateToReservationListFragmentTourList() {
-  if (window.Android && typeof window.Android.navigateToReservationListFragmentTourList === 'function') {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToReservationListFragmentTourList ===
+      "function"
+  ) {
     window.Android.navigateToReservationListFragmentTourList();
   } else {
-    console.log('navigateToReservationListFragmentTourList function is not defined');
+    console.log(
+      "navigateToReservationListFragmentTourList function is not defined"
+    );
   }
 }
-
 
 // Trav 예약 상세 페이지 -> 채팅방으로 이동
 export function navigateToReservationDetailChattingRoom(chat_id) {
@@ -90,10 +95,6 @@ export function navigateToTravReviewPhotoFragment(trav_id) {
     console.log("navigateToTravReviewPhotoFragment function is not defined");
   }
 }
-
-
-
-
 
 // 투어
 // 투어 상세 페이지 -> 투어 수정 페이지로 이동
@@ -171,10 +172,6 @@ export function navigateToTourReviewPhotoFragment(tour_id) {
   }
 }
 
-
-
-
-
 // Nav
 // Nav 리뷰 보기로 이동
 export function navigateToNavReviewPhotoFragment(nav_id) {
@@ -212,3 +209,43 @@ export function navigateToReservationDetailFragment(tourId) {
   }
 }
 
+// 투어 수정 성공 -> 그 투어 상세로
+export function navigateFromTourModifyToTourDetailFragment(tourId, navId) {
+  if (
+    window.Android &&
+    typeof window.Android.navigateFromTourModifyToTourDetailFragment ===
+      "function"
+  ) {
+    window.Android.navigateFromTourModifyToTourDetailFragment(tourId, navId);
+  } else {
+    console.log(
+      "navigateFromTourModifyToTourDetailFragment function is not defined"
+    );
+  }
+}
+
+// 투어 수정 실패시 뜨는 정보
+export function showModifyFailDialog() {
+  if (
+    window.Android &&
+    typeof window.Android.showModifyFailDialog === "function"
+  ) {
+    window.Android.showModifyFailDialog();
+  } else {
+    console.log("showModifyFailDialog function is not defined");
+  }
+}
+
+export function navigateToReservationRegisterChattingRoom() {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToReservationRegisterChattingRoom ===
+      "function"
+  ) {
+    window.Android.navigateToReservationRegisterChattingRoom();
+  } else {
+    console.log(
+      "navigateToReservationRegisterChattingRoom function is not defined"
+    );
+  }
+}

@@ -172,6 +172,45 @@
   }
 }
 
+.Res_Description_Section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90vw;
+
+  .Res_Description_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+
+    div {
+      margin-left: 15px;
+      color: #595959;
+    }
+  }
+  h4 {
+    font-size: 5vw;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-self: start;
+  }
+
+  textarea {
+    width: 80vw;
+    align-self: center;
+    height: 30vw;
+    font-size: 5vw;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+}
+
 .Res_ButtonSection {
   display: flex;
   justify-content: center;

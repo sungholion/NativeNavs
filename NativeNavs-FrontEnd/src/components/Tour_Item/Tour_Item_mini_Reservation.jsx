@@ -22,16 +22,16 @@ const info = {
 };
 
 // 예약 작성 페이지에 작성할 관련 투어 정보를 간략하게 보여주는
-const Tour_Item_mini_Reservation = ({ tour }) => {
+const Tour_Item_mini_Reservation = ({ image, title, score }) => {
   return (
     <div className={styles.Tour_Item_mini_Review}>
       <section className={styles.tourImageSection}>
-        <img src={tour.image} alt="" />
+        <img src={image} alt="" />
       </section>
       <section className={styles.tourInfoSection}>
         <div className={styles.tourTextInfo}>
-          <h3>{tour.title}</h3>
-          <Rating score={tour.score} />
+          <h3>{title}</h3>
+          <Rating reviewAverage={score} />
         </div>
       </section>
     </div>
