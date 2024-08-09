@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/padding_horizontal_item"
-        android:paddingVertical="@dimen/margin_vertical_title_page">
+        android:paddingVertical="@dimen/margin_vertical_chatroom_item">
 
         <ImageView
             android:id="@+id/chat_tour_img_iv"
@@ -27,12 +27,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/logo_nativenavs"
-            android:scaleType="fitXY"/>
+            tools:src="@drawable/logo_nativenavs"/>
 
         <TextView
             android:id="@+id/chat_tour_title_tv"
-            style="@style/regular"
+            style="@style/medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -40,12 +39,13 @@
             android:maxLines="1"
             android:text="@{chat.tourTitle}"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/chat_opponent_nickname_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/chat_tour_img_iv"
             app:layout_constraintTop_toTopOf="@+id/chat_tour_img_iv"
-            tools:text="남산타워 케이블카 및 맛집 체험 투어" />
+            tools:text="남산타워 케이블카 및 맛집 체험 투어"
+            app:layout_constraintVertical_chainStyle="packed"/>
 
         <TextView
             android:id="@+id/chat_opponent_nickname_tv"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="@{userId == chat.senderId ? chat.receiverNickname : chat.senderNickname }"
             android:textColor="@color/gray_5858"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/chat_tour_title_tv"
@@ -71,7 +71,7 @@
             android:maxLines="1"
             android:text="@{chat.recentMessageContent}"
             android:textColor="@color/gray_5858"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/chat_tour_img_iv"
             app:layout_constraintEnd_toStartOf="@+id/chat_message_time_tv"
             app:layout_constraintStart_toStartOf="@+id/chat_tour_title_tv"
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/gray_5858"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/chat_message_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/chat_message_tv"
