@@ -69,7 +69,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     <div
       className={styles.ModalBackground}
       onClick={(e) => {
-        e.stopPropagation();
+        onClose();
       }}
     >
       <div

@@ -69,7 +69,7 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
           {categoryIds.map((cartegoryid) => {
             return (
               <div key={cartegoryid} className="TourThemeItem">
-                {categoryItem[cartegoryid]["name"]}
+                {categoryItem[cartegoryid - 1]["name"]}
               </div>
             );
           })}

@@ -28,14 +28,16 @@ const StyledSlider = styled(Slider)`
 export default function Carousel({ images }) {
   const settings = {
     centerMode: false,
+    centerPadding:'0',
     infinite: true,
     dots: true,
     arrows: false, // 슬라이더 화살표 버튼 비활성화
-    speed: 750,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    speed: 500,
+    slidesToShow: 1, // 한 번에 보여줄 슬라이드 개수
+    slidesToScroll: 1, // 한 번에 스크롤되는 슬라이드 개수
     adaptiveHeight: false,
-    variableWidth: false, // Set to false to make slides have equal width
+    variableWidth: false, // 각 슬라이드의 너비가 일정하지 않도록 설정할 수 있음 -> false로 일정하게 두기
+    // 트랙 너비 = 슬라이드 너비 * 슬라이드 개수
   };
 
   // console.log(images)

@@ -13,6 +13,9 @@ import {
   navigateToTourModifyFragment,
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
+import NativeNavs from "@/assets/NativeNavs.png";
+import StarScore from "../components/Star/StarScore";
+import StarScore2 from "../components/Star/StarScore2";
 
 const Detail = () => {
   const params = useParams();
@@ -89,7 +92,7 @@ const Detail = () => {
     fetchTour();
   }, [user]);
 
-  // NavLanguages 관리 state
+  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
@@ -152,13 +155,12 @@ const Detail = () => {
     }
   };
 
-  // Date 객체 formatting
-  const formattedStartDate = tour.startDate
-    ? new Date(tour.startDate).toLocaleDateString()
-    : "N/A";
-  const formattedEndDate = tour.endDate
-    ? new Date(tour.endDate).toLocaleDateString()
-    : "N/A";
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+  };
 
   // price 변수 fotmatting
   const formattedPrice = tour.price.toLocaleString();
@@ -209,10 +211,10 @@ const Detail = () => {
         <div className={styles.tour_leftinfo}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
           <p className={styles.tour_maxParticipants}>
-            최대 인원 : {tour.maxParticipants}명
+            최대 인원 {tour.maxParticipants}명
           </p>
           <p className={styles.tour_duration}>
-            {formattedStartDate} ~ {formattedEndDate}
+            {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </p>
         </div>
 
@@ -220,20 +222,23 @@ const Detail = () => {
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
-              <Rating avg={tour.reviewAverage} />
+              {/* <Rating reviewAverage={tour.reviewAverage} /> */}
+              <StarScore2 score={tour.reviewAverage * 20} />
             </div>
           </div>
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
-              🌏
-              {navLanguages.length > 1 ? (
-                <p>
-                  {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
-                </p>
-              ) : (
-                <p>{navLanguages[0]}</p>
-              )}
+              <div>🌏</div>
+              <div className={styles.langlang}>
+                {navLanguages.length > 1 ? (
+                  <p>
+                    {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
+                  </p>
+                ) : (
+                  <p>{navLanguages[0]}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -256,13 +261,14 @@ const Detail = () => {
           <div className={styles.navInfoText}>
             {tour && tour.user ? (
               <p className={styles.navNickname}>
-                Navs : {tour.user.nickname}님
+                <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
+                Nav: {tour.user.nickname}님
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              언어 : {navLanguages.join(", ")}
+              🌏 Language: {navLanguages.join(", ")}
             </p>
           </div>
         </div>

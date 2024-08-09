@@ -49,7 +49,6 @@
 .tour_rightinfo {
   display: flex;
   flex-direction: column;
-  justify-content: start;
 }
 .tour_rating {
   display: flex;
@@ -66,10 +65,14 @@
 .tour_nav_language {
   display: flex;
   justify-content: end;
-  padding-right: 0px;
+  padding: 0px;
+}
+.langlang{
+  margin-left: 3.5px;
 }
 
 .tour_nav_language_inner {
+  display: flex;
   margin: 1px 0px;
   font-size: 15px;
   font-weight: 500;
@@ -92,16 +95,20 @@
 
 .navInfo {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   width: 100%;
+  padding: 0px;
+  margin: 0px;
   border-top: 1px solid #d9d9d9;
   border-bottom: 1px solid #d9d9d9;
 }
 
 .navInfo_inner {
   display: flex;
-  margin: 20px;
-  width: 250px;
+  align-items: center;
+  width: 100%;
+  padding: 0px 0px;
+  margin: 0px;
 }
 
 .navInfoImage {
@@ -112,24 +119,36 @@
 }
 
 .nav_img {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   border-radius: 70%;
   border: 1px solid #d9d9d9;
 }
 
 .navInfoText * {
-  width: 200px;
-  font-weight: bold;
+  width: 100%;
 }
 
 .navNickname {
+  display: flex;
+  align-items: center;
   margin-bottom: 0px;
 }
 
 .navLanguage {
   margin-top: 2px;
   font-size: 15px;
+}
+
+.navLanguage,
+.navNickname {
+  margin-left: 10px;
+}
+
+.NativeNavs {
+  width: 19px;
+  height: 19px;
+  margin-right: 4.5px;
 }
 
 /* 투어 일정 */
@@ -148,7 +167,7 @@
 .tourReminder {
   width: 100%; /* 추가 */
   text-align: left; /* 추가 */
-  padding-left: 20px; /* 추가 */
+  padding-left: 0 20px; /* 추가 */
   border-bottom: 1px solid #d9d9d9;
 }
 
