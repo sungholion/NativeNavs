@@ -37,7 +37,6 @@ export default function Carousel3({ images }) {
     adaptiveHeight: false,
     variableWidth: false, // Set to false to make slides have equal width
   };
-
   return (
     <div className={styles.carouselContainer}>
       <StyledSlider {...settings}>

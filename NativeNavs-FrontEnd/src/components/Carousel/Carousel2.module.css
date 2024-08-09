@@ -1,5 +1,5 @@
 .carouselContainer {
-    width: 360px;
+    width: 100%;
     position: relative;
 }
   
@@ -22,7 +22,9 @@
 }
   
 .tourInfoBottomContainer {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     padding-top: 10px;
 }
 
@@ -65,6 +67,7 @@
 .navNickname {
     font-weight: bold;
     margin: 0px;
+    margin-left: 5px;
 }
 
 .navLanguage {
@@ -80,6 +83,7 @@
 
 .navLanguageText {
     font-size: 10px;
+    margin-left: 3px;
 }
 
 .singleTourContainer {

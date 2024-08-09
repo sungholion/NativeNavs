@@ -27,7 +27,6 @@ const themeList = [
 ];
 
 const DefaultTourData = {
-  userId: 10,
   title: "",
   thumbnailImage: "",
   description: "",
@@ -35,10 +34,7 @@ const DefaultTourData = {
   price: 0,
   startDate: getStringedDate(new Date()),
   endDate: getStringedDate(new Date()),
-  reviewAverage: 0,
-  reviewCount: 0,
   maxParticipants: 1,
-  removed: false,
   categoryIds: [],
   plans: [],
 };
@@ -61,10 +57,6 @@ const reducer = (state, action) => {
       return { ...state, startDate: action.value };
     case "endDate":
       return { ...state, endDate: action.value };
-    case "reviewAverage":
-      return { ...state, reviewAverage: action.value };
-    case "reviewCount":
-      return { ...state, reviewCount: action.value };
     case "maxParticipants":
       return { ...state, maxParticipants: action.value };
     case "categoryIds":
@@ -79,7 +71,9 @@ const reducer = (state, action) => {
 export const TourDataContext = createContext(null);
 export const TourDispatchContext = createContext(null);
 
-const TourEditorHead = ({ initData, onSubmit }) => {
+// sucessFunc :  성공시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
+// FailFunc : 실패시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
+const TourEditorHead = ({ initData, onSubmit, sucessFunc, failFunc }) => {
   const [Tourdata, dispatch] = useReducer(reducer, {
     ...DefaultTourData,
     start_date: new Date().getTime(),
@@ -110,7 +104,7 @@ const TourEditorHead = ({ initData, onSubmit }) => {
   return (
     <div>
       <TourDataContext.Provider value={Tourdata}>
-        <TourDispatchContext.Provider value={{ onTourDataChange }}>
+        <TourDispatchContext.Provider value={{ onTourDataChange}}>
           {nowPageLook === 1 ? (
             <TourEditor1 goAfterPage={goAfterPage} />
           ) : nowPageLook === 2 ? (

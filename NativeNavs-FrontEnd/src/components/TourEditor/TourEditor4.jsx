@@ -2,8 +2,9 @@ import "./TourEditor4.css";
 import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStringedDate } from "@utils/get-stringed-date";
 import { TourDataContext } from "./TourEditorHead";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { categoryItem } from "@utils/constant";
+import { getImageUrl } from "@/utils/get-image-url";
 
 const Confirm = ({ goBeforePage, onSubmit }) => {
   const {
@@ -18,12 +19,16 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
     plans,
     categoryIds,
   } = useContext(TourDataContext);
+  const [thumbnailImgUrl, setThumbnailImagUrl] = useState(""); //실제 사용자게에 보여줄 썸내일 이미지 담긴 것
+  useEffect(() => {
+    getImageUrl(thumbnailImage, setThumbnailImagUrl);
+  }, [thumbnailImage]); //썸네일 이미지 보려주기, STRING이냐 FILE이냐에 따라서
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
         <p>썸네일 사진</p>
-        {thumbnailImage.length > 0 ? (
-          <img src={thumbnailImage} alt="썸네일이미지" />
+        {thumbnailImgUrl ? (
+          <img src={thumbnailImgUrl} alt="썸네일이미지" />
         ) : (
           <div style={{ color: "red", fontSize: "20px" }}>
             이미지 업로드 해주세요
@@ -64,7 +69,7 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
           {categoryIds.map((cartegoryid) => {
             return (
               <div key={cartegoryid} className="TourThemeItem">
-                {categoryItem[cartegoryid]["name"]}
+                {categoryItem[cartegoryid - 1]["name"]}
               </div>
             );
           })}

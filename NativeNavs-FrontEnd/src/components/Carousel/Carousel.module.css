@@ -5,12 +5,13 @@
   
 .carouselImage {
     width: 100%;
-    height: 360px;
+    height: 412px;
     object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
 }
 
 .slick-slider {
     display: relative;
+    width: 100%;
 }
 
 .slick-dots {
@@ -30,6 +31,7 @@
 .slick-dots li button {
     font-size: 0;
     width: 10px;
+    
     height: 10px;
     border-radius: 50%;
     background: #ddd;

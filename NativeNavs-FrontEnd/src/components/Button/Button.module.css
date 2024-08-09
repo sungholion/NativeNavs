@@ -35,6 +35,17 @@
   transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
 }
 
+.button_4 {
+  width: 100%;
+  height: 40px;
+  color: white;
+  background-color: #20bec9;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
 .button_1:active,
 .button_2:active,
 .button_3:active {

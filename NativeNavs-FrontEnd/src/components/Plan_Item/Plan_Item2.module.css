@@ -7,7 +7,7 @@
   border: 1px solid #d9d9d9;
   padding: 10px;
   margin-bottom: 10px;
-  box-shadow: 2px 2px 2px 2px #d9d9d9;
+  box-shadow: 1px 1px 1px 1px #eeeeee;
 }
 
 .container {
@@ -31,7 +31,7 @@
 
 .field {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   -webkit-line-clamp: 1;
   line-clamp: 1;
   overflow: hidden;
@@ -39,6 +39,8 @@
 }
 
 .description {
+  margin-top: 1px;
+  font-size: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;

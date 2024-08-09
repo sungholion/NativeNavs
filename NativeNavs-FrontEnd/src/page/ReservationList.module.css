@@ -1,13 +1,18 @@
-/* .ReservationList {
-
-} */
+.ReservationList {
+  width: 100%;
+} 
 
 /* .upcomingTourList {
 
 } */
 
-.TourListTitle {
-  font-weight: bold;
+.reservationLength {
+  padding-left: 10px;
+}
+
+
+.upcomingTourList {
+  width: 100%;
 }
 
 .completedTourList {
@@ -20,3 +25,54 @@
   margin-bottom: 20px;
 }
 
+.MiddleContainer {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.MiddleContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.MiddleContainer h2 {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.MiddleContainer h5 {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 180px;
+  text-align: center;
+} 
+
+.TopContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.WishListTitle {
+  font-weight: bold; /* 굵게 설정 */
+  margin: 20px;
+}
+
+.NativeNavsImg {
+  width: 80px;
+  height: 80px;
+}
+
+
+.TourListTitle {
+  margin-left: 20px;
+  font-weight: bold;
+}

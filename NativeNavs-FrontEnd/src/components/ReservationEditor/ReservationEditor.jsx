@@ -10,6 +10,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const IMPOSSIBLE_CORD = -1000;
+const MAX_DESCRIPTION_LENGTH = 300;
 
 // 초기 예약 정보 데이터들, tourId 및 participantId가 필요
 const initData = {
@@ -38,18 +39,22 @@ const reducer = (state, action) => {
     case "mapInput":
       return {
         ...state,
-        description: action.data.description,
+        meetingAddress: action.data.description,
         meetingLatitude: action.data.lat,
         meetingLongitude: action.data.lng,
       };
+    case "description":
+      return { ...state, description: action.data };
     default:
       return state;
   }
 };
 
-const ReservationEditor = ({ onSubmit }) => {
+const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
   const [openMapModal, setToggleMapModal] = useState(false); //맵 지도와 관련된 모달 state
-  const [maxParticipants, setMaxParticipants] = useState(10); //최대참가자수
+  const [maxParticipants, setMaxParticipants] = useState(
+    maxParticipant_info || 1
+  ); //최대참가자수
   const params = useParams();
   const openModal = () => {
     setToggleMapModal(true);
@@ -57,17 +62,34 @@ const ReservationEditor = ({ onSubmit }) => {
   const closeModal = () => {
     setToggleMapModal(false);
   };
-  const [resInfo, dispatch] = useReducer(reducer);
+  const [resInfo, dispatch] = useReducer(reducer, { ...initData });
+
+  // 투어 id에 대한 정보
   useEffect(() => {
     dispatch({
       type: "init",
       data: {
         ...initData,
-        tourId: params.tour_id,
+        tourId: Number(params.tour_id),
       },
     });
   }, [params.tour_id]);
 
+  // 가이드 정보에 대한 정보 변수
+  const [navInfo, setNavInfo] = useState(null);
+  // Nav 에 대한 정보 가져오기
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setNavInfo(parsedUser);
+      console.log("NavInfo data : ", parsedUser);
+    } else {
+      console.log("해당 가이드 정보가 없어요");
+    }
+  }, []);
+
+  // 예약 날짜
   const onChangeDate = (e) => {
     dispatch({
       type: "date",
@@ -75,6 +97,7 @@ const ReservationEditor = ({ onSubmit }) => {
     });
   };
 
+  // 시간
   const onChangeHour = (e) => {
     if (resInfo.startAt.getTime())
       dispatch({
@@ -86,6 +109,7 @@ const ReservationEditor = ({ onSubmit }) => {
       });
   };
 
+  // 참가자 수
   const onChangeParticipant = (value) => {
     if (
       resInfo.participantCount + value > 0 &&
@@ -98,11 +122,20 @@ const ReservationEditor = ({ onSubmit }) => {
     }
   };
 
+  // 지역 위치
   const onEditLocation = (data) => {
     dispatch({
       type: "mapInput",
       data,
     });
+  };
+
+  const onDescriptionChange = (e) => {
+    if (e.target.value.length < 300)
+      dispatch({
+        type: "description",
+        data: e.target.value,
+      });
   };
 
   if (!resInfo) {
@@ -170,7 +203,7 @@ const ReservationEditor = ({ onSubmit }) => {
         <div className="Res_Location_Section_Header">
           <h4>위치</h4>
           <img src={getStaticImage("search")} alt="" onClick={openModal} />
-          {resInfo.description !== "" && <div>{resInfo.description}</div>}
+          {resInfo.meetingAddress !== "" && <div>{resInfo.meetingAddress}</div>}
         </div>
         {openMapModal &&
           createPortal(
@@ -178,10 +211,23 @@ const ReservationEditor = ({ onSubmit }) => {
             document.body
           )}
       </section>
+      <section className="Res_Description_Section">
+        <div className="Res_Description_header">
+          <h4>당부사항</h4>
+          <div>
+            {resInfo.description.length} / {MAX_DESCRIPTION_LENGTH}
+          </div>
+        </div>
+        <textarea
+          name="description"
+          onChange={onDescriptionChange}
+          value={resInfo.description}
+        />
+      </section>
       <section className="Res_ButtonSection">
         <button
           onClick={() => {
-            onSubmit(resInfo);
+            onSubmit(resInfo, navInfo.userToken);
           }}
         >
           예약하기

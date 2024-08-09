@@ -68,3 +68,8 @@ text-overflow : ellipsis -> 일정 영역 벗어난 글은 전부 ... 으로 숨
   height: 40px;
   flex: 1;
 }
+
+.addressFull {
+  color: #595959;
+  font-size: 13px;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, useSearchParams } from "react-router-dom";
 import Main from "./page/Main";
 import Nav from "./page/Nav";
@@ -29,6 +29,26 @@ import ReservationCreate from "./page/ReservationCreate";
 
 function App() {
   const param = useSearchParams();
+
+  const [user, setUser] = useState(null);
+
+  // 유저 정보 파싱 및 localStorage에 저장
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received user JSON:", userJson);
+      try {
+        const parsedUser = JSON.parse(userJson);
+        console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`Token: ${parsedUser.userToken}`);
+        console.log(`isNav: ${parsedUser.isNav}`);
+        setUser(parsedUser);
+        localStorage.setItem("user", userJson); // 유저 정보를 localStorage에 저장
+      } catch (error) {
+        console.error("Failed to parse user JSON", error);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Routes>
@@ -112,7 +132,7 @@ function App() {
           {/* 해당 투어에 대한 예약 목록 페이지 */}
           <Route path="list" element={<ReservationListForTour />} />
           {/* 예약 하기 페이지 */}
-          <Route path="create" element={<ReservationCreate />} />
+          <Route path="create/:trav_id" element={<ReservationCreate />} />
           {/* 예약 상세 정보 페이지 */}
           <Route path="detail/:res_id" element={<ReservationDetail />} />
         </Route>

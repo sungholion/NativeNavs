@@ -8,9 +8,19 @@ import Carousel from "@/components/Carousel/Carousel.jsx";
 import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
+import { getStaticImage } from "@/utils/get-static-image";
+import {
+  navigateToTourModifyFragment,
+  navigateToTourListFragment,
+} from "@/utils/get-android-function";
+import NativeNavs from "@/assets/NativeNavs.png";
+import StarScore from "../components/Star/StarScore";
+import StarScore2 from "../components/Star/StarScore2";
 
 const Detail = () => {
   const params = useParams();
+  const [user, setUser] = useState(null);
+  // tour state 정의
   const [tour, setTour] = useState({
     price: 0,
     title: "",
@@ -26,7 +36,44 @@ const Detail = () => {
     removed: false,
   });
 
-  // BE로 API 요청
+  // review state 정의
+  const [reviewData, setReviewData] = useState({
+    imageUrls: [],
+    reviewAverage: 0,
+    reviewCount: 0,
+    reviews: [],
+    totalImageCount: 0,
+  });
+
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      console.log("User data : ", parsedUser);
+    } else {
+      console.log("No login user data");
+    }
+  }, []);
+
+  const onDeleteEvent = async () => {
+    await axios
+      .delete(`https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`, {
+        headers: {
+          Authorization: user.userToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        navigateToTourListFragment();
+      })
+      .catch((err) => {
+        console.err(err);
+      });
+  };
+
+  // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -34,47 +81,70 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
+        console.log("Tours response data : ", response.data);
+        console.log("Tours response data : ", response.data.user.id);
+        console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
       }
     };
 
     fetchTour();
-  }, [params.tour_id]);
-  
-  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
-  console.log(images);
+  }, [user]);
 
-  // MB로부터 유저 데이터 파싱
+  // NavLanguages 관리 state : 문자열을 배열로 변환
+  const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
+    if (tour && tour.user && tour.user.userLanguage) {
+      const userLanguage = tour.user.userLanguage
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguage);
+      console.log(navLanguages);
+    }
+  }, [tour]);
+
+  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
+
+  // FE -> BE : ReviewData API 요청
+  useEffect(() => {
+    const fetchReviewData = async () => {
       try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
-        console.log(`isNav: ${parsedUser.isNav}`);
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+        );
+        setReviewData(response.data);
+        console.log("Reviews response data : ", response.data);
       } catch (error) {
-        console.error("Failed to parse user JSON", error);
+        console.error("Error fetching reviewData:", error);
       }
     };
+
+    fetchReviewData();
   }, []);
 
+  // 작성자 전용 -> 수정, 삭제 버튼 클릭 시 옵션창 열기
+  const [openOption, setOpenOption] = useState(false);
 
+  // 첫 번째 리뷰를 변수에 저장
+  const firstReview =
+    reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
+  // console.log(firstReview);
+
+  // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToNavProfileFragment === "function"
     ) {
-      window.Android.navigateToNavProfileFragment(parseInt(tour.userId));
+      window.Android.navigateToNavProfileFragment(parseInt(tour.user.id));
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
   };
 
+  // MB : 리뷰 클릭 이벤트 정의
   const onClickReview = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToReviewListFragment === "function"
@@ -85,46 +155,54 @@ const Detail = () => {
     }
   };
 
-  const formattedStartDate = tour.startDate
-    ? new Date(tour.startDate).toLocaleDateString()
-    : "N/A";
-  const formattedEndDate = tour.endDate
-    ? new Date(tour.endDate).toLocaleDateString()
-    : "N/A";
-
-  const formattedPrice = tour.price.toLocaleString();
-
-  // 예시 리뷰 데이터
-  const reviewData = {
-    user: {
-      user_id: 1,
-      image:
-        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTZfMTMx%2FMDAxNjcxMTg2NTM1MDYx.0vuGB7rfq1YZPV1kA8Wbuz51yLAS5Tvs0Zeuhiz-kswg.0iqBKg3vLwCvwnln6AqxZpV67RYgvEQ8qV7Y2wnqoI4g.JPEG.loivme%2F%25B8%25F1%25B5%25B5%25B8%25AE.jpg&type=sc960_832",
-      nickname: "오리",
-      nation: "미국",
-    },
-    score: 4.2,
-    description: "너무 맛있어요",
-    created_at: new Date(2024, 3, 2),
-    tour: {
-      tour_id: 2,
-      title: "무진장 투어",
-    },
-    needToShowTourTitle: true,
-    imageList: [
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MTlfMTgg%2FMDAxNzE4NzkzODA1MTQ5.5WZpqKWvIOCPc_v8V9tqTKZbQxC-cegb4Ql6zjOVdGgg.kOY5ndrPZE1VI_qj_5Mdoq0vjqAkx8bxEuzv0etqb-Ag.JPEG%2FIMG_9138.JPG&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20140922_33%2Fholaha00_1411349776141T4rkI_JPEG%2F%25B9%25D9%25B4%25D9_%25B9%25E8%25B0%25E6%25BB%25E7%25C1%25F8_%25B8%25F0%25C0%25BD_%25281%2529.jpg&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MThfNDkg%2FMDAxNjI5Mjk0ODk2MTE3.9xQesy494fYu0DXNAk50hFRL3feTyiQAjP3FB5agcgog.s-21YxuWQNkPWcFv46a_i9krhMFZohStNgomCpu1E_gg.GIF.cooolsydney%2F%25BF%25C0%25B8%25AE%25BA%25D2%25B0%25ED%25B1%25E2.gif&type=a340",
-    ],
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
   };
 
-  if (!tour) {
-    return <div>Loading...</div>;
-  }
+  // price 변수 fotmatting
+  const formattedPrice = tour.price.toLocaleString();
 
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
+      {
+        // 해당 글 작성자와 로그인한 유저가 같고, 글 작성자가 Nav인 경우
+        // 수정 & 삭제 버튼을 보여줌
+        user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
+          <div className={styles.WriterOnlyOptionSection}>
+            <img
+              src={getStaticImage("menu_vertical_button")}
+              style={{ width: "30px", height: "30px" }}
+              onClick={() => setOpenOption((cur) => !cur)} // 토글
+            />
+            {openOption && (
+              <div className={styles.WriterOptions}>
+                {/* 해당 버튼 클릭시 수정 버튼 이동 */}
+                <button
+                  className={styles.buttonEdit}
+                  onClick={() => {
+                    navigateToTourModifyFragment(Number(params.tour_id));
+                  }}
+                >
+                  수정
+                </button>
+                {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
+                <button
+                  className={styles.buttonDelete}
+                  onClick={() => {
+                    onDeleteEvent();
+                  }}
+                >
+                  삭제
+                </button>
+              </div>
+            )}
+          </div>
+        )
+      }
       <Carousel images={images} />
 
       {/* 투어 정보(간략하게) */}
@@ -133,10 +211,10 @@ const Detail = () => {
         <div className={styles.tour_leftinfo}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
           <p className={styles.tour_maxParticipants}>
-            최대 인원 : {tour.maxParticipants}명
+            최대 인원 {tour.maxParticipants}명
           </p>
           <p className={styles.tour_duration}>
-            {formattedStartDate} ~ {formattedEndDate}
+            {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </p>
         </div>
 
@@ -144,20 +222,23 @@ const Detail = () => {
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
-              <Rating avg={tour.reviewAverage} />
+              {/* <Rating reviewAverage={tour.reviewAverage} /> */}
+              <StarScore2 score={tour.reviewAverage * 20} />
             </div>
           </div>
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
-            🌏
-              {tour.categoryIds.length > 1 ? (
-                <p>
-                  {tour.categoryIds[0]} 외 {tour.categoryIds.length - 1}개 국어
-                </p>
-              ) : (
-                <p>{tour.categoryIds[0]}</p>
-              )}
+              <div>🌏</div>
+              <div className={styles.langlang}>
+                {navLanguages.length > 1 ? (
+                  <p>
+                    {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
+                  </p>
+                ) : (
+                  <p>{navLanguages[0]}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -167,16 +248,27 @@ const Detail = () => {
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
-            <img
-              src={tour.thumbnailImage}
-              alt={tour.userId}
-              className={styles.nav_img}
-            />
+            {tour.user ? (
+              <img
+                src={tour.user.image}
+                alt={tour.userId}
+                className={styles.nav_img}
+              />
+            ) : (
+              <div></div>
+            )}
           </div>
           <div className={styles.navInfoText}>
-            <p className={styles.navNickname}>Navs : {tour.userId}님</p>
+            {tour && tour.user ? (
+              <p className={styles.navNickname}>
+                <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
+                Nav: {tour.user.nickname}님
+              </p>
+            ) : (
+              <p>loading..</p>
+            )}
             <p className={styles.navLanguage}>
-              언어 : {tour.categoryIds.join(", ")}
+              🌏 Language: {navLanguages.join(", ")}
             </p>
           </div>
         </div>
@@ -208,16 +300,18 @@ const Detail = () => {
       </div>
       {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
-        <Review_Item
-          user={reviewData.user}
-          tour_id={tour.id}
-          score={reviewData.score}
-          description={reviewData.description}
-          created_at={reviewData.created_at}
-          tour={reviewData.tour}
-          needToShowTourTitle={reviewData.needToShowTourTitle}
-          imageList={reviewData.imageList}
-        />
+        {firstReview ? (
+          <Review_Item
+            user={firstReview.reviewer}
+            score={firstReview.score}
+            description={firstReview.description}
+            tour={firstReview.tourTitle}
+            needToShowTourTitle={false}
+            imageList={firstReview.imageUrls}
+          />
+        ) : (
+          <p>첫 리뷰를 남겨주세요!</p>
+        )}
       </div>
     </div>
   );
