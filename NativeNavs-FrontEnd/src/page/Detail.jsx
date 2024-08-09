@@ -14,6 +14,7 @@ import {
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
+import StarScore from "../components/Star/StarScore";
 
 const Detail = () => {
   const params = useParams();
@@ -209,7 +210,7 @@ const Detail = () => {
         <div className={styles.tour_leftinfo}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
           <p className={styles.tour_maxParticipants}>
-            최대 인원 : {tour.maxParticipants}명
+            최대 인원 {tour.maxParticipants}명
           </p>
           <p className={styles.tour_duration}>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
@@ -220,20 +221,23 @@ const Detail = () => {
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
-              <Rating reviewAverage={tour.reviewAverage} />
+              {/* <Rating reviewAverage={tour.reviewAverage} /> */}
+              <StarScore score={tour.reviewAverage * 20} />
             </div>
           </div>
 
           <div className={styles.tour_nav_language}>
             <div className={styles.tour_nav_language_inner}>
-              🌏
-              {navLanguages.length > 1 ? (
-                <p>
-                  {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
-                </p>
-              ) : (
-                <p>{navLanguages[0]}</p>
-              )}
+              <div>🌏</div>
+              <div className={styles.langlang}>
+                {navLanguages.length > 1 ? (
+                  <p>
+                    {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
+                  </p>
+                ) : (
+                  <p>{navLanguages[0]}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -257,7 +261,7 @@ const Detail = () => {
             {tour && tour.user ? (
               <p className={styles.navNickname}>
                 <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
-                 Nav: {tour.user.nickname}님
+                Nav: {tour.user.nickname}님
               </p>
             ) : (
               <p>loading..</p>

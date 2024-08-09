@@ -22,7 +22,8 @@
 
 /* 채워진 별 스타일 */
 .star-score-icon.filled {
-  color: #ffc107;
+  color: rgb(255, 232, 24);
+
 }
 
 /* 점수를 표시하는 텍스트 스타일 */
