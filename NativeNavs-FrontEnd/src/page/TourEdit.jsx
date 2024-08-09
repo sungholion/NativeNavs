@@ -2,6 +2,10 @@ import TourEditorHead from "@/components/TourEditor/TourEditorHead";
 import axios from "axios";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  showModifyFailDialog,
+  navigateFromTourModifyToTourDetailFragment,
+} from "@/utils/get-android-function";
 
 // 투어 수정을 위한 페이지
 const TourEdit = () => {
@@ -85,20 +89,26 @@ const TourEdit = () => {
     console.log(formData.getAll("planImages"));
 
     try {
-      await axios.put(
-        `https://i11d110.p.ssafy.io/api/tours/${param.tour_id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: navUser.userToken,
-          },
-        }
-      );
-      window.alert("성공했어요!");
+      await axios
+        .put(
+          `https://i11d110.p.ssafy.io/api/tours/${param.tour_id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: navUser.userToken,
+            },
+          }
+        )
+        .then((response) => {
+          navigateFromTourModifyToTourDetailFragment(
+            param.tour_id,
+            navUser.userId
+          );
+        });
     } catch (error) {
       console.error(error);
-      window.alert("실패했어요 ㅠㅠ");
+      showModifyFailDialog();
     }
   };
   return (
