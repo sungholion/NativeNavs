@@ -235,3 +235,17 @@ export function showModifyFailDialog() {
     console.log("showModifyFailDialog function is not defined");
   }
 }
+
+export function navigateToReservationRegisterChattingRoom() {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToReservationRegisterChattingRoom ===
+      "function"
+  ) {
+    window.Android.navigateToReservationRegisterChattingRoom();
+  } else {
+    console.log(
+      "navigateToReservationRegisterChattingRoom function is not defined"
+    );
+  }
+}
