@@ -18,8 +18,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -37,36 +41,20 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-    @PostMapping
-    @Operation(summary = "예약 등록 API", description = "예약을 등록할때 사용하는 API")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "리뷰 등록 API", description = "리뷰를 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
-                                        @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                                                description = ".",
-                                                required = true,
-                                                content = @Content(
-                                                        mediaType = "application/json",
-                                                        schema = @Schema(
-                                                                example =  "{\n" +
-                                                                        "  \"tourId\": 1,\n" +
-                                                                        "  \"score\": 4,\n" +
-                                                                        "  \"description\": \"Great tour! The guide was very knowledgeable.\",\n" +
-                                                                        "  \"imageUrls\": [\n" +
-                                                                        "    \"http://example.com/image1.jpg\",\n" +
-                                                                        "    \"http://example.com/image2.jpg\"\n" +
-                                                                        "  ]\n" +
-                                                                        "}"
-                                                        )
-                                                )
-                                        )@RequestBody ReviewRequestDTO reviewDTO){
+                                        @RequestPart("review") ReviewRequestDTO reviewDTO,
+                                        @RequestPart("reviewImages") List<MultipartFile> images){
         try {
             int userId = getUserIdFromJWT(token); // JWT에서 사용자 ID 추출
             UserEntity reviewer = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer);
+            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images);
             //반환 여부 토론
             return ResponseEntity.ok("리뷰 작성 완료");
 
@@ -77,6 +65,7 @@ public class ReviewController {
     }
 
     @GetMapping("/tour/{tourId}")
+    @Operation(summary = "투어 리뷰 조회 API", description = "투어 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -94,6 +83,7 @@ public class ReviewController {
     }
 
     @GetMapping("/guide/{guideId}")
+    @Operation(summary = "가이드 리뷰 조회 API", description = "가이드 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
@@ -110,15 +100,16 @@ public class ReviewController {
 
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user/{travId}")
+    @Operation(summary = "Trav 리뷰 조회 API", description = "Trav가 쓴 리뷰를 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
-    public ResponseEntity<?> reviewFindByUserId(@RequestHeader("Authorization") String token){
+    public ResponseEntity<?> reviewFindByTravId(@Parameter(description = "조회 기준이 될 Trav ID", required = true, example = "10")
+                                                    @PathVariable("travId") int travId){
         //jwt 사용자 정보가 필요한가?? 보류
         try {
-            int userId = getUserIdFromJWT(token);
-            TravReviewDTO travReviewDTO = reviewService.findReviewByUserId(userId);
+            TravReviewDTO travReviewDTO = reviewService.findReviewByUserId(travId);
             return ResponseEntity.ok(travReviewDTO);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,8 @@
 package com.nativenavs.user.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
+import com.nativenavs.review.entity.ReviewEntity;
+import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
@@ -72,14 +74,24 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String device;
 
+    @Column(nullable = false, length = 255)
+    private String fcmToken;
+
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistEntity> wishList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourEntity> tours = new ArrayList<>();
+
     @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReservationEntity> reservations = new ArrayList<>();
+    private List<ReservationEntity> guideReservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationEntity> participantReservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewEntity> reviewsGiven = new ArrayList<>();
 
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
@@ -94,7 +106,7 @@ public class UserEntity extends BaseEntity {
         userEntity.setBirth(userDTO.getBirth());
         userEntity.setUserLanguage(userDTO.getUserLanguage());
         userEntity.setNation(userDTO.getNation());
-        userEntity.setImage(userDTO.getImage());
+//        userEntity.setImage(userDTO.getImage());
         userEntity.setNavReviewCount(userDTO.getNavReviewCount());
         userEntity.setNavReviewAverage(userDTO.getNavReviewAverage());
         userEntity.setTravReservationCount(userDTO.getTravReservationCount());

@@ -1,9 +1,11 @@
 package com.nativenavs.reservation.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.notification.service.FcmService;
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
+import com.nativenavs.reservation.dto.ReservationTourDTO;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.entity.TourEntity;
@@ -22,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 @Tag(name = "reservation API", description = "reservation")
 public class ReservationController {
+
     private final ReservationService reservationService;
     @Autowired
     private UserService userService;
@@ -38,6 +40,9 @@ public class ReservationController {
     private UserRepository userRepository;
     @Autowired
     private TourRepository tourRepository;
+
+    @Autowired
+    private FcmService fcmService;
 
 
     public ReservationController(ReservationService reservationService) {
@@ -62,6 +67,7 @@ public class ReservationController {
                                                                              "  \"startAt\": \"2024-08-10T09:00:00\",\n" +
                                                                              "  \"endAt\": \"2024-08-10T12:00:00\",\n" +
                                                                              "  \"participantCount\": 4,\n" +
+                                                                             "  \"meetingAddress\": \"hongdae street\",\n" +
                                                                              " \"date\": \"2024-08-15\",\n" +                                                                             "  \"description\": \"Extra luggage assistance needed\",\n" +
                                                                              "  \"meetingLatitude\": 37.5665,\n" +
                                                                              "  \"meetingLongitude\": 126.978\n" +
@@ -72,6 +78,10 @@ public class ReservationController {
         try{
             int userId = getUserIdFromJWT(token);
             ReservationEntity reservationEntity = reservationService.addReservation(reservationRequestDTO, userId);
+            System.out.println("userId : " + userId);
+            System.out.println("reservationEntityId : " + reservationEntity.getId());
+            fcmService.sendMessageTo(2, userId, reservationEntity.getId(), -1, -1);
+
             return ResponseEntity.ok("예약 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
@@ -96,7 +106,7 @@ public class ReservationController {
     }
 
     @PostMapping("/{reservationId}/cancel")
-    @Operation(summary = "투어 삭제 API", description = "투어를 삭제하는 API")
+    @Operation(summary = "예약 취소 API", description = "예약을 취소하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "404", description = "예약을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
@@ -134,6 +144,7 @@ public class ReservationController {
         }
     }
 
+
     @GetMapping("/tour/{tourId}/participants")
     @Operation(summary = "투어 참여자 조회 API", description = "특정 투어에 대한 예약을 조회하고, 예약 중인 참여자 정보를 반환하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
@@ -141,11 +152,10 @@ public class ReservationController {
     public ResponseEntity<?> getParticipantsForTour(
             @Parameter(description = "조회할 투어 ID", required = true, example = "1") @PathVariable int tourId, @RequestHeader("Authorization") String token) {
         try {
-            int userId = getUserIdFromJWT(token); // JWT에서 가이드 ID 추출
-            Optional<UserEntity> guide = userRepository.findById(userId);
+
             TourEntity tour = tourRepository.findById(tourId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투어를 찾을 수 없습니다: " + tourId));
-            List<ReservationResponseDTO> reservationEntities = reservationService.getParticipantsForTour(tour, guide.orElse(null));  // 가이드 정보가 null이면 null을 ����
+            ReservationTourDTO reservationEntities = reservationService.getParticipantsForTour(tour);  // 가이드 정보가 null이면 null을 ����
             return ResponseEntity.ok(reservationEntities);
 
         } catch (Exception e) {

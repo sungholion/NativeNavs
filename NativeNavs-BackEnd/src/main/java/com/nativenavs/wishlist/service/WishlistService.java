@@ -47,7 +47,7 @@ public class WishlistService {
                             .orElseThrow(() -> new NoSuchElementException("User not found"));
                     // UserDTO로 변환
                     UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-                    return tourEntity != null ? TourDTO.toTourDTO(tourEntity,userDTO) : null;
+                    return tourEntity != null ? TourDTO.toTourDTO(tourEntity) : null;
                 }).filter(tourDTO -> tourDTO != null) // null을 필터링
                 .collect(Collectors.toList());
     }

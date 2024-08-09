@@ -19,9 +19,10 @@ public class ReservationRequestDTO {
     private int participantId;
     private LocalTime startAt;
     private LocalTime endAt;
+    private String meetingAddress;
     private int participantCount;
     private LocalDate date;
-    private String description;
     private BigDecimal meetingLatitude;
     private BigDecimal meetingLongitude;
+    private String description;
 }

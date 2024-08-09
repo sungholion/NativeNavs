@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class TourSpecification{
 
@@ -21,11 +22,11 @@ public class TourSpecification{
                         root.get("endDate"));
     }
 
-    public static Specification<TourEntity> hasCategory(Integer categoryId) {
+    public static Specification<TourEntity> hasCategory(List<Integer> categoryIds) {
         return (root, query, criteriaBuilder) -> {
             // Join with tourCategories to filter by category
             Join<TourEntity, TourCategoryEntity> tourCategories = root.join("tourCategories");
-            return criteriaBuilder.equal(tourCategories.get("category").get("id"), categoryId);
+            return tourCategories.get("category").get("id").in(categoryIds);
         };
     }
 }

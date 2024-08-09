@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.UUID;
+
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.nativenavs"})
@@ -17,7 +19,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableJpaAuditing
 
 public class NativeNavsBackEndApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(NativeNavsBackEndApplication.class, args);
 	}

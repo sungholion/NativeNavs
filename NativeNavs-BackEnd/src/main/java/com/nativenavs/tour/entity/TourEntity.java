@@ -2,6 +2,9 @@ package com.nativenavs.tour.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.dto.TourRequestDTO;
+import com.nativenavs.user.entity.UserEntity;
+import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -26,9 +29,9 @@ public class TourEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; // 투어 ID
 
-    //@ManyToOne
-    @Column(name = "user_id", nullable = false)
-    private int userId; // 유저 ID
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user; // 유저 엔티티와의 관계
 
     @Column(nullable = false, length = 100)
     private String title; // 투어 제목
@@ -63,30 +66,30 @@ public class TourEntity extends BaseEntity {
     @Column(name = "is_removed", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean isRemoved; // 투어 삭제 여부
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TourCategoryEntity> tourCategories;
 
     @OneToMany(mappedBy = "tourId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanEntity> plans;
 
-
     @OneToMany(mappedBy="tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationEntity> reservations = new ArrayList<>();
 
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishlistEntity> wishLists = new ArrayList<>();
     //DTO -> Entity 로 옮겨닮기
-    public static TourEntity toSaveEntity(TourDTO tourDTO){
+    public static TourEntity toSaveEntity(TourRequestDTO tourRequestDTO){
         TourEntity tourEntity = new TourEntity();
-        tourEntity.setTitle(tourDTO.getTitle());
-        tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
-        tourEntity.setDescription(tourDTO.getDescription());
-        tourEntity.setLocation(tourDTO.getLocation());
-        tourEntity.setPrice(tourDTO.getPrice());
-        tourEntity.setStartDate(tourDTO.getStartDate());
-        tourEntity.setEndDate(tourDTO.getEndDate());
-        tourEntity.setReviewAverage(tourDTO.getReviewAverage());
-        tourEntity.setReviewCount(tourDTO.getReviewCount());
-        tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
-        tourEntity.setRemoved(tourDTO.isRemoved());
+        tourEntity.setTitle(tourRequestDTO.getTitle());
+        tourEntity.setDescription(tourRequestDTO.getDescription());
+        tourEntity.setLocation(tourRequestDTO.getLocation());
+        tourEntity.setPrice(tourRequestDTO.getPrice());
+        tourEntity.setStartDate(tourRequestDTO.getStartDate());
+        tourEntity.setEndDate(tourRequestDTO.getEndDate());
+        tourEntity.setReviewAverage(0.0F);
+        tourEntity.setReviewCount(0);
+        tourEntity.setMaxParticipant(tourRequestDTO.getMaxParticipants());
+        tourEntity.setRemoved(false);
         return tourEntity;
     }
 }

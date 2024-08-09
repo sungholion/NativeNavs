@@ -4,18 +4,23 @@ import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
+import com.nativenavs.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +32,12 @@ public class ReservationService {
     @Autowired
     private UserRepository userRepository;
 
+
+
     @Autowired
     private TourRepository tourRepository;
+    @Autowired
+    private WishlistRepository wishlistRepository;
 
     public ReservationEntity addReservation(ReservationRequestDTO requestDTO, int guideId) {
         UserEntity guide = userRepository.findById(guideId)
@@ -41,18 +50,20 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
 
         ReservationEntity reservation = new ReservationEntity();
+        reservation.setReservationNumber(UUID.randomUUID().toString().substring(0, 8));
         reservation.setGuide(guide);
         reservation.setTour(tour);
         reservation.setDate(requestDTO.getDate());
         reservation.setParticipant(participant);
         reservation.setStartAt(requestDTO.getStartAt());
+        reservation.setMeetingAddress(requestDTO.getMeetingAddress());
         reservation.setEndAt(requestDTO.getEndAt());
         reservation.setParticipantCount(requestDTO.getParticipantCount());
-        reservation.setDescription(requestDTO.getDescription());
         reservation.setMeetingLatitude(requestDTO.getMeetingLatitude());
         reservation.setMeetingLongitude(requestDTO.getMeetingLongitude());
         reservation.setStatus(ReservationStatus.RESERVATION);
         reservation.setCreatedAt(LocalDateTime.now());
+        reservation.setDescription(requestDTO.getDescription());
 
         return reservationRepository.save(reservation);
     }
@@ -93,11 +104,29 @@ public class ReservationService {
         return new ReservationResponseDTOWrapper(inProgressDTOs, completedDTOs);
     }
 
-    public List<ReservationResponseDTO> getParticipantsForTour(TourEntity tour, UserEntity guide) {
-        List<ReservationEntity> reservations=reservationRepository.findByTourAndGuideAndStatus(tour, guide, ReservationStatus.RESERVATION);
-        return reservations.stream()
-                .map(ReservationResponseDTO::toReservationDTO)
-                .collect(Collectors.toList());
+    public ReservationTourDTO getParticipantsForTour(TourEntity tour) {
+        List<ReservationEntity> reservations=reservationRepository.findByTourAndStatus(tour,ReservationStatus.RESERVATION);
+        ReservationTourDTO reservationTourDTO = new ReservationTourDTO();
+
+        reservationTourDTO.setTourDTO(TourDTO.toTourDTO(tour));
+        reservationTourDTO.setBookCount(reservationRepository.countByTour(tour));
+        reservationTourDTO.setWishCount(wishlistRepository.countByTourId(tour.getId()));
+
+        List<ParticipantDTO> participants = new ArrayList<>();
+        for( ReservationEntity r : reservations){
+            ParticipantDTO participantDTO = new ParticipantDTO();
+            participantDTO.setReservationId(r.getId());
+            participantDTO.setParticipantCount(r.getParticipantCount());
+            participantDTO.setReservationDate(r.getDate());
+            participantDTO.setReservationNumber(r.getReservationNumber());
+            participantDTO.setUserImage(r.getParticipant().getImage());
+            participantDTO.setUserNickName(r.getParticipant().getNickname());
+            participants.add(participantDTO);
+        }
+        reservationTourDTO.setReservationResponseDTOList(participants);
+
+        return reservationTourDTO;
+
     }
 
 
@@ -108,6 +137,7 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 예약을 찾을 수 없습니다: " + reservationId));
         // 상태를 DONE으로 변경합니다.
         reservation.setStatus(ReservationStatus.DONE);
+        reservation.setTaggingAt(LocalDateTime.now());
         // 변경된 예약을 저장합니다.
         reservationRepository.save(reservation);
     }
