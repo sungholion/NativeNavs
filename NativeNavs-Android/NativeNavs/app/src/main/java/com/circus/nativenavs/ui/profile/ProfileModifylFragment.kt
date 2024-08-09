@@ -84,6 +84,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                             updateUserNickName(binding.profileModifyNicknameEt.text.toString())
                             updateUserPhone(binding.profileModifyPhoneEt.text.toString())
                             updateStatusCode(-1)
+                            getUser(SharedPref.userId!!)
                             getProfileUser(SharedPref.userId!!)
                             popBackStack()
                         }
