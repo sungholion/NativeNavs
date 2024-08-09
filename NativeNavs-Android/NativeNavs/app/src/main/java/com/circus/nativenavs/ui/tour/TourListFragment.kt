@@ -60,6 +60,8 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                     TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
                         chatId = homeActivityViewModel.notiRoomId.value!!
                     )
+                homeActivityViewModel.setNotiFlag(-1)
+                homeActivityViewModel.setNotiRoomId(-1)
                 navigate(action)
             }
 
@@ -83,6 +85,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                                     reservationId = homeActivityViewModel.notiReservationId.value!!,
                                     tourId = homeActivityViewModel.notiTourId.value!!
                                 )
+                            homeActivityViewModel.setNotiFlag(-1)
                             homeActivityViewModel.setNotiReservationId(-1)
                             homeActivityViewModel.setNotiTourId(-1)
                         }
@@ -95,6 +98,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                                     reservationId = homeActivityViewModel.notiReservationId.value!!,
                                     tourId = homeActivityViewModel.notiTourId.value!!
                                 )
+                            homeActivityViewModel.setNotiFlag(-1)
                             homeActivityViewModel.setNotiReservationId(-1)
                             homeActivityViewModel.setNotiTourId(-1)
                         }
@@ -107,6 +111,7 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                                     reservationId = homeActivityViewModel.notiReservationId.value!!,
                                     tourId = homeActivityViewModel.notiTourId.value!!
                                 )
+                            homeActivityViewModel.setNotiFlag(-1)
                             homeActivityViewModel.setNotiReservationId(-1)
                             homeActivityViewModel.setNotiTourId(-1)
                         }
