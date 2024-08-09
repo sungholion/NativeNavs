@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
@@ -103,36 +105,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initAdapter() {
-//        val messageList = arrayListOf(
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = SharedPref.userId!!,
-//                senderNickname = "현진",
-//                senderProfileImage = "",
-//                content = "안녕하세요",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = 1,
-//                senderNickname = "아린",
-//                senderProfileImage = "",
-//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//            MessageDto(
-//                roomId = args.chatId,
-//                senderId = 1,
-//                senderNickname = "아린",
-//                senderProfileImage = "",
-//                content = "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-//                sendTime = System.currentTimeMillis(),
-//                isRead = false
-//            ),
-//        )
-//        chattingViewModel.setMessages(messageList)
         binding.chatMessageRv.adapter = messageListAdapter
     }
 

@@ -60,5 +60,11 @@ object SharedPref {
             sharedPrefs?.edit()?.putString(REFRESHTOKEN, value)?.apply()
         }
 
+    var fcmToken: String?
+        get() = sharedPrefs?.getString(FCM_TOKEN, null)
+        set(value) {
+            sharedPrefs?.edit()?.putString(FCM_TOKEN, value)?.apply()
+        }
+
 
 }

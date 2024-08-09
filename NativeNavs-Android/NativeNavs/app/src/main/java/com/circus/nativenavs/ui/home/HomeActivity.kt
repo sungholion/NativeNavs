@@ -24,13 +24,11 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
-    private val homeActivityViewModel : HomeActivityViewModel by viewModels()
-    private val chattingViewModel : KrossbowChattingViewModel by viewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by viewModels()
+    private val chattingViewModel: KrossbowChattingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
 
         initData()
         initView()
@@ -38,15 +36,22 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
     }
 
-    private fun initData(){
+    private fun initData() {
         homeActivityViewModel.getUser(SharedPref.userId!!)
         homeActivityViewModel.updateLanguageList()
         homeActivityViewModel.updateCategoryList()
+
+        if (intent != null) {
+            homeActivityViewModel.setNotiFlag(intent.getIntExtra("flag", -1))
+            homeActivityViewModel.setNotiRoomId(intent.getIntExtra("roomId", -1))
+            homeActivityViewModel.setNotiReservationId(intent.getIntExtra("reservationId", -1))
+            homeActivityViewModel.setNotiTourId(intent.getIntExtra("tourId", -1))
+        }
     }
 
     private fun initView() {
         binding.mainBottomNav.menu.clear()
-        if(SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
+        if (SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
         else binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_trav)
 
         val navHostFragment =

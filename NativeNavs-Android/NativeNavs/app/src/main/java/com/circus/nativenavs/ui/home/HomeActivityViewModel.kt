@@ -173,11 +173,9 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
-
-
     // search
     private val _searchTravel = MutableLiveData<String>("")
-    val searchTravel : LiveData<String> get() = _searchTravel
+    val searchTravel: LiveData<String> get() = _searchTravel
 
     private val _searchDate = MutableLiveData<String>("")
     val searchDate: LiveData<String> get() = _searchDate
@@ -235,7 +233,6 @@ class HomeActivityViewModel : ViewModel() {
         _searchTheme.value = list
     }
 
-
     private val _profileUserReview = MutableLiveData<ProfileUserReviewDto>()
     val profileUserReviewDto : LiveData<ProfileUserReviewDto> get() = _profileUserReview
 
@@ -257,6 +254,35 @@ class HomeActivityViewModel : ViewModel() {
                 _reviewStatus.value = count+1
             }
         }
+    }
+
+    //notification
+    private val _notiFlag = MutableLiveData<Int>(-1)
+    val notiFlag: LiveData<Int> get() = _notiFlag
+
+    private val _notiRoomId = MutableLiveData<Int>(-1)
+    val notiRoomId: LiveData<Int> get() = _notiRoomId
+
+    private val _notiReservationId = MutableLiveData<Int>(-1)
+    val notiReservationId: LiveData<Int> get() = _notiReservationId
+
+    private val _notiTourId = MutableLiveData<Int>(-1)
+    val notiTourId: LiveData<Int> get() = _notiTourId
+
+    fun setNotiFlag(flag: Int) {
+        _notiFlag.value = flag
+    }
+
+    fun setNotiRoomId(roomId: Int) {
+        _notiRoomId.value = roomId
+    }
+
+    fun setNotiReservationId(reservationId: Int) {
+        _notiReservationId.value = reservationId
+    }
+
+    fun setNotiTourId(tourId: Int) {
+        _notiTourId.value = tourId
     }
 
 }

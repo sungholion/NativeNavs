@@ -20,6 +20,12 @@
         <action
             android:id="@+id/action_tourListFragment_to_tourSearchFragment"
             app:destination="@id/tourSearchFragment" />
+        <action
+            android:id="@+id/action_tourListFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_tourListFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
@@ -202,7 +208,7 @@
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" >
+        tools:layout="@layout/fragment_reservation_register">
         <argument
             android:name="tourId"
             android:defaultValue="-1"
@@ -342,7 +348,8 @@
     <fragment
         android:id="@+id/tourSearchFragment"
         android:name="com.circus.nativenavs.ui.tour.TourSearchFragment"
-        android:label="TourSearchFragment">
+        android:label="TourSearchFragment"
+        tools:layout="@layout/fragment_tour_search">
         <action
             android:id="@+id/action_tourSearchFragment_to_tourListFragment"
             app:destination="@id/tourListFragment" />

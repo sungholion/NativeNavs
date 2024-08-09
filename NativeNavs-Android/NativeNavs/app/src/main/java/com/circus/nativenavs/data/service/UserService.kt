@@ -27,37 +27,37 @@ interface UserService {
     @POST("users")
     suspend fun postSignUp(
         @Part userDto: MultipartBody.Part,
-        @Part image : MultipartBody.Part
-    ) : Response<Void>
+        @Part image: MultipartBody.Part
+    ): Response<Void>
 
     @POST("auth/login")
     suspend fun Login(
         @Body loginDTO: LoginDto
-    ) : Response<LoginResponse>
+    ): Response<LoginResponse>
 
     @POST("auth/refresh")
     suspend fun refresh(
-        @Body refresh:Map<String,String>
-    ) :Response<RefreshResponse>
+        @Body refresh: Map<String, String>
+    ): Response<RefreshResponse>
 
     @GET("users/authenticateEmail")
     suspend fun setEmailVerifyCode(
-        @Query("email") email:String,
-        @Query("authenticationCode") authenticationCode:String
+        @Query("email") email: String,
+        @Query("authenticationCode") authenticationCode: String
     ): Response<Void>
 
     @POST("users/sendEmail")
     suspend fun getEmailVerifyCode(
         @Query("email") email: String
-    ) : Response<Void>
+    ): Response<Void>
 
     @GET("language")
-    suspend fun getLanguageList():LanguageServerDto
+    suspend fun getLanguageList(): LanguageServerDto
 
     @GET("users/checkDuplicated/nickname/{nickname}")
     suspend fun isDupliNick(
-        @Path(value = "nickname") nickname : String
-    ):Response<Void>
+        @Path(value = "nickname") nickname: String
+    ): Response<Void>
 
     @GET("users/search/id/{id}")
     suspend fun searchUser(
@@ -68,14 +68,14 @@ interface UserService {
     @PUT("users")
     suspend fun updateUser(
         @Part userDto: MultipartBody.Part,
-        @Part image : MultipartBody.Part?
-    ):Response<Void>
+        @Part image: MultipartBody.Part?
+    ): Response<Void>
 
     @DELETE("users/delete")
-    suspend fun deleteUser():Response<Void>
+    suspend fun deleteUser(): Response<Void>
 
     @GET("tours/category")
-    suspend fun getCategory():List<CategoryDto>
+    suspend fun getCategory(): List<CategoryDto>
 
     @GET("reviews/guide/{guideId}")
     suspend fun getNavReview(
@@ -86,4 +86,9 @@ interface UserService {
     suspend fun getTravReview(
         @Path(value = "travId") guideId : Int
     ) : ProfileUserReviewDto
+
+    @GET("users/fcm")
+    suspend fun postFcmToken(
+        @Body fcmToken: Map<String, String>
+    ): Response<Void>
 }
