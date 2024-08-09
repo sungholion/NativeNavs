@@ -41,9 +41,6 @@ class KrossbowChattingViewModel : ViewModel() {
     private val _chatRoomId = MutableLiveData<Int>(-1)
     val chatRoomId: LiveData<Int> = _chatRoomId
 
-    private val _chatTourInfo = MutableLiveData<ChatTourInfoDto>()
-    val chatTourInfo: LiveData<ChatTourInfoDto> = _chatTourInfo
-
     private val _chatMessages = MutableLiveData<List<MessageDto>>()
     val chatMessages: LiveData<List<MessageDto>> = _chatMessages
 
@@ -77,6 +74,16 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
+    fun setCurrentChatRoom(roomId: Int) {
+        viewModelScope.launch {
+            _currentChatRoom.value = chatRetrofit.getChatRoom(roomId)
+            currentChatRoom.value?.let {
+                _chatRoomId.value = it.roomId
+            }
+        }
+
+    }
+
     fun getChatRoomList() {
         viewModelScope.launch {
             Log.d(TAG, "getChatRoomList raw: ${chatRetrofit.getChatRoomList()}")
@@ -88,12 +95,6 @@ class KrossbowChattingViewModel : ViewModel() {
     fun setChatRoomId(roomId: Int) {
         _chatRoomId.value = roomId
         Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
-    }
-
-    fun getChatTourInfo(roomId: Int) {
-        viewModelScope.launch {
-            _chatTourInfo.value = chatRetrofit.getChatTourInfo(roomId)
-        }
     }
 
     fun getChatMessages(roomId: Int) {

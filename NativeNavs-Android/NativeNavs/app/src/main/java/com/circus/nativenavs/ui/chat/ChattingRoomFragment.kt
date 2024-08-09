@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
+import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding

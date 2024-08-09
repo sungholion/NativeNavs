@@ -54,18 +54,26 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
     }
 
     private fun initObserve() {
+        chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
+            if (roomId != -1) {
+                val action =
+                    TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
+                        chatId = homeActivityViewModel.notiRoomId.value!!
+                    )
+                navigate(action)
+            }
+
+        }
+
         homeActivityViewModel.notiFlag.observe(viewLifecycleOwner) { flag ->
             if (flag != -1) {
                 var action: NavDirections? = null
                 when (flag) {
                     1 -> {
                         //수정 필요
-//                        if (homeActivityViewModel.notiRoomId.value != -1) {
-//                            action =
-//                                TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
-//                                    chatId = homeActivityViewModel.notiRoomId.value!!
-//                                )
-//                        }
+                        if (homeActivityViewModel.notiRoomId.value != -1) {
+                            chattingViewModel.setCurrentChatRoom(homeActivityViewModel.notiRoomId.value!!)
+                        }
                     }
 
                     2 -> {
@@ -167,5 +175,11 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         super.onResume()
         homeActivity.hideBottomNav(true)
         isPageLoaded = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        homeActivityViewModel.setNotiFlag(-1)
+        chattingViewModel.setChatRoomId(-1)
     }
 }

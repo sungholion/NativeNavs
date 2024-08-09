@@ -60,8 +60,6 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
                 val action =
                     TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
                         chatId = roomId
-//                        chatId = chattingViewModel.currentChatRoom.value!!.roomId
-
                     )
                 navigate(action)
             }

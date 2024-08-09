@@ -12,10 +12,10 @@ interface ChatService {
     @GET("rooms/search/all")
     suspend fun getChatRoomList(): List<ChatRoomDto>
 
-    @GET("tour/{roomId}")
-    suspend fun getChatTourInfo(
+    @GET("rooms/search/{roomId}")
+    suspend fun getChatRoom(
         @Path(value = "roomId") roomId: Int
-    ): ChatTourInfoDto
+    ): ChatRoomDto
 
     @GET("rooms/enter/{roomId}")
     suspend fun getChatMessages(
