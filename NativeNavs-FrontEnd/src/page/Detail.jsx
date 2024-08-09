@@ -15,6 +15,7 @@ import {
 } from "@/utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
 import StarScore from "../components/Star/StarScore";
+import StarScore2 from "../components/Star/StarScore2";
 
 const Detail = () => {
   const params = useParams();
@@ -222,7 +223,7 @@ const Detail = () => {
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
               {/* <Rating reviewAverage={tour.reviewAverage} /> */}
-              <StarScore score={tour.reviewAverage * 20} />
+              <StarScore2 score={tour.reviewAverage * 20} />
             </div>
           </div>
 
