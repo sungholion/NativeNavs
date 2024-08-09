@@ -159,7 +159,7 @@ public class TourController {
             @RequestParam(required = false) LocalDate date,
 
             @Parameter(description = "카테고리 ID", example = "7")
-            @RequestParam(required = false) Integer categoryId) {
+            @RequestParam(required = false) List<Integer> categoryId) {
 
         try{
             List<TourDTO> tourDTOList = tourService.searchTours(location, date, categoryId);

@@ -255,7 +255,7 @@ public class TourService {
         tourRepository.deleteById(id);
     }
 
-    public List<TourDTO> searchTours(String location, LocalDate date, Integer categoryId) {
+    public List<TourDTO> searchTours(String location, LocalDate date, List<Integer> categoryIds) {
         Specification<TourEntity> spec = Specification.where(null);
 
         if (location != null && !location.isEmpty()) {
@@ -264,16 +264,13 @@ public class TourService {
         if (date != null) {
             spec = spec.and(TourSpecification.isDateInRange(date));
         }
-        if (categoryId != null) {
-            spec = spec.and(TourSpecification.hasCategory(categoryId));
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            spec = spec.and(TourSpecification.hasCategory(categoryIds));
         }
         List<TourEntity> tourEntities = tourRepository.findAll(spec);
         return tourEntities.stream()
-                .map(tourEntity->{
-                    // TourDTO로 변환 및 유저 정보 추가
-                    return TourDTO.toTourDTO(tourEntity);
-                })
-                .collect(Collectors.toList());
+                .map(TourDTO::toTourDTO)
+                .toList();
     }
 
     public List<GuideTourDTO> findToursByGuide(int guideId) {
