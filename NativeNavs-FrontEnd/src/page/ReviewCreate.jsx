@@ -25,6 +25,22 @@ const ReviewCreate = () => {
     description: "",
     image: [], //이미지 파일 - Max 5개
   });
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received user JSON:", userJson);
+      try {
+        const parsedUser = JSON.parse(userJson);
+        console.log(`User ID: ${parsedUser.userId}`);
+        console.log(`Token: ${parsedUser.userToken}`);
+        console.log(`isNav: ${parsedUser.isNav}`);
+        setUser(parsedUser);
+      } catch (error) {
+        console.log("Failed to parse user JSON");
+      }
+    };
+  }, []);
   const [tourInfo, setTourInfo] = useState(null); // 투어 정보
   useEffect(() => {
     axios
