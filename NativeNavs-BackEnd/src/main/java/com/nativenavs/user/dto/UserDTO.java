@@ -31,6 +31,7 @@ public class UserDTO {
     private int travReservationCount;
     private boolean isKorean;
     private String device;
+    private String fcmToken;
 
     // Entity -> DTO
     public static UserDTO toUserDTO(UserEntity userEntity){

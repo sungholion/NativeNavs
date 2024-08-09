@@ -1,10 +1,9 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.common.service.AwsS3ObjectStorage;
-import com.nativenavs.user.dto.UserRequestDTO;
+import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
-import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -153,6 +152,15 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return userEntity.getId();
     }
+
+    // ----
+
+    @Transactional
+    @Override
+    public void updateFcmToken(int userId, String fcmToken) {
+        userRepository.updateFcmToken(userId, fcmToken);
+    }
+
 
 
 }

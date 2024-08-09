@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")   // 고민해보기
+@Tag(name = "user API", description = "user")
 public class UserController {
 
     /**
@@ -46,7 +47,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
     @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 한다")
     @GetMapping("/checkDuplicated/email/{email}")
     public ResponseEntity<String> checkDuplicatedEmail(
@@ -70,7 +70,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 중복 체크 API", description = "중복 체크 - email / nickname")
     @Operation(summary = "nickname 중복 체크 API", description = "nickname 중복 체크를 한다")
     @GetMapping("/checkDuplicated/nickname/{nickname}")
     public ResponseEntity<String> checkDuplicatedNickname(
@@ -96,7 +95,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 발송 API", description = "email을 입력하여 인증코드를 발송합니다")
     @PostMapping("/sendEmail")
     public ResponseEntity<?> sendEmail(
@@ -119,7 +117,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "이메일 인증 API", description = "이메일과 인증 코드를 입력하여 이메일 인증을 합니다.")
     @GetMapping("/authenticateEmail")
     public ResponseEntity<?> authenticateEmail(
@@ -145,7 +142,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "이메일 발송/인증, 회원가입 API", description = "회원가입 관련 - 이메일 발송 / 인증 / 회원가입")
     @Operation(summary = "회원가입 API", description = "회원가입을 합니다. (이메일 발송/인증 필수)")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> signUp (
@@ -184,7 +180,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "전체 회원 검색 API", description = "가입된 전체 회원 목록을 검색합니다")
     @GetMapping("/search/all")
     public ResponseEntity<?> searchAllUser() {
@@ -196,7 +191,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "id로 회원 검색 API", description = "Id를 입력하여 특정 회원 1명을 조회합니다")
     @GetMapping("/search/id/{id}")
     public ResponseEntity<?> searchById(
@@ -220,7 +214,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "Email로 회원 검색 API", description = "email을 입력하여 특정 회원 1명을 조회합니다")
     @GetMapping("/search/email/{email}")
     public ResponseEntity<?> searchByEmailForClient(
@@ -244,7 +237,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "name으로 회원 검색 API", description = "name을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/search/name/{name}")
@@ -269,7 +261,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 검색 API", description = "조회 - 전체 / id / email / nickname / name")
     @Operation(summary = "nickname으로 회원 검색 API", description = "nickname을 입력하여 특정 회원 1명을 조회합니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/search/nickname/{nickname}")
@@ -296,7 +287,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보를 수정합니다")
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUser(
@@ -324,7 +314,6 @@ public class UserController {
         }
     }
 
-    @Tag(name = "회원 정보 수정 / 탈퇴 API", description = "정보 수정, 탈퇴")
     @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUser(
@@ -349,7 +338,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "Email <-> Id 변환 API", description = "user Email을 id로 전환")
     @Operation(summary = "Email을 ID로 전환하는 API", description = "이메일을 입력하여 해당 id를 얻습니다")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @GetMapping("/changeEmailToId/{email}")
@@ -373,6 +361,48 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
         }
     }
+
+    @Operation(summary = "FCM 토큰 업데이트 API", description = "사용자의 FCM 토큰을 업데이트 합니다")
+    @PutMapping("/fcmToken")
+    public ResponseEntity<?> updateFcmToken(
+            @Parameter(description = "User ID", required = true, example = "5")
+            @RequestParam("userId") int userId,
+            @Parameter(description = "FCM Token", required = true, example = "some-fcm-token")
+            @RequestParam("fcmToken") String fcmToken) {
+        try {
+            userService.updateFcmToken(userId, fcmToken);
+            return ResponseEntity.ok("FCM 토큰이 업데이트 되었습니다");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 입니다");
+        }
+    }
+
+    @Operation(summary = "FcmToken 조회 API", description = "FcmToken을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/fcmToken/{userId}")
+    public ResponseEntity<?> getFcmTokenById(
+            @Parameter(
+                    description = "userId",
+                    required = true,
+                    example = "4"
+            )
+            @PathVariable("userId") int userId) {
+        try {
+            UserSearchDTO user = userService.searchById(userId);
+
+            String token = user.getFcmToken();
+            if(user != null) {
+                return ResponseEntity.accepted().body(token);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
 
 }
 
