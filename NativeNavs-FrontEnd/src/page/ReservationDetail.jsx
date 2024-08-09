@@ -82,13 +82,11 @@ const ReservationDetail = () => {
     }
   };
 
-  // date formatting
+  // tour date formatting
   const formatDate = (date) => {
-    const dateObj = new Date(date);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    return `${year} / ${month} / ${day}`;
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
   };
 
   // time formatting

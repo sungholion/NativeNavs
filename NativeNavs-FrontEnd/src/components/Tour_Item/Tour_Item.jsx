@@ -94,32 +94,35 @@ const Tour_Item = ({
         )}
       </div>
 
-      <section className={styles.tour_info}>
-        <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{title}</p>
-          <p className={styles.tour_duration}>
-            {startDate} ~ {endDate}
-          </p>
-          <Rating avg={reviewAverage} />
+      <section className={styles.infoContainer}>
+        <div className={styles.infoTopContainer}>
+          <div className={styles.infoTopLeftContainer}>
+            <p className={styles.tour_title}>{title}</p>
+            <p className={styles.tour_duration}>
+              {startDate} ~ {endDate}
+            </p>
+          </div>
+          <div className={styles.infoTopRightContainer}>
+            <div className={styles.tour_nav}>
+              <img
+                src={nav_profile_img}
+                alt={nickname}
+                className={styles.nav_img}
+              />
+              <p className={styles.tour_nav}>{nickname}</p>
+            </div>
+          </div>
         </div>
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav}>
-            <img
-              src={nav_profile_img}
-              alt={nickname}
-              className={styles.nav_img}
-            />
-            <p style={{ cursor: "pointer" }}>{nickname}</p>
-          </div>
-          <div className={styles.navLanguagesContainer}>
-            {navLanguages.length > 1 ? (
-              <p className={styles.navLanguages}>
-                🌏 {navLanguages[0]} 외 {navLanguages.length - 1}개
-              </p>
-            ) : (
-              <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
-            )}
-          </div>
+        <div className={styles.infoBottomContainer}>
+          <Rating reviewAverage={reviewAverage} />
+
+          {navLanguages.length > 1 ? (
+            <p className={styles.navLanguages}>
+              🌏 {navLanguages[0]} 외 {navLanguages.length - 1}개
+            </p>
+          ) : (
+            <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
+          )}
         </div>
       </section>
     </div>
