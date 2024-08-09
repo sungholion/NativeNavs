@@ -109,7 +109,7 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
                 }
                 else {
                     startActivity(Intent(requireContext(), QRCreateActivity::class.java).apply {
-                        action = "17"
+                        action = "${args.reservationId}"
                     })
                 }
             }
