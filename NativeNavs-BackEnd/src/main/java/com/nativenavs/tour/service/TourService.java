@@ -181,13 +181,13 @@ public class TourService {
 
     private void updateTourEntityFields(TourEntity tourEntity, TourRequestDTO tourRequestDTO, MultipartFile thumbnailImage) {
         tourEntity.setTitle(tourRequestDTO.getTitle());
-
-        if(tourEntity.getThumbnailImage() != null && !thumbnailImage.isEmpty()){
+        System.out.println("kjasdfh;lasdfh;lkdahfl;aldsf");
+        if(tourRequestDTO.getThumbnailImage().equals("")){
                 awsS3ObjectStorageUpload.deleteFile(tourEntity.getThumbnailImage());
                 String thumbnailUrl = awsS3ObjectStorageUpload.uploadFile(thumbnailImage);
                 tourEntity.setThumbnailImage(thumbnailUrl);
         }
-
+        System.out.println("이까지오면 이로직은 문제가 없다");
         tourEntity.setDescription(tourRequestDTO.getDescription());
         tourEntity.setLocation(tourRequestDTO.getLocation());
         tourEntity.setPrice(tourRequestDTO.getPrice());
