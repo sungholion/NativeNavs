@@ -11,11 +11,11 @@ import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
-import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.databinding.FragmentReviewPhotoBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.popBackStack
 
 private const val TAG = "ReviewPhotoFragment"
@@ -69,11 +69,11 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
 
         var url = ""
         if (args.tourId != -1) {
-            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviewphotos"
+            url = WEBURL + "tour/detail/${args.tourId}/reviewphotos"
         } else if (args.navId != -1) {
-            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviewphotos"
+            url = WEBURL + "nav/${args.navId}/reviewphotos"
         } else if (args.travId != -1) {
-            url = "https://i11d110.p.ssafy.io/trav/${args.travId}/reviewphotos"
+            url = WEBURL + "trav/${args.travId}/reviewphotos"
         }
 
         Log.d(TAG, "initCustomView: $url")

@@ -10,15 +10,19 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.NavDirections
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentTourListBinding
+import com.circus.nativenavs.ui.chat.KrossbowChattingViewModel
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.LocaleUtils
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +34,8 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
     R.layout.fragment_tour_list
 ) {
     private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
+    private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
+
     private lateinit var homeActivity: HomeActivity
     private lateinit var bridge: TourListBridge
     private var isPageLoaded = false
@@ -45,6 +51,80 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         initEvent()
         initWebView()
         initBridge()
+        initObserve()
+    }
+
+    private fun initObserve() {
+        chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
+            if (roomId != -1) {
+                val action =
+                    TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
+                        chatId = homeActivityViewModel.notiRoomId.value!!
+                    )
+                homeActivityViewModel.setNotiFlag(-1)
+                homeActivityViewModel.setNotiRoomId(-1)
+                navigate(action)
+            }
+
+        }
+
+        homeActivityViewModel.notiFlag.observe(viewLifecycleOwner) { flag ->
+            if (flag != -1) {
+                var action: NavDirections? = null
+                when (flag) {
+                    1 -> {
+                        //수정 필요
+                        if (homeActivityViewModel.notiRoomId.value != -1) {
+                            chattingViewModel.setCurrentChatRoom(homeActivityViewModel.notiRoomId.value!!)
+                        }
+                    }
+
+                    2 -> {
+                        if (homeActivityViewModel.notiReservationId.value != -1 && homeActivityViewModel.notiTourId.value != -1) {
+                            action =
+                                TourListFragmentDirections.actionTourListFragmentToReservationDetailFragment(
+                                    reservationId = homeActivityViewModel.notiReservationId.value!!,
+                                    tourId = homeActivityViewModel.notiTourId.value!!
+                                )
+                            homeActivityViewModel.setNotiFlag(-1)
+                            homeActivityViewModel.setNotiReservationId(-1)
+                            homeActivityViewModel.setNotiTourId(-1)
+                        }
+                    }
+
+                    3 -> {
+                        if (homeActivityViewModel.notiReservationId.value != -1 && homeActivityViewModel.notiTourId.value != -1) {
+                            action =
+                                TourListFragmentDirections.actionTourListFragmentToReservationDetailFragment(
+                                    reservationId = homeActivityViewModel.notiReservationId.value!!,
+                                    tourId = homeActivityViewModel.notiTourId.value!!
+                                )
+                            homeActivityViewModel.setNotiFlag(-1)
+                            homeActivityViewModel.setNotiReservationId(-1)
+                            homeActivityViewModel.setNotiTourId(-1)
+                        }
+                    }
+
+                    4 -> {
+                        if (homeActivityViewModel.notiReservationId.value != -1 && homeActivityViewModel.notiTourId.value != -1) {
+                            action =
+                                TourListFragmentDirections.actionTourListFragmentToReservationDetailFragment(
+                                    reservationId = homeActivityViewModel.notiReservationId.value!!,
+                                    tourId = homeActivityViewModel.notiTourId.value!!
+                                )
+                            homeActivityViewModel.setNotiFlag(-1)
+                            homeActivityViewModel.setNotiReservationId(-1)
+                            homeActivityViewModel.setNotiTourId(-1)
+                        }
+                    }
+                }
+                action?.let {
+                    navigate(action)
+                }
+
+            }
+
+        }
     }
 
     private fun initBridge() {
@@ -75,12 +155,15 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                 if (!isPageLoaded) {
                     isPageLoaded = true
                     bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                    homeActivityViewModel.let {
+                        bridge.sendSearchData(it.searchTravel.value!!, it.searchDate.value!!, it.searchTheme.value!!)
+                    }
                 }
             }
         }
         binding.tourListWv.webChromeClient = WebChromeClient()
 
-        binding.tourListWv.loadUrl("https://i11d110.p.ssafy.io/main")
+        binding.tourListWv.loadUrl(WEBURL + "main")
     }
 
     fun moveToTourDetailFragment(tourId: Int, navId: Int) {
@@ -95,5 +178,11 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
         super.onResume()
         homeActivity.hideBottomNav(true)
         isPageLoaded = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        homeActivityViewModel.setNotiFlag(-1)
+        chattingViewModel.setChatRoomId(-1)
     }
 }

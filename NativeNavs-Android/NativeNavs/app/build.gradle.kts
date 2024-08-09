@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 
 }
 
@@ -68,8 +69,28 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+    // Moshi
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+
+    //krossbow
+    implementation(libs.krossbow.stomp.core)
+    implementation(libs.krossbow.websocket.okhttp)
+    implementation(libs.krossbow.stomp.moshi)
+
     implementation(libs.material.calendarview){
         exclude(group = "com.android.support", module = "support-compat")
     }
     implementation(libs.threetenabp)
+
+    //이미지 Glide
+    implementation(libs.glide)
+
+    //QR
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
+
+    // FCM
+    implementation(libs.firebase.bom)
+    implementation(libs.google.firebase.messaging.ktx)
 }

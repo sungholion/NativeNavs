@@ -48,7 +48,6 @@ class LoginActivityViewModel : ViewModel() {
                 SharedPref.accessToken = loginResponse?.accessToken
                 SharedPref.refreshToken = loginResponse?.refreshToken
                 SharedPref.userId = loginResponse?.id
-//                SharedPref.userEmail = loginResponse?.email
                 SharedPref.isNav = loginResponse?.isNav
 
                 println("${SharedPref.accessToken.toString()}")

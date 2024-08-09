@@ -21,6 +21,7 @@
     <string name="app_bar_profile">Profile</string>
     <string name="app_bar_profile_modify">Edit Profile</string>
 
+    <string name="app_bar_my_trip_list">My TourList</string>
     <string name="tour_wish_list_title">WishList</string>
 
     <!-- My Page -->
@@ -167,4 +168,5 @@
     <string name="dialog_cancel_modify_tour">Are you sure you want to finish modifying your tour?</string>
     <string name="dialog_cancel_register_review">Are you sure you want to finish registering your review?</string>
     <string name="dialog_register_review_fail">Review registration failed. Please try again.</string>
+    <string name="dialog_cancel_reservation_tour">Are you sure you want to finish registering your reservation?</string>
 </resources>

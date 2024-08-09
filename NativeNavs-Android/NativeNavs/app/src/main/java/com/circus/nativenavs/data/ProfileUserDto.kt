@@ -11,7 +11,7 @@ data class ProfileUserDto(
     val korean: Boolean,
     val name: String,
     val nation: String,
-    val navReviewAverage: Int,
+    val navReviewAverage: Double,
     val navReviewCount: Int,
     var nickname: String,
     var phone: String,

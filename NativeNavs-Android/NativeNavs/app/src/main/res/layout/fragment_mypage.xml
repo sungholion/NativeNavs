@@ -52,6 +52,7 @@
                     android:id="@+id/mypage_profile_img_iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/logo_nativenavs" />
             </androidx.cardview.widget.CardView>
 
@@ -317,5 +318,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mypage_withdrawal_cl" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

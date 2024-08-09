@@ -20,6 +20,7 @@ import com.circus.nativenavs.databinding.FragmentTourRegisterBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -165,7 +166,7 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
                 }
             }
 
-        val url = "https://i11d110.p.ssafy.io/tour/create"
+        val url = WEBURL + "tour/create"
         Log.d(TAG, "initCustomView: $url")
         binding.tourRegisterWv.loadWebViewUrl(url)
 

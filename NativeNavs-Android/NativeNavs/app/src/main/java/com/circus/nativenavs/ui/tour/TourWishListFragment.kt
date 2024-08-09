@@ -15,6 +15,7 @@ import com.circus.nativenavs.databinding.FragmentTourWishListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.video.VideoActivity
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 
 class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
@@ -77,7 +78,7 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
         }
         binding.tourWishListWv.webChromeClient = WebChromeClient()
 
-        val url = "https://i11d110.p.ssafy.io/trav/${SharedPref.userId}/wishlist"
+        val url = WEBURL + "trav/${SharedPref.userId}/wishlist"
         binding.tourWishListWv.loadUrl(url)
     }
 

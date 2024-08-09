@@ -5,16 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ChatRoomDto
+import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity
+import com.circus.nativenavs.ui.home.HomeActivityViewModel
 import com.circus.nativenavs.ui.video.VideoActivity
+import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
+import kotlin.math.log
+
+private const val TAG = "ChattingRoomFragment"
 
 class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     FragmentChattingRoomBinding::bind,
@@ -22,30 +31,67 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
+    private val args: ChattingRoomFragmentArgs by navArgs()
+
+    private val chattingViewModel: KrossbowChattingViewModel by activityViewModels()
+    private val homeViewModel: HomeActivityViewModel by activityViewModels()
+
     private val messageListAdapter = MessageListAdapter()
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+        chattingViewModel.getChatMessages(args.chatId)
+        chattingViewModel.connectWebSocket()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getDataFromFragment()
-
+        chattingViewModel.setSenderInfo(
+            SharedPref.userId!!,
+            homeViewModel.userDto.value!!.nickname,
+            homeViewModel.userDto.value!!.image
+        )
         initView()
         initAdapter()
+        initObserve()
         initEvent()
     }
 
+    private fun initObserve() {
+        chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            Log.d(TAG, "observeViewModel: $uiState")
+            messageListAdapter.submitList(uiState.messages)
+            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
+        }
+    }
+
     private fun initEvent() {
+        binding.chatRoomSendBtn.setOnClickListener {
+            chattingViewModel.setMessage(binding.chatRoomTypingEt.text.toString())
+            chattingViewModel.sendMessage {
+                binding.chatRoomTypingEt.text.clear()
+            }
+        }
+
         binding.chatRoomLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
 
         binding.chatTourBookLl.setOnClickListener {
-            navigate(R.id.action_chattingRoomFragment_to_reservationRegisterFragment)
+            val action =
+                ChattingRoomFragmentDirections.actionChattingRoomFragmentToReservationRegisterFragment(
+                    tourId = chattingViewModel.currentChatRoom.value!!.tourId,
+                    travId = chattingViewModel.currentChatRoom.value!!.senderId
+                )
+            navigate(action)
         }
 
         binding.chatTourCallLl.setOnClickListener {
@@ -53,40 +99,18 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         }
     }
 
-    private fun getDataFromFragment() {
-        val args: ChattingRoomFragmentArgs by navArgs()
-        Log.d("getDataFromFragment", "getDataFromFragment: ${args.chatId}")
-    }
-
     private fun initView() {
-        binding.chatRoom = ChatRoomDto(1, "남산타워 투어", "서울", "", "아린")
+        binding.chatRoom = chattingViewModel.currentChatRoom.value!!
+        binding.chatTourBookLl.visibility = if (SharedPref.isNav!!) View.VISIBLE else View.GONE
     }
 
     private fun initAdapter() {
-        val messageList = arrayListOf(
-            MessageDto(
-                1, 0, "안드류",
-                "", "문의드립니다~",
-                System.currentTimeMillis(), 1
-            ),
-            MessageDto(
-                2, 2, "아린",
-                "", "안녕하세요",
-                System.currentTimeMillis(), 1
-            ),
-            MessageDto(
-                3, 2, "아린",
-                "", "문의 감사합니다. 문의 감사합니다. 문의 감사합니다. 문의 감사합니다.",
-                System.currentTimeMillis(), 1
-            ),
-        )
-
         binding.chatMessageRv.adapter = messageListAdapter
-        messageListAdapter.submitList(messageList)
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(false)
+    override fun onPause() {
+        super.onPause()
+        chattingViewModel.disconnectWebSocket()
+        chattingViewModel.setChatRoomId(-1)
     }
 }

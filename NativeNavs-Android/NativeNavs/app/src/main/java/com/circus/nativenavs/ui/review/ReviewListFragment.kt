@@ -15,9 +15,8 @@ import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailBridge
-import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
 import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 
 private const val TAG = "ReviewListFragment"
@@ -78,11 +77,11 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
 
         var url = ""
         if (args.tourId != -1) {
-            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviews"
+            url = WEBURL + "tour/detail/${args.tourId}/reviews"
         } else if (args.navId != -1) {
-            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviews"
+            url = WEBURL + "nav/${args.navId}/reviews"
         } else if (args.travId != -1) {
-            url = "https://i11d110.p.ssafy.io/trav/${args.travId}/reviews"
+            url = WEBURL + "trav/${args.travId}/reviews"
         }
 
         Log.d(TAG, "initCustomView: $url")
@@ -91,6 +90,7 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTourReviewPhotoFragment(tourId: Int) {
+        Log.d(TAG, "navigateToTravReviewPhotoFragment: $tourId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(tourId = tourId)
         navigate(action)

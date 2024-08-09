@@ -88,7 +88,10 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
 
     private fun initView() {
         binding.apply {
-            tourSearchTravelTitleContentTv.text = homeActivityViewModel.searchTravel.value
+            if(homeActivityViewModel.searchTravel.value != ""){
+                searchEditText.setText(homeActivityViewModel.searchTravel.value)
+                tourSearchTravelTitleContentTv.text = homeActivityViewModel.searchTravel.value
+            }
             tourSearchDateTitleContentTv.text = homeActivityViewModel.searchDate.value
         }
         binding.calendarView.setOnMonthChangedListener { widget, date ->
@@ -155,8 +158,8 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
                     Log.d("img", "initEvent: ${it.searchTravel.value}")
                     Log.d("img", "initEvent: ${it.searchDate.value}")
                     Log.d("img", "initEvent: ${it.searchTheme.value}")
+                    navigate(R.id.action_tourSearchFragment_to_tourListFragment)
                 }
-//                navigate(R.id.action_tourSearchFragment_to_tourListFragment)
             }
             tourSearchCloseBtn.setOnClickListener {
                 findNavController().popBackStack()
