@@ -207,6 +207,10 @@
             android:name="tourId"
             android:defaultValue="-1"
             app:argType="integer" />
+        <argument
+            android:name="travId"
+            android:defaultValue="-1"
+            app:argType="integer" />
         <action
             android:id="@+id/action_reservationRegisterFragment_to_chattingRoomFragment"
             app:destination="@id/chattingRoomFragment" />

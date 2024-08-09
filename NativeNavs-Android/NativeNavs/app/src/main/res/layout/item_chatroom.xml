@@ -27,7 +27,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/logo_nativenavs" />
+            tools:src="@drawable/logo_nativenavs"
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/chat_tour_title_tv"
