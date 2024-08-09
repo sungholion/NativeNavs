@@ -4,6 +4,7 @@ import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
+import com.nativenavs.reservation.dto.ReservationTourDTO;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.entity.TourEntity;
@@ -143,11 +144,10 @@ public class ReservationController {
     public ResponseEntity<?> getParticipantsForTour(
             @Parameter(description = "조회할 투어 ID", required = true, example = "1") @PathVariable int tourId, @RequestHeader("Authorization") String token) {
         try {
-            int userId = getUserIdFromJWT(token); // JWT에서 가이드 ID 추출
-            Optional<UserEntity> guide = userRepository.findById(userId);
+
             TourEntity tour = tourRepository.findById(tourId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투어를 찾을 수 없습니다: " + tourId));
-            List<ReservationResponseDTO> reservationEntities = reservationService.getParticipantsForTour(tour, guide.orElse(null));  // 가이드 정보가 null이면 null을 ����
+            ReservationTourDTO reservationEntities = reservationService.getParticipantsForTour(tour);  // 가이드 정보가 null이면 null을 ����
             return ResponseEntity.ok(reservationEntities);
 
         } catch (Exception e) {

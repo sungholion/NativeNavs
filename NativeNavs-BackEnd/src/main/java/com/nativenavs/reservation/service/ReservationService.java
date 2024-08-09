@@ -4,16 +4,20 @@ import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
+import com.nativenavs.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +32,12 @@ public class ReservationService {
     @Autowired
     private UserRepository userRepository;
 
+
+
     @Autowired
     private TourRepository tourRepository;
+    @Autowired
+    private WishlistRepository wishlistRepository;
 
     public ReservationEntity addReservation(ReservationRequestDTO requestDTO, int guideId) {
         UserEntity guide = userRepository.findById(guideId)
@@ -96,11 +104,29 @@ public class ReservationService {
         return new ReservationResponseDTOWrapper(inProgressDTOs, completedDTOs);
     }
 
-    public List<ReservationResponseDTO> getParticipantsForTour(TourEntity tour, UserEntity guide) {
-        List<ReservationEntity> reservations=reservationRepository.findByTourAndGuideAndStatus(tour, guide, ReservationStatus.RESERVATION);
-        return reservations.stream()
-                .map(ReservationResponseDTO::toReservationDTO)
-                .collect(Collectors.toList());
+    public ReservationTourDTO getParticipantsForTour(TourEntity tour) {
+        List<ReservationEntity> reservations=reservationRepository.findByTourAndStatus(tour,ReservationStatus.RESERVATION);
+        ReservationTourDTO reservationTourDTO = new ReservationTourDTO();
+
+        reservationTourDTO.setTourDTO(TourDTO.toTourDTO(tour));
+        reservationTourDTO.setBookCount(reservationRepository.countByTour(tour));
+        reservationTourDTO.setWishCount(wishlistRepository.countByTourId(tour.getId()));
+
+        List<ParticipantDTO> participants = new ArrayList<>();
+        for( ReservationEntity r : reservations){
+            ParticipantDTO participantDTO = new ParticipantDTO();
+            participantDTO.setReservationId(r.getId());
+            participantDTO.setParticipantCount(r.getParticipantCount());
+            participantDTO.setReservationDate(r.getDate());
+            participantDTO.setReservationNumber(r.getReservationNumber());
+            participantDTO.setUserImage(r.getParticipant().getImage());
+            participantDTO.setUserNickName(r.getParticipant().getNickname());
+            participants.add(participantDTO);
+        }
+        reservationTourDTO.setReservationResponseDTOList(participants);
+
+        return reservationTourDTO;
+
     }
 
 
