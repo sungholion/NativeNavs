@@ -314,8 +314,12 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 binding.signupPhoneHelpTv.visibility = INVISIBLE
                 binding.signupPhoneValidTv.visibility = VISIBLE
             } else if (!binding.signupTermsCb.isChecked) {
-                Toast.makeText(requireContext(), "이용 동의를 해주세요", Toast.LENGTH_SHORT).show()
-            } else {
+                showToast("이용 동의를 해주세요")
+            } else if(signUpViewModel.body.value == null){
+                showToast("사진을 넣어 주세요!")
+
+            }
+            else {
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)
