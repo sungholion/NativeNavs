@@ -31,7 +31,7 @@ const Tour_Item_mini_Reservation = ({ image, title, score }) => {
       <section className={styles.tourInfoSection}>
         <div className={styles.tourTextInfo}>
           <h3>{title}</h3>
-          <Rating score={score} />
+          <Rating reviewAverage={score} />
         </div>
       </section>
     </div>

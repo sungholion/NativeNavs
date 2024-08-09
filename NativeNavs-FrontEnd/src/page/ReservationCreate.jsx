@@ -6,16 +6,19 @@ import { getStringedDate } from "@/utils/get-stringed-date";
 import { getFromattedDatetime } from "@/utils/get-formatted-datetime";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { navigateToReservationRegisterChattingRoom } from "@/utils/get-android-function";
 
 const initData = {
   tourId: 0, //투어 글에 대한 것
+  participantId: 0,
   date: new Date(), // 예약 날짜 -> yyyy-mm-dd로 바꾸기
   startAt: new Date(), // 시작시간 -> yyyy-mm-ddThh:mm:ss
   endAt: new Date(), //종료시간 -> yyyy-mm-ddThh:mm:ss
   participantCount: 1, //참가자 수
-  description: "", // 주소(그 지역 이름 혹은 주소명)
-  meetingLatitude: -1,
-  meetingLongitude: -1,
+  description: "", // 당부사항
+  meetingAddress: "", // 만남 장소
+  meetingLatitude: -1, // 만남 장소 위도
+  meetingLongitude: -1, // 만남 장소 경도
 };
 
 const ReservationCreate = () => {
@@ -23,9 +26,6 @@ const ReservationCreate = () => {
 
   // 참가 관광객에 대한 정보 변수
   const [travInfo, setTravInfo] = useState(null);
-
-  // 가이드 정보에 대한 정보 변수
-  const [navInfo, setNavInfo] = useState(null);
 
   // 관련 투어 정보에 대한 정보 변수
   const [tourInfo, setTourInfo] = useState(null);
@@ -43,18 +43,6 @@ const ReservationCreate = () => {
       });
   }, [params.trav_id]);
 
-  // Nav 에 대한 정보 가져오기
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setNavInfo(parsedUser);
-      console.log("NavInfo data : ", parsedUser);
-    } else {
-      console.log("해당 가이드 정보가 없어요");
-    }
-  }, []);
-
   // 투어 정보 가져오기
   useEffect(() => {
     axios
@@ -67,6 +55,38 @@ const ReservationCreate = () => {
         console.log("해당 투어 정보가 없어요.");
       });
   }, [params.tour_id]);
+
+  const requestResCreate = async (data, navToken) => {
+    console.log(data);
+    console.log(navToken);
+    const resData = {
+      tourId: data.tourId,
+      participantId: Number(params.trav_id),
+      date: getStringedDate(data.date),
+      startAt: getFromattedDatetime(data.startAt),
+      endAt: getFromattedDatetime(data.endAt),
+      participantCount: data.participantCount,
+      description: data.description,
+      meetingAddress: data.meetingAddress,
+      meetingLatitude: data.meetingLatitude,
+      meetingLongitude: data.meetingLongitude,
+    };
+    console.log(resData);
+    axios
+      .post("https://i11d110.p.ssafy.io/api/reservations", resData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: navToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        navigateToReservationRegisterChattingRoom();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   if (!travInfo || !tourInfo) {
     return <div>Loading...</div>;
@@ -88,7 +108,10 @@ const ReservationCreate = () => {
           <div>{travInfo.nickname}</div>
         </div>
       </section>
-      <ReservationEditor />
+      <ReservationEditor
+        maxParticipant_info={tourInfo.maxParticipants}
+        onSubmit={requestResCreate}
+      />
     </div>
   );
 };
