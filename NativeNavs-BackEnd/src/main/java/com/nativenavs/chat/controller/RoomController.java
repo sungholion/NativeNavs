@@ -15,17 +15,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/rooms")
-@CrossOrigin("*") // 아직 고민..
+@CrossOrigin("*")
+@Tag(name = "chat API", description = "chat")
 public class RoomController {
 
     private final ChatService chatService;
     private final RoomService roomService;
 
+    RoomController(ChatService chatService, RoomService roomService) {
+        this.chatService = chatService;
+        this.roomService = roomService;
+    }
+
     // 채팅방 참여하기
-    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-    @Operation(summary = "채팅방 참여", description = "채팅방에 참여한다")
+    @Operation(summary = "채팅방 입장 API", description = "채팅방에 입장하는 API")
     @GetMapping("enter/{roomId}")
     public List<ChatDTO> joinRoom(@PathVariable int roomId, @RequestHeader("Authorization") String token, Model model) {
 
@@ -36,8 +40,7 @@ public class RoomController {
 
 
     // 채팅방 등록
-    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-    @Operation(summary = "채팅방 생성", description = "채팅방을 생성한다")
+    @Operation(summary = "채팅방 생성 API", description = "채팅방을 생성하는 API")
     @PostMapping("/create/{tourId}")
     public RoomDTO createRoom(@PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
         RoomDTO newRoom = roomService.createRoom(tourId,token);
@@ -46,13 +49,7 @@ public class RoomController {
 
     }
 
-
-
-    /**
-     * 나의 채팅방 리스트 보기
-     */
-    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-    @Operation(summary = "나의 채팅방 목록 보기", description = "나의 채팅방 목록을 본다")
+    @Operation(summary = "채팅방 목록 API", description = "채팅방 목록을 보는 API")
     @GetMapping("/search/all")
     public ResponseEntity<?> roomList(@RequestHeader("Authorization") String token) {
         List<RoomEntity> myRoomList = roomService.findAllRoom(token);
@@ -61,8 +58,7 @@ public class RoomController {
     }
 
 
-    @Tag(name = "채팅방 API", description = "채팅방 만들기 / 보기 등")
-    @Operation(summary = "채팅방 정보 조회", description = "roomId로 채팅방 정보를 조회한다")
+    @Operation(summary = "채팅방 조회 API", description = "채팅방 정보를 조회하는 API")
     @GetMapping("search/{roomId}")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable int roomId) {
         RoomDTO roomDTO = roomService.findRoomDTOById(roomId);
