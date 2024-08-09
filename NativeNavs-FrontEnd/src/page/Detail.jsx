@@ -220,7 +220,7 @@ const Detail = () => {
         <div className={styles.tour_rightinfo}>
           <div className={styles.tour_rating}>
             <div className={styles.tour_rating_inner}>
-              <Rating avg={tour.reviewAverage} />
+              <Rating reviewAverage={tour.reviewAverage} />
             </div>
           </div>
 
@@ -257,13 +257,13 @@ const Detail = () => {
             {tour && tour.user ? (
               <p className={styles.navNickname}>
                 <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
-                (Nav) : {tour.user.nickname}님
+                 Nav: {tour.user.nickname}님
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              🌏(Language) : {navLanguages.join(", ")}
+              🌏 Language: {navLanguages.join(", ")}
             </p>
           </div>
         </div>
