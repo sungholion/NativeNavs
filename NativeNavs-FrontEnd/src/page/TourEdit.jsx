@@ -7,6 +7,17 @@ import { useNavigate, useParams } from "react-router-dom";
 const TourEdit = () => {
   const [initData, setInitData] = useState();
   const param = useParams();
+  const [navUser, setNavUser] = useState(null);
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setNavUser(parsedUser);
+      console.log(storedUser);
+    }
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,7 +47,10 @@ const TourEdit = () => {
     const subData1 = {
       title: data.title,
       description: data.description,
-      thumbnailImage: "",
+      thumbnailImage:
+        data.thumbnailImage && typeof data.thumbnailImage === "string"
+          ? data.thumbnailImage
+          : "",
       location: data.location || "서울",
       price: data.price || 0,
       startDate: data.startDate || "2021-06-01",
@@ -45,13 +59,12 @@ const TourEdit = () => {
       categoryIds: data.categoryIds,
       plans: data.plans.map((plan) => {
         const { image, ...rest } = plan;
-        rest.image = "";
+        rest.image = typeof image === "string" ? image : "";
         return rest;
       }),
     };
 
     console.log(subData1);
-    // formData.append("tour", JSON.stringify(subData1));
     formData.append(
       "tour",
       new Blob([JSON.stringify(subData1)], { type: "application/json" })
@@ -62,21 +75,23 @@ const TourEdit = () => {
       formData.append("thumbnailImage", data.thumbnailImage);
     }
 
+    console.log(formData.getAll("thumbnailImage"));
+
     data.plans.forEach((plan, index) => {
       if (plan.image instanceof File) {
         formData.append(`planImages`, plan.image);
       }
     });
+    console.log(formData.getAll("planImages"));
 
     try {
       await axios.put(
-        `http://192.168.100.140:8080/api/tours/${param.tour_id}`,
+        `https://i11d110.p.ssafy.io/api/tours/${param.tour_id}`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization:
-              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMwMDYwOTcsImV4cCI6MTcyMzAwOTY5N30.f_45CiZJkW2mEst8aT3DUDaliIbjvmpNYXD4oNGrruK1h98MNjzYWmwZpo4BS6GG4Z9vB6RkVIkkk7JsPryk8g",
+            Authorization: navUser.userToken,
           },
         }
       );
