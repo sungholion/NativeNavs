@@ -35,6 +35,22 @@ class TourListBridge(
 
     }
 
+    fun sendSearchData(travel: String, date: String, category: List<Int> ) {
+        val gson = Gson()
+        val data = mapOf(
+            "travel" to travel,
+            "date" to date,
+            "category" to category
+        )
+        val json = gson.toJson(data)
+        val script = "javascript:getSearchData('$json');"
+        Log.d(TAG, "sendSearchData: $script")
+        evaluateWebViewFunction(script) { result ->
+            Log.d(TAG, "sendSearchData: $result")
+        }
+
+    }
+
 
     private fun evaluateWebViewFunction(
         script: String,

@@ -78,6 +78,9 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                 if (!isPageLoaded) {
                     isPageLoaded = true
                     bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                    homeActivityViewModel.let {
+                        bridge.sendSearchData(it.searchTravel.value!!, it.searchDate.value!!, it.searchTheme.value!!)
+                    }
                 }
             }
         }

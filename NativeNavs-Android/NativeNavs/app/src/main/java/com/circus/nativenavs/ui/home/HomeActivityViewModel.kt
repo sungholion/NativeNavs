@@ -179,10 +179,10 @@ class HomeActivityViewModel : ViewModel() {
     private val _searchTravel = MutableLiveData<String>("")
     val searchTravel : LiveData<String> get() = _searchTravel
 
-    private val _searchDate = MutableLiveData<String>()
+    private val _searchDate = MutableLiveData<String>("")
     val searchDate: LiveData<String> get() = _searchDate
 
-    private val _searchTheme = MutableLiveData<List<Int>>()
+    private val _searchTheme = MutableLiveData<List<Int>>(emptyList())
     val searchTheme: LiveData<List<Int>> get() = _searchTheme
 
     private val _categoryCheckList = MutableLiveData<List<CategoryDto>>()
