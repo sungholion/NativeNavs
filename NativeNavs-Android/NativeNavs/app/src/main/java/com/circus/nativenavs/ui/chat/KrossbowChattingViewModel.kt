@@ -238,9 +238,10 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     private fun message(): MessageDto {
-        return _uiState.value?.let {
+        Log.d(TAG, "message: 메세지 객체 생성")
+        val tempMessage = _uiState.value?.let {
             MessageDto(
-                roomId = chatRoomId.value!!,
+                roomId = currentChatRoom.value!!.roomId,
                 senderId = it.senderId,
                 senderNickname = it.senderNickName,
                 senderProfileImage = it.senderImg,
@@ -249,6 +250,8 @@ class KrossbowChattingViewModel : ViewModel() {
                 isRead = false
             )
         } ?: MessageDto()
+        Log.d(TAG, "message: $tempMessage")
+        return tempMessage
     }
 
     fun disconnectWebSocket() {
