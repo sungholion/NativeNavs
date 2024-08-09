@@ -2,27 +2,10 @@ import "./ReviewCreate.css";
 import Tour_Item_mini_Review from "@/components/Tour_Item/Tour_Item_mini_Review";
 import { useEffect, useReducer, useState } from "react";
 import StarScoring from "@/components/Star/StarScoring";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const MAX_IMAGE_COUNT = 5; // 최대 이미지 업로드 수
-const dummy_info = {
-  tour: {
-    // 투어 정보
-    image:
-      "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-    title: "투어 제목",
-    nav: {
-      // 가이드 정보
-      image:
-        "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-      nickname: "가이드이름",
-    },
-  },
-  progress: {
-    // 예약 정보
-    date: "2021-09-01",
-    participant: 2,
-  },
-};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,13 +18,25 @@ const reducer = (state, action) => {
   }
 };
 
-const ReviewCreate = ({ info } = dummy_info) => {
+const ReviewCreate = () => {
+  const param = useParams();
   const [reviewData, dispatch] = useReducer(reducer, {
     score: 0,
     description: "",
     image: [], //이미지 파일 - Max 5개
   });
-  const [tour_info, setTour_info] = useState({});
+  const [tourInfo, setTourInfo] = useState(null); // 투어 정보
+  useEffect(() => {
+    axios
+      .get(`http://i11d110.p.ssafy.io:8080/api/tours/${param.tour_id}`)
+      .then((res) => {
+        console.log(res.data);
+        setTourInfo(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [param.tour_id]);
 
   const onImgChange = (e) => {
     const { files } = e.target;
@@ -67,7 +62,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
   return (
     <div className="ReviewCreate">
       <section>
-        <Tour_Item_mini_Review {...dummy_info} />
+        <Tour_Item_mini_Review />
       </section>
 
       <section className="ScoreRating">

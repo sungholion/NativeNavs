@@ -17,18 +17,6 @@ const initData = {
   meetingLongitude: -1,
 };
 
-const DummyData = {
-  tourId: 1,
-  participantId: 10,
-  startAt: "2024-08-10T09:00:00",
-  endAt: "2024-08-10T12:00:00",
-  participantCount: 4,
-  date: "2024-08-15",
-  description: "Extra luggage assistance needed",
-  meetingLatitude: 37.5665,
-  meetingLongitude: 126.978,
-};
-
 const info = {
   tour: {
     // 투어 정보
