@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlanDTO {
-    private int id;
     private String field;         // 일정을 설명할 필드
     private String description;  // 일정 설명
     private String image;        // 일정 사진
