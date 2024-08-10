@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" /> <!-- 파일 읽기 권한 -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <!-- SDK API 33 부터는 세분화된 권한필요 - Image 읽기 권한  -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <!--푸시 알림 권한-->
+        android:maxSdkVersion="32" /> <!-- SDK API 33 부터는 세분화된 권한필요 - Image 읽기 권한 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- 푸시 알림 권한 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 카메라 권한 -->
@@ -33,6 +33,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.SplashActivity"
+            android:theme="@style/SplashScreenTheme"
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.qr.QRCreateActivity"
             android:exported="false" />
         <activity
@@ -48,11 +58,6 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"

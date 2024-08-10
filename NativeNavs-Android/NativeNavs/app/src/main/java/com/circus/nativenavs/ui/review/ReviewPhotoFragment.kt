@@ -39,7 +39,6 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showToast(args.toString())
         initBridge()
         initCustomView()
         initWebView()
