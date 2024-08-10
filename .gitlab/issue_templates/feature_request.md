@@ -1,4 +1,5 @@
-me: Feature
+---
+name: Feature
 about: 기능 개발
 title: '[Feature] TITLE'
 labels: ✨Feature✨

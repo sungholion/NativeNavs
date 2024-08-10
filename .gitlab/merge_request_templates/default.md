@@ -1,4 +1,4 @@
-cription
+description
 
 
 <!-- 구현 한 기능에 대해 작성해 주세요. -->

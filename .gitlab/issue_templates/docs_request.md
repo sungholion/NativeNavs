@@ -1,4 +1,5 @@
-me: Docs
+---
+name: Docs
 about: 문서 작성 및 수정
 title: '[Docs] TITLE'
 labels: 📝Docs📝

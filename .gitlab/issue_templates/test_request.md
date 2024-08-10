@@ -1,4 +1,5 @@
-me: Test
+---
+name: Test
 about: 테스트 코드 작성 및 변경
 title: "[Test] TITLE"
 labels: ✅Test✅
@@ -17,4 +18,5 @@ assignees: ''
 -  기능 1
   - [X] 엣지 케이스 1
     - [ ] 엣지 케이스 2
+      A
       - [ ] 엣지 케이스 3
