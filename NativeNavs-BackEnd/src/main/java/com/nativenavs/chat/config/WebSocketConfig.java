@@ -50,6 +50,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 if (roomUsers.isEmpty()) {
                     connectedUsers.remove(roomId);
                 }
+            } else {
+                System.out.println("Session ID " + sessionId + " does not exist in the session-to-room mapping.");
             }
         }
     }
