@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.service.ChatService
 import com.squareup.moshi.Moshi
@@ -26,7 +25,6 @@ import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
 
 private const val TAG = "KrossbowChattingViewMod"
 
@@ -127,13 +125,18 @@ class KrossbowChattingViewModel : ViewModel() {
 
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
+                Log.d(TAG, "connectWebSocket: ${chatRoomId.value}")
                 stompSession = stompClient.connect(
-                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-//                    customStompConnectHeaders = mapOf(
+//                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
+                    url = "ws://192.168.1.12:8080/api/ws-stomp/websocket",
+                    customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
-//                    ),
+                        "roomId" to "${chatRoomId.value}"
+                    ),
                 ).withMoshi(moshi)
                 updateConnectionStatus(ConnectionStatus.CONNECTING)
+
+                Log.d(TAG, "connectWebSocket: ${stompSession}")
 
                 observeMessages()
                 updateConnectionStatus(ConnectionStatus.OPENED)
@@ -257,7 +260,7 @@ class KrossbowChattingViewModel : ViewModel() {
                 content = it.message,
                 sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
                     .toString(),
-                isRead = false
+                messageChecked = false
             )
         } ?: MessageDto()
         Log.d(TAG, "message: $tempMessage")

@@ -8,5 +8,5 @@ data class MessageDto(
     val senderProfileImage: String = "",
     val content: String = "",
     val sendTime: String = "",
-    val isRead: Boolean = false
+    val messageChecked: Boolean = false
 )
