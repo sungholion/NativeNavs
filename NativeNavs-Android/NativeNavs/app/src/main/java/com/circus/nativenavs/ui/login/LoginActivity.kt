@@ -27,20 +27,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initIntent()
         initEvent()
         initObserve()
-    }
-
-    private fun initIntent() {
-        homeActivityIntent = Intent(this, HomeActivity::class.java).apply {
-            if (intent != null) {
-                putExtra("flag", intent.getIntExtra("flag", -1))
-                putExtra("roomId", intent.getIntExtra("roomId", -1))
-                putExtra("reservationId", intent.getIntExtra("reservationId", -1))
-                putExtra("tourId", intent.getIntExtra("tourId", -1))
-            }
-        }
     }
 
     private fun initObserve() {
@@ -49,7 +37,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             // 상태 코드 처리
             if (statusCode == 200) {
                 showToast("로그인 성공")
-                startActivity(homeActivityIntent)
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             } else {
                 showToast("로그인 실패")
