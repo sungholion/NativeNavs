@@ -87,11 +87,11 @@ public class RoomService {
 
     @EventListener
     public void handleChatCreatedEvent(ChatCreatedEvent event) {
-        RoomEntity room = roomRepository.findById(event.getRoomId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + event.getRoomId()));
+        RoomEntity room = roomRepository.findById(event.roomId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + event.roomId()));
 
-        room.setRecentMessageContent(event.getContent());
-        room.setRecentMessageTime(event.getSendTime());
+        room.setRecentMessageContent(event.content());
+        room.setRecentMessageTime(event.sendTime());
         roomRepository.save(room);
     }
 
