@@ -49,7 +49,6 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-
     @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 하는 API")
     @GetMapping("/checkDuplicated/email/{email}")
     public ResponseEntity<String> checkDuplicatedEmail(
@@ -364,6 +363,48 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원 검색 실패");
         }
     }
+
+    @Operation(summary = "FCM 토큰 업데이트 API", description = "사용자의 FCM 토큰을 업데이트 합니다")
+    @PutMapping("/fcmToken")
+    public ResponseEntity<?> updateFcmToken(
+            @Parameter(description = "User ID", required = true, example = "5")
+            @RequestParam("userId") int userId,
+            @Parameter(description = "FCM Token", required = true, example = "some-fcm-token")
+            @RequestParam("fcmToken") String fcmToken) {
+        try {
+            userService.updateFcmToken(userId, fcmToken);
+            return ResponseEntity.ok("FCM 토큰이 업데이트 되었습니다");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 입니다");
+        }
+    }
+
+    @Operation(summary = "FcmToken 조회 API", description = "FcmToken을 조회합니다")
+    @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @GetMapping("/search/fcmToken/{userId}")
+    public ResponseEntity<?> getFcmTokenById(
+            @Parameter(
+                    description = "userId",
+                    required = true,
+                    example = "4"
+            )
+            @PathVariable("userId") int userId) {
+        try {
+            UserSearchDTO user = userService.searchById(userId);
+
+            String token = user.getFcmToken();
+            if(user != null) {
+                return ResponseEntity.accepted().body(token);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 회원입니다");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버 에러 입니다");
+        }
+    }
+
 
 }
 

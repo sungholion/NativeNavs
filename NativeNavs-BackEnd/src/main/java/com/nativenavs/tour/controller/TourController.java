@@ -116,13 +116,13 @@ public class TourController {
             @RequestHeader("Authorization") String token,
             @PathVariable int id,
             @RequestPart("tour") TourRequestDTO tourRequestDTO,
-            @RequestPart("thumbnailImage") MultipartFile thumbnailImage,
-            @RequestPart("planImages") List<MultipartFile> planImages) {
+            @RequestPart(value = "thumbnailImage" ,required = false) MultipartFile thumbnailImage,
+            @RequestPart(value = "planImages",required = false) List<MultipartFile> planImages) {
         try {
             tourService.modifyTour(id, tourRequestDTO, thumbnailImage, planImages);
             return ResponseEntity.ok("투어 수정 완료");
         } catch (Exception e) {
-            e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
+            System.out.println(e); // 실제 코드에서는 로그를 사용하세요
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 수정 실패");
         }
     }
@@ -159,7 +159,7 @@ public class TourController {
             @RequestParam(required = false) LocalDate date,
 
             @Parameter(description = "카테고리 ID", example = "7")
-            @RequestParam(required = false) Integer categoryId) {
+            @RequestParam(required = false) List<Integer> categoryId) {
 
         try{
             List<TourDTO> tourDTOList = tourService.searchTours(location, date, categoryId);

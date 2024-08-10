@@ -1,9 +1,11 @@
 package com.nativenavs.reservation.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.notification.service.FcmService;
 import com.nativenavs.reservation.dto.ReservationRequestDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTO;
 import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
+import com.nativenavs.reservation.dto.ReservationTourDTO;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.entity.TourEntity;
@@ -22,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 @Tag(name = "reservation API", description = "reservation")
 public class ReservationController {
+
     private final ReservationService reservationService;
     @Autowired
     private UserService userService;
@@ -38,6 +40,9 @@ public class ReservationController {
     private UserRepository userRepository;
     @Autowired
     private TourRepository tourRepository;
+
+    @Autowired
+    private FcmService fcmService;
 
 
     public ReservationController(ReservationService reservationService) {
@@ -73,6 +78,10 @@ public class ReservationController {
         try{
             int userId = getUserIdFromJWT(token);
             ReservationEntity reservationEntity = reservationService.addReservation(reservationRequestDTO, userId);
+            System.out.println("userId : " + userId);
+            System.out.println("reservationEntityId : " + reservationEntity.getId());
+            fcmService.sendMessageTo(2, reservationRequestDTO.getParticipantId(), reservationEntity.getId(), -1, -1);
+
             return ResponseEntity.ok("예약 완료");
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
@@ -143,11 +152,10 @@ public class ReservationController {
     public ResponseEntity<?> getParticipantsForTour(
             @Parameter(description = "조회할 투어 ID", required = true, example = "1") @PathVariable int tourId, @RequestHeader("Authorization") String token) {
         try {
-            int userId = getUserIdFromJWT(token); // JWT에서 가이드 ID 추출
-            Optional<UserEntity> guide = userRepository.findById(userId);
+
             TourEntity tour = tourRepository.findById(tourId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투어를 찾을 수 없습니다: " + tourId));
-            List<ReservationResponseDTO> reservationEntities = reservationService.getParticipantsForTour(tour, guide.orElse(null));  // 가이드 정보가 null이면 null을 ����
+            ReservationTourDTO reservationEntities = reservationService.getParticipantsForTour(tour);  // 가이드 정보가 null이면 null을 ����
             return ResponseEntity.ok(reservationEntities);
 
         } catch (Exception e) {
