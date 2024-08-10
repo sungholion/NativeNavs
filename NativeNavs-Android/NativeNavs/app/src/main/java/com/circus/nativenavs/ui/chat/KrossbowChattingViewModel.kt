@@ -78,8 +78,9 @@ class KrossbowChattingViewModel : ViewModel() {
         viewModelScope.launch {
             _currentChatRoom.value = chatRetrofit.getChatRoom(roomId)
             currentChatRoom.value?.let {
-                _chatRoomId.value = it.roomId
+                _chatRoomId.value = roomId
             }
+            Log.d(TAG, "roomId value: ${_chatRoomId.value}")
         }
 
     }
@@ -95,6 +96,10 @@ class KrossbowChattingViewModel : ViewModel() {
     fun setChatRoomId(roomId: Int) {
         _chatRoomId.value = roomId
         Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
+    }
+
+    fun resetCurrentChatRoom(){
+//        _currentChatRoom.postValue(ChatRoomDto())
     }
 
     fun getChatMessages(roomId: Int) {

@@ -41,17 +41,17 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
+
         chattingViewModel.setSenderInfo(
             SharedPref.userId!!,
             homeViewModel.userDto.value!!.nickname,
             homeViewModel.userDto.value!!.image
         )
-        chattingViewModel.setChatRoomId(args.chatId)
-        chattingViewModel.getChatMessages(args.chatId)
     }
 
     override fun onResume() {
         super.onResume()
+        chattingViewModel.setChatRoomId(args.chatId)
         chattingViewModel.getChatMessages(args.chatId)
         chattingViewModel.connectWebSocket()
         homeActivity.hideBottomNav(false)
@@ -127,10 +127,11 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onPause() {
         super.onPause()
         chattingViewModel.disconnectWebSocket()
+        chattingViewModel.setChatRoomId(-1)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         chattingViewModel.setChatRoomId(-1)
         chattingViewModel.resetUiState()
     }

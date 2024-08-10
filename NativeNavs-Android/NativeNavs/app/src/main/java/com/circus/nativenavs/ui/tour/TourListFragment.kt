@@ -29,6 +29,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
+private const val TAG = "TourListFragment"
+
 class TourListFragment : BaseFragment<FragmentTourListBinding>(
     FragmentTourListBinding::bind,
     R.layout.fragment_tour_list
@@ -59,11 +61,10 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
             if (roomId != -1) {
                 val action =
                     TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
-                        chatId = homeActivityViewModel.notiRoomId.value!!
+                        chatId = roomId
                     )
-                homeActivityViewModel.setNotiFlag(-1)
-                homeActivityViewModel.setNotiRoomId(-1)
                 navigate(action)
+                chattingViewModel.setChatRoomId(-1)
             }
 
         }
@@ -73,9 +74,10 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                 var action: NavDirections? = null
                 when (flag) {
                     1 -> {
-                        //수정 필요
                         if (homeActivityViewModel.notiRoomId.value != -1) {
                             chattingViewModel.setCurrentChatRoom(homeActivityViewModel.notiRoomId.value!!)
+                            homeActivityViewModel.setNotiFlag(-1)
+                            homeActivityViewModel.setNotiRoomId(-1)
                         }
                     }
 
@@ -154,9 +156,19 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
                 super.onPageFinished(view, url)
                 if (!isPageLoaded) {
                     isPageLoaded = true
-                    bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!
+                        )
+                    )
                     homeActivityViewModel.let {
-                        bridge.sendSearchData(it.searchTravel.value!!, it.searchDate.value!!, it.searchTheme.value!!)
+                        bridge.sendSearchData(
+                            it.searchTravel.value!!,
+                            it.searchDate.value!!,
+                            it.searchTheme.value!!
+                        )
                     }
                 }
             }
