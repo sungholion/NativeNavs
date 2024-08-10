@@ -220,23 +220,33 @@
 
                     <ImageView
                         android:id="@+id/profile_stamp_1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintDimensionRatio="1:1"
                         android:src="@drawable/sample_stamp" />
 
                     <ImageView
                         android:id="@+id/profile_stamp_2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintDimensionRatio="1:1"
                         android:src="@drawable/sample_stamp" />
 
                     <ImageView
                         android:id="@+id/profile_stamp_3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintDimensionRatio="1:1"
                         android:src="@drawable/sample_stamp" />
                 </LinearLayout>
             </LinearLayout>
