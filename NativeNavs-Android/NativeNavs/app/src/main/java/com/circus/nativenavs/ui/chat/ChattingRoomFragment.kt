@@ -65,12 +65,16 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         initEvent()
     }
 
-
     private fun initObserve() {
         chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             Log.d(TAG, "observeViewModel: $uiState")
             messageListAdapter.submitList(uiState.messages)
-            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
+            binding.chatMessageRv.apply {
+                postDelayed({
+                    layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
+                }, 50)
+            }
+//            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
         }
     }
 

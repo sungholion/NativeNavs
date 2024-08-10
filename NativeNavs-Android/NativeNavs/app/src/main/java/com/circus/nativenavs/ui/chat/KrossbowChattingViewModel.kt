@@ -223,7 +223,6 @@ class KrossbowChattingViewModel : ViewModel() {
                 )
 
                 messageSent()
-//                addMessage(message)
                 clearMessage()
             } catch (e: Exception) {
                 Log.e(TAG, "Message sending failed: ", e)
