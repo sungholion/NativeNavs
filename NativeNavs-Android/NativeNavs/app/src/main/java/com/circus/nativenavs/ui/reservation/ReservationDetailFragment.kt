@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -63,7 +64,6 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
 
     private fun initData(){
         homeActivityViewModel.getReservation(args.reservationId)
-
         homeActivityViewModel.updateReservationStatusCode(-1)
     }
     private fun initEvent(){
@@ -86,12 +86,18 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
                 else if(it.status == "DONE" && !it.reviewed){
                     binding.reservationReviewBtn.visibility = VISIBLE
                 }
+                else{
+                    binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility = INVISIBLE
+                    binding.reservationReviewBtn.visibility = INVISIBLE
+                }
             }
         }
         homeActivityViewModel.reservationStatus.observe(viewLifecycleOwner){
             if(it != -1){
                 when(it){
-                    200 -> showToast(getString(R.string.reservation_done))
+                    200 -> {
+                        showToast(getString(R.string.reservation_done))
+                    }
                     else -> {
                         showToast(getString(R.string.reservation_fail))
                     }
