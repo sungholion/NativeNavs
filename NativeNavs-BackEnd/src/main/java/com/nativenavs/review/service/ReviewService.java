@@ -1,6 +1,8 @@
 package com.nativenavs.review.service;
 
 import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.reservation.entity.ReservationEntity;
+import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.review.dto.*;
 import com.nativenavs.review.entity.ReviewEntity;
 import com.nativenavs.review.entity.ReviewImageEntity;
@@ -31,6 +33,8 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Autowired
     private TourRepository tourRepository;
@@ -38,7 +42,7 @@ public class ReviewService {
     private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
     @Transactional
-    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images) {
+    public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images, int reservationId) {
         // Tour, Guide와 Reviewer 정보를 조회
         TourEntity tour = tourRepository.findById(reviewRequestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
@@ -69,8 +73,14 @@ public class ReviewService {
                 reviewImageRepository.save(reviewImage);
             }
         }
+
         updateTourReviewStats(tour, reviewRequestDTO.getScore());
         updateGuideReviewStats(guide, reviewRequestDTO.getScore());
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+        reservation.setReviewed(true);
+        reservationRepository.save(reservation);
+
         return review;
     }
 

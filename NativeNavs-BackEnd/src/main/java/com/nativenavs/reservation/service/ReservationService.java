@@ -142,4 +142,18 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    public ReservationReviewDTO getReservationForReview(int reservationId){
+        ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        ReservationReviewDTO reservationReviewDTO = new ReservationReviewDTO();
+        reservationReviewDTO.setReviewed(reservationEntity.isReviewed());
+        reservationReviewDTO.setReservationId(reservationEntity.getId());
+        reservationReviewDTO.setTourId(reservationEntity.getTour().getId());
+        reservationReviewDTO.setDate(reservationEntity.getDate());
+        reservationReviewDTO.setStatus(reservationEntity.getStatus());
+
+        return reservationReviewDTO;
+    }
+
 }
