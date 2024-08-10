@@ -104,6 +104,9 @@
         <action
             android:id="@+id/action_reservationDetailFragment_to_chattingRoomFragment"
             app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_reviewRegisterFragment"
+            app:destination="@id/reviewRegisterFragment" />
 
     </fragment>
     <fragment
@@ -251,6 +254,9 @@
         tools:layout="@layout/fragment_reservation_register">
         <argument
             android:name="tourId"
+            app:argType="integer" />
+        <argument
+            android:name="reservationId"
             app:argType="integer" />
         <action
             android:id="@+id/action_reviewRegisterFragment_to_reviewListFragment"

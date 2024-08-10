@@ -7,6 +7,7 @@ import com.circus.nativenavs.data.LoginResponse
 import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.RefreshResponse
+import com.circus.nativenavs.data.ReservationDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.StampDto
 import okhttp3.MultipartBody
@@ -98,4 +99,14 @@ interface UserService {
     suspend fun getStamp(
         @Path("userId") userId : Int
     ) : List<StampDto>
+
+    @GET("reservations/{reservation}/review")
+    suspend fun getReservation(
+        @Path("reservation") reservationId : Int
+    ) : ReservationDto
+
+    @PUT("reservations/{reservation}/done")
+    suspend fun updateReservationStatus(
+        @Path("reservation") reservationId : Int
+    ) : Response<Void>
 }
