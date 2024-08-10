@@ -4,6 +4,10 @@ import { useEffect, useReducer, useState } from "react";
 import StarScoring from "@/components/Star/StarScoring";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {
+  moveFromReviewRegisterToReviewListFragment,
+  showReviewRegisterFailDialog,
+} from "@/utils/get-android-function";
 
 const MAX_IMAGE_COUNT = 5; // 최대 이미지 업로드 수
 
@@ -109,21 +113,19 @@ const ReviewCreate = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization:
-              user?.userToken ||
-              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMyOTM1ODEsImV4cCI6MTcyMzI5NzE4MX0.khGupKEPdmL51CBhZ7Uj9P0oz0U4RU4Zq5UpqQXgw0_HliFjaEHyfiGV-dDLXveTTXLu-LswWHSiFHlA3QY_kQ",
+            Authorization: user.userToken,
           },
         }
       )
       .then((res) => {
-        console.log(res);
+        moveFromReviewRegisterToReviewListFragment(Number(param.tour_id));
       })
       .catch((err) => {
-        console.log(err);
+        showReviewRegisterFailDialog();
       });
   };
 
-  if (!info) {
+  if (!info || !user) {
     return <div>Loading...</div>;
   }
 
