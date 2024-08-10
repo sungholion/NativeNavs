@@ -38,7 +38,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 
     private val messageListAdapter = MessageListAdapter()
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -65,6 +64,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         initObserve()
         initEvent()
     }
+
 
     private fun initObserve() {
         chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
@@ -104,6 +104,16 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         binding.userId = SharedPref.userId
         binding.chatRoom = chattingViewModel.currentChatRoom.value!!
         binding.chatTourBookLl.visibility = if (SharedPref.isNav!!) View.VISIBLE else View.GONE
+
+        binding.chatMessageRv.apply {
+            addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                if (bottom < oldBottom) {
+                    postDelayed({
+                        layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
+                    }, 50) // 100ms 지연을 주어 키보드가 완전히 올라온 뒤 스크롤하도록 합니다.
+                }
+            }
+        }
     }
 
     private fun initAdapter() {
