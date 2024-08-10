@@ -28,8 +28,11 @@ class ChatListAdapter : ListAdapter<ChatRoomDto, ChatListAdapter.ChatViewHolder>
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(chatRoom: ChatRoomDto) {
-            binding.chat = chatRoom
-            binding.userId = SharedPref.userId
+            if(binding.chat != chatRoom){
+                binding.chat = chatRoom
+                binding.userId = SharedPref.userId
+                binding.executePendingBindings()
+            }
 
             binding.root.setOnClickListener {
                 itemClickListener.onItemClicked(chatRoom)

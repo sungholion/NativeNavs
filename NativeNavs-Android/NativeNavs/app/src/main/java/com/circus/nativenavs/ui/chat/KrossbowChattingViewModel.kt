@@ -193,6 +193,10 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
+    fun resetUiState() {
+        _uiState.postValue(ChatScreenUiState())
+    }
+
     fun setMessages(list: List<MessageDto>) {
         _uiState.value?.let { currentState ->
             _uiState.postValue(currentState.copy(messages = list))
