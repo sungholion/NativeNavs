@@ -3,13 +3,14 @@ package com.nativenavs.chat.service;
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.entity.RoomEntity;
+import com.nativenavs.chat.event.ChatCreatedEvent;
 import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.tour.dto.TourDTO;
-import com.nativenavs.tour.repository.TourRepository;
 import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,7 +25,6 @@ public class RoomService {
 
     private final UserService userService;
     private final RoomRepository roomRepository;
-    private final TourRepository tourRepository;
     private final ChatService chatService;
     private final TourService tourService;
 
@@ -85,5 +85,14 @@ public class RoomService {
         roomRepository.save(room);
     }
 
+    @EventListener
+    public void handleChatCreatedEvent(ChatCreatedEvent event) {
+        RoomEntity room = roomRepository.findById(event.getRoomId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + event.getRoomId()));
+
+        room.setRecentMessageContent(event.getContent());
+        room.setRecentMessageTime(event.getSendTime());
+        roomRepository.save(room);
+    }
 
 }

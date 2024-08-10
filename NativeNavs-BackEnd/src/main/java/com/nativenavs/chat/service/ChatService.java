@@ -2,10 +2,11 @@ package com.nativenavs.chat.service;
 
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
+import com.nativenavs.chat.event.ChatCreatedEvent;
 import com.nativenavs.chat.repository.ChatRepository;
-import com.nativenavs.chat.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +17,14 @@ import java.util.stream.Collectors;
 public class ChatService {
     // DI --------------------------------------------------------------------------------------------------------------
 
-    private final RoomRepository roomRepository;
     private final ChatRepository chatRepository;
-    private final RoomService roomService;
-
+    private final ApplicationEventPublisher eventPublisher;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
 
-        roomService.updateRecentMessageInfo(roomId, content, sendTime); // 생성한 채팅을 채팅 목록에서 최신으로 볼 수 있도록
-
-        return chatRepository.save(ChatEntity.createChat(
+        ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                 roomId,
                 senderId,
                 senderNickname,
@@ -36,6 +33,10 @@ public class ChatService {
                 false,
                 sendTime
         ));
+
+        eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+
+        return chatEntity;
     }
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
