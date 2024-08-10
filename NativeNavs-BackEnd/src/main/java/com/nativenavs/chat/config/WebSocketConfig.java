@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     // Store connected users by room ID
     private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -36,15 +37,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // Method to handle user connection
     public void handleUserConnect(int roomId, String sessionId) {
         connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
+        sessionIdToRoomId.put(sessionId, roomId); // Store the mapping
     }
 
     // Method to handle user disconnection
-    public void handleUserDisconnect(int roomId, String sessionId) {
-        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
-        if (roomUsers != null) {
-            roomUsers.remove(sessionId);
-            if (roomUsers.isEmpty()) {
-                connectedUsers.remove(roomId);
+    public void handleUserDisconnect(String sessionId) {
+        Integer roomId = sessionIdToRoomId.remove(sessionId);
+        if (roomId != null) {
+            ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
+            if (roomUsers != null) {
+                roomUsers.remove(sessionId);
+                if (roomUsers.isEmpty()) {
+                    connectedUsers.remove(roomId);
+                }
             }
         }
     }
