@@ -1,6 +1,8 @@
 package com.nativenavs.chat.dto;
 
 import com.nativenavs.chat.entity.ChatEntity;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ChatDTO {
     private String id;
     private int roomId;
@@ -17,6 +20,8 @@ public class ChatDTO {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
+
+    @Access(AccessType.FIELD)
     private boolean isRead;
     private String sendTime;
 
