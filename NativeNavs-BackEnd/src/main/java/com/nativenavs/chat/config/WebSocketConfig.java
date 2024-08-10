@@ -65,13 +65,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public boolean oneUserConnected(int roomId) {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         // Check if roomUsers is not null and contains exactly 2 connections
-        return roomUsers != null && roomUsers.size() == 2;
+        return roomUsers != null && roomUsers.size() == 1;
     }
 
     public boolean twoUserConnected(int roomId) {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         // Check if roomUsers is not null and contains exactly 1 connection
-        return roomUsers != null && roomUsers.size() == 1;
+        return roomUsers != null && roomUsers.size() == 2;
     }
 
 }
