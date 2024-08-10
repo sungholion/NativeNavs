@@ -31,7 +31,7 @@ const Tour_Item_mini_Review = ({ thumbnailImage, title, progress, nav }) => {
         <div className={styles.tourTextInfo}>
           <h3>{title}</h3>
           <div>{progress.date}</div>
-          <div>{progress.participant}명</div>
+          <div>{progress.participantCount}명</div>
         </div>
         <div className={styles.tourNavInfo}>
           <img src={nav.image} alt="" />

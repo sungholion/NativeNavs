@@ -27,32 +27,37 @@ const ReviewCreate = () => {
   });
 
   const [user, setUser] = useState(null);
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.log("Failed to parse user JSON");
-      }
-    };
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
   }, []);
-  const [tourInfo, setTourInfo] = useState(null); // 투어 정보
+  const [info, setInfo] = useState(null); // 예약 상세 정보
+
+  // 예약 상세 정보 가져오기
   useEffect(() => {
     axios
-      .get(`http://i11d110.p.ssafy.io:8080/api/tours/${param.tour_id}`)
+      .get(
+        `https://i11d110.p.ssafy.io/api/reservations/${param.reservation_id}`,
+
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              user?.userToken ||
+              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMyODM4NDQsImV4cCI6MTcyMzI4NzQ0NH0.N7sHXAvqHbVbWXBfwYOtYeu1sTZdaHxo-I_8XINobqYMgf1fIghH-SmTevqj_eeU6grBMTpE56ZAyh4y5lg2-g",
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
-        setTourInfo(res.data);
+        setInfo(res.data);
       })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [param.tour_id]);
+      .catch((error) => console.error(error));
+  }, [param.reservation_id, user?.userToken]);
 
   const onImgChange = (e) => {
     const { files } = e.target;
@@ -75,10 +80,65 @@ const ReviewCreate = () => {
     }
   };
 
+  // 서버제출
+  const onSubmit = async () => {
+    const formData = new FormData();
+
+    const subData = {
+      tourId: Number(info.tourId),
+      score: Number(reviewData.score),
+      description: reviewData.description,
+      imageUrls: [""],
+    };
+    console.log(subData);
+
+    formData.append(
+      "review",
+      new Blob([JSON.stringify(subData)], { type: "application/json" })
+    );
+
+    for (const imgFile of reviewData.image) {
+      // imageUrl s
+      formData.append("reviewImages", imgFile);
+    }
+
+    await axios
+      .post(
+        `https://i11d110.p.ssafy.io/api/reviews?reservationNumber=${param.reservation_id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              user?.userToken ||
+              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMyOTM1ODEsImV4cCI6MTcyMzI5NzE4MX0.khGupKEPdmL51CBhZ7Uj9P0oz0U4RU4Zq5UpqQXgw0_HliFjaEHyfiGV-dDLXveTTXLu-LswWHSiFHlA3QY_kQ",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (!info) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="ReviewCreate">
       <section>
-        <Tour_Item_mini_Review />
+        <Tour_Item_mini_Review
+          thumbnailImage={info.thumbnailImage}
+          title={info.tourTitle}
+          progress={{
+            date: info.reservationDate,
+            participantCount: info.participantCount,
+          }}
+          nav={{ image: info.guide.image, nickname: info.guide.nickname }}
+        />
       </section>
 
       <section className="ScoreRating">
@@ -149,7 +209,7 @@ const ReviewCreate = () => {
             !(reviewData.image.length === 0 || reviewData.description !== "")
           }
           onClick={() => {
-            console.log("HI");
+            onSubmit();
           }}
         >
           제출

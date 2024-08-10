@@ -28,7 +28,6 @@ import NavTourList from "./page/NavTourList";
 import ReservationCreate from "./page/ReservationCreate";
 
 function App() {
-
   // 유저 정보 파싱 및 localStorage에 저장
   useEffect(() => {
     window.getUserData = (userJson) => {
@@ -41,7 +40,7 @@ function App() {
       }
     };
   }, []);
-  
+
   // 검색 정보 파싱 및 localStorage에 저장
   useEffect(() => {
     window.getSearchData = (searchJson) => {
@@ -85,7 +84,7 @@ function App() {
             <Route path="reviewphotos" element={<ReviewPhotos />} />
             {/* 투어에 대한 리뷰 작성 페이지 */}
             <Route
-              path="reviews/create"
+              path="reviews/create/:reservation_id"
               element={
                 <div>
                   <ReviewCreate />
