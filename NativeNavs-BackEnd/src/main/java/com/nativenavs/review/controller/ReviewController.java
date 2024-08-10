@@ -50,13 +50,14 @@ public class ReviewController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
                                         @RequestPart("review") ReviewRequestDTO reviewDTO,
-                                        @RequestPart("reviewImages") List<MultipartFile> images){
+                                        @RequestPart("reviewImages") List<MultipartFile> images,
+                                        @RequestParam("reservationNumber") int reservationId){
         try {
             int userId = getUserIdFromJWT(token); // JWT에서 사용자 ID 추출
             UserEntity reviewer = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images);
+            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images,reservationId);
             //반환 여부 토론
             return ResponseEntity.ok("리뷰 작성 완료");
 

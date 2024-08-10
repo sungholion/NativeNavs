@@ -2,10 +2,7 @@ package com.nativenavs.reservation.controller;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.notification.service.FcmService;
-import com.nativenavs.reservation.dto.ReservationRequestDTO;
-import com.nativenavs.reservation.dto.ReservationResponseDTO;
-import com.nativenavs.reservation.dto.ReservationResponseDTOWrapper;
-import com.nativenavs.reservation.dto.ReservationTourDTO;
+import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.service.ReservationService;
 import com.nativenavs.tour.entity.TourEntity;
@@ -182,6 +179,23 @@ public class ReservationController {
         }
     }
 
+    @GetMapping("/{reservationId}/review")
+    @Operation(summary = "리뷰작성으로 이동하기 위한 예약 조회 API", description = "리뷰 작성을 위해 버튼을 띄우는 과정에서 예약정보를 확인하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "404", description = "예약을 찾을 수 없습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> getReservationForReview(
+            @Parameter(description = "조회할 예약 ID", required = true, example = "1") @PathVariable int reservationId, @RequestHeader("Authorization") String token) {
+        try {
+
+            ReservationReviewDTO reservationReviewDTO = reservationService.getReservationForReview(reservationId);  // 가이드 정보가 null이면 null을 ����
+            return ResponseEntity.ok(reservationReviewDTO);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     //JWT에서 이메일 받아 id로 치환
     private int getUserIdFromJWT(String token){
