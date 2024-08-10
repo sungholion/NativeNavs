@@ -136,7 +136,7 @@
             android:id="@+id/action_tourDetailFragment_to_tourListFragment"
             app:destination="@id/tourListFragment"
             app:popUpTo="@layout/fragment_tour_list"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
@@ -218,8 +218,10 @@
             android:defaultValue="-1"
             app:argType="integer" />
         <action
-            android:id="@+id/action_reservationRegisterFragment_to_chattingRoomFragment"
-            app:destination="@id/chattingRoomFragment" />
+            android:id="@+id/action_reservationRegisterFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment"
+            app:popUpTo="@id/chattingRoomFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/reviewListFragment"

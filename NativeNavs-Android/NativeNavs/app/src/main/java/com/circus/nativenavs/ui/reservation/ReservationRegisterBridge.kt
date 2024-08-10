@@ -6,17 +6,21 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
 
-class ReservationRegisterBridge (
+class ReservationRegisterBridge(
     private val homeActivity: HomeActivity,
     private val fragment: ReservationRegisterFragment,
     private val webView: WebView
 ) {
 
     @JavascriptInterface
-    fun navigateToReservationRegisterChattingRoom() {
-        fragment.navigateToReservationRegisterChattingRoom()
+    fun navigateToReservationDetailFragment(tourId: Int, registerId: Int) {
+        fragment.navigateToReservationDetailFragment(tourId, registerId)
     }
 
+    @JavascriptInterface
+    fun showReservationRegisterFailDialog() {
+        fragment.showReservationRegisterFailDialog()
+    }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
