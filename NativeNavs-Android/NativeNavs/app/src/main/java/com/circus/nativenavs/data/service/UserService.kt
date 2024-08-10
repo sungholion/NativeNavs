@@ -8,6 +8,7 @@ import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.RefreshResponse
 import com.circus.nativenavs.data.SignUpDto
+import com.circus.nativenavs.data.StampDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -92,4 +93,9 @@ interface UserService {
         @Query("userId") userId: Int,
         @Query("fcmToken") fcmToken: String
     ): Response<Void>
+
+    @GET("users/stamp/{userId}")
+    suspend fun getStamp(
+        @Path("userId") userId : Int
+    ) : List<StampDto>
 }

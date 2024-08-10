@@ -9,7 +9,7 @@
         tools:context=".ui.mypage.StampFragment">
 
         <include
-            android:id="@+id/profile_title_layout"
+            android:id="@+id/stamp_title_layout"
             layout="@layout/layout_title_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +21,6 @@
             android:layout_height="0dp"
             app:spanCount="3"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/profile_title_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/stamp_title_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
