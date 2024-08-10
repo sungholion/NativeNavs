@@ -42,6 +42,11 @@ public class ChatService {
             resultIsRead = true;
         }
 
+        if(content.equals("문의 신청합니다.")){
+            resultIsRead = false;
+        }
+
+
 
         ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                 roomId,
@@ -52,6 +57,7 @@ public class ChatService {
                 resultIsRead,  // If connected, mark as read
                 sendTime
         ));
+
 
         System.out.println("is Read : " + chatEntity.isMessageChecked());
 
