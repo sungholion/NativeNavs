@@ -172,4 +172,6 @@
     <string name="dialog_cancel_reservation_tour">Are you sure you want to finish registering your reservation?</string>
     <string name="dialog_register_reservation_fail">Reservation registration failed. Please try again.</string>
     <string name="reservation_review_btn">Review</string>
+    <string name="reservation_done">stamp has been issued!</string>
+    <string name="reservation_fail">Please try authentication again</string>
 </resources>

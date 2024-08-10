@@ -175,4 +175,6 @@
     <string name="dialog_cancel_reservation_tour">예약 등록을 종료하시겠습니까?</string>
     <string name="dialog_register_reservation_fail">예약 등록에 실패하였습니다. 다시 시도해주세요.</string>
     <string name="reservation_review_btn">리뷰작성</string>
+    <string name="reservation_done">스탬프가 발급되었습니다!</string>
+    <string name="reservation_fail">인증을 다시 도해주세요</string>
 </resources>

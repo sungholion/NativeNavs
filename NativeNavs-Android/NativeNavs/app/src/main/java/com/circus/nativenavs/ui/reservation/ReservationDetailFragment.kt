@@ -90,7 +90,12 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
         }
         homeActivityViewModel.reservationStatus.observe(viewLifecycleOwner){
             if(it != -1){
-                showToast("스탬프가 발급되었습니다")
+                when(it){
+                    200 -> showToast(getString(R.string.reservation_done))
+                    else -> {
+                        showToast(getString(R.string.reservation_fail))
+                    }
+                }
             }
         }
     }
