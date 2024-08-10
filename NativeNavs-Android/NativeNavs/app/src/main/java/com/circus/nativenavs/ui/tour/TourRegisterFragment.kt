@@ -141,7 +141,8 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }

@@ -128,7 +128,8 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }
@@ -153,7 +154,7 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                 }
             }
 
-        val url = WEBURL + "tour/detail/${args.tourId}/reviews/create"
+        val url = WEBURL + "tour/detail/${args.tourId}/reviews/create/${args.reservationId}"
         Log.d(TAG, "initCustomView: $url")
         binding.reviewRegisterCustomWv.loadWebViewUrl(url)
 

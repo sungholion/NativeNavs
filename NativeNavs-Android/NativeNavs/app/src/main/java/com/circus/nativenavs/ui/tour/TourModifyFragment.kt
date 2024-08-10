@@ -88,7 +88,8 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }
