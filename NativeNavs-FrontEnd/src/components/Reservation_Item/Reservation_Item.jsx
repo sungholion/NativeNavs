@@ -6,10 +6,12 @@ const Reservation_Item = ({
   navigateToReservationDetailFragment,
   user,
 }) => {
-  useEffect(() => console.log(participantInfo), [participantInfo]);
-  const formattedDate = new Date(
-    participantInfo.reservationDate
-  ).toLocaleDateString();
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+  };
 
   return (
     <div
@@ -32,7 +34,6 @@ const Reservation_Item = ({
                 ? `${participantInfo.userNickName} 님`
                 : participantInfo.userNickName}
             </p>
-            <p> 님</p>
           </div>
           <p className={styles.Profile_Count}>
             {user && user.isKorean
@@ -49,7 +50,7 @@ const Reservation_Item = ({
         </div>
         <div className={styles.Reservation_Date}>
           <p>{user && user.isKorean ? "예약 날짜" : "Reservation Date"}</p>
-          <p>{formattedDate}</p>
+          <p>{formatDate(participantInfo.reservationDate)}</p>
         </div>
         <div className={styles.Reservation_Message}>
           <p>{user && user.isKorean ? "요청 사항" : "Requests"}</p>
