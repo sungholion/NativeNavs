@@ -12,7 +12,6 @@ const Main = () => {
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
-    setSearch(JSON.parse(localStorage.getItem("search")));
   }, []);
 
 
@@ -21,7 +20,9 @@ const Main = () => {
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
-      console.log(`?location=${search.travel}&date=${search.date}&categoryId=${category}`);
+      console.log(
+        `?location=${search.travel}&date=${search.date}&categoryId=${category}`
+      );
       const tourResponse = await axios.get(
         `https://i11d110.p.ssafy.io/api/tours/search${
           search.travel || search.date || category
@@ -29,7 +30,9 @@ const Main = () => {
             : ""
         }`
       );
-      console.log(`https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`)
+      console.log(
+        `https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`
+      );
       console.log("투어 검색 API 요청 성공", tourResponse.data);
       setTours(tourResponse.data);
     } catch (error) {

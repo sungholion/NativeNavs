@@ -25,20 +25,9 @@ const ReservationList = () => {
     }
   }, []);
 
-  // // MB -> FE : 유저 정보 파싱
+  // 유저 정보 가져오기
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
-    };
+    setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
   // FE -> BE : 예정된 투어 정보 요청
@@ -72,7 +61,9 @@ const ReservationList = () => {
   if (reservationsInProgress.length != 0) {
     return (
       <>
-        <h2 className={styles.TourListTitle}>예정된 Tour</h2>
+        <h2 className={styles.TourListTitle}>
+          {user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
+        </h2>
         <div className={styles.ReservationList}>
           {/* 예약된 투어 리스트 */}
 
@@ -91,7 +82,9 @@ const ReservationList = () => {
             )}
           </div>
           {/* 완료된 투어 리스트 */}
-          <h2 className={styles.TourListTitle}>완료된 Tour</h2>
+          <h2 className={styles.TourListTitle}>
+            {user.isKorean ? "완료된 Tour" : "Completed Tour"}
+          </h2>
           <div className={styles.completedTourList}>
             {reservationsCompleted.map((tour) => (
               <Tour_Item3
@@ -109,7 +102,9 @@ const ReservationList = () => {
   }
   return (
     <>
-      <h2 className={styles.TourListTitle}>예정된 Tour</h2>
+      <h2 className={styles.TourListTitle}>
+        {user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
+      </h2>
       <div className={styles.TopContainer}>
         <div className={styles.MiddleContainer}>
           <img
@@ -117,8 +112,16 @@ const ReservationList = () => {
             src={NativeNavs}
             alt="NativeNavs"
           />
-          <h2>아직 예약한 Tour가 없어요!</h2>
-          <h5>NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!</h5>
+          <h2>
+            {user.isKorean
+              ? "아직 예약한 Tour가 없어요!"
+              : "You have no booked tours yet!"}
+          </h2>
+          <h5>
+            {user.isKorean
+              ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
+              : "Create special memories in Korea with NativeNavs!"}
+          </h5>
           <Button
             size="4"
             text={"둘러보기"}
@@ -128,7 +131,9 @@ const ReservationList = () => {
           />
         </div>
       </div>
-      <h2 className={styles.TourListTitle}>완료된 Tour</h2>
+      <h2 className={styles.TourListTitle}>
+        {user.isKorean ? "완료된 Tour" : "Completed Tour"}
+      </h2>
       <div className={styles.completedTourList}>
         {reservationsCompleted.map((tour) => (
           <Tour_Item3
