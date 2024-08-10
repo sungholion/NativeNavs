@@ -36,6 +36,12 @@ const reducer = (state, action) => {
 };
 
 const ReviewCreate = ({ info } = dummy_info) => {
+  const [user, setUser] = useState(null);
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   const [reviewData, dispatch] = useReducer(reducer, {
     score: 0,
     description: "",
@@ -71,7 +77,11 @@ const ReviewCreate = ({ info } = dummy_info) => {
       </section>
 
       <section className="ScoreRating">
-        <h4>Nav와 함께한 여행은 어땟나요?</h4>
+        <h4>
+          {user.isKorean
+            ? "Nav와 함께한 여행은 어땠나요?"
+            : "How was your trip with Nav?"}
+        </h4>
         <StarScoring
           onRatingChange={(score) => dispatch({ type: "score", score })}
         />
@@ -79,7 +89,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
       <section className="ReviewImgUploadSection">
         <div className="ReviewImgUploadHeader">
           <div>
-            사진 등록 :
+            {user.isKorean ? "사진 등록 :" : "Upload Photos :"}
             <span>
               {reviewData.image.length} / {MAX_IMAGE_COUNT}
             </span>
@@ -105,13 +115,20 @@ const ReviewCreate = ({ info } = dummy_info) => {
               <img key={idx} src={URL.createObjectURL(img)} alt="reviewImg" />
             ))
           ) : (
-            <div className="noImgUploaded ">아직 등록한 이미지가 없습니다.</div>
+            <div className="noImgUploaded ">
+              {user.isKorean
+                ? "아직 등록한 이미지가 없습니다."
+                : "No images uploaded yet."}
+            </div>
           )}
         </div>
       </section>
       <section className="Reviewdescription">
         <div>
-          솔직한 후기를 남겨 주세요{" "}
+          {user.isKorean
+            ? "솔직한 후기를 남겨 주세요"
+            : "Please leave an honest review"}
+
           <span>
             {reviewData.description.length}/{200}자
           </span>
@@ -141,7 +158,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
             console.log("HI");
           }}
         >
-          제출
+          {user.isKorean ? "제출" : "Submit"}
         </button>
       </section>
     </div>

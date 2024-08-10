@@ -56,20 +56,30 @@ const ReservationListForTour = () => {
       {/* 투어 정보 */}
       <div className={styles.TourInfo}>
         {tour ? (
-          <Tour_Item4 tour={tour} wishCount={wishCount} bookCount={reservationCount} />
+          <Tour_Item4
+            tour={tour}
+            wishCount={wishCount}
+            bookCount={reservationCount}
+          />
         ) : null}
       </div>
 
       {/* 예약 목록 */}
       <div className={styles.ReservationList}>
         <div className={styles.ReservationCount}>
-          <h4>📘총 {reservationCount}개의 예약이 있습니다</h4>
+          <h4>
+            {user.isKorean
+              ? `📘총 ${reservationCount}개의 예약이 있습니다`
+              : `📘You have ${reservationCount} reservations`}
+          </h4>
         </div>
         {participantsInfo.length > 0 ? (
           participantsInfo.map((participantInfo, index) => (
             <Reservation_Item
               key={index}
-              navigateToReservationDetailFragment={navigateToReservationDetailFragment}
+              navigateToReservationDetailFragment={
+                navigateToReservationDetailFragment
+              }
               participantInfo={participantInfo}
             />
           ))

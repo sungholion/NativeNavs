@@ -5,7 +5,6 @@ import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Carousel from "@/components/Carousel/Carousel.jsx";
-import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
 import { getStaticImage } from "@/utils/get-static-image";
@@ -14,7 +13,6 @@ import {
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
-import StarScore from "../components/Star/StarScore";
 import StarScore2 from "../components/Star/StarScore2";
 
 const Detail = () => {
@@ -187,7 +185,7 @@ const Detail = () => {
                     navigateToTourModifyFragment(Number(params.tour_id));
                   }}
                 >
-                  수정
+                  {user.isKorean ? '수정' : 'Edit'}
                 </button>
                 {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
                 <button
@@ -215,15 +213,25 @@ const Detail = () => {
         </div>
         <div className={styles.tour_info_first}>
           <div className={styles.tour_maxParticipants}>
-            최대 인원 {tour.maxParticipants}명
+            {user.isKorean
+              ? `최대 인원 ${tour.maxParticipants}명`
+              : `Maximum ${tour.maxParticipants} people`}
           </div>
-          <div>🌏 {navLanguages[0]} 외</div>
+          <div>
+            {user.isKorean
+              ? `🌏 ${navLanguages[0]} 외`
+              : `🌏 ${navLanguages[0]} and`}
+          </div>
         </div>
         <div className={styles.tour_info_first}>
           <div>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </div>
-          <div>{navLanguages.length - 1}개 국어</div>
+          <div>
+            {user.isKorean
+              ? `${navLanguages.length - 1} 국어`
+              : `${navLanguages.length - 1} other language`}
+          </div>
         </div>
       </div>
 
@@ -245,20 +253,26 @@ const Detail = () => {
             {tour && tour.user ? (
               <p className={styles.navNickname}>
                 <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
-                Nav: {tour.user.nickname}님
+                {user.isKorean
+                  ? `Nav: ${tour.user.nickname}님`
+                  : `Nav: ${tour.user.nickname}`}
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              🌏 Language: {navLanguages.join(", ")}
+              {user.isKorean
+                ? `🌏 언어: ${navLanguages.join(", ")}`
+                : `🌏 Language: ${navLanguages.join(", ")}`}
             </p>
           </div>
         </div>
       </div>
       {/* 투어 일정 */}
       <div className={styles.tourPlan}>
-        <h3 className={styles.tourPlanTitle}>일정</h3>
+        <h3 className={styles.tourPlanTitle}>
+          {user.isKorean ? `일정` : `Plan`}
+        </h3>
         <div className={styles.tourPlanContainer}>
           {tour.plans.map((plan) => (
             <Plan_Item2
@@ -276,9 +290,9 @@ const Detail = () => {
       </div>
       {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
-        <h3 className={styles.tourReminderPrive}>예상 금액</h3>
+        <h3 className={styles.tourReminderPrive}>  {user.isKorean ? '예상 금액' : 'Estimated Price'}</h3>
         <h4>{formattedPrice}₩</h4>
-        <h3 className={styles.tourReminderDecription}>투어 설명</h3>
+        <h3 className={styles.tourReminderDecription}>{user.isKorean ? '투어 설명' : 'Tour Description'}</h3>
         <h4>{tour.description}</h4>
       </div>
       {/* 투어 리뷰 */}
@@ -293,7 +307,7 @@ const Detail = () => {
             imageList={firstReview.imageUrls}
           />
         ) : (
-          <p>첫 리뷰를 남겨주세요!</p>
+          <p>{user.isKorean ? '첫 리뷰를 남겨주세요!' : 'Be the first to leave a review!'}</p>
         )}
       </div>
     </div>
