@@ -26,44 +26,58 @@ public class ChatService {
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
-    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
-
-//        boolean isRecipientConnected = webSocketConfig.isUserConnected(roomId); // 연결된 사람이 있는지
-        boolean oneUserConnected = webSocketConfig.oneUserConnected(roomId);   // 둘 다 연결인지
-        boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
-
-        System.out.println("oneUserConnected: " + oneUserConnected);
-        System.out.println("twoUserConnected: " + twoUserConnected);
-
-       boolean resultIsRead = false;
-        System.out.println("resultIsRead: " + resultIsRead);
-
-        if(twoUserConnected) {
-            resultIsRead = true;
-        }
+    public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
+        ChatEntity chatEntity = new ChatEntity();
 
         if(content.equals("문의 신청합니다.")){
-            resultIsRead = false;
+            chatEntity = chatRepository.save(ChatEntity.createChat(
+                    roomId,
+                    senderId,
+                    senderNickname,
+                    senderProfileImage,
+                    content,
+                    messageChecked,  // If connected, mark as read
+                    sendTime
+            ));
+            eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+
+            return chatEntity;
+
+        }
+
+        else{
+            boolean oneUserConnected = webSocketConfig.oneUserConnected(roomId);   // 둘 다 연결인지
+            boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
+
+            System.out.println("oneUserConnected: " + oneUserConnected);
+            System.out.println("twoUserConnected: " + twoUserConnected);
+
+            boolean resultIsRead = false;
+            System.out.println("resultIsRead: " + resultIsRead);
+
+            if(twoUserConnected) {
+                resultIsRead = true;
+            }
+
+            chatEntity = chatRepository.save(ChatEntity.createChat(
+                    roomId,
+                    senderId,
+                    senderNickname,
+                    senderProfileImage,
+                    content,
+                    resultIsRead,  // If connected, mark as read
+                    sendTime
+            ));
+
+
+            System.out.println("is Read : " + chatEntity.isMessageChecked());
+            eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+
+            return chatEntity;
         }
 
 
 
-        ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
-                roomId,
-                senderId,
-                senderNickname,
-                senderProfileImage,
-                content,
-                resultIsRead,  // If connected, mark as read
-                sendTime
-        ));
-
-
-        System.out.println("is Read : " + chatEntity.isMessageChecked());
-
-        eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
-
-        return chatEntity;
     }
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {

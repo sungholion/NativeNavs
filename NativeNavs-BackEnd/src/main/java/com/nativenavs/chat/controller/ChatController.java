@@ -31,6 +31,7 @@ public class ChatController {
                 chatDTO.getSenderNickname(),
                 chatDTO.getSenderProfileImage(),
                 chatDTO.getContent(),
+                false,
                 chatDTO.getSendTime()
         );
 
