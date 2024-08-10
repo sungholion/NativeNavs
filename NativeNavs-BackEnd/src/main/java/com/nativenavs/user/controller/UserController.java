@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")   // 고민해보기
@@ -47,25 +49,25 @@ public class UserController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 한다")
+    @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 하는 API")
     @GetMapping("/checkDuplicated/email/{email}")
     public ResponseEntity<String> checkDuplicatedEmail(
             @Parameter(
                     description = "Email",
                     required = true,
-                    example = "eoblue23@gmail.com"
+                    example = "trav@gmail.com"
             )
             @PathVariable("email") String email) {
         try {
             boolean isDuplicated = userService.checkDuplicatedEmail(email);
 
             if (!isDuplicated) {
-                return ResponseEntity.ok("사용 가능한 email 입니다");
+                return ResponseEntity.ok("사용 가능한 email");
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 email 입니다");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("중복된 email");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error sending email: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 에러 입니다");
         }
     }
