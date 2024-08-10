@@ -105,7 +105,7 @@ public class ReservationService {
     }
 
     public ReservationTourDTO getParticipantsForTour(TourEntity tour) {
-        List<ReservationEntity> reservations=reservationRepository.findByTourAndStatus(tour,ReservationStatus.RESERVATION);
+        List<ReservationEntity> reservations=reservationRepository.findByTourAndStatusOrderByDateAsc(tour,ReservationStatus.RESERVATION);
         ReservationTourDTO reservationTourDTO = new ReservationTourDTO();
 
         reservationTourDTO.setTourDTO(TourDTO.toTourDTO(tour));

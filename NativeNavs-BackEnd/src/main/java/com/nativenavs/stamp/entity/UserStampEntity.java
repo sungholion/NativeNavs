@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "stamp")
+@Table(name = "user_Stamp")
 public class UserStampEntity {
 
     @Id

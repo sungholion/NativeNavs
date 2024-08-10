@@ -2,6 +2,7 @@ package com.nativenavs.user.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.review.entity.ReviewEntity;
+import com.nativenavs.stamp.entity.UserStampEntity;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.wishlist.entity.WishlistEntity;
@@ -77,6 +78,8 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String fcmToken;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserStampEntity> userStamps;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistEntity> wishList = new ArrayList<>();
