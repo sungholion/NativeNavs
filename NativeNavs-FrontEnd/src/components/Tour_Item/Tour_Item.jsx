@@ -135,8 +135,8 @@ const Tour_Item = ({
 
           {navLanguages.length > 1 ? (
             <p className={styles.navLanguages}>
-              {user.isKorean == true
-                ? `🌏 ${navLanguages[0]} 외 ${navLanguages.length - 1}`
+              {user && user.isKorean
+                ? `🌏 ${navLanguages[0]} 외 ${navLanguages.length - 1}개 국어`
                 : `🌏 ${navLanguages[0]} and ${navLanguages.length - 1} other`}
             </p>
           ) : (

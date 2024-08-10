@@ -222,7 +222,7 @@ const Detail = () => {
           </div>
           <div>
             {user && user.isKorean
-              ? `${navLanguages.length - 1} 국어`
+              ? `${navLanguages.length - 1}개 국어`
               : `${navLanguages.length - 1} other language`}
           </div>
         </div>
