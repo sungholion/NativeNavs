@@ -41,6 +41,8 @@ public class ChatService {
                 sendTime
         ));
 
+        System.out.println("is Read : " + chatEntity.isRead());
+
         eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
 
         return chatEntity;
@@ -72,6 +74,8 @@ public class ChatService {
         ChatEntity chatEntity = chatRepository.findById(new ObjectId(chatId).getTimestamp())
                 .orElseThrow(() -> new NoSuchElementException("Chat not found with id: " + chatId));
         chatEntity.markAsRead();
+
+        System.out.println("ChatEntity에 read 여긴가 " + chatEntity);
         chatRepository.save(chatEntity);
     }
 

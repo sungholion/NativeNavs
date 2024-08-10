@@ -34,6 +34,7 @@ public class ChatController {
                 chatDTO.getSendTime()
         );
 
+        System.out.println("뿌리기 직전 DTO : " + ChatDTO.toChatDTO(chatEntity));
         return ChatDTO.toChatDTO(chatEntity);
     }
 
