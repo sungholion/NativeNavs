@@ -201,7 +201,7 @@ const Detail = () => {
           </div>
         )
       }
-      <Carousel images={images} />
+      <Carousel tourId={tour.tourId} images={images} user={user} />
 
       {/* 투어 정보(간략하게) */}
       <div className={styles.tour_info}>
