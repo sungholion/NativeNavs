@@ -38,28 +38,28 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 
     private val messageListAdapter = MessageListAdapter()
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
-    }
-
-    override fun onResume() {
-        super.onResume()
-        chattingViewModel.setChatRoomId(args.chatId)
-        chattingViewModel.connectWebSocket()
-        homeActivity.hideBottomNav(false)
-        chattingViewModel.getChatMessages(args.chatId)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         chattingViewModel.setSenderInfo(
             SharedPref.userId!!,
             homeViewModel.userDto.value!!.nickname,
             homeViewModel.userDto.value!!.image
         )
+        chattingViewModel.setChatRoomId(args.chatId)
+        chattingViewModel.getChatMessages(args.chatId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chattingViewModel.getChatMessages(args.chatId)
+        chattingViewModel.connectWebSocket()
+        homeActivity.hideBottomNav(false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initView()
         initAdapter()
         initObserve()
@@ -70,7 +70,11 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             Log.d(TAG, "observeViewModel: $uiState")
             messageListAdapter.submitList(uiState.messages)
-            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
+            binding.chatMessageRv.apply {
+                postDelayed({
+                    layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
+                }, 50)
+            }
         }
     }
 
@@ -104,6 +108,16 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
         binding.userId = SharedPref.userId
         binding.chatRoom = chattingViewModel.currentChatRoom.value!!
         binding.chatTourBookLl.visibility = if (SharedPref.isNav!!) View.VISIBLE else View.GONE
+
+        binding.chatMessageRv.apply {
+            addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                if (bottom < oldBottom) {
+                    postDelayed({
+                        layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
+                    }, 50) // 100ms 지연을 주어 키보드가 완전히 올라온 뒤 스크롤하도록 합니다.
+                }
+            }
+        }
     }
 
     private fun initAdapter() {
@@ -113,6 +127,11 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     override fun onPause() {
         super.onPause()
         chattingViewModel.disconnectWebSocket()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         chattingViewModel.setChatRoomId(-1)
+        chattingViewModel.resetUiState()
     }
 }
