@@ -16,15 +16,14 @@ public class RoomDTO {
     private String tourTitle;
     private String tourImgUrl;
     private String tourRegion;
-
-    private int senderId;
+    private int senderId;   // 메세지를 처음에 요청하는 사람. 즉 Trav
     private String senderNickname;
     private boolean senderIsNav;
-    private int receiverId;
+    private int receiverId; // 메세지를 처음에 받는 사람. 즉 Nav
     private String receiverNickname;
     private boolean receiverIsNav;
-    private String recentMessageContent;
-    private String recentMessageTime;
+    private String recentMessageContent;    // 채팅방 목록에서 최근 메세지를 띄우기 위함
+    private String recentMessageTime;       // 채팅방 목록에서 최근 메세지 시간을 띄우기 위함
 
     public static RoomDTO toRoomDTO(RoomEntity roomEntity){
         return RoomDTO.builder()
@@ -43,25 +42,4 @@ public class RoomDTO {
                 .recentMessageTime(roomEntity.getRecentMessageTime())
                 .build();
     }
-
-
-//    public static RoomDTO toRoomDTO(RoomEntity roomEntity){
-//        RoomDTO roomDTO = new RoomDTO();
-//        roomDTO.setRoomId(roomEntity.getRoomId());
-//        roomDTO.setTourId(roomEntity.getTourId());
-//        roomDTO.setTourTitle(roomEntity.getTourTitle());
-//        roomDTO.setTourRegion(roomEntity.getTourRegion());
-//        roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
-//        roomDTO.setSenderId(roomEntity.getSenderId());
-//        roomDTO.setSenderNickname(roomEntity.getSenderNickname());
-//        roomDTO.setSenderIsNav(roomEntity.isSenderIsNav());
-//        roomDTO.setReceiverId(roomEntity.getReceiverId());
-//        roomDTO.setReceiverNickname(roomEntity.getReceiverNickname());
-//        roomDTO.setReceiverIsNav(roomEntity.isReceiverIsNav());
-//        roomDTO.setRecentMessageContent(roomEntity.getRecentMessageContent());
-//        roomDTO.setRecentMessageTime(roomEntity.getRecentMessageTime());
-//
-//        return roomDTO;
-//    }
-
 }
