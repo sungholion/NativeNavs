@@ -25,6 +25,11 @@ class StampFragment : BaseFragment<FragmentStampBinding>(FragmentStampBinding::b
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
+    }
+
+    fun initView(){
+        binding.stampRv
     }
 
 }
