@@ -1,5 +1,6 @@
 package com.nativenavs.chat.dto;
 
+import com.nativenavs.chat.entity.ChatEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,16 @@ public class ChatDTO {
     private boolean isRead;
     private String sendTime;
 
-
-
+    public static ChatDTO toChatDTO(ChatEntity chatEntity) {
+        return ChatDTO.builder()
+                .id(chatEntity.getId().toHexString())
+                .roomId(chatEntity.getRoomId())
+                .senderId(chatEntity.getSenderId())
+                .senderNickname(chatEntity.getSenderNickname())
+                .senderProfileImage(chatEntity.getSenderProfileImage())
+                .content(chatEntity.getContent())
+                .isRead(chatEntity.isRead())
+                .sendTime(chatEntity.getSendTime())
+                .build();
+    }
 }

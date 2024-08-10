@@ -2,7 +2,6 @@ package com.nativenavs.chat.service;
 
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
-import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.chat.repository.RoomRepository;
 import jakarta.transaction.Transactional;
@@ -15,21 +14,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
+    // DI --------------------------------------------------------------------------------------------------------------
 
     private final RoomRepository roomRepository;
     private final ChatRepository chatRepository;
+    private final RoomService roomService;
 
-    //채팅 생성
+    // Method ----------------------------------------------------------------------------------------------------------
+
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
 
-        // sendTime을 변환
-
-        room.setRecentMessageContent(content);
-        room.setRecentMessageTime(sendTime);
-        roomRepository.save(room);
+        roomService.updateRecentMessageInfo(roomId, content, sendTime); // 생성한 채팅을 채팅 목록에서 최신으로 볼 수 있도록
 
         return chatRepository.save(ChatEntity.createChat(
                 roomId,
@@ -42,10 +38,6 @@ public class ChatService {
         ));
     }
 
-    /**
-     * 채팅방 채팅내용 불러오기
-     * @param roomId 채팅방 id
-     */
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
         return chatRepository.findAllByRoomId(roomId).stream()
                 .map(chatEntity -> ChatDTO.builder()
@@ -60,19 +52,5 @@ public class ChatService {
                         .build())
                 .collect(Collectors.toList());
     }
-
-    public ChatDTO toChatDTO(ChatEntity chatEntity) {
-        return ChatDTO.builder()
-                .id(chatEntity.getId().toHexString())
-                .roomId(chatEntity.getRoomId())
-                .senderId(chatEntity.getSenderId())
-                .senderNickname(chatEntity.getSenderNickname())
-                .senderProfileImage(chatEntity.getSenderProfileImage())
-                .content(chatEntity.getContent())
-                .isRead(chatEntity.isRead())
-                .sendTime(chatEntity.getSendTime())
-                .build();
-    }
-
 
 }
