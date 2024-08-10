@@ -49,18 +49,18 @@ const WishListItem = ({ user, tours, wishList }) => {
               alt="NativeNavs"
             />
             <h2>
-              {user.isKorean
+              {user && user.isKorean
                 ? "아직 관심을 둔 Tour가 없어요!"
                 : "You haven’t saved any tours yet!"}
             </h2>
             <h5>
-              {user.isKorean
+              {user && user.isKorean
                 ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
                 : "Create special memories in Korea with NativeNavs!"}
             </h5>
             <Button
               size="4"
-              text={"둘러보기"}
+              text={user && user.isKorean ? "둘러보기" : "Browse"}
               onClickEvent={() => {
                 navigateFromWishToTourListFragment(); // 네이티브 함수 호출
               }}

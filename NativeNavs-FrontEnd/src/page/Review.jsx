@@ -60,12 +60,12 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
         {/* 상단 사진 장수 & 전체보기 버튼 */}
         <div className={styles.headerHeader}>
           <h2 className={styles.headerPhotoCounter}>
-          {user.isKorean ? `사진 ${reviewData.imageUrls.length}장` : `${reviewData.imageUrls.length} photos`}
-
+            {user && user.isKorean
+              ? `사진 ${reviewData.imageUrls.length}장`
+              : `${reviewData.imageUrls.length} photos`}
           </h2>
           <button onClick={onClickButton} className={styles.headerButton}>
-          {user.isKorean ? '전체보기 >' : 'View All >'}
-
+            {user && user.isKorean ? "전체보기 >" : "View All >"}
           </button>
         </div>
 
@@ -79,7 +79,10 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
 
       {/* 리뷰 하단 상세보기 */}
       <div className={styles.body}>
-        <h2 className={styles.bodyHeader}>{user.isKorean ? `후기 ${reviewData.reviewCount}개` : `${reviewData.reviewCount} Reviews`}
+        <h2 className={styles.bodyHeader}>
+          {user && user.isKorean
+            ? `후기 ${reviewData.reviewCount}개`
+            : `${reviewData.reviewCount} Reviews`}
         </h2>
         <div className={styles.bodyReviewList}>
           {reviewData.reviews.map((review) => (

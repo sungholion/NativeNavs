@@ -89,7 +89,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
       <section className="ReviewImgUploadSection">
         <div className="ReviewImgUploadHeader">
           <div>
-            {user.isKorean ? "사진 등록 :" : "Upload Photos :"}
+            {user.isKorean == false ? "사진 등록 :" : "Upload Photos :"}
             <span>
               {reviewData.image.length} / {MAX_IMAGE_COUNT}
             </span>
@@ -158,7 +158,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
             console.log("HI");
           }}
         >
-          {user.isKorean ? "제출" : "Submit"}
+          {user.isKorean == false ? "제출" : "Submit"}
         </button>
       </section>
     </div>

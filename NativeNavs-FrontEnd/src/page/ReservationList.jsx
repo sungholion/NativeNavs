@@ -62,7 +62,7 @@ const ReservationList = () => {
     return (
       <>
         <h2 className={styles.TourListTitle}>
-          {user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
+          {user && user.isKorean == true  ? "예정된 Tour" : "Upcoming Tour"}
         </h2>
         <div className={styles.ReservationList}>
           {/* 예약된 투어 리스트 */}
@@ -83,7 +83,7 @@ const ReservationList = () => {
           </div>
           {/* 완료된 투어 리스트 */}
           <h2 className={styles.TourListTitle}>
-            {user.isKorean ? "완료된 Tour" : "Completed Tour"}
+            {user && user.isKorean == true  ? "완료된 Tour" : "Completed Tour"}
           </h2>
           <div className={styles.completedTourList}>
             {reservationsCompleted.map((tour) => (
@@ -103,7 +103,7 @@ const ReservationList = () => {
   return (
     <>
       <h2 className={styles.TourListTitle}>
-        {user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
+        {user && user.isKorean == true  ? "예정된 Tour" : "Upcoming Tour"}
       </h2>
       <div className={styles.TopContainer}>
         <div className={styles.MiddleContainer}>
@@ -113,12 +113,12 @@ const ReservationList = () => {
             alt="NativeNavs"
           />
           <h2>
-            {user.isKorean
+            {user && user.isKorean == true 
               ? "아직 예약한 Tour가 없어요!"
               : "You have no booked tours yet!"}
           </h2>
           <h5>
-            {user.isKorean
+            {user && user.isKorean == true 
               ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
               : "Create special memories in Korea with NativeNavs!"}
           </h5>
@@ -132,7 +132,7 @@ const ReservationList = () => {
         </div>
       </div>
       <h2 className={styles.TourListTitle}>
-        {user.isKorean ? "완료된 Tour" : "Completed Tour"}
+        {user && user.isKorean == true ? "완료된 Tour" : "Completed Tour"}
       </h2>
       <div className={styles.completedTourList}>
         {reservationsCompleted.map((tour) => (

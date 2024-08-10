@@ -45,14 +45,7 @@ const Detail = () => {
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      console.log("User data : ", parsedUser);
-    } else {
-      console.log("No login user data");
-    }
+    setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
   const onDeleteEvent = async () => {
@@ -185,7 +178,7 @@ const Detail = () => {
                     navigateToTourModifyFragment(Number(params.tour_id));
                   }}
                 >
-                  {user.isKorean ? '수정' : 'Edit'}
+                  {user && user.isKorean ? "수정" : "Edit"}
                 </button>
                 {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
                 <button
@@ -213,12 +206,12 @@ const Detail = () => {
         </div>
         <div className={styles.tour_info_first}>
           <div className={styles.tour_maxParticipants}>
-            {user.isKorean
+            {user && user.isKorean
               ? `최대 인원 ${tour.maxParticipants}명`
               : `Maximum ${tour.maxParticipants} people`}
           </div>
           <div>
-            {user.isKorean
+            {user && user.isKorean
               ? `🌏 ${navLanguages[0]} 외`
               : `🌏 ${navLanguages[0]} and`}
           </div>
@@ -228,7 +221,7 @@ const Detail = () => {
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </div>
           <div>
-            {user.isKorean
+            {user && user.isKorean
               ? `${navLanguages.length - 1} 국어`
               : `${navLanguages.length - 1} other language`}
           </div>
@@ -253,7 +246,7 @@ const Detail = () => {
             {tour && tour.user ? (
               <p className={styles.navNickname}>
                 <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
-                {user.isKorean
+                {user && user.isKorean
                   ? `Nav: ${tour.user.nickname}님`
                   : `Nav: ${tour.user.nickname}`}
               </p>
@@ -261,7 +254,7 @@ const Detail = () => {
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              {user.isKorean
+              {user && user.isKorean
                 ? `🌏 언어: ${navLanguages.join(", ")}`
                 : `🌏 Language: ${navLanguages.join(", ")}`}
             </p>
@@ -271,7 +264,7 @@ const Detail = () => {
       {/* 투어 일정 */}
       <div className={styles.tourPlan}>
         <h3 className={styles.tourPlanTitle}>
-          {user.isKorean ? `일정` : `Plan`}
+          {user && user.isKorean ? `일정` : `Plan`}
         </h3>
         <div className={styles.tourPlanContainer}>
           {tour.plans.map((plan) => (
@@ -290,9 +283,14 @@ const Detail = () => {
       </div>
       {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
-        <h3 className={styles.tourReminderPrive}>  {user.isKorean ? '예상 금액' : 'Estimated Price'}</h3>
+        <h3 className={styles.tourReminderPrive}>
+          {" "}
+          {user && user.isKorean ? "예상 금액" : "Estimated Price"}
+        </h3>
         <h4>{formattedPrice}₩</h4>
-        <h3 className={styles.tourReminderDecription}>{user.isKorean ? '투어 설명' : 'Tour Description'}</h3>
+        <h3 className={styles.tourReminderDecription}>
+          {user && user.isKorean ? "투어 설명" : "Tour Description"}
+        </h3>
         <h4>{tour.description}</h4>
       </div>
       {/* 투어 리뷰 */}
@@ -307,7 +305,11 @@ const Detail = () => {
             imageList={firstReview.imageUrls}
           />
         ) : (
-          <p>{user.isKorean ? '첫 리뷰를 남겨주세요!' : 'Be the first to leave a review!'}</p>
+          <p>
+            {user && user.isKorean
+              ? "첫 리뷰를 남겨주세요!"
+              : "Be the first to leave a review!"}
+          </p>
         )}
       </div>
     </div>

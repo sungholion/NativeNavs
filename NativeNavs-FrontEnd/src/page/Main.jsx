@@ -12,6 +12,7 @@ const Main = () => {
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
+    setSearch(JSON.parse(localStorage.getItem("search")));
   }, []);
 
 

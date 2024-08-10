@@ -110,7 +110,9 @@ const ReservationDetail = () => {
             </div>
             <div className={styles.tourInfoTopTextTop}>
               <div className={styles.tourInfoTopTextLeft}>
-                <p className={styles.value1}>{user.isKorean ? '만남 시작' : 'Meeting Start'}</p>
+                <p className={styles.value1}>
+                  {user && user.isKorean ? "만남 시작" : "Meeting Start"}
+                </p>
                 <p className={styles.value2}>
                   {formatDate(tour.reservationDate)}
                 </p>
@@ -119,7 +121,9 @@ const ReservationDetail = () => {
                 </p>
               </div>
               <div className={styles.tourInfoTopTextRight}>
-                <p className={styles.value1}>{user.isKorean ? '만남 종료' : 'Meeting End'}</p>
+                <p className={styles.value1}>
+                  {user && user.isKorean ? "만남 종료" : "Meeting End"}
+                </p>
                 <p className={styles.value2}>
                   {formatDate(tour.reservationDate)}
                 </p>
@@ -134,13 +138,27 @@ const ReservationDetail = () => {
               <img className={styles.messageBox} src={messageBox} alt="" />
               {user && user.isNav == true ? (
                 <div>
-                  <p className={styles.value3}>{user.isKorean ? 'Trav에게 메세지 남기기' : 'Leave a message for Trav'}</p>
-                  <p className={styles.value4}>{tour.participant.nickname}{user.isKorean ? "님" : ""}</p>
+                  <p className={styles.value3}>
+                    {user && user.isKorean
+                      ? "Trav에게 메세지 남기기"
+                      : "Leave a message for Trav"}
+                  </p>
+                  <p className={styles.value4}>
+                    {tour.participant.nickname}
+                    {user && user.isKorean ? "님" : ""}
+                  </p>
                 </div>
               ) : (
                 <div>
-                  <p className={styles.value3}>{user.isKorean ? 'Nav에게 메세지 남기기' : 'Leave a message for Nav'}</p>
-                  <p className={styles.value4}>${tour.guide.nickname}{user.isKorean ? "님" : ""}</p>
+                  <p className={styles.value3}>
+                    {user && user.isKorean
+                      ? "Nav에게 메세지 남기기"
+                      : "Leave a message for Nav"}
+                  </p>
+                  <p className={styles.value4}>
+                    ${tour.guide.nickname}
+                    {user && user.isKorean ? "님" : ""}
+                  </p>
                 </div>
               )}
             </div>
@@ -151,21 +169,32 @@ const ReservationDetail = () => {
 
           {/* Bottom */}
           <div className={styles.tourInfoBottom}>
-            <h3 className={styles.tourInfoBottomtitle}>{user.isKorean ? '예약 상세 내역' : 'Reservation Details'}</h3>
+            <h3 className={styles.tourInfoBottomtitle}>
+              {user && user.isKorean
+                ? "예약 상세 내역"
+                : "Reservation Details"}
+            </h3>
             <div className={styles.tourInfoBottominfoItem}>
-              <p className={styles.tourInfoBottominfoItemTitle}>{user.isKorean ? '참여 인원' : 'Participants'}</p>
+              <p className={styles.tourInfoBottominfoItemTitle}>
+                {user && user.isKorean ? "참여 인원" : "Participants"}
+              </p>
               <p className={styles.tourInfoBottominfoItemContent}>
-              {tour.participantCount}{user.isKorean ? `명` : ``}
+                {tour.participantCount}
+                {user && user.isKorean ? `명` : ``}
               </p>
             </div>
             <div className={styles.tourInfoBottominfoItem}>
-              <p className={styles.tourInfoBottominfoItemTitle}> {user.isKorean ? '예약 번호' : 'Reservation Number'}</p>
+              <p className={styles.tourInfoBottominfoItemTitle}>
+                {" "}
+                {user && user.isKorean ? "예약 번호" : "Reservation Number"}
+              </p>
               <p className={styles.tourInfoBottominfoItemContent}>
                 {tour.reservationNumber}
               </p>
             </div>
             <div className={styles.tourInfoBottominfoItem}>
-              <p className={styles.tourInfoBottominfoItemTitle}>{user.isKorean ? '만남 장소' : 'Meeting Location'}
+              <p className={styles.tourInfoBottominfoItemTitle}>
+                {user && user.isKorean ? "만남 장소" : "Meeting Location"}
               </p>
               {/* 구글 맵 API */}
               <p className={styles.tourInfoBottominfoItemContent}>
@@ -174,8 +203,9 @@ const ReservationDetail = () => {
             </div>
             <div className={styles.tourInfoBottominfoItem}>
               <p className={styles.tourInfoBottominfoItemTitle}>
-              {user.isKorean ? '추가 요청 사항' : 'Additional Requests'}
-
+                {user && user.isKorean
+                  ? "추가 요청 사항"
+                  : "Additional Requests"}
               </p>
               <p className={styles.tourInfoBottominfoItemContent}>
                 {tour.reservationDescription}
@@ -184,8 +214,7 @@ const ReservationDetail = () => {
             <div className={styles.buttonContainer}>
               {!modal ? (
                 <button onClick={clickModal} className={styles.reserveButton}>
-                  {user.isKorean ? '예약 취소' : 'Cancel'}
-
+                  {user && user.isKorean ? "예약 취소" : "Cancel"}
                 </button>
               ) : (
                 <Modal2

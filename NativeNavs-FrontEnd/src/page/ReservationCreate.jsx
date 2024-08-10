@@ -109,7 +109,7 @@ const ReservationCreate = () => {
         />
       </section>
       <section className="TravInforSection">
-        <h4>{user.isKorean ? 'Trav 정보' : 'Trav Information'}</h4>
+        <h4>{user.isKorean == false ? "Trav 정보" : "Trav Information"}</h4>
         <div className="TravInfo">
           <img src={travInfo.image} alt="프로필사진" />
           <div>{travInfo.nickname}</div>
