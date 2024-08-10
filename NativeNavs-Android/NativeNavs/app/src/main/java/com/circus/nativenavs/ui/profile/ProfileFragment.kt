@@ -5,8 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.navArgs
@@ -78,6 +80,7 @@ class ProfileFragment :
                 if (args.navId != 0) it.getNavReview(args.navId)
                 else it.getTravReview(args.travId)
             }
+            it.getStamp(args.userId)
         }
     }
 
@@ -129,6 +132,7 @@ class ProfileFragment :
             }
 
         }
+
     }
 
     private fun initAdapter() {
@@ -208,6 +212,35 @@ class ProfileFragment :
                     }
 
 
+                }
+            }
+            stamp.observe(viewLifecycleOwner){
+                if(it != null){
+                    // 실제로는 데이터 목록에서 원하는 3개 항목을 가져와야 합니다.
+                    val stampsToDisplay = it.take(3)
+
+                    // ImageView 배열
+                    val imageViews = arrayOf(
+                        binding.profileStamp1,
+                        binding.profileStamp2,
+                        binding.profileStamp3
+                    )
+
+                    // 각 ImageView에 이미지 설정
+                    for (i in imageViews.indices) {
+                        if (i < stampsToDisplay.size) {
+                            val stamp = stampsToDisplay[i]
+                            imageViews[i].visibility = VISIBLE
+                            Glide.with(requireContext())
+                                .load(stamp.image) // 불러올 이미지 url
+                                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
+                                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
+                                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                                .into(imageViews[i]) // 이미지를 넣을 뷰
+                        } else {
+                            imageViews[i].visibility = GONE
+                        }
+                    }
                 }
             }
         }

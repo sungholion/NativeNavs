@@ -15,6 +15,7 @@ import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.SignUpDto
+import com.circus.nativenavs.data.StampDto
 import com.circus.nativenavs.data.service.UserService
 import com.circus.nativenavs.util.SharedPref
 import com.google.gson.Gson
@@ -292,4 +293,16 @@ class HomeActivityViewModel : ViewModel() {
             userRetrofit.postFcmToken(SharedPref.userId!!, SharedPref.fcmToken!!)
         }
     }
+
+
+    private val _stamp = MutableLiveData<List<StampDto>>()
+    val stamp : LiveData<List<StampDto>> get() = _stamp
+
+    fun getStamp(usserId : Int){
+
+        viewModelScope.launch {
+            _stamp.value = userRetrofit.getStamp(usserId)
+        }
+    }
+
 }
