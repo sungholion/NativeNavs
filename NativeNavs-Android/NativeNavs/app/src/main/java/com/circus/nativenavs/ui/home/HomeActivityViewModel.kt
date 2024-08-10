@@ -14,6 +14,7 @@ import com.circus.nativenavs.data.LanguageListDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.ProfileUserReviewDto
+import com.circus.nativenavs.data.ReservationDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.StampDto
 import com.circus.nativenavs.data.service.UserService
@@ -305,4 +306,24 @@ class HomeActivityViewModel : ViewModel() {
         }
     }
 
+    private val _reservation = MutableLiveData<ReservationDto>()
+    val reservation : LiveData<ReservationDto> get() = _reservation
+
+    fun getReservation(reservationId: Int){
+        viewModelScope.launch {
+            _reservation.value = userRetrofit.getReservation(reservationId)
+        }
+    }
+    private val _reservationStatus = MutableLiveData<Int>(-1)
+    val reservationStatus : LiveData<Int> get() = _reservationStatus
+    fun updateReservationStatus(reservationId: Int){
+        viewModelScope.launch {
+            val response = userRetrofit.updateReservationStatus(reservationId)
+            updateReservationStatusCode(response.code())
+        }
+    }
+    fun updateReservationStatusCode(code : Int)
+    {
+        _reservationStatus.value = code
+    }
 }
