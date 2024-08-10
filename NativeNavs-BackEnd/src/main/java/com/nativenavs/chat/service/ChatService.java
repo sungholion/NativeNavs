@@ -1,5 +1,6 @@
 package com.nativenavs.chat.service;
 
+import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
@@ -21,10 +22,13 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final WebSocketConfig webSocketConfig;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
+
+        boolean isRecipientConnected = webSocketConfig.isUserConnected(roomId);
 
         ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                 roomId,
@@ -32,7 +36,7 @@ public class ChatService {
                 senderNickname,
                 senderProfileImage,
                 content,
-                false,
+                isRecipientConnected,  // If connected, mark as read
                 sendTime
         ));
 

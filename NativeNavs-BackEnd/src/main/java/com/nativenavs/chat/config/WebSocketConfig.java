@@ -7,11 +7,17 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 
 @Configuration
 @EnableWebSocket    // 웹소켓 서버 사용
 @EnableWebSocketMessageBroker   // STOMP 사용
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    // Store connected users by room ID
+    private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -25,5 +31,27 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/send");       //클라이언트에서 보낸 메세지를 받을 prefix
         registry.enableSimpleBroker("/room");    //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
+    }
+
+    // Method to handle user connection
+    public void handleUserConnect(int roomId, String sessionId) {
+        connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
+    }
+
+    // Method to handle user disconnection
+    public void handleUserDisconnect(int roomId, String sessionId) {
+        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
+        if (roomUsers != null) {
+            roomUsers.remove(sessionId);
+            if (roomUsers.isEmpty()) {
+                connectedUsers.remove(roomId);
+            }
+        }
+    }
+
+    // Check if a user is connected to a room
+    public boolean isUserConnected(int roomId) {
+        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
+        return roomUsers != null && !roomUsers.isEmpty();
     }
 }
