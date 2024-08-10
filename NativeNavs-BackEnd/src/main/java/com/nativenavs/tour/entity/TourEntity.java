@@ -22,7 +22,6 @@ import java.util.Set;
 @Table(name ="tour")
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 public class TourEntity extends BaseEntity {
 
     @Id
