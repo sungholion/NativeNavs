@@ -6,10 +6,12 @@ import com.nativenavs.chat.event.ChatCreatedEvent;
 import com.nativenavs.chat.repository.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,17 +43,31 @@ public class ChatService {
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
         return chatRepository.findAllByRoomId(roomId).stream()
-                .map(chatEntity -> ChatDTO.builder()
-                        .id(chatEntity.getId().toHexString())
-                        .roomId(chatEntity.getRoomId())
-                        .senderId(chatEntity.getSenderId())
-                        .senderNickname(chatEntity.getSenderNickname())
-                        .senderProfileImage(chatEntity.getSenderProfileImage())
-                        .content(chatEntity.getContent())
-                        .isRead(chatEntity.isRead())
-                        .sendTime(chatEntity.getSendTime())
-                        .build())
+                .map(chatEntity -> {
+                    // 채팅 조회 시 읽음 처리
+                    chatEntity.markAsRead();
+                    chatRepository.save(chatEntity);  // 읽음 상태 저장
+
+                    return ChatDTO.builder()
+                            .id(chatEntity.getId().toHexString())
+                            .roomId(chatEntity.getRoomId())
+                            .senderId(chatEntity.getSenderId())
+                            .senderNickname(chatEntity.getSenderNickname())
+                            .senderProfileImage(chatEntity.getSenderProfileImage())
+                            .content(chatEntity.getContent())
+                            .isRead(chatEntity.isRead())
+                            .sendTime(chatEntity.getSendTime())
+                            .build();
+                })
                 .collect(Collectors.toList());
+    }
+
+    // 추가: 특정 채팅을 읽음으로 표시하는 메서드
+    public void markChatAsRead(String chatId) {
+        ChatEntity chatEntity = chatRepository.findById(new ObjectId(chatId).getTimestamp())
+                .orElseThrow(() -> new NoSuchElementException("Chat not found with id: " + chatId));
+        chatEntity.markAsRead();
+        chatRepository.save(chatEntity);
     }
 
 }

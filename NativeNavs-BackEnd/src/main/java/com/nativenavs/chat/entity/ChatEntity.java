@@ -47,4 +47,10 @@ public class ChatEntity {
                 .sendTime(sendTime)
                 .build();
     }
+
+    // 읽음 상태 업데이트
+    public void markAsRead() {
+        this.isRead = true;
+    }
+
 }
