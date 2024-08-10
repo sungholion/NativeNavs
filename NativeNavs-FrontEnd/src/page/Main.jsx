@@ -12,32 +12,16 @@ const Main = () => {
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-    }
+    setUser(JSON.parse(localStorage.getItem("user")));
+    setSearch(JSON.parse(localStorage.getItem("search")));
   }, []);
-
-  // 검색 데이터 가져오기
-  window.getSearchData = (searchJson) => {
-    console.log("Received Search JSON:", searchJson);
-    try {
-      const parsedSearch = JSON.parse(searchJson);
-      console.log(`travel : ${parsedSearch.travel}`);
-      console.log(`date: ${parsedSearch.date}`);
-      console.log(`category: ${parsedSearch.category}`); // 후에 추가될 예정
-      setSearch(parsedSearch);
-    } catch (error) {
-      console.error("Failed to parse Search JSON", error);
-    }
-  };
 
   // 위시리스트 API
   const fetchWishLists = async () => {
     if (user && user.isNav == false) {
+      console.log("위시리스트 API 요청 시작");
       try {
-        const response = await axios.get(
+        const wishResponse = await axios.get(
           "https://i11d110.p.ssafy.io/api/wishlist",
           {
             headers: {
@@ -46,8 +30,8 @@ const Main = () => {
             },
           }
         );
-        console.log("Fetched wishlist data:", response.data);
-        setWishList(response.data.map((item) => item.id));
+        console.log("위시리스트 API 요청 성공", wishResponse.data);
+        setWishList(wishResponse.data.map((item) => item.id));
       } catch (error) {
         console.error(error);
       }
@@ -56,25 +40,25 @@ const Main = () => {
 
   // 투어 검색 API 정의
   const fetchTours = async () => {
-    const category = search.category.map(String).join(".");
+    const category = search ? search.category.map(String).join(".") : "";
     try {
-      const response = await axios.get(
+      console.log("투어 검색 API 요청 시작");
+      console.log(`?location=${search.travel}&date=${search.date}&categoryId=${category}`);
+      const tourResponse = await axios.get(
         `https://i11d110.p.ssafy.io/api/tours/search${
-          (search.travel == null || search.date || category)
-          // search == null
-            ? ""
-            : `?location=${search.travel}&date=${search.date}&category=${category} `
+          search.travel || search.date || category
+            ? `?location=${search.travel}&date=${search.date}&categoryId=${category}`
+            : ""
         }`
       );
-      console.log("투어 API 요청 성공", response.data);
-      console.log("위시리스트 API 요청 시작");
-      setTours(response.data);
+      console.log(`https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`)
+      console.log("투어 검색 API 요청 성공", tourResponse.data);
+      setTours(tourResponse.data);
     } catch (error) {
       console.error("투어 API 요청 실패", error);
     }
   };
 
-  
   // user 정보로 useEffect(투어 API & 위시리스트 API)
   useEffect(() => {
     console.log("API 요청 시작");
