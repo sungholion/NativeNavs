@@ -1,6 +1,5 @@
 package com.nativenavs.chat.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nativenavs.chat.entity.ChatEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +19,7 @@ public class ChatDTO {
     private String senderProfileImage;
     private String content;
 
-    @JsonProperty("isRead")
-    private boolean isRead;
+    private boolean messageChecked;
     private String sendTime;
 
     public static ChatDTO toChatDTO(ChatEntity chatEntity) {
@@ -32,7 +30,7 @@ public class ChatDTO {
                 .senderNickname(chatEntity.getSenderNickname())
                 .senderProfileImage(chatEntity.getSenderProfileImage())
                 .content(chatEntity.getContent())
-                .isRead(chatEntity.isRead())
+                .messageChecked(chatEntity.isMessageChecked())
                 .sendTime(chatEntity.getSendTime())
                 .build();
     }

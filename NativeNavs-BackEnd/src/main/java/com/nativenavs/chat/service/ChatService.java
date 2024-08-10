@@ -53,7 +53,7 @@ public class ChatService {
                 sendTime
         ));
 
-        System.out.println("is Read : " + chatEntity.isRead());
+        System.out.println("is Read : " + chatEntity.isMessageChecked());
 
         eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
 
@@ -74,7 +74,7 @@ public class ChatService {
                             .senderNickname(chatEntity.getSenderNickname())
                             .senderProfileImage(chatEntity.getSenderProfileImage())
                             .content(chatEntity.getContent())
-                            .isRead(chatEntity.isRead())
+                            .messageChecked(chatEntity.isMessageChecked())
                             .sendTime(chatEntity.getSendTime())
                             .build();
                 })
