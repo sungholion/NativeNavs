@@ -16,26 +16,27 @@
 
 .tour_info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  margin: 10px 0;
-  padding: 0px;
+  align-items: stretch;
+  margin: 10px 0px;
 }
 
-.tour_leftinfo {
+.tour_info_first {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
 }
 
 .tour_title {
   margin: 0; /* 수정 */
   font-weight: 600;
   color: #585858;
+  max-width: 70%;
 }
 
 .tour_maxParticipants {
+  display: flex;
+  justify-content: space-between;
   margin: 0;
 }
 
@@ -45,15 +46,7 @@
   color: #585858;
 }
 
-.tour_leftinfo,
-.tour_rightinfo {
-  display: flex;
-  flex-direction: column;
-}
-.tour_rating {
-  display: flex;
-  justify-content: end;
-}
+
 
 .tour_nav {
   display: flex;

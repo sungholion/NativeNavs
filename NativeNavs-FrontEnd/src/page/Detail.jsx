@@ -206,43 +206,26 @@ const Detail = () => {
       <Carousel images={images} />
 
       {/* 투어 정보(간략하게) */}
-      <section className={styles.tour_info}>
-        {/* left */}
-        <div className={styles.tour_leftinfo}>
+      <div className={styles.tour_info}>
+        <div className={styles.tour_info_first}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
-          <p className={styles.tour_maxParticipants}>
+          <div>
+            <StarScore2 score={tour.reviewAverage * 20} />
+          </div>
+        </div>
+        <div className={styles.tour_info_first}>
+          <div className={styles.tour_maxParticipants}>
             최대 인원 {tour.maxParticipants}명
-          </p>
-          <p className={styles.tour_duration}>
+          </div>
+          <div>🌏 {navLanguages[0]} 외</div>
+        </div>
+        <div className={styles.tour_info_first}>
+          <div>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
-          </p>
-        </div>
-
-        {/* right */}
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_rating}>
-            <div className={styles.tour_rating_inner}>
-              {/* <Rating reviewAverage={tour.reviewAverage} /> */}
-              <StarScore2 score={tour.reviewAverage * 20} />
-            </div>
           </div>
-
-          <div className={styles.tour_nav_language}>
-            <div className={styles.tour_nav_language_inner}>
-              <div>🌏</div>
-              <div className={styles.langlang}>
-                {navLanguages.length > 1 ? (
-                  <p>
-                    {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
-                  </p>
-                ) : (
-                  <p>{navLanguages[0]}</p>
-                )}
-              </div>
-            </div>
-          </div>
+          <div>{navLanguages.length - 1}개 국어</div>
         </div>
-      </section>
+      </div>
 
       {/* Nav 정보 */}
       <div className={styles.navInfo}>

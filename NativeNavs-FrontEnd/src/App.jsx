@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Main from "./page/Main";
 import Nav from "./page/Nav";
 import Privacy_Terms from "./page/Privacy_Terms";
@@ -28,23 +28,29 @@ import NavTourList from "./page/NavTourList";
 import ReservationCreate from "./page/ReservationCreate";
 
 function App() {
-  const param = useSearchParams();
-
-  const [user, setUser] = useState(null);
 
   // 유저 정보 파싱 및 localStorage에 저장
   useEffect(() => {
     window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
+      console.log("Received userJson:", userJson);
       try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
         localStorage.setItem("user", userJson); // 유저 정보를 localStorage에 저장
+        console.log("userJson 저장 성공");
       } catch (error) {
-        console.error("Failed to parse user JSON", error);
+        console.error("userJson 저장 실패", error);
+      }
+    };
+  }, []);
+  
+  // 검색 정보 파싱 및 localStorage에 저장
+  useEffect(() => {
+    window.getSearchData = (searchJson) => {
+      console.log("Received searchJson:", searchJson);
+      try {
+        localStorage.setItem("search", searchJson); // 유저 정보를 localStorage에 저장
+        console.log("searchJson 저장 성공");
+      } catch (error) {
+        console.error("searchJson 저장 실패", error);
       }
     };
   }, []);

@@ -75,7 +75,6 @@ const Tour_Item = ({
         .split(",")
         .map((lang) => lang.trim());
       setNavLanguages(userLanguageList);
-      console.log(navLanguages);
     }
   }, [userLanguages]);
 
@@ -118,7 +117,7 @@ const Tour_Item = ({
 
           {navLanguages.length > 1 ? (
             <p className={styles.navLanguages}>
-              🌏 {navLanguages[0]} 외 {navLanguages.length - 1}개
+              🌏 {navLanguages[0]} 외 {navLanguages.length - 1}
             </p>
           ) : (
             <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
