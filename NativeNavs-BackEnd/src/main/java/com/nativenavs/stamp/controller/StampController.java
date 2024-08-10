@@ -1,8 +1,11 @@
 package com.nativenavs.stamp.controller;
 
+import com.nativenavs.review.dto.ReviewRequestDTO;
 import com.nativenavs.review.dto.TourReviewDTO;
+import com.nativenavs.review.entity.ReviewEntity;
 import com.nativenavs.stamp.dto.StampDTO;
 import com.nativenavs.stamp.service.StampService;
+import com.nativenavs.user.entity.UserEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +28,26 @@ import java.util.List;
 public class StampController {
 
     private final StampService stampService;
+
+    @PostMapping("/{reservationId}")
+    @Operation(summary = "리뷰 등록 API", description = "리뷰를 등록할때 사용하는 API")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
+    @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
+                                        @Parameter(description = "스탬프등록할 예약ID", required = true, example = "1")
+                                        @PathVariable("reservationId") int reservationId){
+        try {
+
+            stampService.addStamp(reservationId);
+            //반환 여부 토론
+            return ResponseEntity.ok("스탬프 등록 완료");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 실패");
+        }
+    }
 
     @GetMapping("/{userId}")
     @Operation(summary = "스탬프 조회 API", description = "사용자의 스탬프를 조회할때 사용하는 API")

@@ -1,5 +1,7 @@
 package com.nativenavs.stamp.service;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
+import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.stamp.dto.StampDTO;
 import com.nativenavs.stamp.entity.UserStampEntity;
 import com.nativenavs.stamp.repository.UserStampRepository;
@@ -18,6 +20,13 @@ public class StampService {
 
     private final UserRepository userRepository;
     private final UserStampRepository userStampRepository;
+    private final ReservationRepository reservationRepository;
+
+
+    public void addStamp(int reservationId){
+
+
+    }
 
     @Transactional
     public List<StampDTO> getAllStampsByUserId(int userId) {
