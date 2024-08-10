@@ -27,6 +27,7 @@ const StyledSlider = styled(Slider)`
 export default function Carousel2({
   reservationsInProgress,
   navigateToReservationListFragmentReservationDetail,
+  user,
 }) {
   const settings = {
     centerMode: reservationsInProgress.length > 1, // 투어 데이터가 1개 이상일 때 중앙 모드 활성화
@@ -104,9 +105,13 @@ export default function Carousel2({
                 <p className={styles.navLanguageText}>
                   {formattedLanguages.length === 1
                     ? formattedLanguages[0]
-                    : `${formattedLanguages[0]} 외 ${
+                    : user && user.isKorean
+                    ? `${formattedLanguages[0]} 외 ${
                         formattedLanguages.length - 1
-                      }개국어`}
+                      }개 국어`
+                    : `${formattedLanguages[0]} and ${
+                        formattedLanguages.length - 1
+                      } other`}
                 </p>
               </div>
             </div>
@@ -161,13 +166,17 @@ export default function Carousel2({
                       <p className={styles.navNickname}>{tour.navNickname}</p>
                     </div>
                     <div className={styles.navLanguage}>
-                      🌏
+                      
                       <p className={styles.navLanguageText}>
                         {formattedLanguages.length === 1
-                          ? formattedLanguages[0]
-                          : `${formattedLanguages[0]} 외 ${
+                          ? `🌏 ${formattedLanguages[0]}`
+                          : user && user.isKorean
+                          ? `🌏 ${formattedLanguages[0]} 외 ${
                               formattedLanguages.length - 1
-                            }개국어`}
+                            }개 국어`
+                          : `🌏 ${formattedLanguages[0]} and ${
+                              formattedLanguages.length - 1
+                            } other`}
                       </p>
                     </div>
                   </div>

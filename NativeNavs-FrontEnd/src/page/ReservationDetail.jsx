@@ -156,7 +156,7 @@ const ReservationDetail = () => {
                       : "Leave a message for Nav"}
                   </p>
                   <p className={styles.value4}>
-                    ${tour.guide.nickname}
+                    {tour.guide.nickname}
                     {user && user.isKorean ? "님" : ""}
                   </p>
                 </div>

@@ -49,9 +49,15 @@ const WishListItem = ({ user, tours, wishList }) => {
               alt="NativeNavs"
             />
             <h2>
-              {user && user.isKorean
-                ? "아직 관심을 둔 Tour가 없어요!"
-                : "You haven’t saved any tours yet!"}
+              {user && user.isKorean ? (
+                "아직 관심을 둔 Tour가 없어요!"
+              ) : (
+                <>
+                  You haven’t saved
+                  <br />
+                  any tours yet!
+                </>
+              )}
             </h2>
             <h5>
               {user && user.isKorean

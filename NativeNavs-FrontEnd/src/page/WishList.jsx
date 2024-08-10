@@ -14,26 +14,9 @@ function WishList() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      console.log(11, user);
-      console.log(22, parsedUser);
     }
   }, []);
 
-  // // android로부터 유저 정보를 수신 및 파싱
-  // useEffect(() => {
-  //   window.getUserData = (userJson) => {
-  //     console.log("Received user JSON:", userJson);
-  //     try {
-  //       const parsedUser = JSON.parse(userJson);
-  //       console.log(`User ID: ${parsedUser.userId}`);
-  //       console.log(`Token: ${parsedUser.userToken}`);
-  //       console.log(`isNav: ${parsedUser.isNav}`);
-  //       setUser(parsedUser);
-  //     } catch (error) {
-  //       console.error("Failed to parse user JSON", error);
-  //     }
-  //   };
-  // }, []);
 
   // 투어 API
   useEffect(() => {
