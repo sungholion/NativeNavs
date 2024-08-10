@@ -88,7 +88,7 @@ const ReviewCreate = () => {
       tourId: Number(info.tourId),
       score: Number(reviewData.score),
       description: reviewData.description,
-      imageUrls: [""],
+      imageUrls: reviewData.image.map((img) => ""),
     };
     console.log(subData);
 
