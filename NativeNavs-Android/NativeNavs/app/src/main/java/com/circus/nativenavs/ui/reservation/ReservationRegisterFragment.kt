@@ -136,4 +136,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             )
         navigate(action)
     }
+    fun navigateToReservationRegisterChattingRoom(){
+        popBackStack()
+    }
 }

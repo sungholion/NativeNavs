@@ -18,6 +18,11 @@ class ReservationRegisterBridge(
     }
 
     @JavascriptInterface
+    fun navigateToReservationRegisterChattingRoom(){
+        fragment.navigateToReservationRegisterChattingRoom()
+    }
+
+    @JavascriptInterface
     fun showReservationRegisterFailDialog() {
         fragment.showReservationRegisterFailDialog()
     }
