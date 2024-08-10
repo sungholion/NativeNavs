@@ -29,6 +29,7 @@ public class ChatService {
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
 
         boolean isRecipientConnected = webSocketConfig.isUserConnected(roomId);
+        System.out.println("isRecipientConnected: " + isRecipientConnected);
 
         ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                 roomId,
