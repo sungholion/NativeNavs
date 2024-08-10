@@ -173,7 +173,7 @@ class KrossbowChattingViewModel : ViewModel() {
         Log.d(TAG, "handleOnMessageReceived: $message")
         try {
 //            if (message.senderId != uiState.value!!.senderId)
-                addMessage(message)
+            addMessage(message)
         } catch (e: Exception) {
             Log.e(TAG, "handleOnMessageReceived: ", e)
         }
@@ -246,7 +246,8 @@ class KrossbowChattingViewModel : ViewModel() {
                 senderNickname = it.senderNickName,
                 senderProfileImage = it.senderImg,
                 content = it.message,
-                sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString(),
+                sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    .toString(),
                 isRead = false
             )
         } ?: MessageDto()

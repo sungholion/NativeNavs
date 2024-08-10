@@ -74,7 +74,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
                     layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
                 }, 50)
             }
-//            binding.chatMessageRv.scrollToPosition(uiState.messages.size - 1)
         }
     }
 
