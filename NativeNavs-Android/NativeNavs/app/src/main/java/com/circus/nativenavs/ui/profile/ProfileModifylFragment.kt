@@ -135,6 +135,8 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
     fun initView() {
 
+//        binding.profileModifyTitle.titleText = getString()
+
         homeActivityViewModel.updateNickNameCheck(true)
         binding.apply {
             homeActivityViewModel.let { vm ->
