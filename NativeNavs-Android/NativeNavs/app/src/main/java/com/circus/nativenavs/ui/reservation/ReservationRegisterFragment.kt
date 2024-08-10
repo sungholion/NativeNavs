@@ -16,10 +16,12 @@ import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.SharedPref
 import com.circus.nativenavs.util.WEBURL
+import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 const val TAG = "ReservationRegister"
+
 class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBinding>(
     FragmentReservationRegisterBinding::bind,
     R.layout.fragment_reservation_register
@@ -49,6 +51,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
 
 
     }
+
     private fun initBridge() {
         bridge =
             ReservationRegisterBridge(
@@ -61,7 +64,8 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             "Android"
         )
     }
-    private fun initCustomView(){
+
+    private fun initCustomView() {
         binding.reservationRegisterCustomWv.setOnBackListener(object :
             CustomTitleWebView.OnBackClickListener {
             override fun onClick() {
@@ -77,7 +81,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
                 override fun handleOnBackPressed() {
                     if (!binding.reservationRegisterCustomWv.backWebView()) {
                         MaterialAlertDialogBuilder(homeActivity)
-                            .setMessage(getString(R.string.dialog_cancel_register_tour))
+                            .setMessage(getString(R.string.dialog_cancel_register_reservation))
                             .setNegativeButton(getString(R.string.dialog_register_tour_negative)) { _, _ ->
 
                             }
@@ -89,7 +93,8 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
                 }
             })
     }
-    private fun initWebView(){
+
+    private fun initWebView() {
         binding.reservationRegisterCustomWv.binding.customWebviewTitleWv.webViewClient =
             object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
@@ -114,7 +119,20 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
 
     }
 
-    fun navigateToReservationRegisterChattingRoom(){
-        popBackStack()
+    fun showReservationRegisterFailDialog() {
+        MaterialAlertDialogBuilder(homeActivity)
+            .setMessage(getString(R.string.dialog_register_reservation_fail))
+            .setPositiveButton(getString(R.string.dialog_confirm)) { _, _ ->
+
+            }.show()
+    }
+
+    fun navigateToReservationDetailFragment(tourId: Int, reservationId: Int) {
+        val action =
+            ReservationRegisterFragmentDirections.actionReservationRegisterFragmentToReservationDetailFragment(
+                reservationId = reservationId,
+                tourId = tourId
+            )
+        navigate(action)
     }
 }
