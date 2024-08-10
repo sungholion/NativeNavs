@@ -62,7 +62,11 @@ class ReservationListFragment : BaseFragment<FragmentReservationListBinding>(
                     super.onPageFinished(view, url)
                     if (!isPageLoaded) {
                         isPageLoaded = true
-                        bridge.sendUserData(UserDto(SharedPref.userId!!, SharedPref.accessToken!!, SharedPref.isNav!!))
+                        bridge.sendUserData(UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"))
                     }
                 }
             }

@@ -132,7 +132,8 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }

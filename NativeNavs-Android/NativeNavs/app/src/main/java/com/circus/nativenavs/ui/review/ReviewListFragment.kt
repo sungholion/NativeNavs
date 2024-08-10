@@ -68,7 +68,8 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }

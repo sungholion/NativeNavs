@@ -58,7 +58,8 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }

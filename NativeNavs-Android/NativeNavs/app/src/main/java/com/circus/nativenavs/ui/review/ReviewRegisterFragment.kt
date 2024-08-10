@@ -128,7 +128,8 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }
