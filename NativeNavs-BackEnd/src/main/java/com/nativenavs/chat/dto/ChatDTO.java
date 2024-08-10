@@ -1,8 +1,7 @@
 package com.nativenavs.chat.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nativenavs.chat.entity.ChatEntity;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class ChatDTO {
     private String senderProfileImage;
     private String content;
 
-    @Access(AccessType.FIELD)
+    @JsonProperty("isRead")
     private boolean isRead;
     private String sendTime;
 

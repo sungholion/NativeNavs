@@ -1,7 +1,6 @@
 package com.nativenavs.chat.entity;
 
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -22,7 +21,7 @@ public class ChatEntity {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
-    @Access(AccessType.FIELD)
+    @JsonProperty("isRead")
     private boolean isRead;
     private String sendTime;
 

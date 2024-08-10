@@ -28,8 +28,20 @@ public class ChatService {
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, String sendTime) {
 
-        boolean isRecipientConnected = webSocketConfig.isUserConnected(roomId);
-        System.out.println("isRecipientConnected: " + isRecipientConnected);
+//        boolean isRecipientConnected = webSocketConfig.isUserConnected(roomId); // 연결된 사람이 있는지
+        boolean oneUserConnected = webSocketConfig.oneUserConnected(roomId);   // 둘 다 연결인지
+        boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
+
+        System.out.println("oneUserConnected: " + oneUserConnected);
+        System.out.println("twoUserConnected: " + twoUserConnected);
+
+       boolean resultIsRead = false;
+        System.out.println("resultIsRead: " + resultIsRead);
+
+        if(twoUserConnected) {
+            resultIsRead = true;
+        }
+
 
         ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                 roomId,
@@ -37,7 +49,7 @@ public class ChatService {
                 senderNickname,
                 senderProfileImage,
                 content,
-                isRecipientConnected,  // If connected, mark as read
+                resultIsRead,  // If connected, mark as read
                 sendTime
         ));
 
