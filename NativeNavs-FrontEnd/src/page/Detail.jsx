@@ -203,7 +203,7 @@ const Detail = () => {
           </div>
         )
       }
-      <Carousel images={images} />
+      <Carousel tourId={tour.tourId} images={images} user={user} />
 
       {/* 투어 정보(간략하게) */}
       <div className={styles.tour_info}>
@@ -258,7 +258,7 @@ const Detail = () => {
       </div>
       {/* 투어 일정 */}
       <div className={styles.tourPlan}>
-        <h3 className={styles.tourPlanTitle}>Plan</h3>
+        <h3 className={styles.tourPlanTitle}>일정</h3>
         <div className={styles.tourPlanContainer}>
           {tour.plans.map((plan) => (
             <Plan_Item2

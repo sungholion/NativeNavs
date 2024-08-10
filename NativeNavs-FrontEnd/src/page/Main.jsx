@@ -8,7 +8,6 @@ const Main = () => {
   const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
-  const [wishList, setWishList] = useState(null);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -16,27 +15,6 @@ const Main = () => {
     setSearch(JSON.parse(localStorage.getItem("search")));
   }, []);
 
-  // 위시리스트 API
-  const fetchWishLists = async () => {
-    if (user && user.isNav == false) {
-      console.log("위시리스트 API 요청 시작");
-      try {
-        const wishResponse = await axios.get(
-          "https://i11d110.p.ssafy.io/api/wishlist",
-          {
-            headers: {
-              Authorization: `Bearer ${user.userToken}`,
-              accept: "application/json",
-            },
-          }
-        );
-        console.log("위시리스트 API 요청 성공", wishResponse.data);
-        setWishList(wishResponse.data.map((item) => item.id));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
 
   // 투어 검색 API 정의
   const fetchTours = async () => {
@@ -63,7 +41,6 @@ const Main = () => {
   useEffect(() => {
     console.log("API 요청 시작");
     fetchTours();
-    fetchWishLists();
   }, [user, search]);
 
   // tour date formatting
@@ -90,7 +67,6 @@ const Main = () => {
             nickname={tour.user.nickname}
             navigateFragment={navigateToTourDetailFragment}
             user={user} // 파싱된 유저 정보를 Tour_Item에 전달
-            wishList={wishList}
             userLanguages={tour.user.userLanguage}
           />
         ))}
