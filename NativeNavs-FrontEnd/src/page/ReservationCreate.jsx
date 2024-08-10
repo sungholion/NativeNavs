@@ -30,6 +30,13 @@ const ReservationCreate = () => {
   // 관련 투어 정보에 대한 정보 변수
   const [tourInfo, setTourInfo] = useState(null);
 
+  const [user, setUser] = useState(null);
+
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   // 해당 관강객에 대한 정보 가져오기
   useEffect(() => {
     axios
@@ -102,7 +109,7 @@ const ReservationCreate = () => {
         />
       </section>
       <section className="TravInforSection">
-        <h4>Trav 정보</h4>
+        <h4>{user.isKorean ? 'Trav 정보' : 'Trav Information'}</h4>
         <div className="TravInfo">
           <img src={travInfo.image} alt="프로필사진" />
           <div>{travInfo.nickname}</div>
