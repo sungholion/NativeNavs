@@ -74,6 +74,12 @@ export const TourDispatchContext = createContext(null);
 // sucessFunc :  성공시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
 // FailFunc : 실패시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
 const TourEditorHead = ({ initData, onSubmit, sucessFunc, failFunc }) => {
+  const [user, setUser] = useState(null);
+
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
   const [Tourdata, dispatch] = useReducer(reducer, {
     ...DefaultTourData,
     start_date: new Date().getTime(),
@@ -104,21 +110,27 @@ const TourEditorHead = ({ initData, onSubmit, sucessFunc, failFunc }) => {
   return (
     <div>
       <TourDataContext.Provider value={Tourdata}>
-        <TourDispatchContext.Provider value={{ onTourDataChange}}>
+        <TourDispatchContext.Provider value={{ onTourDataChange }}>
           {nowPageLook === 1 ? (
-            <TourEditor1 goAfterPage={goAfterPage} />
+            <TourEditor1 goAfterPage={goAfterPage} user={user} />
           ) : nowPageLook === 2 ? (
             <TourEditor2
               goBeforePage={goBeforePage}
               goAfterPage={goAfterPage}
+              user={user}
             />
           ) : nowPageLook === 3 ? (
             <TourEditor3
               goBeforePage={goBeforePage}
               goAfterPage={goAfterPage}
+              user={user}
             />
           ) : (
-            <Confirm goBeforePage={goBeforePage} onSubmit={onSubmit} />
+            <Confirm
+              goBeforePage={goBeforePage}
+              onSubmit={onSubmit}
+              user={user}
+            />
           )}
         </TourDispatchContext.Provider>
       </TourDataContext.Provider>

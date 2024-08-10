@@ -210,9 +210,10 @@
     color: whitesmoke;
     border: none;
     border-radius: 5px;
-    margin: 3px;
-    width: 13vw;
+    margin: 4px;
+    width: 24vw;
     height: 40px;
+    font-weight: bold;
   }
 
   button:active {

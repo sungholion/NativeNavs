@@ -3,7 +3,7 @@ import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStringedDate } from "@utils/get-stringed-date";
 import { TourDataContext } from "./TourEditorHead";
 import { useContext, useEffect, useState } from "react";
-import { categoryItem } from "@utils/constant";
+import { categoryItemKr } from "@utils/constant";
 import { getImageUrl } from "@/utils/get-image-url";
 
 const Confirm = ({ goBeforePage, onSubmit }) => {
@@ -69,7 +69,7 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
           {categoryIds.map((cartegoryid) => {
             return (
               <div key={cartegoryid} className="TourThemeItem">
-                {categoryItem[cartegoryid - 1]["name"]}
+                {categoryItemKr[cartegoryid - 1]["name"]}
               </div>
             );
           })}
