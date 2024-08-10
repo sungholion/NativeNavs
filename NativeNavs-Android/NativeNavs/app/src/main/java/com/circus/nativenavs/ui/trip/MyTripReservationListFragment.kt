@@ -32,7 +32,12 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
         super.onAttach(context)
         homeActivity = context as HomeActivity
     }
-
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: 나여기")
+        homeActivity.hideBottomNav(false)
+        isPageLoaded = false
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -88,12 +93,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
             bridge,
             "Android"
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(true)
-        isPageLoaded = false
     }
 
 }
