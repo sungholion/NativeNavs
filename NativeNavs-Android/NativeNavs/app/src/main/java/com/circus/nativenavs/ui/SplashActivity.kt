@@ -25,15 +25,30 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     private val activityViewModel: LoginActivityViewModel by viewModels()
     private var isLogin = false
+    private lateinit var homeActivityIntent: Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initNewtWorkCheck()
-        autoLogin()
         initView()
+        initIntent()
+        autoLogin()
 
     }
-    private fun initView(){
+
+    private fun initIntent() {
+        homeActivityIntent = Intent(this, HomeActivity::class.java).apply {
+            if (intent != null) {
+                putExtra("flag", intent.getIntExtra("flag", -1))
+                putExtra("roomId", intent.getIntExtra("roomId", -1))
+                putExtra("reservationId", intent.getIntExtra("reservationId", -1))
+                putExtra("tourId", intent.getIntExtra("tourId", -1))
+            }
+        }
+    }
+
+    private fun initView() {
         // 비디오 파일 경로 설정
         binding.splashVideo.setVideoPath("android.resource://" + packageName + "/" + R.raw.splash_version4)
 
@@ -47,27 +62,27 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
             mediaPlayer.setOnCompletionListener {
                 // 비디오가 끝났을 때 LoginActivity로 전환
-
-                if(!isLogin){
+                if (!isLogin) {
                     startActivity(Intent(this, LoginActivity::class.java))
-                }
-                else startActivity(Intent(this, HomeActivity::class.java))
+                } else startActivity(homeActivityIntent)
                 finish()
             }
         }
     }
-    private fun autoLogin(){
-        if(SharedPref.userId != 0 && SharedPref.accessToken != null){
+
+    private fun autoLogin() {
+        if (SharedPref.userId != 0 && SharedPref.accessToken != null) {
             activityViewModel.getAccessToken()
         }
 
-        activityViewModel.autoLogin.observe(this){ statusCode ->
-            when(statusCode){
+        activityViewModel.autoLogin.observe(this) { statusCode ->
+            when (statusCode) {
                 400 -> {
                     isLogin = false
                     showToast("자동 로그인 기한 만료")
                 }
-                200 ->{
+
+                200 -> {
                     ApplicationClass.setAuthToken(SharedPref.accessToken!!)
                     isLogin = true
                 }
@@ -75,16 +90,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
         }
     }
-    private fun initNewtWorkCheck(){
+
+    private fun initNewtWorkCheck() {
         if (!isNetworkAvailable()) {
             showToast("인터넷에 연결되어 있지 않습니다.")
             finish() // 앱 종료
         }
     }
+
     @SuppressLint("ServiceCast")
     private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return networkCapabilities != null && (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                 networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }

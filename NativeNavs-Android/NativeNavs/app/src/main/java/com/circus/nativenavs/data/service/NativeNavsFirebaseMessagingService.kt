@@ -9,7 +9,7 @@ import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.circus.nativenavs.R
-import com.circus.nativenavs.ui.login.LoginActivity
+import com.circus.nativenavs.ui.SplashActivity
 import com.circus.nativenavs.util.CHANNEL_ID
 import com.circus.nativenavs.util.SharedPref
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -45,7 +45,7 @@ class NativeNavsFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendNotification(flag: Int, message: RemoteMessage) {
         val uniId: Int = (System.currentTimeMillis() / 7).toInt()
 
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, SplashActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Activity Stack 을 경로만 남긴다. A-B-C-D-B => A-B
         when (flag) {
             1 -> { // 채팅 -> 룸id 필요
