@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStatus {
+public class UserStatusDTO {
     private boolean bothConnected;
 
 }
