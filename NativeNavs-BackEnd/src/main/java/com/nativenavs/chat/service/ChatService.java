@@ -29,7 +29,6 @@ public class ChatService {
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
         ChatEntity chatEntity;
 
-        messageChecked = false;
 
         if(content.equals("문의 신청합니다.")){
             chatEntity = chatRepository.save(ChatEntity.createChat(
@@ -38,7 +37,7 @@ public class ChatService {
                     senderNickname,
                     senderProfileImage,
                     content,
-                    messageChecked,  // If connected, mark as read
+                    false,  // If connected, mark as read
                     sendTime
             ));
 
