@@ -1,9 +1,9 @@
 package com.nativenavs.chat.service;
 
-import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
+import com.nativenavs.chat.handler.WebSocketEventListener;
 import com.nativenavs.chat.repository.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final WebSocketConfig webSocketConfig;
+    private final WebSocketEventListener webSocketEventListener;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
@@ -46,7 +46,7 @@ public class ChatService {
         }
 
         else{
-            boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
+            boolean twoUserConnected = webSocketEventListener.twoUserConnected(roomId); // 한명만 연결인지
 
             System.out.println("twoUserConnected: " + twoUserConnected);
 
