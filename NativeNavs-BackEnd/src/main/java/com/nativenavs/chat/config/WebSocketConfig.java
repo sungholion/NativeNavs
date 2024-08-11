@@ -56,12 +56,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         }
     }
 
-    // Check if a user is connected to a room
-    public boolean isUserConnected(int roomId) {
-        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
-        return roomUsers != null && !roomUsers.isEmpty();
-    }
-
     public boolean oneUserConnected(int roomId) {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         // Check if roomUsers is not null and contains exactly 2 connections
