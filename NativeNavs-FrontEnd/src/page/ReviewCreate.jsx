@@ -2,27 +2,14 @@ import "./ReviewCreate.css";
 import Tour_Item_mini_Review from "@/components/Tour_Item/Tour_Item_mini_Review";
 import { useEffect, useReducer, useState } from "react";
 import StarScoring from "@/components/Star/StarScoring";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import {
+  moveFromReviewRegisterToReviewListFragment,
+  showReviewRegisterFailDialog,
+} from "@/utils/get-android-function";
 
 const MAX_IMAGE_COUNT = 5; // 최대 이미지 업로드 수
-const dummy_info = {
-  tour: {
-    // 투어 정보
-    image:
-      "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-    title: "투어 제목",
-    nav: {
-      // 가이드 정보
-      image:
-        "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-      nickname: "가이드이름",
-    },
-  },
-  progress: {
-    // 예약 정보
-    date: "2021-09-01",
-    participant: 2,
-  },
-};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,19 +22,46 @@ const reducer = (state, action) => {
   }
 };
 
-const ReviewCreate = ({ info } = dummy_info) => {
-  const [user, setUser] = useState(null);
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
-
+const ReviewCreate = () => {
+  const param = useParams();
   const [reviewData, dispatch] = useReducer(reducer, {
     score: 0,
     description: "",
     image: [], //이미지 파일 - Max 5개
   });
-  const [tour_info, setTour_info] = useState({});
+
+  const [user, setUser] = useState(null);
+  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
+  }, []);
+  const [info, setInfo] = useState(null); // 예약 상세 정보
+
+  // 예약 상세 정보 가져오기
+  useEffect(() => {
+    axios
+      .get(
+        `https://i11d110.p.ssafy.io/api/reservations/${param.reservation_id}`,
+
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization:
+              user?.userToken ||
+              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMyODM4NDQsImV4cCI6MTcyMzI4NzQ0NH0.N7sHXAvqHbVbWXBfwYOtYeu1sTZdaHxo-I_8XINobqYMgf1fIghH-SmTevqj_eeU6grBMTpE56ZAyh4y5lg2-g",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setInfo(res.data);
+      })
+      .catch((error) => console.error(error));
+  }, [param.reservation_id, user?.userToken]);
 
   const onImgChange = (e) => {
     const { files } = e.target;
@@ -70,10 +84,63 @@ const ReviewCreate = ({ info } = dummy_info) => {
     }
   };
 
+  // 서버제출
+  const onSubmit = async () => {
+    const formData = new FormData();
+
+    const subData = {
+      tourId: Number(info.tourId),
+      score: Number(reviewData.score),
+      description: reviewData.description,
+      imageUrls: reviewData.image.map((img) => ""),
+    };
+    console.log(subData);
+
+    formData.append(
+      "review",
+      new Blob([JSON.stringify(subData)], { type: "application/json" })
+    );
+
+    for (const imgFile of reviewData.image) {
+      // imageUrl s
+      formData.append("reviewImages", imgFile);
+    }
+
+    await axios
+      .post(
+        `https://i11d110.p.ssafy.io/api/reviews?reservationNumber=${param.reservation_id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: user.userToken,
+          },
+        }
+      )
+      .then((res) => {
+        moveFromReviewRegisterToReviewListFragment(Number(param.tour_id));
+      })
+      .catch((err) => {
+        showReviewRegisterFailDialog();
+      });
+  };
+
+  if (!info || !user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="ReviewCreate">
       <section>
-        <Tour_Item_mini_Review {...dummy_info} />
+        <Tour_Item_mini_Review
+          thumbnailImage={info.thumbnailImage}
+          title={info.tourTitle}
+          progress={{
+            date: info.reservationDate,
+            participantCount: info.participantCount,
+          }}
+          nav={{ image: info.guide.image, nickname: info.guide.nickname }}
+        />
       </section>
 
       <section className="ScoreRating">
@@ -155,7 +222,7 @@ const ReviewCreate = ({ info } = dummy_info) => {
             !(reviewData.image.length === 0 || reviewData.description !== "")
           }
           onClick={() => {
-            console.log("HI");
+            onSubmit();
           }}
         >
           {user.isKorean == false ? "제출" : "Submit"}
