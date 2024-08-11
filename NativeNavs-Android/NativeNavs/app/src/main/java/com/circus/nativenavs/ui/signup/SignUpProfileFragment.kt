@@ -151,7 +151,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     }
 
     private fun initView() {
-
+        binding.signupTitleLayout.titleText = getString(R.string.sign_login_signup)
         if (signUpViewModel.nicknameCheck.value == true) {
             binding.signupDupliOk.visibility = VISIBLE
             binding.signupDupliBad.visibility = INVISIBLE

@@ -86,6 +86,9 @@ class ProfileFragment :
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
+        // 데이터 바인딩 설정
+        binding.profileTitleLayout.titleText = getString(R.string.app_bar_profile)
+
         homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
             if (SharedPref.userId != it.id) binding.profileModifyBtn.visibility = INVISIBLE
             else binding.profileModifyBtn.visibility = VISIBLE

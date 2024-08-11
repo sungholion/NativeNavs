@@ -14,9 +14,9 @@ import com.circus.nativenavs.util.popBackStack
 class ProfileLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     FragmentSignUpLanguageBinding::bind,
     R.layout.fragment_sign_up_language
-){
+) {
     private var count = 0
-    private val homeActivityViewModel : HomeActivityViewModel by activityViewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
     private val languageListAdapter by lazy {
         LanguageListAdapter({ language, isChecked ->
             val updatedLanguages =
@@ -40,10 +40,16 @@ class ProfileLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
         homeActivityViewModel.languageCheckList.value?.forEach {
             if (it.isChecked) count++
         }
-
+        initView()
         initAdapter()
         initEvent()
+        initObserve()
 
+    }
+    private fun initView(){
+        binding.signupTitleLayout.titleText = getString(R.string.sign_languages)
+    }
+    private fun initObserve() {
         // 선택된 언어를 observe
         homeActivityViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             val selectedLanguages = languageList.language
@@ -61,7 +67,6 @@ class ProfileLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
             // 업데이트된 리스트를 어댑터에 제출
             languageListAdapter.submitList(updatedList)
         }
-
     }
 
     private fun initAdapter() {

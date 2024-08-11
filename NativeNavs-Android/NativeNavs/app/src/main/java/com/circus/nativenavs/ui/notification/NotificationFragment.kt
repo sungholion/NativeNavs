@@ -31,9 +31,13 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initView()
         initAdapter()
         initEvent()
+    }
+
+    private fun initView(){
+        binding.notiTitleLayout.titleText = getString(R.string.noti_title)
     }
 
     private fun initEvent() {

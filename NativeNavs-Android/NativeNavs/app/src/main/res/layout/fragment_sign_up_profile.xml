@@ -12,7 +12,7 @@
         <include
             android:id="@+id/signup_title_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{`프로필 등록`}" />
+            app:titleText="@string/sign_login_signup"/>
 
         <ScrollView
             android:id="@+id/signup_profile_sv"

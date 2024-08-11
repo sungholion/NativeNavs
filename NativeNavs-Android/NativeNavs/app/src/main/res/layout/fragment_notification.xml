@@ -11,7 +11,7 @@
         <include
             android:id="@+id/noti_title_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{`알림`}" />
+            app:titleText="@string/noti_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/noti_rv"

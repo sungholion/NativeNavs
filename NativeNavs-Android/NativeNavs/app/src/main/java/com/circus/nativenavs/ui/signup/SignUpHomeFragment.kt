@@ -26,10 +26,13 @@ class SignUpHomeFragment : BaseFragment<FragmentSignUpHomeBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initView()
         initEvent()
     }
 
+    private fun initView(){
+        binding.signupTitleLayout.titleText = getString(R.string.sign_login_signup)
+    }
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             signUpActivity.finish()

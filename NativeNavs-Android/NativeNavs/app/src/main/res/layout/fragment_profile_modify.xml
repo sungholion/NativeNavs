@@ -14,7 +14,7 @@
             layout="@layout/layout_title_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleText="@{`프로필 수정`}" />
+            app:titleText="@string/app_bar_profile_modify" />
 
         <ScrollView
             android:id="@+id/profile_modify_sv"

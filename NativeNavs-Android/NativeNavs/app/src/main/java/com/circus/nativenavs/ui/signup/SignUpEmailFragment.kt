@@ -81,6 +81,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
     }
 
     private fun initView(){
+        binding.signupTitleLayout.titleText = getString(R.string.sign_login_signup)
         if(signUpViewModel.signUpDTO.value?.email?.let { emailPattern.matcher(it).matches() } == true){
             binding.signupCodeSendBtn.text = "재입력"
             binding.signupEmailEt.isEnabled = false
