@@ -275,3 +275,36 @@ export function showReviewRegisterFailDialog() {
     console.log("showReviewRegisterFailDialog function is not defined");
   }
 }
+
+// 예약 작성 성공 시 -> 해당 예약 상세 페이지 이동
+export function navigateToReservationRegisterDetailFragment(
+  tourId,
+  reservationId
+) {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToReservationRegisterDetailFragment ===
+      "function"
+  ) {
+    window.Android.navigateToReservationRegisterDetailFragment(
+      tourId,
+      reservationId
+    );
+  } else {
+    console.log(
+      "navigateToReservationRegisterDetailFragment function is not defined"
+    );
+  }
+}
+
+// 예약 실패 시 띄우는 정보
+export function showReservationRegisterFailDialog() {
+  if (
+    window.Android &&
+    typeof window.Android.showReservationRegisterFailDialog === "function"
+  ) {
+    window.Android.showReservationRegisterFailDialog();
+  } else {
+    console.log("showReservationRegisterFailDialog function is not defined");
+  }
+}
