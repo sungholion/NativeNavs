@@ -8,6 +8,7 @@ import {
   navigateFromWishToTourListFragment,
 } from "../../utils/get-android-function"; // 함수 임포트
 
+
 const WishListItem = ({ user, tours, wishList }) => {
   const wishListedTours = tours.filter((tour) => wishList.includes(tour.id));
   console.log(wishList);

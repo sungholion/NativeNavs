@@ -13,8 +13,8 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  const [urlParam, setUrlParam] = useState();
   const params = useParams();
+  const [urlParam, setUrlParam] = useState();
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -22,7 +22,6 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
     reviews: [],
     totalImageCount: 0,
   });
-  console.log(params);
 
   const onClickButton = () => {
     if (params.tour_id) {
@@ -37,13 +36,19 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
     const fetchReviewData = async () => {
       switch (keyword) {
         case "tour":
-          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`)
+          setUrlParam(
+            `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+          );
           break;
         case "guide":
-          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`)
+          setUrlParam(
+            `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
+          );
           break;
         case "user":
-          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`)
+          setUrlParam(
+            `https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`
+          );
           break;
         default:
           throw new Error("Invalid keyword"); // 예외 처리: 예상치 못한 keyword 값
@@ -53,6 +58,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
         setReviewData(response.data);
         console.log("Reviews response data : ", response.data);
       } catch (error) {
+        console.log(urlParam);
         console.error("Error fetching reviewData:", error);
       }
     };
