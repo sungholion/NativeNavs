@@ -74,6 +74,7 @@ function App() {
               path="reviews"
               element={
                 <Review
+                  keyword={"tour"}
                   navigateToReviewPhotoFragment={
                     navigateToTourReviewPhotoFragment
                   }
@@ -101,6 +102,7 @@ function App() {
             path="reviews"
             element={
               <Review
+                keyword={"guide"}
                 navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment}
               />
             }
@@ -118,6 +120,7 @@ function App() {
             path="reviews"
             element={
               <Review
+                keyword={"user"}
                 navigateToReviewPhotoFragment={
                   navigateToTravReviewPhotoFragment
                 }

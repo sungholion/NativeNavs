@@ -5,7 +5,7 @@ import StarScore from "@/components/Star/StarScore";
 import Review_Item from "@/components/Review_Item/Review_Item";
 import { useParams } from "react-router-dom";
 
-const Review = ({ navigateToReviewPhotoFragment }) => {
+const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
   const [user, setUser] = useState(null);
 
   // 유저 정보 가져오기
@@ -35,14 +35,18 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
   // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const fetchReviewData = async () => {
-      if (params.tour_id) {
-        setUrlParam(
-          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
-        );
-      } else {
-        setUrlParam(
-          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
-        );
+      switch (keyword) {
+        case "tour":
+          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`)
+          break;
+        case "guide":
+          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`)
+          break;
+        case "user":
+          setUrlParam(`https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`)
+          break;
+        default:
+          throw new Error("Invalid keyword"); // 예외 처리: 예상치 못한 keyword 값
       }
       try {
         const response = await axios.get(urlParam);

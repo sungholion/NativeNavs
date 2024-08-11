@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Tour_Item4 from "@components/Tour_Item/Tour_Item4";
 import axios from "axios";
 import { navigateToMyTripDetailFragment } from "../utils/get-android-function";
-import Button from "../Button/Button.jsx";
+import Button from "@/components/Button/Button";
 import NativeNavs from "../../assets/NativeNavs.png";
 
 const NavTourList = () => {
