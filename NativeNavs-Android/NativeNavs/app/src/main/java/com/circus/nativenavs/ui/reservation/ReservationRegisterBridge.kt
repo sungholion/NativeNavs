@@ -13,8 +13,8 @@ class ReservationRegisterBridge(
 ) {
 
     @JavascriptInterface
-    fun navigateToReservationDetailFragment(tourId: Int, registerId: Int) {
-        fragment.navigateToReservationDetailFragment(tourId, registerId)
+    fun navigateToReservationRegisterDetailFragment(tourId: Int, registerId: Int) {
+        fragment.navigateToReservationRegisterDetailFragment(tourId, registerId)
     }
 
     @JavascriptInterface

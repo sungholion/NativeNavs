@@ -128,7 +128,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             }.show()
     }
 
-    fun navigateToReservationDetailFragment(tourId: Int, reservationId: Int) {
+    fun navigateToReservationRegisterDetailFragment(tourId: Int, reservationId: Int) {
         val action =
             ReservationRegisterFragmentDirections.actionReservationRegisterFragmentToReservationDetailFragment(
                 reservationId = reservationId,
