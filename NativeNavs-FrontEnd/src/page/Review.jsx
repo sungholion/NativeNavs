@@ -46,7 +46,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
         break;
       case "user":
         setUrlParam(
-          `https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`
+          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
         );
         break;
       default:
