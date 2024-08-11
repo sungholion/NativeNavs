@@ -29,8 +29,8 @@ public class WebSocketEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();
         int roomId = getRoomIdFromSession(headerAccessor);
-        handleUserConnect(roomId, sessionId);
 
+        handleUserConnect(roomId, sessionId);
         broadcastBothConnectedStatus(roomId);
     }
 
@@ -39,9 +39,9 @@ public class WebSocketEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();
         Integer roomId = getRoomIdForSession(sessionId);
-        handleUserDisconnect(sessionId);
 
         if (roomId != null) {
+            handleUserDisconnect(sessionId);
             broadcastBothConnectedStatus(roomId);
         }
     }
