@@ -49,7 +49,7 @@ public class RoomService {
             roomRepository.save(newRoom);
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
-            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
             return newRoomDTO;
         }

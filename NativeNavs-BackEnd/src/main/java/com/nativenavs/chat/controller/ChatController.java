@@ -4,12 +4,11 @@ import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,10 +31,20 @@ public class ChatController {
                 chatDTO.getSenderNickname(),
                 chatDTO.getSenderProfileImage(),
                 chatDTO.getContent(),
+                false,
                 chatDTO.getSendTime()
         );
 
+        System.out.println("뿌리기 직전 DTO : " + ChatDTO.toChatDTO(chatEntity));
         return ChatDTO.toChatDTO(chatEntity);
+    }
+
+    // 추가: 특정 채팅을 읽음으로 표시하는 API
+    @PostMapping("/read/{chatId}")
+    public ResponseEntity<Void> markAsRead(@PathVariable String chatId) {
+        chatService.markChatAsRead(chatId);
+        System.out.println("marked as read : " + chatId);
+        return ResponseEntity.ok().build();
     }
 }
 

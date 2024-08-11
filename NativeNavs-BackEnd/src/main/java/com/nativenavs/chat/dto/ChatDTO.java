@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ChatDTO {
     private String id;
     private int roomId;
@@ -17,7 +18,8 @@ public class ChatDTO {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
-    private boolean isRead;
+
+    private boolean messageChecked;
     private String sendTime;
 
     public static ChatDTO toChatDTO(ChatEntity chatEntity) {
@@ -28,7 +30,7 @@ public class ChatDTO {
                 .senderNickname(chatEntity.getSenderNickname())
                 .senderProfileImage(chatEntity.getSenderProfileImage())
                 .content(chatEntity.getContent())
-                .isRead(chatEntity.isRead())
+                .messageChecked(chatEntity.isMessageChecked())
                 .sendTime(chatEntity.getSendTime())
                 .build();
     }
