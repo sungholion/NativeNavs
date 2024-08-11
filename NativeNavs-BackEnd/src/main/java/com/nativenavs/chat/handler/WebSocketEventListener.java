@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentMap;
 @RequiredArgsConstructor
 public class WebSocketEventListener {
 
-//    private final WebSocketConfig webSocketConfig;
     private final SimpMessagingTemplate messagingTemplate;
 
     // Store connected users by room ID
@@ -26,7 +25,7 @@ public class WebSocketEventListener {
     private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
 
     @EventListener
-    public void handleWebSocketConnectListener(SessionConnectEvent event) {
+    public synchronized void handleWebSocketConnectListener(SessionConnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();
         int roomId = getRoomIdFromSession(headerAccessor);
@@ -36,7 +35,7 @@ public class WebSocketEventListener {
     }
 
     @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+    public synchronized void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();
         Integer roomId = getRoomIdForSession(sessionId);
@@ -64,6 +63,8 @@ public class WebSocketEventListener {
     private void handleUserConnect(int roomId, String sessionId) {
         connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
         sessionIdToRoomId.put(sessionId, roomId);
+        System.out.println("User connected: sessionId=" + sessionId + ", roomId=" + roomId);
+        System.out.println("Connected users: " + connectedUsers);
     }
 
     private void handleUserDisconnect(String sessionId) {
@@ -76,6 +77,8 @@ public class WebSocketEventListener {
                     connectedUsers.remove(roomId);
                 }
             }
+            System.out.println("User disconnected: sessionId=" + sessionId + ", roomId=" + roomId);
+            System.out.println("Connected users: " + connectedUsers);
         }
     }
 
@@ -87,6 +90,7 @@ public class WebSocketEventListener {
     private void broadcastBothConnectedStatus(int roomId) {
         boolean bothConnected = twoUserConnected(roomId);
         String destination = "/room/" + roomId + "/status";
+        System.out.println("Broadcasting bothConnected=" + bothConnected + " to room " + roomId);
         messagingTemplate.convertAndSend(destination, new UserStatusDTO(bothConnected));
     }
 
