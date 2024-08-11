@@ -3,8 +3,6 @@ package com.nativenavs.chat.service;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
-import com.nativenavs.chat.handler.WebSocketEventListener;
-import com.nativenavs.chat.interceptor.UserPresenceInterceptor;
 import com.nativenavs.chat.repository.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +22,6 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final WebSocketEventListener webSocketEventListener;
-    private final UserPresenceInterceptor userPresenceInterceptor;
     private final SimpMessagingTemplate messagingTemplate;
     // Method ----------------------------------------------------------------------------------------------------------
 
@@ -47,16 +43,7 @@ public class ChatService {
         }
 
         else{
-            boolean twoUserConnected = userPresenceInterceptor.twoUserConnected(roomId); // 한명만 연결인지
-
-            System.out.println("twoUserConnected: " + twoUserConnected);
-
             boolean resultIsRead = false;
-
-            if(twoUserConnected) {
-                resultIsRead = true;
-                markAllChatsAsReadInRoom(roomId);
-            }
 
 
 
