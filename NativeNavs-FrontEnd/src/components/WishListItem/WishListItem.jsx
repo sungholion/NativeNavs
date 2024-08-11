@@ -8,9 +8,13 @@ import {
   navigateFromWishToTourListFragment,
 } from "../../utils/get-android-function"; // 함수 임포트
 
-const WishListItem = ({ user, tours, wishList }) => {
+const WishListItem = ({ user, tours, wishList, loading }) => {
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 UI
+  }
+
   const wishListedTours = tours.filter((tour) => wishList.includes(tour.id));
-  console.log(wishList);
+
   return (
     <div className={styles.TotalContainer}>
       {/* 위시리스트 */}

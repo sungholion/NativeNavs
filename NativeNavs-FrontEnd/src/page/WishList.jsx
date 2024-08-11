@@ -7,6 +7,7 @@ function WishList() {
   const [user, setUser] = useState(null);
   const [tours, setTours] = useState([]);
   const [wishList, setWishList] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -16,7 +17,6 @@ function WishList() {
       setUser(parsedUser);
     }
   }, []);
-
 
   // 투어 API
   useEffect(() => {
@@ -54,13 +54,19 @@ function WishList() {
           console.error(error);
         }
       }
+      setLoading(false); // 데이터 로딩 완료 후 로딩 상태를 false로 변경
     };
     fetchWishLists();
   }, [user]);
 
   return (
     <div className={styles.container}>
-      <WishListItem user={user} tours={tours} wishList={wishList} />
+      <WishListItem
+        user={user}
+        tours={tours}
+        wishList={wishList}
+        loading={loading}
+      />
     </div>
   );
 }
