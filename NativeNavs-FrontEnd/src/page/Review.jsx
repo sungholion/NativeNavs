@@ -13,6 +13,7 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
+  const [urlParam, setUrlParam] = useState();
   const params = useParams();
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
@@ -34,10 +35,17 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
   // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const fetchReviewData = async () => {
-      try {
-        const response = await axios.get(
+      if (params.tour_id) {
+        setUrlParam(
           `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
         );
+      } else {
+        setUrlParam(
+          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
+        );
+      }
+      try {
+        const response = await axios.get(urlParam);
         setReviewData(response.data);
         console.log("Reviews response data : ", response.data);
       } catch (error) {
