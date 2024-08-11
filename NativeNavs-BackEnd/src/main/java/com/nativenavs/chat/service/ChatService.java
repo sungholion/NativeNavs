@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final WebSocketEventListener webSocketEventListener;
+    private final SimpMessagingTemplate messagingTemplate;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
@@ -72,6 +74,9 @@ public class ChatService {
 
         }
         eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+
+        notifyClientsAboutReadStatus(roomId);
+
         return chatEntity;
 
 
@@ -87,6 +92,12 @@ public class ChatService {
             chatRepository.save(chatEntity);
         }
     }
+
+    private void notifyClientsAboutReadStatus(int roomId) {
+        // Send a WebSocket message to notify clients about the read status change
+        messagingTemplate.convertAndSend("/room/" + roomId + "/read-status", "Messages have been read");
+    }
+
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
         return chatRepository.findAllByRoomId(roomId).stream()
