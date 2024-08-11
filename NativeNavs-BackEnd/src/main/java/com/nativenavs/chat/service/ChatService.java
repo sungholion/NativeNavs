@@ -46,14 +46,11 @@ public class ChatService {
         }
 
         else{
-            boolean oneUserConnected = webSocketConfig.oneUserConnected(roomId);   // 둘 다 연결인지
             boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
 
-            System.out.println("oneUserConnected: " + oneUserConnected);
             System.out.println("twoUserConnected: " + twoUserConnected);
 
             boolean resultIsRead = false;
-            System.out.println("resultIsRead: " + resultIsRead);
 
             if(twoUserConnected) {
                 resultIsRead = true;

@@ -2,7 +2,6 @@ package com.nativenavs.chat.controller;
 
 import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
-import com.nativenavs.chat.dto.ConnectedDTO;
 import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.service.ChatService;
 import com.nativenavs.chat.service.RoomService;
@@ -54,17 +53,4 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findRoomDTOById(roomId));
     }
 
-    @Operation(summary = "연결 여부 조회 API", description = "채팅방 정보를 조회하는 API. 채팅 알림 클릭시 해당 채팅방을 DTO로 반환한다")
-    @GetMapping("connected")
-    public ConnectedDTO isConnected(int roomId) {
-        ConnectedDTO connectedDTO = new ConnectedDTO();
-        boolean oneUserConnected = webSocketConfig.oneUserConnected(roomId);
-        boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId);
-
-        connectedDTO.setOneUserConnected(oneUserConnected);
-        connectedDTO.setTwoUserConnected(twoUserConnected);
-
-        return connectedDTO;
-
-    }
 }

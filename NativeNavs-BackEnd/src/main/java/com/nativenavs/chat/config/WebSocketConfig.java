@@ -1,6 +1,7 @@
 package com.nativenavs.chat.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -19,7 +20,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // Store connected users by room ID
     private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
+    private final SimpMessagingTemplate messagingTemplate;
 
+    // Constructor injection
+    public WebSocketConfig(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api/ws-stomp")
@@ -38,6 +44,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void handleUserConnect(int roomId, String sessionId) {
         connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
         sessionIdToRoomId.put(sessionId, roomId); // Store the mapping
+        broadcastUserStatus(roomId);  // Broadcast the connection status after handling connection
     }
 
     // Method to handle user disconnection
@@ -50,22 +57,25 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 if (roomUsers.isEmpty()) {
                     connectedUsers.remove(roomId);
                 }
-            } else {
-                System.out.println("Session ID " + sessionId + " does not exist in the session-to-room mapping.");
             }
-        }
-    }
 
-    public boolean oneUserConnected(int roomId) {
-        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
-        // Check if roomUsers is not null and contains exactly 2 connections
-        return roomUsers != null && roomUsers.size() == 1;
+            broadcastUserStatus(roomId);
+        }
     }
 
     public boolean twoUserConnected(int roomId) {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         // Check if roomUsers is not null and contains exactly 1 connection
         return roomUsers != null && roomUsers.size() == 2;
+    }
+
+    // Method to broadcast user connection status
+    private void broadcastUserStatus(int roomId) {
+        boolean bothConnected = twoUserConnected(roomId);
+        String destination = "/room/" + roomId + "/status";
+
+        // Send a message to the specific room's status topic
+        messagingTemplate.convertAndSend(destination, bothConnected);
     }
 
 }
