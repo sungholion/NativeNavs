@@ -6,6 +6,13 @@ import Review_Item from "@/components/Review_Item/Review_Item";
 import { useParams } from "react-router-dom";
 
 const Review = ({ navigateToReviewPhotoFragment }) => {
+  const [user, setUser] = useState(null);
+
+  // 유저 정보 가져오기
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   const params = useParams();
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
@@ -53,10 +60,12 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
         {/* 상단 사진 장수 & 전체보기 버튼 */}
         <div className={styles.headerHeader}>
           <h2 className={styles.headerPhotoCounter}>
-            사진 {reviewData.imageUrls.length}장
+            {user && user.isKorean
+              ? `사진 ${reviewData.imageUrls.length}장`
+              : `${reviewData.imageUrls.length} photos`}
           </h2>
           <button onClick={onClickButton} className={styles.headerButton}>
-            전체보기 {">"}
+            {user && user.isKorean ? "전체보기 >" : "View All >"}
           </button>
         </div>
 
@@ -70,7 +79,11 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
 
       {/* 리뷰 하단 상세보기 */}
       <div className={styles.body}>
-        <h2 className={styles.bodyHeader}>후기 {reviewData.reviewCount}개</h2>
+        <h2 className={styles.bodyHeader}>
+          {user && user.isKorean
+            ? `후기 ${reviewData.reviewCount}개`
+            : `${reviewData.reviewCount} Reviews`}
+        </h2>
         <div className={styles.bodyReviewList}>
           {reviewData.reviews.map((review) => (
             <Review_Item

@@ -18,6 +18,7 @@
 } 
 
 .TopContainer {
+    width: 90%;
     display: flex;
     align-items: center;
     flex-direction: column;

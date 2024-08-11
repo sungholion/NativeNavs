@@ -144,7 +144,11 @@ const ReviewCreate = () => {
       </section>
 
       <section className="ScoreRating">
-        <h4>Nav와 함께한 여행은 어땟나요?</h4>
+        <h4>
+          {user.isKorean
+            ? "Nav와 함께한 여행은 어땠나요?"
+            : "How was your trip with Nav?"}
+        </h4>
         <StarScoring
           onRatingChange={(score) => dispatch({ type: "score", score })}
         />
@@ -152,7 +156,7 @@ const ReviewCreate = () => {
       <section className="ReviewImgUploadSection">
         <div className="ReviewImgUploadHeader">
           <div>
-            사진 등록 :
+            {user.isKorean == false ? "사진 등록 :" : "Upload Photos :"}
             <span>
               {reviewData.image.length} / {MAX_IMAGE_COUNT}
             </span>
@@ -178,13 +182,20 @@ const ReviewCreate = () => {
               <img key={idx} src={URL.createObjectURL(img)} alt="reviewImg" />
             ))
           ) : (
-            <div className="noImgUploaded ">아직 등록한 이미지가 없습니다.</div>
+            <div className="noImgUploaded ">
+              {user.isKorean
+                ? "아직 등록한 이미지가 없습니다."
+                : "No images uploaded yet."}
+            </div>
           )}
         </div>
       </section>
       <section className="Reviewdescription">
         <div>
-          솔직한 후기를 남겨 주세요{" "}
+          {user.isKorean
+            ? "솔직한 후기를 남겨 주세요"
+            : "Please leave an honest review"}
+
           <span>
             {reviewData.description.length}/{200}자
           </span>
@@ -214,7 +225,7 @@ const ReviewCreate = () => {
             onSubmit();
           }}
         >
-          제출
+          {user.isKorean == false ? "제출" : "Submit"}
         </button>
       </section>
     </div>

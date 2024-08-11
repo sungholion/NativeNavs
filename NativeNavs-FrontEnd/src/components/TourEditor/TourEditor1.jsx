@@ -3,11 +3,11 @@ import styles from "./TourEditor1.module.css";
 import { useEffect, useState, useContext } from "react";
 import { getStringedDate } from "@utils/get-stringed-date";
 import Button from "../Button/Button";
-import { categoryItem } from "@/utils/constant";
+import { categoryItemKr, categoryItemEng } from "@/utils/constant";
 import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
 import { getImageUrl } from "@/utils/get-image-url";
 
-const TourEditor1 = ({ BeforePage, goAfterPage }) => {
+const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
   const {
     title,
     thumbnailImage,
@@ -46,18 +46,33 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
     }
   };
 
+  const chunkArray = (array, chunkSize) => {
+    const results = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      results.push(array.slice(i, i + chunkSize));
+    }
+    return results;
+  };
+
+  const categoryItems =
+    user && user.isKorean ? categoryItemKr : categoryItemEng;
+  const chunkedCategoryItems = chunkArray(categoryItems, 3);
+
   return (
     <section className={styles.TourEditor1}>
       <div className={styles.Thumbnail}>
-        <p>썸네일 사진</p>
+        <p>{user && user.isKorean ? "썸네일 사진" : "Thumbnail Photo"}</p>
         <label htmlFor="thumbnail">
           {prevThumbnailImage !== "" ? (
             <img src={prevThumbnailImage} alt="이미지 미리보기" />
           ) : (
             <div className={styles.emptythumbnail}>
-              여기를 눌러
+              {user && user.isKorean ? "여기를 눌러" : "Click here"}
+
               <br />
-              이미지를 추가해 주세요
+              {user && user.isKorean
+                ? "이미지를 추가해 주세요"
+                : "to add an image"}
             </div>
           )}
         </label>
@@ -70,7 +85,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
         />
       </div>
       <div className={styles.Title}>
-        <p>제목</p>
+        <p>{user && user.isKorean ? "제목" : "Title"}</p>
         <input
           type="text"
           value={title}
@@ -78,7 +93,9 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
         />
       </div>
       <div className={styles.Date}>
-        <p className={styles.title}>기간</p>
+        <p className={styles.title}>
+          {user && user.isKorean ? "기간" : "Duration"}
+        </p>
         <div className={styles.DateSection}>
           <input
             type="date"
@@ -108,7 +125,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
         </div>
       </div>
       <div className={styles.MaxPeople}>
-        <p>최대 인원</p>
+        <p>{user && user.isKorean ? "최대 인원" : "Max Participants"}</p>
         <div className={styles.MaxPeopleInput}>
           <img
             src={getStaticImage("minus")}
@@ -133,7 +150,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
         </div>
       </div>
       <div className={styles.Cost}>
-        <p>예상 비용</p>
+        <p>{user && user.isKorean ? "예상 비용" : "Estimated Cost"}</p>
         <input
           type="number"
           value={price.toString()}
@@ -146,32 +163,37 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
         />
       </div>
       <div className={styles.Theme}>
-        <p>테마</p>
+        <p>{user && user.isKorean ? "테마" : "Theme"}</p>
         <div className={styles.themeList}>
-          {categoryItem.map((item) => {
-            return (
-              <button
-                key={item.idx}
-                className={`${styles.themeButton} ${
-                  categoryIds.includes(item.idx)
-                    ? styles.selected
-                    : styles.notselected
-                }`}
-                onClick={() => {
-                  if (categoryIds.includes(item.idx)) {
-                    onTourDataChange(
-                      "categoryIds",
-                      categoryIds.filter((id) => id !== item.idx)
-                    );
-                  } else {
-                    onTourDataChange("categoryIds", [...categoryIds, item.idx]);
-                  }
-                }}
-              >
-                {item.name}
-              </button>
-            );
-          })}
+          {chunkedCategoryItems.map((chunk, index) => (
+            <div key={index} className={styles.themeRow}>
+              {chunk.map((item) => (
+                <button
+                  key={item.idx}
+                  className={`${styles.themeButton} ${
+                    categoryIds.includes(item.idx)
+                      ? styles.selected
+                      : styles.notselected
+                  }`}
+                  onClick={() => {
+                    if (categoryIds.includes(item.idx)) {
+                      onTourDataChange(
+                        "categoryIds",
+                        categoryIds.filter((id) => id !== item.idx)
+                      );
+                    } else {
+                      onTourDataChange("categoryIds", [
+                        ...categoryIds,
+                        item.idx,
+                      ]);
+                    }
+                  }}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -182,7 +204,8 @@ const TourEditor1 = ({ BeforePage, goAfterPage }) => {
             goAfterPage();
           }}
         >
-          다음
+          {user && user.isKorean ? "다음" : "Next"}
+
         </button>
       </div>
     </section>

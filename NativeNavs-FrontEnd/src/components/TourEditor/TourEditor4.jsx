@@ -3,10 +3,10 @@ import Plan_Item from "@/components/Plan_Item/Plan_Item";
 import { getStringedDate } from "@utils/get-stringed-date";
 import { TourDataContext } from "./TourEditorHead";
 import { useContext, useEffect, useState } from "react";
-import { categoryItem } from "@utils/constant";
+import { categoryItemKr } from "@utils/constant";
 import { getImageUrl } from "@/utils/get-image-url";
 
-const Confirm = ({ goBeforePage, onSubmit }) => {
+const Confirm = ({ goBeforePage, onSubmit, user }) => {
   const {
     title,
     thumbnailImage,
@@ -26,26 +26,32 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
-        <p>썸네일 사진</p>
+        <p>{user && user.isKorean ? "썸네일 사진" : "Thumbnail Photo"}</p>
         {thumbnailImgUrl ? (
           <img src={thumbnailImgUrl} alt="썸네일이미지" />
         ) : (
           <div style={{ color: "red", fontSize: "20px" }}>
-            이미지 업로드 해주세요
+            {user && user.isKorean
+              ? "이미지를 업로드 해주세요"
+              : "Please upload an image"}
           </div>
         )}
       </section>
       <hr />
       <section className="TourTitle">
-        <p>제목</p>
+        <p>{user && user.isKorean ? "제목" : "Title"}</p>
         {title.length > 0 ? (
           <div>{title}</div>
         ) : (
-          <div style={{ color: "red" }}>제목 입력해 주세요</div>
+          <div style={{ color: "red" }}>
+            {user && user.isKorean
+              ? "제목 입력해 주세요"
+              : "Please enter a title"}
+          </div>
         )}
       </section>
       <section className="TourDuration">
-        <p>기간</p>
+        <p>{user && user.isKorean ? "기간" : "Duration"}</p>
         <div className="TourDateShow">
           <span className="DateBox">
             {getStringedDate(new Date(startDate))}
@@ -56,27 +62,37 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
       </section>
       <hr />
       <section className="TourMaxPeople">
-        <p>최대 허용 인원</p>
-        <div>{maxParticipants} 명</div>
+        <p>
+          {user && user.isKorean
+            ? "최대 허용 인원"
+            : "Maximum Allowed Participants"}
+        </p>
+        <div>
+          <div>
+            {maxParticipants} {user && user.isKorean ? "명" : ""}
+          </div>
+        </div>
       </section>
       <section className="TourExpectPrice">
-        <p>예상 비용</p>
-        <div>{price} 원</div>
+        <p>{user && user.isKorean ? "예상 비용" : "Estimated Cost"}</p>
+        <div>
+          {price} {user && user.isKorean ? "원" : "KRW"}
+        </div>
       </section>
       <section className="TourTheme">
-        <p>테마</p>
+        <p>{user && user.isKorean ? "테마" : "Theme"}</p>
         <div className="TourThemeList">
           {categoryIds.map((cartegoryid) => {
             return (
               <div key={cartegoryid} className="TourThemeItem">
-                {categoryItem[cartegoryid - 1]["name"]}
+                {categoryItemKr[cartegoryid - 1]["name"]}
               </div>
             );
           })}
         </div>
       </section>
       <section className="TourPlanList">
-        <p>Plans</p>
+        <p>{user && user.isKorean ? "일정" : "Plans"}</p>
         <div className="TourPlanItem">
           {plans.map((item) => {
             return (
@@ -88,11 +104,13 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
       <hr />
       <section className="TourMapList"></section>
       <section className="Tourdescription">
-        <p>당부사항</p>
+        <p>{user && user.isKorean ? "당부사항" : "Reminders"}</p>
         <div>{description}</div>
       </section>
       <section className="ButtonSection">
-        <button onClick={goBeforePage}>이전</button>
+        <button onClick={goBeforePage}>
+          {user && user.isKorean ? "이전" : "Previous"}
+        </button>
         <button
           onClick={() => {
             onSubmit({
@@ -109,7 +127,7 @@ const Confirm = ({ goBeforePage, onSubmit }) => {
             });
           }}
         >
-          추가
+          {user && user.isKorean ? "추가" : "Add"}
         </button>
       </section>
     </div>

@@ -1,7 +1,7 @@
 import styles from "./TourEditor3.module.css";
 import { useContext, useEffect, useState } from "react";
 import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
-const TourEditor3 = ({ goBeforePage, goAfterPage }) => {
+const TourEditor3 = ({ goBeforePage, goAfterPage, user }) => {
   const { description } = useContext(TourDataContext);
   const { onTourDataChange } = useContext(TourDispatchContext);
   const [requestTest, setrequestTest] = useState(""); //
@@ -13,9 +13,11 @@ const TourEditor3 = ({ goBeforePage, goAfterPage }) => {
   }, [description]);
   return (
     <div className={styles.TourEditor3}>
-      <p>당부 사항</p>
+      <p>{user && user.isKorean ? "당부 사항" : "Reminders"}
+      </p>
       <div className={styles.comments}>
-        Trav에게 당부할 내용을 작성해 주세요
+      {user && user.isKorean ? "Trav에게 당부할 내용을 작성해 주세요" : "Please write any reminders for Trav"}
+
       </div>
       <div className={styles.Request}>
         <textarea
@@ -32,7 +34,8 @@ const TourEditor3 = ({ goBeforePage, goAfterPage }) => {
             goBeforePage();
           }}
         >
-          뒤로
+          {user && user.isKorean ? "뒤로" : "Back"}
+
         </button>
         <button
           onClick={() => {
@@ -40,7 +43,8 @@ const TourEditor3 = ({ goBeforePage, goAfterPage }) => {
             goAfterPage();
           }}
         >
-          다음
+          {user && user.isKorean ? "다음" : "Next"}
+
         </button>
       </section>
     </div>

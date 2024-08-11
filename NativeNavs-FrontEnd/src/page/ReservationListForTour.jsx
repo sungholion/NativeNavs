@@ -14,14 +14,10 @@ const ReservationListForTour = () => {
   const [reservationCount, setReservationCount] = useState(0);
   const params = useParams();
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-    }
-  }, []);
+    // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+    useEffect(() => {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }, []);
 
   // 투어 참여자 조회 API 정의
   const fetchParticipantsInfo = async () => {
@@ -56,21 +52,32 @@ const ReservationListForTour = () => {
       {/* 투어 정보 */}
       <div className={styles.TourInfo}>
         {tour ? (
-          <Tour_Item4 tour={tour} wishCount={wishCount} bookCount={reservationCount} />
+          <Tour_Item4
+            tour={tour}
+            wishCount={wishCount}
+            bookCount={reservationCount}
+          />
         ) : null}
       </div>
 
       {/* 예약 목록 */}
       <div className={styles.ReservationList}>
         <div className={styles.ReservationCount}>
-          <h4>📘총 {reservationCount}개의 예약이 있습니다</h4>
+          <h4>
+            {user && user.isKorean
+              ? `📘총 ${reservationCount}개의 예약이 있습니다`
+              : `📘You have ${reservationCount} reservations`}
+          </h4>
         </div>
         {participantsInfo.length > 0 ? (
           participantsInfo.map((participantInfo, index) => (
             <Reservation_Item
               key={index}
-              navigateToReservationDetailFragment={navigateToReservationDetailFragment}
+              navigateToReservationDetailFragment={
+                navigateToReservationDetailFragment
+              }
               participantInfo={participantInfo}
+              user={user}
             />
           ))
         ) : (
