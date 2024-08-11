@@ -32,39 +32,37 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
   };
 
   // FE -> BE : ReviewData API 요청
-  useEffect(() => {
-    const fetchReviewData = async () => {
-      switch (keyword) {
-        case "tour":
-          setUrlParam(
-            `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
-          );
-          break;
-        case "guide":
-          setUrlParam(
-            `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
-          );
-          break;
-        case "user":
-          setUrlParam(
-            `https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`
-          );
-          break;
-        default:
-          throw new Error("Invalid keyword"); // 예외 처리: 예상치 못한 keyword 값
-      }
-      try {
-        const response = await axios.get(urlParam);
-        setReviewData(response.data);
-        console.log("Reviews response data : ", response.data);
-      } catch (error) {
-        console.log(urlParam);
-        console.error("Error fetching reviewData:", error);
-      }
-    };
+  const fetchReviewData = async () => {
+    switch (keyword) {
+      case "tour":
+        setUrlParam(
+          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+        );
+        break;
+      case "guide":
+        setUrlParam(
+          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
+        );
+        break;
+      case "user":
+        setUrlParam(
+          `https://i11d110.p.ssafy.io/api/reviews/user/${params.user_id}`
+        );
+        break;
+      default:
+        throw new Error("Invalid keyword"); // 예외 처리: 예상치 못한 keyword 값
+    }
+    try {
+      const response = await axios.get(urlParam);
+      setReviewData(response.data);
+      console.log("Reviews response data : ", response.data);
+    } catch (error) {
+      console.log(urlParam);
+      console.error("Error fetching reviewData:", error);
+    }
+  };
 
-    fetchReviewData();
-  }, []);
+  useEffect(() => fetchReviewData(), [user]);
 
   return (
     <div className={styles.Review}>
