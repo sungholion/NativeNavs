@@ -5,7 +5,7 @@ import StarScore from "@/components/Star/StarScore";
 import Review_Item from "@/components/Review_Item/Review_Item";
 import { useParams } from "react-router-dom";
 
-const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
+const Review = ({ navigateToReviewPhotoFragment }) => {
   const [user, setUser] = useState(null);
 
   // 유저 정보 가져오기
@@ -14,7 +14,6 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
   }, []);
 
   const params = useParams();
-  const [urlParam, setUrlParam] = useState();
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -22,6 +21,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
     reviews: [],
     totalImageCount: 0,
   });
+  console.log(params);
 
   const onClickButton = () => {
     if (params.tour_id) {
@@ -32,37 +32,21 @@ const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
   };
 
   // FE -> BE : ReviewData API 요청
-  const fetchReviewData = async () => {
-    switch (keyword) {
-      case "tour":
-        setUrlParam(
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      try {
+        const response = await axios.get(
           `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
         );
-        break;
-      case "guide":
-        setUrlParam(
-          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
-        );
-        break;
-      case "user":
-        setUrlParam(
-          `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
-        );
-        break;
-      default:
-        throw new Error("Invalid keyword"); // 예외 처리: 예상치 못한 keyword 값
-    }
-    try {
-      const response = await axios.get(urlParam);
-      setReviewData(response.data);
-      console.log("Reviews response data : ", response.data);
-    } catch (error) {
-      console.log(urlParam);
-      console.error("Error fetching reviewData:", error);
-    }
-  };
+        setReviewData(response.data);
+        console.log("Reviews response data : ", response.data);
+      } catch (error) {
+        console.error("Error fetching reviewData:", error);
+      }
+    };
 
-  useEffect(() => fetchReviewData(), [user]);
+    fetchReviewData();
+  }, []);
 
   return (
     <div className={styles.Review}>
