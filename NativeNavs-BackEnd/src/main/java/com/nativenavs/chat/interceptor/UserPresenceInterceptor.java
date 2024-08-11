@@ -13,13 +13,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Component
-@RequiredArgsConstructor
 public class UserPresenceInterceptor implements ChannelInterceptor {
 
     private final SimpMessagingTemplate messagingTemplate;
 
     private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
+
+    public UserPresenceInterceptor(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @Override
     public Message<?> preSend(Message<?> message, org.springframework.messaging.MessageChannel channel) {
