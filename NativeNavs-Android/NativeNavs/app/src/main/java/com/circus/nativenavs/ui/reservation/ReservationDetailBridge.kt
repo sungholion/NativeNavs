@@ -5,6 +5,9 @@ import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReservationDetailBridge(
     private val homeActivity: HomeActivity,
@@ -14,12 +17,16 @@ class ReservationDetailBridge(
 
     @JavascriptInterface
     fun navigateToReservationDetailChattingRoom(chatId : Int) {
-        fragment.navigateToReservationDetailChattingRoom(chatId)
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToReservationDetailChattingRoom(chatId)
+        }
     }
 
     @JavascriptInterface
     fun navigateBack() {
-        fragment.navigateBack()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateBack()
+        }
     }
 
 

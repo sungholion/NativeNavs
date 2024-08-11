@@ -78,10 +78,13 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
 
         var url = ""
         if (args.tourId != -1) {
+            Log.d(TAG, "initE: aaaaaaaaaaaaaaaaaaaa")
             url = WEBURL + "tour/detail/${args.tourId}/reviews"
         } else if (args.navId != -1) {
+            Log.d(TAG, "initE: bbbbbbbbbbbbbbbbbbbbb")
             url = WEBURL + "nav/${args.navId}/reviews"
         } else if (args.travId != -1) {
+            Log.d(TAG, "initE: ccccccccccccccccccccc")
             url = WEBURL + "trav/${args.travId}/reviews"
         }
 

@@ -5,6 +5,9 @@ import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ReservationRegisterBridge(
     private val homeActivity: HomeActivity,
@@ -14,17 +17,23 @@ class ReservationRegisterBridge(
 
     @JavascriptInterface
     fun navigateToReservationRegisterDetailFragment(tourId: Int, registerId: Int) {
-        fragment.navigateToReservationRegisterDetailFragment(tourId, registerId)
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToReservationRegisterDetailFragment(tourId, registerId)
+        }
     }
 
     @JavascriptInterface
     fun navigateToReservationRegisterChattingRoom(){
-        fragment.navigateToReservationRegisterChattingRoom()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToReservationRegisterChattingRoom()
+        }
     }
 
     @JavascriptInterface
     fun showReservationRegisterFailDialog() {
-        fragment.showReservationRegisterFailDialog()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.showReservationRegisterFailDialog()
+        }
     }
 
     fun sendUserData(user: UserDto) {

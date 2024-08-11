@@ -177,9 +177,12 @@ class ProfileFragment :
             lateinit var action: NavDirections
 
             homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
+                Log.d(TAG, "initEvent: ${it}")
                 action = if (it.isNav) {
+                    Log.d(TAG, "initEvent Nav: ${args.userId}")
                     ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
                 } else {
+                    Log.d(TAG, "initEvent trav: ${args.userId}")
                     ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
                 }
             }

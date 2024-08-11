@@ -6,6 +6,9 @@ import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "싸피_TourListBridge"
 class TourListBridge(
@@ -20,8 +23,10 @@ class TourListBridge(
 
     @JavascriptInterface
     fun navigateToTourDetailFragment(tourId: Int, navId: Int) {
-        fragment.moveToTourDetailFragment(tourId, navId)
-        Log.d(TAG, "navigateToTourDetailFragment: $tourId ,$navId")
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.moveToTourDetailFragment(tourId, navId)
+            Log.d(TAG, "navigateToTourDetailFragment: $tourId ,$navId")
+        }
     }
 
     fun sendUserData(user: UserDto) {

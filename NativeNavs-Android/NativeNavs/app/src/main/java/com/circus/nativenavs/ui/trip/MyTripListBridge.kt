@@ -4,6 +4,9 @@ import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.circus.nativenavs.ui.home.HomeActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "MyTripListBridge"
 
@@ -15,7 +18,9 @@ class MyTripListBridge(
 
     @JavascriptInterface
     fun navigateToMyTripDetailFragment(tourId: Int) {
-        fragment.navigateToMyTripDetailFragment(tourId)
-        Log.d(TAG, "navigateToMyTripDetailFragment: $tourId")
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToMyTripDetailFragment(tourId)
+            Log.d(TAG, "navigateToMyTripDetailFragment: $tourId")
+        }
     }
 }

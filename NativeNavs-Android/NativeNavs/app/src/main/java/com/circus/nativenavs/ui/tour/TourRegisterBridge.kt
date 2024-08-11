@@ -28,7 +28,9 @@ class TourRegisterBridge(
 
     @JavascriptInterface
     fun showRegisterFailDialog() {
-        fragment.showRegisterFailDialog()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.showRegisterFailDialog()
+        }
     }
 
     fun sendUserData(user: UserDto) {
