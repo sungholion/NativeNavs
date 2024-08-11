@@ -3,11 +3,13 @@ package com.nativenavs.chat.service;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
+import com.nativenavs.chat.interceptor.UserPresenceInterceptor;
 import com.nativenavs.chat.repository.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,13 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final @Lazy UserPresenceInterceptor userPresenceInterceptor;
     private final SimpMessagingTemplate messagingTemplate;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
         ChatEntity chatEntity;
-
 
         if(content.equals("문의 신청합니다.")){
             chatEntity = chatRepository.save(ChatEntity.createChat(
@@ -37,14 +39,23 @@ public class ChatService {
                     senderNickname,
                     senderProfileImage,
                     content,
-                    false,  // If connected, mark as read
+                    messageChecked,  // If connected, mark as read
                     sendTime
             ));
 
         }
 
         else{
+            boolean twoUserConnected = userPresenceInterceptor.twoUserConnected(roomId); // 한명만 연결인지
+
+            System.out.println("twoUserConnected: " + twoUserConnected);
+
             boolean resultIsRead = false;
+
+            if(twoUserConnected) {
+                resultIsRead = true;
+                markAllChatsAsReadInRoom(roomId);
+            }
 
 
 
