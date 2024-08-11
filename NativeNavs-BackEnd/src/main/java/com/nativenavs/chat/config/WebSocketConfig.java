@@ -1,6 +1,7 @@
 package com.nativenavs.chat.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -23,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final SimpMessagingTemplate messagingTemplate;
 
     // Constructor injection
-    public WebSocketConfig(SimpMessagingTemplate messagingTemplate) {
+    public WebSocketConfig(@Lazy SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
     @Override
