@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./WishListItem.module.css";
-import NativeNavs from "../../assets/NativeNavs.png";
+import NativeNavs from "../../assets/NativeNavs.png"
 import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import {
