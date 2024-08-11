@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/language")
 @CrossOrigin("*") //
+@Tag(name = "language API", description = "language")
 public class LanguageController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class LanguageController {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    @Tag(name = "언어 API", description = "사용자가 구사 가능한 언어를 관리합니다 ")
+
     @Operation(summary = "전체 언어 조회 API", description = "전체 언어 목록을 조회합니다")
     @GetMapping
     public ResponseEntity<?> searchAllLanguage() {

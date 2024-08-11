@@ -26,16 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "user API", description = "user")
 public class UserController {
 
-    /**
-     *    @Autowired
-     *    private UserService userService;
-     *
-     *    @Autowired
-     *    private EmailService emailService
-     *
-     *    위 코드 처럼 필드 주입(인젝션)은 Java에서 권장되지 않는다고 함. -> 개발 일지 참고
-     *    필수적인 의존성의 경우 생성자 주입(인젝션), 선택적인 의존성의 경우 setter 주입이 권장된다
-     */
+    // DI --------------------------------------------------------------------------------------------------------------
 
     private final UserService userService;
     private final EmailService emailService;
@@ -46,8 +37,7 @@ public class UserController {
         this.emailService = emailService;
     }
 
-
-    // -----------------------------------------------------------------------------------------------------------------
+    // API -------------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "email 중복 체크 API", description = "email 중복 체크를 하는 API")
     @GetMapping("/checkDuplicated/email/{email}")

@@ -75,6 +75,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         boolean bothConnected = twoUserConnected(roomId);
         String destination = "/room/" + roomId + "/status";
 
+        System.out.println("broadcasting used");
         // Send a message to the specific room's status topic
         messagingTemplate.convertAndSend(destination, bothConnected);
     }
