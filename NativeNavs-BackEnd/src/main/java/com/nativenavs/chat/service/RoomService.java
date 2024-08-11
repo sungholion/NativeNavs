@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,16 +69,26 @@ public class RoomService {
         }
     }
 
-    public List<RoomEntity> myRoomList(String token) { //findAllRoom -> myRoomList
+    public List<RoomDTO> myRoomList(String token) { //findAllRoom -> myRoomList
         String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-        UserDTO UserDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
+        UserDTO userDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
 
-        if(UserDTO.getIsNav()){ // 가이드라면
-            return roomRepository.findAllByReceiverId(UserDTO.getId());
-        } else{ // 여행자라면
-            return roomRepository.findAllBySenderId(UserDTO.getId());
+        List<RoomEntity> roomEntities;
+
+        if (userDTO.getIsNav()) { // 가이드라면
+            roomEntities = roomRepository.findAllByReceiverId(userDTO.getId());
+        } else { // 여행자라면
+            roomEntities = roomRepository.findAllBySenderId(userDTO.getId());
         }
+
+        // 최근 메시지 시간(recentMessageTime)으로 정렬 (최신순)
+        return roomEntities.stream()
+                .sorted(Comparator.comparing(RoomEntity::getRecentMessageTime, Comparator.nullsLast(Comparator.reverseOrder())))
+                .map(RoomDTO::toRoomDTO)
+                .collect(Collectors.toList());
+
+
     }
 
     public RoomDTO findRoomDTOById(int roomId) {
