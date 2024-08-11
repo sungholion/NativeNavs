@@ -1,7 +1,7 @@
 package com.nativenavs.chat.interceptor;
 
 import com.nativenavs.chat.dto.UserStatusDTO;
-import lombok.RequiredArgsConstructor;
+import com.nativenavs.chat.service.ChatService;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -16,18 +16,19 @@ import java.util.concurrent.ConcurrentMap;
 public class UserPresenceInterceptor implements ChannelInterceptor {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ChatService chatService;
 
     private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
 
-    public UserPresenceInterceptor(SimpMessagingTemplate messagingTemplate) {
+    public UserPresenceInterceptor(SimpMessagingTemplate messagingTemplate, ChatService chatService) {
         this.messagingTemplate = messagingTemplate;
+        this.chatService = chatService;
     }
 
     @Override
     public Message<?> preSend(Message<?> message, org.springframework.messaging.MessageChannel channel) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-
         String sessionId = headerAccessor.getSessionId();
         StompCommand command = headerAccessor.getCommand();
 
@@ -37,6 +38,7 @@ public class UserPresenceInterceptor implements ChannelInterceptor {
 
             if (twoUserConnected(roomId)) {
                 broadcastUserStatus(roomId, true);
+                chatService.markAllChatsAsReadInRoom(roomId); // 두 사용자가 모두 연결되면 읽음 처리
             }
         } else if (StompCommand.UNSUBSCRIBE.equals(command) || StompCommand.DISCONNECT.equals(command)) {
             Integer roomId = sessionIdToRoomId.remove(sessionId);
