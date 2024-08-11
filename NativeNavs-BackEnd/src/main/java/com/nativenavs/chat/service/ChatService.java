@@ -3,12 +3,12 @@ package com.nativenavs.chat.service;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
-import com.nativenavs.chat.handler.WebSocketEventListener;
 import com.nativenavs.chat.repository.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +22,13 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final WebSocketEventListener webSocketEventListener;
+    private final SimpMessagingTemplate messagingTemplate;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
-        new ChatEntity();
         ChatEntity chatEntity;
+
 
         if(content.equals("문의 신청합니다.")){
             chatEntity = chatRepository.save(ChatEntity.createChat(
@@ -37,23 +37,14 @@ public class ChatService {
                     senderNickname,
                     senderProfileImage,
                     content,
-                    messageChecked,  // If connected, mark as read
+                    false,  // If connected, mark as read
                     sendTime
             ));
 
         }
 
         else{
-            boolean twoUserConnected = webSocketEventListener.twoUserConnected(roomId); // 한명만 연결인지
-
-            System.out.println("twoUserConnected: " + twoUserConnected);
-
             boolean resultIsRead = false;
-
-            if(twoUserConnected) {
-                resultIsRead = true;
-                markAllChatsAsReadInRoom(roomId);
-            }
 
 
 
@@ -72,12 +63,14 @@ public class ChatService {
 
         }
         eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+
+
         return chatEntity;
 
 
     }
 
-    private void markAllChatsAsReadInRoom(int roomId) {
+    public void markAllChatsAsReadInRoom(int roomId) {
         List<ChatEntity> unreadChats = chatRepository.findAllByRoomId(roomId).stream()
                 .filter(chatEntity -> !chatEntity.isMessageChecked())
                 .toList();
@@ -86,7 +79,15 @@ public class ChatService {
             chatEntity.markAsRead();
             chatRepository.save(chatEntity);
         }
+
+        notifyClientsAboutReadStatus(roomId);
     }
+
+    private void notifyClientsAboutReadStatus(int roomId) {
+        // Send a WebSocket message to notify clients about the read status change
+        messagingTemplate.convertAndSend("/room/" + roomId + "/read-status", "Messages have been read");
+    }
+
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
         return chatRepository.findAllByRoomId(roomId).stream()
@@ -117,6 +118,8 @@ public class ChatService {
 
         System.out.println("ChatEntity에 read 여긴가 " + chatEntity);
         chatRepository.save(chatEntity);
+
+        notifyClientsAboutReadStatus(chatEntity.getRoomId());
     }
 
 }
