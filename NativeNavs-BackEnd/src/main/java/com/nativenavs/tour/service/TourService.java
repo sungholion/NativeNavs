@@ -250,7 +250,15 @@ public class TourService {
 
 
     public void removeTour(int id) {
-        tourRepository.deleteById(id);
+        // ID로 투어 엔티티를 찾음
+        TourEntity tour = tourRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("투어를 찾을 수 없습니다."));
+
+        // 논리적 삭제: isRemoved 필드를 true로 설정
+        tour.setRemoved(true);
+
+        // 변경 사항을 저장
+        tourRepository.save(tour);
     }
 
     public List<TourDTO> searchTours(String location, LocalDate date, List<Integer> categoryIds) {
