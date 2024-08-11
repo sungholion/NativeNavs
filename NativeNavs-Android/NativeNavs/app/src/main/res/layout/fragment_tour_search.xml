@@ -369,7 +369,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="초기화" />
+                android:text="@string/search_reset_btn" />
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -381,7 +381,7 @@
                 style="@style/btn_short_blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="검색" />
+                android:text="@string/search_search_btn" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
