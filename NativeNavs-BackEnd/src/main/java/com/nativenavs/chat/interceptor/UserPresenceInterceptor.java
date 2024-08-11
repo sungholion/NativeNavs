@@ -65,7 +65,7 @@ public class UserPresenceInterceptor implements ChannelInterceptor {
         }
     }
 
-    private boolean twoUserConnected(int roomId) {
+    public boolean twoUserConnected(int roomId) {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         return roomUsers != null && roomUsers.size() == 2;
     }
