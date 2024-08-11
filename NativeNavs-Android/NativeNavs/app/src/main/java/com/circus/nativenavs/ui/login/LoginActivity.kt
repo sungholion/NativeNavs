@@ -23,7 +23,7 @@ private const val TAG = "LoginActivity"
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
     private val activityViewModel: LoginActivityViewModel by viewModels()
     private lateinit var homeActivityIntent: Intent
-
+    private var isClicked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,10 +36,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         activityViewModel.loginStatusCode.observe(this) { statusCode ->
             // 상태 코드 처리
             if (statusCode == 200) {
+                isClicked = false
                 showToast("로그인 성공")
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             } else {
+                isClicked = false
                 showToast("로그인 실패")
             }
         }
@@ -47,11 +49,15 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
     private fun initEvent() {
         binding.loginBtn.setOnClickListener {
-            val email = binding.loginEmailEt.text.toString()
-            val password = binding.loginPwEt.text.toString()
-            val device = ""
+            if(!isClicked){
+                val email = binding.loginEmailEt.text.toString()
+                val password = binding.loginPwEt.text.toString()
+                val device = ""
 
-            activityViewModel.Login(LoginDto(email, password, device))
+                activityViewModel.Login(LoginDto(email, password, device))
+                isClicked = true
+            }
+            else showToast("잠시만 기다려 주세요")
         }
 
         binding.loginSignupTv.setOnClickListener {
