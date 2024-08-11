@@ -90,7 +90,8 @@ const ReservationCreate = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        // console.log(Number(params.tour_id));
         const resId = Number(res.data.substr(res.data.indexOf(":") + 1));
         navigateToReservationRegisterDetailFragment(
           Number(params.tour_id),
