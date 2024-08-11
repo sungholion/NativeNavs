@@ -160,7 +160,7 @@ public class ReservationService {
         int userId = user.getId();
 
         // 예약 기록이 없으면 첫 예약이므로 스탬프 발급
-        if (reservationRepository.countByParticipantId(userId)>0) {
+        if (reservationRepository.countByParticipantId(userId)==0) {
             System.out.println("함수동작");
             userStampService.addStamp(1, userId); // 스탬프 ID 1을 발급
         }
