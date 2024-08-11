@@ -6,7 +6,10 @@ import { getStringedDate } from "@/utils/get-stringed-date";
 import { getFromattedDatetime } from "@/utils/get-formatted-datetime";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { navigateToReservationRegisterChattingRoom } from "@/utils/get-android-function";
+import {
+  navigateToReservationRegisterDetailFragment,
+  showReservationRegisterFailDialog,
+} from "@/utils/get-android-function";
 
 const initData = {
   tourId: 0, //투어 글에 대한 것
@@ -87,11 +90,17 @@ const ReservationCreate = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        navigateToReservationRegisterChattingRoom();
+        // console.log(res);
+        // console.log(Number(params.tour_id));
+        const resId = Number(res.data.substr(res.data.indexOf(":") + 1));
+        navigateToReservationRegisterDetailFragment(
+          Number(params.tour_id),
+          resId
+        );
       })
       .catch((err) => {
         console.log(err);
+        showReservationRegisterFailDialog();
       });
   };
 
@@ -109,7 +118,7 @@ const ReservationCreate = () => {
         />
       </section>
       <section className="TravInforSection">
-        <h4>{user.isKorean ? 'Trav 정보' : 'Trav Information'}</h4>
+        <h4>{user.isKorean ? "Trav 정보" : "Trav Information"}</h4>
         <div className="TravInfo">
           <img src={travInfo.image} alt="프로필사진" />
           <div>{travInfo.nickname}</div>
