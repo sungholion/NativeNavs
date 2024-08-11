@@ -21,21 +21,21 @@ const info = {
 };
 
 // 리뷰 작성 페이지에 작성할 관련 투어 정보를 보여주는 컴포넌트
-const Tour_Item_mini_Review = ({ tour, progress }) => {
+const Tour_Item_mini_Review = ({ thumbnailImage, title, progress, nav }) => {
   return (
     <div className={styles.Tour_Item_mini_Review}>
       <section className={styles.tourImageSection}>
-        <img src={tour.image} alt="" />
+        <img src={thumbnailImage} alt="" />
       </section>
       <section className={styles.tourInfoSection}>
         <div className={styles.tourTextInfo}>
-          <h3>{tour.title}</h3>
+          <h3>{title}</h3>
           <div>{progress.date}</div>
-          <div>{progress.participant}명</div>
+          <div>{progress.participantCount}명</div>
         </div>
         <div className={styles.tourNavInfo}>
-          <img src={tour.nav.image} alt="" />
-          <p>{tour.nav.nickname}</p>
+          <img src={nav.image} alt="" />
+          <p>{nav.nickname}</p>
         </div>
       </section>
     </div>

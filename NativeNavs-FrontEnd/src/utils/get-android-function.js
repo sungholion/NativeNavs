@@ -249,3 +249,29 @@ export function navigateToReservationRegisterChattingRoom() {
     );
   }
 }
+// 리뷰 작성 성공시 -> 해당 투어 리뷰 리스트 페이지 이동
+export function moveFromReviewRegisterToReviewListFragment(tourId) {
+  if (
+    window.Android &&
+    typeof window.Android.moveFromReviewRegisterToReviewListFragment ===
+      "function"
+  ) {
+    window.Android.moveFromReviewRegisterToReviewListFragment(tourId);
+  } else {
+    console.log(
+      "moveFromReviewRegisterToReviewListFragment function is not defined"
+    );
+  }
+}
+
+// 리뷰 작성 실패시 뜨는 정보
+export function showReviewRegisterFailDialog() {
+  if (
+    window.Android &&
+    typeof window.Android.showReviewRegisterFailDialog === "function"
+  ) {
+    window.Android.showReviewRegisterFailDialog();
+  } else {
+    console.log("showReviewRegisterFailDialog function is not defined");
+  }
+}
