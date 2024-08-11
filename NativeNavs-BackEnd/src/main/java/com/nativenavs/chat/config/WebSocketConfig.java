@@ -1,5 +1,6 @@
 package com.nativenavs.chat.config;
 
+import com.nativenavs.chat.dto.UserStatusDTO;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -77,7 +78,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         System.out.println("broadcasting used");
         // Send a message to the specific room's status topic
-        messagingTemplate.convertAndSend(destination, bothConnected);
+        messagingTemplate.convertAndSend(destination, new UserStatusDTO(bothConnected));
     }
 
 }

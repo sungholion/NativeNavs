@@ -52,6 +52,7 @@ public class RoomService {
             RoomEntity existingRoom = roomRepository.findByTourIdAndSenderId(tourId, travUserDTO.getId());
             if (existingRoom != null) {
                 // 이미 존재하는 방의 RoomDTO 반환
+                System.out.println("중복!!!!!!!!!!!!!!!!!");
                 return RoomDTO.toRoomDTO(existingRoom);
             }
 
