@@ -8,5 +8,5 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<RoomEntity, Integer> {
     List<RoomEntity> findAllBySenderId(int senderId);
     List<RoomEntity> findAllByReceiverId(int receiverId);
-
+    RoomEntity findByTourIdAndSenderId(int tourId, int senderId);
 }

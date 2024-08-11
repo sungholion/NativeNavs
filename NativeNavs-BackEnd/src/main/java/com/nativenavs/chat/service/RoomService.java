@@ -45,6 +45,15 @@ public class RoomService {
 
             UserDTO travUserDTO = userService.searchByEmail(email); // 투어 이용자(Trav) DTO
 
+
+            // 중복 방지: 이미 동일한 투어에 대해 사용자가 채팅방을 가지고 있는지 확인
+            RoomEntity existingRoom = roomRepository.findByTourIdAndSenderId(tourId, travUserDTO.getId());
+            if (existingRoom != null) {
+                // 이미 존재하는 방의 RoomDTO 반환
+                return RoomDTO.toRoomDTO(existingRoom);
+            }
+
+
             RoomEntity newRoom = RoomEntity.createRoom(tourDTO.getId(), tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);
 
