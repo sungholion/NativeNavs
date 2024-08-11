@@ -2,8 +2,9 @@ import styles from "./NavTourList.module.css";
 import { useState, useEffect } from "react";
 import Tour_Item4 from "@components/Tour_Item/Tour_Item4";
 import axios from "axios";
-import { navigateToMyTripDetailFragment } from "../utils/get-android-function"
-
+import { navigateToMyTripDetailFragment } from "../utils/get-android-function";
+import Button from "../Button/Button.jsx";
+import NativeNavs from "../../assets/NativeNavs.png";
 
 const NavTourList = () => {
   const [user, setUser] = useState();
@@ -37,18 +38,59 @@ const NavTourList = () => {
       console.error("투어 API 요청 실패", error);
     }
   };
-  
+
   // 유저 정보가 업데이트되면 tour api 요청을 실행
   useEffect(() => {
     console.log("투어 API 요청 시작");
     fetchTours();
   }, [user]);
 
+  // 조건부 렌더링: tours 배열이 비어 있으면 예정된 여행이 없음을 표시
+  if (tours.length === 0) {
+    return (
+      <div className={styles.TopContainer}>
+        <img
+          className={styles.NativeNavsImg}
+          src={NativeNavs}
+          alt="NativeNavs"
+        />
+        <h2>
+          {user && user.isKorean ? (
+            "아직 관심을 둔 Tour가 없어요!"
+          ) : (
+            <>
+              You haven’t saved
+              <br />
+              any tours yet!
+            </>
+          )}
+        </h2>
+        <h5>
+          {user && user.isKorean
+            ? "Tour를 작성해 특별한 추억을 만들어 보세요!"
+            : "Create special memories in Korea with NativeNavs!"}
+        </h5>
+        <Button
+          size="4"
+          text={user && user.isKorean ? "둘러보기" : "Browse"}
+          onClickEvent={() => {
+            alert('투어 작성 이동 함수 호출')
+            // navigateFromWishToTourListFragment(); // 네이티브 함수 호출
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.NavTourList}>
       <div className={styles.TourList}>
         {tours.map((tour) => (
-          <Tour_Item4 key={tour.tourId} tour={tour}  onClickEvent={navigateToMyTripDetailFragment} />
+          <Tour_Item4
+            key={tour.tourId}
+            tour={tour}
+            onClickEvent={navigateToMyTripDetailFragment}
+          />
         ))}
       </div>
     </div>
