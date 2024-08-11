@@ -12,6 +12,11 @@
         <TextView
             android:id="@+id/chat_list_title_tv"
             style="@style/bold"
+            android:textSize="44sp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="10dp"
+            android:paddingStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chat_list_title"
