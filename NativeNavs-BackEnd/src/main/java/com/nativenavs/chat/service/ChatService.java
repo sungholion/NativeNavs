@@ -27,7 +27,8 @@ public class ChatService {
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
-        ChatEntity chatEntity = new ChatEntity();
+        new ChatEntity();
+        ChatEntity chatEntity;
 
         if(content.equals("문의 신청합니다.")){
             chatEntity = chatRepository.save(ChatEntity.createChat(
@@ -39,9 +40,6 @@ public class ChatService {
                     messageChecked,  // If connected, mark as read
                     sendTime
             ));
-            eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
-
-            return chatEntity;
 
         }
 
@@ -54,7 +52,10 @@ public class ChatService {
 
             if(twoUserConnected) {
                 resultIsRead = true;
+                markAllChatsAsReadInRoom(roomId);
             }
+
+
 
             chatEntity = chatRepository.save(ChatEntity.createChat(
                     roomId,
@@ -68,13 +69,23 @@ public class ChatService {
 
 
             System.out.println("is Read : " + chatEntity.isMessageChecked());
-            eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
 
-            return chatEntity;
         }
+        eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
+        return chatEntity;
 
 
+    }
 
+    private void markAllChatsAsReadInRoom(int roomId) {
+        List<ChatEntity> unreadChats = chatRepository.findAllByRoomId(roomId).stream()
+                .filter(chatEntity -> !chatEntity.isMessageChecked())
+                .toList();
+
+        for (ChatEntity chatEntity : unreadChats) {
+            chatEntity.markAsRead();
+            chatRepository.save(chatEntity);
+        }
     }
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
