@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -43,8 +45,16 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
 
     private fun initObserve() {
         chattingViewModel.chatRoomList.observe(viewLifecycleOwner) { chatRoomList ->
-            Log.d(TAG, "observeViewModel: $chatRoomList")
-            chatListAdapter.submitList(chatRoomList)
+            if(chatRoomList.isNotEmpty()){
+                Log.d(TAG, "observeViewModel: $chatRoomList")
+                chatListAdapter.submitList(chatRoomList)
+                binding.noChattingCl.visibility = GONE
+                binding.chatListRv.visibility = VISIBLE
+            }
+            else{
+                binding.noChattingCl.visibility = VISIBLE
+                binding.chatListRv.visibility = GONE
+            }
         }
     }
 

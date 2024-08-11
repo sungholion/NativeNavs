@@ -143,6 +143,8 @@
     <string name="profile_other_trav_review">님이 남긴 리뷰</string>
     <string name="profile_other_nav_review">님의 리뷰</string>
     <string name="profile_other_stamp">님의 스탬프</string>
+    <string name="chat_list_no_message_title">메세지가 없습니다</string>
+    <string name="chat_list_no_message_content">새로운 메세지를 받으면 여기에 표시됩니다</string>
 
     <!--search bar-->
     <string name="search_title_travel">여행</string>

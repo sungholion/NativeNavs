@@ -144,6 +144,7 @@
     <string name="dialog_cancel_btn">Cancel</string>
     <string name="success">Success</string>
     <string name="fail">Fail</string>
+    <string name="chat_list_no_message_title">You don\'t have any messages</string>
     <string name="search_title_travel">Where to</string>
     <string name="search_title_date">Date</string>
     <string name="search_title_theme">Category</string>
@@ -174,4 +175,5 @@
     <string name="reservation_review_btn">Review</string>
     <string name="reservation_done">stamp has been issued!</string>
     <string name="reservation_fail">Please try authentication again</string>
+    <string name="chat_list_no_message_content">When you receive a new message, it will appear here</string>
 </resources>
