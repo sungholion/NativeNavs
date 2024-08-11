@@ -78,8 +78,8 @@ public class ReservationController {
             System.out.println("userId : " + userId);
             System.out.println("reservationEntityId : " + reservationEntity.getId());
             fcmService.sendMessageTo(2, reservationRequestDTO.getParticipantId(), reservationEntity.getId(), -1, -1);
-
-            return ResponseEntity.ok("예약 완료");
+            reservationService.checkFirstReservation(reservationEntity.getParticipant());
+            return ResponseEntity.ok("예약 완료, 예약 ID: " + reservationEntity.getId());
         } catch (Exception e) {
             e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약실패");

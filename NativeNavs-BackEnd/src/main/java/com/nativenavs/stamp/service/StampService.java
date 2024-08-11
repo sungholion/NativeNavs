@@ -37,6 +37,7 @@ public class StampService {
         userStampEntity.setCreatedDate(LocalDate.now());
 
         userStampRepository.save(userStampEntity);
+        System.out.println("스탬프 등록 완료");
     }
 
 
