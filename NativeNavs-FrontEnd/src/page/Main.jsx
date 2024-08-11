@@ -8,6 +8,7 @@ const Main = () => {
   const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   // ★★★★★★★★★★★★★★★★★★★★★★★★★
@@ -55,7 +56,6 @@ const Main = () => {
 
     // // 애니메이션 시작
     // frame();
-
   }, []);
   // ★★★★★★★★★★★★★★★★★★★★★★★★★
 
@@ -74,13 +74,12 @@ const Main = () => {
             : ""
         }`
       );
-      console.log(
-        `https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`
-      );
       console.log("투어 검색 API 요청 성공", tourResponse.data);
       setTours(tourResponse.data);
     } catch (error) {
       console.error("투어 API 요청 실패", error);
+    } finally {
+      setLoading(false); // 데이터 로딩 완료 후 로딩 상태를 false로 변경
     }
   };
 
@@ -96,6 +95,10 @@ const Main = () => {
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
     return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 UI
+  }
 
   return (
     <div className={styles.main}>

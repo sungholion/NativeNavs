@@ -59,6 +59,7 @@ function WishList() {
     fetchWishLists();
   }, [user]);
 
+  
   return (
     <div className={styles.container}>
       <WishListItem

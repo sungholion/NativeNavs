@@ -106,7 +106,7 @@ const Tour_Item = ({
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         {!user.isNav && (
           <div className={styles.heart_container}>
-            <Heart isWishListed={isWishListed} onClickEvent={toggleWishlist} />
+            <Heart isWishListed={isWishListed} onClickEvent={toggleWishlist} />true
           </div>
         )}
       </div>
