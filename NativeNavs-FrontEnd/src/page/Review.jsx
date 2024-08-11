@@ -5,8 +5,9 @@ import StarScore from "@/components/Star/StarScore";
 import Review_Item from "@/components/Review_Item/Review_Item";
 import { useParams } from "react-router-dom";
 
-const Review = ({ navigateToReviewPhotoFragment }) => {
+const Review = ({ navigateToReviewPhotoFragment, keyword }) => {
   const [user, setUser] = useState(null);
+  const [urlParam, setUrlParam] = useState();
 
   // 유저 정보 가져오기
   useEffect(() => {
@@ -31,22 +32,29 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
     }
   };
 
-  // FE -> BE : ReviewData API 요청
-  useEffect(() => {
-    const fetchReviewData = async () => {
-      try {
-        const response = await axios.get(
-          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
-        );
-        setReviewData(response.data);
-        console.log("Reviews response data : ", response.data);
-      } catch (error) {
-        console.error("Error fetching reviewData:", error);
-      }
-    };
+  const fetchReviewData = async () => {
+    // FE -> BE : ReviewData API 요청
+    if (keyword == "tour") {
+      setUrlParam(
+        `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+      );
+    } else {
+      setUrlParam(
+        `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`
+      );
+    }
+    try {
+      const response = await axios.get(urlParam);
+      setReviewData(response.data);
+      console.log("Reviews response data : ", response.data);
+    } catch (error) {
+      console.error("Error fetching reviewData:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchReviewData();
-  }, []);
+  });
 
   return (
     <div className={styles.Review}>
@@ -88,7 +96,6 @@ const Review = ({ navigateToReviewPhotoFragment }) => {
           {reviewData.reviews.map((review) => (
             <Review_Item
               key={review.id}
-              createdAt={review.createdAt}
               description={review.description}
               imageList={review.imageUrls}
               user={review.reviewer}
