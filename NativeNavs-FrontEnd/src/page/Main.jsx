@@ -3,18 +3,61 @@ import axios from "axios";
 import Tour_Item from "../components/Tour_Item/Tour_Item";
 import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
-
+import confetti from "canvas-confetti";
 const Main = () => {
   const [tours, setTours] = useState([]); // 이렇게 하면 map 이 실행되어도 오류가 발생하지 않음
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  // ★★★★★★★★★★★★★★★★★★★★★★★★★
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
     setSearch(JSON.parse(localStorage.getItem("search")));
-  }, []);
 
+    // const duration = 15 * 1000;
+    // confetti({
+    //   particleCount: 100,
+    //   spread: 70,
+    //   origin: { y: 0.6 },
+    // });
+    // const animationEnd = Date.now() + duration;
+    // let skew = 1;
+
+    // function randomInRange(min, max) {
+    //   return Math.random() * (max - min) + min;
+    // }
+
+    // function frame() {
+    //   const timeLeft = animationEnd - Date.now();
+    //   const ticks = Math.max(200, 500 * (timeLeft / duration));
+    //   skew = Math.max(0.8, skew - 0.001);
+
+    //   confetti({
+    //     particleCount: 1,
+    //     startVelocity: 0,
+    //     ticks: ticks,
+    //     origin: {
+    //       x: Math.random(),
+    //       y: Math.random() * skew - 0.2,
+    //     },
+    //     colors: ["#ffffff"],
+    //     shapes: ["circle"],
+    //     gravity: randomInRange(0.4, 0.6),
+    //     scalar: randomInRange(0.4, 1),
+    //     drift: randomInRange(-0.4, 0.4),
+    //   });
+
+    //   if (timeLeft > 0) {
+    //     requestAnimationFrame(frame);
+    //   }
+    // }
+
+    // // 애니메이션 시작
+    // frame();
+
+  }, []);
+  // ★★★★★★★★★★★★★★★★★★★★★★★★★
 
   // 투어 검색 API 정의
   const fetchTours = async () => {
