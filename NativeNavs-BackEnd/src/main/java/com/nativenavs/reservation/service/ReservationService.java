@@ -4,6 +4,7 @@ import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.stamp.service.StampService;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.TourRepository;
@@ -26,12 +27,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
+
+    private final StampService userStampService;
+
     @Autowired
     private ReservationRepository reservationRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TourRepository tourRepository;
     @Autowired
@@ -153,5 +155,16 @@ public class ReservationService {
 
         return reservationReviewDTO;
     }
+
+    public void checkFirstReservation(UserEntity user){
+        int userId = user.getId();
+
+        // 예약 기록이 없으면 첫 예약이므로 스탬프 발급
+        if (reservationRepository.countByParticipantId(userId)>0) {
+            System.out.println("함수동작");
+            userStampService.addStamp(1, userId); // 스탬프 ID 1을 발급
+        }
+    }
+
 
 }
