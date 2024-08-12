@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -31,7 +32,7 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
 ) {
 
     private lateinit var homeActivity: HomeActivity
-    private val appSettingViewModel: HomeActivityViewModel by activityViewModels()
+    private val homeViewmodel: HomeActivityViewModel by activityViewModels()
     private var start = true
 
     override fun onAttach(context: Context) {
@@ -41,7 +42,6 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
 
     override fun onResume() {
         super.onResume()
-        println("새로 생성됨")
         homeActivity.hideBottomNav(false)
     }
 
@@ -51,6 +51,10 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
         initEvent()
         initSpinner()
 
+        binding.settingNotiTb.isChecked = SharedPref.enabledNoti!!
+        binding.settingNotiTb.setOnCheckedChangeListener { _, isChecked ->
+            SharedPref.enabledNoti = isChecked
+        }
     }
 
     private fun initSpinner() {
@@ -59,7 +63,7 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
         binding.settingLanguageSp.adapter = spinnerAdapter
 
         val savedLanguage = SharedPref.language
-        println("초기 : "+ SharedPref.language)
+        println("초기 : " + SharedPref.language)
         val initialPosition = if (savedLanguage == "ko") 0 else 1
         binding.settingLanguageSp.setSelection(initialPosition)
 
