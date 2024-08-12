@@ -11,6 +11,13 @@ import {
 const WishListItem = ({ user, tours, wishList }) => {
   const wishListedTours = tours.filter((tour) => wishList.includes(tour.id));
   console.log(wishList);
+
+  // tour date formatting
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+  };
   return (
     <div className={styles.TotalContainer}>
       {/* 위시리스트 */}
@@ -24,18 +31,17 @@ const WishListItem = ({ user, tours, wishList }) => {
                 <Tour_Item
                   key={tour.id}
                   tourId={tour.id}
-                  userId={tour.userId}
+                  userId={tour.user.userId}
                   title={tour.title}
                   thumbnailImage={tour.thumbnailImage}
-                  startDate={new Date(tour.startDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
-                  endDate={new Date(tour.endDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
+                  startDate={formatDate(tour.startDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
+                  endDate={formatDate(tour.endDate)} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
                   reviewAverage={tour.reviewAverage}
+                  user={user} // 파싱된 유저 정보를 Tour_Item에 전달
                   nav_profile_img={tour.user.image}
                   nickname={tour.user.nickname}
-                  plans={tour.plans}
+                  userLanguages={tour.user.userLanguage}
                   navigateFragment={navigateToWishDetailFragment}
-                  user={user} // 파싱된 유저 정보를 Tour_Item에 전달
-                  wishList={wishList}
                 />
               );
             })}
@@ -53,16 +59,14 @@ const WishListItem = ({ user, tours, wishList }) => {
                 "아직 관심을 둔 Tour가 없어요!"
               ) : (
                 <>
-                  You haven’t saved
-                  <br />
-                  any tours yet!
+                  No tours saved yet!
                 </>
               )}
             </h2>
             <h5>
               {user && user.isKorean
                 ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
-                : "Create special memories in Korea with NativeNavs!"}
+                : "Start your unique experience in Korea now with NativeNavs!"}
             </h5>
             <Button
               size="4"

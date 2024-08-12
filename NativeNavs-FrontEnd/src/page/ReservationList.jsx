@@ -103,9 +103,7 @@ const ReservationList = () => {
               "아직 예약한 Tour가 없어요!"
             ) : (
               <>
-                You haven’t saved
-                <br />
-                any tours yet!
+                No upcoming tours booked!
               </>
             )}
           </h2>

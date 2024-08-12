@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./WishList.module.css";
 import WishListItem from "../components/WishListItem/WishListItem";
+import NativeNavs from "@/assets/NativeNavs.png";
 
 function WishList() {
   const [user, setUser] = useState(null);
@@ -62,31 +63,14 @@ function WishList() {
 
   if (loading) {
     return (
-      <>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-        <div>Loading...</div>
-      </>
+      <div className={styles.loaderContainer}>
+        <img className={styles.NativeNavs} src={NativeNavs} alt="Loading..." />
+      </div>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.WishList}>
       <WishListItem user={user} tours={tours} wishList={wishList} />
     </div>
   );

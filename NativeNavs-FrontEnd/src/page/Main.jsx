@@ -9,6 +9,7 @@ const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -21,11 +22,11 @@ const Main = () => {
       setSearch(parsedSearch);
       localStorage.setItem("search", searchJson); // localStorage에도 저장
     };
-
   }, []);
 
   // 투어 검색 API 정의
   const fetchTours = async () => {
+    setLoading(true); // API 요청 시작 전에 로딩 상태 true
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -46,6 +47,8 @@ const Main = () => {
       setTours(tourResponse.data);
     } catch (error) {
       console.error("투어 API 요청 실패", error);
+    } finally {
+      setLoading(false); // 요청이 완료되면 로딩 상태 false
     }
   };
 
@@ -63,6 +66,14 @@ const Main = () => {
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
     return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
   };
+
+  if (loading) {
+    return (
+      <div className={styles.loaderContainer}>
+        <div className={styles.loader}></div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.main}>
