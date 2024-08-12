@@ -2,7 +2,10 @@ package com.nativenavs.chat.service;
 
 import com.nativenavs.chat.dto.UserCountDTO;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,8 +51,29 @@ public class ConnectionService {
         return sessionIdToRoomId.get(sessionId);
     }
 
+//    private void sendUserCount(int roomId) {
+//        int userCount = getConnectedUserCount(roomId);
+//        messagingTemplate.convertAndSend("/status/room/" + roomId, new UserCountDTO(roomId, userCount));
+//    }
+
+
+
     private void sendUserCount(int roomId) {
         int userCount = getConnectedUserCount(roomId);
-        messagingTemplate.convertAndSend("/status/room/" + roomId, new UserCountDTO(roomId, userCount));
+        messagingTemplate.convertAndSendToUser(
+                String.valueOf(roomId),
+                "/status/room",
+                new UserCountDTO(roomId, userCount),
+                createHeaders(roomId)
+        );
+    }
+
+
+
+    private MessageHeaders createHeaders(int roomId) {
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+        headerAccessor.setLeaveMutable(true);
+        headerAccessor.setHeader("roomId", roomId);
+        return headerAccessor.getMessageHeaders();
     }
 }
