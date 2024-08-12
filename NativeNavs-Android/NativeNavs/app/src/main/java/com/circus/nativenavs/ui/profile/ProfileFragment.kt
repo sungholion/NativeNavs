@@ -26,6 +26,7 @@ import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.log
 
 private const val TAG = "ProfileFragment"
 
@@ -71,9 +72,11 @@ class ProfileFragment :
     }
 
     private fun initData() {
+        Log.d(TAG, "initData: ${args.userId == SharedPref.userId}")
         homeActivityViewModel.let {
             it.getProfileUser(args.userId)
             if (args.userId == SharedPref.userId) {
+                Log.d(TAG, "initData: ${SharedPref.isNav == true}")
                 if (SharedPref.isNav == true) it.getNavReview(args.userId)
                 else it.getTravReview(args.userId)
             } else {
@@ -204,6 +207,12 @@ class ProfileFragment :
     private fun initObserve() {
         homeActivityViewModel.apply {
             reviewStatus.observe(viewLifecycleOwner) {
+
+                Log.d(TAG, "initObserve: 111111")
+                Log.d(TAG, "initObserve: $it")
+                Log.d(TAG, "initObserve: ${homeActivityViewModel.profileUserReviewDto.value}")
+                Log.d(TAG, "initObserve: nav ${args.navId} trav ${args.travId}")
+
                 binding.profileReviewRv.visibility = GONE
                 binding.profileEmptyReviews.visibility = VISIBLE
                 if (it != -1) {
