@@ -148,8 +148,8 @@ class KrossbowChattingViewModel : ViewModel() {
                 val stompClient = StompClient(wsClient)
                 Log.d(TAG, "connectWebSocket: ${chatRoomId.value}")
                 stompSession = stompClient.connect(
-                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-//                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
+//                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
+                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
                     customStompConnectHeaders = mapOf(
                         "Authorization" to "${SharedPref.accessToken}",
                         "roomId" to "${chatRoomId.value}"
