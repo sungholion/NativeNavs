@@ -176,7 +176,8 @@ class ProfileFragment :
 
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
-            checkPassDialog()
+//            checkPassDialog()
+            navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
