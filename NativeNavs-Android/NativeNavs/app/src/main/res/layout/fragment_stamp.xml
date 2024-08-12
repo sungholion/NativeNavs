@@ -12,8 +12,7 @@
             android:id="@+id/stamp_title_layout"
             layout="@layout/layout_title_back"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:titleText="@{`나의 스탬프`}" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/stamp_rv"

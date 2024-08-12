@@ -35,6 +35,7 @@ class StampFragment : BaseFragment<FragmentStampBinding>(FragmentStampBinding::b
     }
 
     fun initView(){
+        binding.stampTitleLayout.titleText = getString(R.string.stamp)
         binding.stampRv.adapter = stampListAdapter.apply {
             submitList(homeActivityViewModel.stamp.value)
         }

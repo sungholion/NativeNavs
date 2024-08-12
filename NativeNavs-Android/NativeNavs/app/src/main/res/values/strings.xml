@@ -190,4 +190,5 @@
     <string name="profile_empty_review">등록된 리뷰가 없어요</string>
     <string name="profile_empty_stamp">발급된 스탬프가 없어요</string>
     <string name="noti_empty">알림이 없습니다</string>
+    <string name="stamp">스탬프</string>
 </resources>
