@@ -1,5 +1,6 @@
 package com.nativenavs.reservation.service;
 
+import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
@@ -74,7 +75,10 @@ public class ReservationService {
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
 
         int tourId = reservationEntity.getTour().getId();
-        Integer roomId = roomRepository.findByTourId(tourId).getRoomId();
+        RoomEntity roomEntity = roomRepository.findByTourId(tourId);
+        Integer roomId = (roomEntity != null) ? roomEntity.getRoomId() : null;
+
+
         System.out.println(roomId);
         reservationEntity.setRoomId(roomId);
 
