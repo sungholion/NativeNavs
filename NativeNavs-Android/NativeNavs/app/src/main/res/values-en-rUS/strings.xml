@@ -181,4 +181,5 @@
     <string name="noti_empty">There are no registered notifications</string>
     <string name="noti_empty_content">When you receive a new notification, it will appear here</string>
     <string name="profile_other_myreview">My Reivew</string>
+    <string name="sign_photo">Profile Photo</string>
 </resources>

@@ -238,6 +238,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         binding.profileModifyUserImgCv.setOnClickListener {
             openImagePicker()
         }
+
         binding.profileModifyCompleteBtn.setOnClickListener {
             if (clicked) showToast("잠시만 기다려 주세요")
             else {
