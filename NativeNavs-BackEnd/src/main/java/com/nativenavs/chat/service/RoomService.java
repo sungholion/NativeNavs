@@ -48,13 +48,11 @@ public class RoomService {
             UserDTO travUserDTO = userService.searchByEmail(email); // 투어 이용자(Trav) DTO
 
             RoomEntity newRoom = RoomEntity.createRoom(tourDTO.getId(), tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
-            RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
-            ChatEntity questionChat = ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             roomRepository.save(newRoom);
 
-            chatRepository.save(questionChat);
+            RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
 
-            System.out.println("문의 읽음 : " + questionChat.isMessageChecked());
+            chatRepository.save(ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
 
             return newRoomDTO;
         }
