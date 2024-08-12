@@ -26,13 +26,12 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
 
   // 업로드 가능 여부 확인 함수
   const checkUpload = () => {
-    // 썸네일 이미지가 있어야만 함
+    // 썸네일 이미지가 있어야만 함 - 단 이미 있으면 
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
       return 0;
-
       // 당부사항 내용이 뭐라도 있어야 함
     }
-    // 시작일이 끝날짜보다 빠르면 안됨
+    // 시작일이 끝날짜보다 뒤면 안됨
     if (startDate > endDate) {
       return 0;
     }
@@ -71,7 +70,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
         {thumbnailImgUrl ? (
           <img src={thumbnailImgUrl} alt="썸네일이미지" />
         ) : (
-          <div style={{ color: "red", fontSize: "20px" }}>
+          <div style={{ color: "red", fontSize: "20px", marginLeft: "20px" }}>
             {user && user.isKorean
               ? "이미지를 업로드 해주세요"
               : "Please upload an image"}
@@ -155,7 +154,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
             })}
           </div>
         ) : (
-          <div style={{ color: "red", fontSize: "20px" }}>
+          <div style={{ color: "red", fontSize: "20px", marginLeft: "20px" }}>
             {user && user.isKorean
               ? "카테고리는 최소 1개 이상 선택해 주세요"
               : "Please select at least one category"}
@@ -173,7 +172,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
             })}
           </div>
         ) : (
-          <div style={{ color: "red", fontSize: "20px" }}>
+          <div style={{ color: "red", fontSize: "20px", marginLeft: "20px" }}>
             {user && user.isKorean
               ? "일정은 최소 1개 이상 등록해 주세요"
               : "Please register at least one plan"}

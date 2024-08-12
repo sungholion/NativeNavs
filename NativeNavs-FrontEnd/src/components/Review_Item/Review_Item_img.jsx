@@ -8,8 +8,8 @@ import styled from "styled-components";
 const StyledSlider = styled(Slider)`
   .slick-slide {
     height: auto;
-    padding-right: 5vw;
-    padding-left: 5vw;
+    padding-right: 2vw;
+    padding-left: 2vw;
   }
   .slick-track {
     display: flex;
