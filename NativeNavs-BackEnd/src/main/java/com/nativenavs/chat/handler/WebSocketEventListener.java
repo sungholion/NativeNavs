@@ -25,6 +25,10 @@ public class WebSocketEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         String sessionId = headerAccessor.getSessionId();
         int roomId = getRoomIdFromSession(headerAccessor);
+
+        // Log the event
+        System.out.println("User connected: sessionId=" + sessionId + ", roomId=" + roomId);
+
         connectionService.handleUserConnect(roomId, sessionId);
         sendUserCountUpdate(roomId);
     }
@@ -35,6 +39,8 @@ public class WebSocketEventListener {
         String sessionId = headerAccessor.getSessionId();
         Integer roomId = connectionService.getRoomIdBySessionId(sessionId);
         if (roomId != null) {
+            System.out.println("User disconnected: sessionId=" + sessionId + ", roomId=" + roomId);
+
             connectionService.handleUserDisconnect(sessionId);
             sendUserCountUpdate(roomId);
         }

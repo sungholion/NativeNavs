@@ -19,13 +19,13 @@ public class ConnectionService {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public void handleUserConnect(int roomId, String sessionId) {
+    public synchronized void handleUserConnect(int roomId, String sessionId) {
         connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
         sessionIdToRoomId.put(sessionId, roomId);
         sendUserCount(roomId);
     }
 
-    public void handleUserDisconnect(String sessionId) {
+    public synchronized void handleUserDisconnect(String sessionId) {
         Integer roomId = sessionIdToRoomId.remove(sessionId);
         if (roomId != null) {
             ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
