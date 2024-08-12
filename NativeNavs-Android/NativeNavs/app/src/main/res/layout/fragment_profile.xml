@@ -182,6 +182,14 @@
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_profile_review" />
+                <TextView
+                    android:id="@+id/profile_empty_reviews"
+                    style="@style/regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="등록된 리뷰가 없어요. "/>
             </LinearLayout>
 
             <LinearLayout
@@ -213,8 +221,16 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_pre" />
                 </LinearLayout>
-
+                <TextView
+                    android:id="@+id/profile_empty_stamp"
+                    style="@style/regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:text="발급된 스탬프가 없어요."/>
                 <LinearLayout
+                    android:id="@+id/profile_stamp_list"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

@@ -197,8 +197,10 @@ class ProfileFragment :
     private fun initObserve() {
         homeActivityViewModel.apply {
             reviewStatus.observe(viewLifecycleOwner) {
+                binding.profileReviewRv.visibility = GONE
+                binding.profileEmptyReviews.visibility = VISIBLE
                 if (it != -1) {
-                    this.profileUserReviewDto.value?.reviews?.let { review ->
+                    profileUserReviewDto.value?.reviews?.let { review ->
                         reviewList.removeAll(reviewList)
                         review.map { it }.take(3).forEach { dto ->
                             reviewList.add(ProfileReviewDto(
@@ -212,19 +214,34 @@ class ProfileFragment :
                             ))
 
                         }
-
-                        if(reviewList.size == 0 ) profileReviewAdapter.submitList(dummy)
-                        else profileReviewAdapter.submitList(reviewList)
+                        Log.d(TAG, "initObserve: ${profileUserReviewDto.value!!.reviews.size}")
+                        if(profileUserReviewDto.value!!.reviews.isEmpty()) {
+                            binding.profileReviewRv.visibility = GONE
+                            binding.profileEmptyReviews.visibility = VISIBLE
+                        }
+                        else {
+                            binding.profileReviewRv.visibility = VISIBLE
+                            binding.profileEmptyReviews.visibility = GONE
+                            profileReviewAdapter.submitList(reviewList)
+                        }
                     }
 
 
                 }
             }
             stamp.observe(viewLifecycleOwner){
-                if(it != null){
+
+                if( it != null){
+                    if(it.isEmpty()){
+                        binding.profileStampList.visibility = GONE
+                        binding.profileEmptyStamp.visibility = VISIBLE
+                    }
+                    else{
+                        binding.profileStampList.visibility = VISIBLE
+                        binding.profileEmptyStamp.visibility = GONE
+                    }
                     // 실제로는 데이터 목록에서 원하는 3개 항목을 가져와야 합니다.
                     val stampsToDisplay = it.take(3)
-
                     // ImageView 배열
                     val imageViews = arrayOf(
                         binding.profileStamp1,
