@@ -72,7 +72,7 @@ const NavTourList = () => {
                 "아직 예약한 Tour가 없어요!"
               ) : (
                 <>
-                  You haven’t saved
+                  You haven’t created
                   <br />
                   any tours yet!
                 </>

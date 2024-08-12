@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Modal from "@/components/Modal/Modal";
 import styles from "./ReviewPhotos.module.css";
 
-const ReviewPhotos = () => {
+const ReviewPhotos = ({ keyword }) => {
   const params = useParams();
   const [showModal, setShowModal] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -28,11 +28,23 @@ const ReviewPhotos = () => {
 
   // FE -> BE : ReviewData API 요청
   useEffect(() => {
+    const getUrlParam = () => {
+      switch (keyword) {
+        case "tour":
+          return `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`;
+        case "guide":
+          return `https://i11d110.p.ssafy.io/api/reviews/guide/${params.user_id}`;
+        default:
+          return "";
+      }
+    };
+
     const fetchReviewData = async () => {
+      const url = getUrlParam();
+      if (!url) return;
+
       try {
-        const response = await axios.get(
-          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
-        );
+        const response = await axios.get(url);
         setReviewData(response.data);
         console.log("Reviews response data : ", response.data);
       } catch (error) {

@@ -41,7 +41,6 @@ function App() {
     };
   }, []);
 
-
   return (
     <>
       <Routes>
@@ -70,7 +69,10 @@ function App() {
               }
             />
             {/* 투어의 리뷰 사진 전체보기 페이지 */}
-            <Route path="reviewphotos" element={<ReviewPhotos />} />
+            <Route
+              path="reviewphotos"
+              element={<ReviewPhotos keyword={"tour"} />}
+            />
             {/* 투어에 대한 리뷰 작성 페이지 */}
             <Route
               path="reviews/create/:reservation_id"
@@ -96,7 +98,10 @@ function App() {
             }
           />
           {/* Nav에 대한 리뷰 사진 전체보기 페이지 */}
-          <Route path="reviewphotos" element={<ReviewPhotos />} />
+          <Route
+            path="reviewphotos"
+            element={<ReviewPhotos keyword={"guide"} />}
+          />
           {/* Nav가 등록한 투어 목록 페이지 */}
           <Route path="tourlist" element={<NavTourList />} />
         </Route>
@@ -115,8 +120,6 @@ function App() {
               />
             }
           />
-          {/* Trav가 작성한 리뷰 사진 전체보기 페이지 */}
-          <Route path="reviewphotos" element={<ReviewPhotos />} />
           {/* Trav의 위시리스트 페이지 */}
           <Route path="wishlist" element={<WishList />} />
           {/* Trav의 예약 리스트 및 완료된 투어 페이지 */}
