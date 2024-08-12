@@ -63,6 +63,7 @@ public class ChatService {
                 .map(chatEntity -> {
                     // 채팅 조회 시 읽음 처리
                     chatEntity.markAsRead();
+                    System.out.println("한번 보자" + chatEntity.getContent());
                     chatRepository.save(chatEntity);  // 읽음 상태 저장
 
                     return ChatDTO.builder()
