@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sign_nav_graph"
-    app:startDestination="@id/signUpHomeFragment">
+    app:startDestination="@id/signUpEmailFragment">
 
     <fragment
         android:id="@+id/signUpCompleteFragment"
@@ -18,15 +18,6 @@
         <action
             android:id="@+id/action_signUpEmailFragment_to_signUpUserTypeFragment"
             app:destination="@id/signUpUserTypeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUpHomeFragment"
-        android:name="com.circus.nativenavs.ui.signup.SignUpHomeFragment"
-        android:label="SignUpHomeFragment"
-        tools:layout="@layout/fragment_sign_up_home">
-        <action
-            android:id="@+id/action_signUpHomeFragment_to_signUpEmailFragment"
-            app:destination="@id/signUpEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpProfileFragment"
