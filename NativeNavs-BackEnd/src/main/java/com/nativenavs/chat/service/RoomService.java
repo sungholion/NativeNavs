@@ -48,23 +48,13 @@ public class RoomService {
             UserDTO travUserDTO = userService.searchByEmail(email); // 투어 이용자(Trav) DTO
 
             RoomEntity newRoom = RoomEntity.createRoom(tourDTO.getId(), tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
+            RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
+            ChatEntity questionChat = ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             roomRepository.save(newRoom);
 
-            RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
+            chatRepository.save(questionChat);
 
-            ChatEntity questionChat = chatRepository.save(
-                    ChatEntity.createChat(
-                            newRoomDTO.getRoomId(),
-                            travUserDTO.getId(),
-                            travUserDTO.getNickname(),
-                            travUserDTO.getImage(),
-                            "문의 신청합니다.",
-                            false,  // 여기서 명확하게 false로 지정
-                            LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    )
-            );
-
-            System.out.println("문의 채팅 messageChecked: " + questionChat.isMessageChecked());
+            System.out.println("문의 읽음 : " + questionChat.isMessageChecked());
 
             return newRoomDTO;
         }
