@@ -9,6 +9,7 @@ import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.service.ChatService
+import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
@@ -92,7 +93,7 @@ class KrossbowChattingViewModel : ViewModel() {
         Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
     }
 
-    fun resetCurrentChatRoom(){
+    fun resetCurrentChatRoom() {
 //        _currentChatRoom.postValue(ChatRoomDto())
     }
 
@@ -150,7 +151,7 @@ class KrossbowChattingViewModel : ViewModel() {
 //                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
                     url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
                     customStompConnectHeaders = mapOf(
-//                        "Authorization" to "${SharedPref.accessToken}"
+                        "Authorization" to "${SharedPref.accessToken}",
                         "roomId" to "${chatRoomId.value}"
                     ),
                 ).withMoshi(moshi)
