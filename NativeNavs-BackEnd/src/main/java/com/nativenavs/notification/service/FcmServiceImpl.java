@@ -3,6 +3,7 @@ package com.nativenavs.notification.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.notification.dto.FcmMessageDTO;
 import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.repository.UserRepository;
@@ -24,6 +25,8 @@ public class FcmServiceImpl implements FcmService {
     private UserRepository userRepository;
     @Autowired
     private TourService tourService;
+    @Autowired
+    private RoomRepository roomRepository;
 
 //    @Override
 //    public int sendMessageTo(FcmSendDTO fcmSendDTO) throws IOException {
@@ -78,7 +81,7 @@ public class FcmServiceImpl implements FcmService {
         String sendRoomId;
 
         String tourTitle = tourService.findTourById(tourId).getTitle();
-
+        roomId = roomRepository.findByTourId(tourId).getRoomId();
         // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
         if(flag == 1){
             sendTitle = "채팅 시작";
