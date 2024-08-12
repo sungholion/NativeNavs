@@ -36,6 +36,10 @@ public class ChatService {
                 resultIsRead = true;
             }
 
+            if(content.equals("문의 신청합니다")){
+                resultIsRead = false;
+            }
+
             ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
                     roomId,
                     senderId,

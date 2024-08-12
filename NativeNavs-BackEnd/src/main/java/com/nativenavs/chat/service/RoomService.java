@@ -54,7 +54,7 @@ public class RoomService {
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
 
-            ChatEntity questionChat = chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            ChatEntity questionChat = chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             ChatDTO questionChatDTO = ChatDTO.toChatDTO(questionChat);
 
             eventPublisher.publishEvent(new ChatCreatedEvent(newRoom.getRoomId(), questionChatDTO.getContent(), questionChatDTO.getSendTime()));
