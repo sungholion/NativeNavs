@@ -15,7 +15,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -30,17 +30,19 @@
     align-items: center;
     align-self: center;
 
-    input[type="date"] {
+    input {
       position: relative;
       font-size: 5vw;
       width: 50vw; /* 전체 너비를 차지하도록 설정 */
       height: 10vw;
       text-align: center;
-      border: 1px solid #ccc; /* 테두리 설정 */
+      border: 2px solid #d9d9d9; /* 테두리 설정 */
+      border-radius: 10px;
       padding: 10px; /* 내부 여백 설정 */
+      background-color: white;
     }
 
-    input[type="date"]::-webkit-calendar-picker-indicator {
+    input::-webkit-calendar-picker-indicator {
       position: absolute;
       left: 0;
       top: 0;
@@ -59,7 +61,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -96,8 +98,10 @@
         height: 10vw;
         border-radius: 5px;
         text-align: center;
-        border: 1px solid #ccc; /* 테두리 설정 */
         padding: 10px; /* 내부 여백 설정 */
+        background-color: white;
+        border: 2px solid #d9d9d9;
+        border-radius: 10px;
       }
 
       input[type="time"]::-webkit-calendar-picker-indicator {
@@ -121,7 +125,7 @@
   justify-content: center;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -149,9 +153,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -164,10 +169,15 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     img {
       width: 7vw;
       height: 7vw;
       margin-left: 10px;
+    }
+
+    .Res_Location_Info {
+      width: 90%;
     }
   }
 }
@@ -191,7 +201,7 @@
     }
   }
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -215,13 +225,12 @@
   display: flex;
   justify-content: center;
   button {
-    width: 30vw;
-    height: 10vw;
-    font-size: 6.5vw;
-    background-color: #20bec9;
+    width: 80vw;
+    height: 40px;
+    font-size: 20px;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 20px;
     margin-bottom: 10px;
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
@@ -233,5 +242,17 @@
   }
   button:focus {
     outline: none;
+  }
+
+  .disable {
+    background-color: lightcoral;
+  }
+
+  .able {
+    background-color: #20bec9;
+  }
+
+  .loading {
+    background-color: #d9d9d9;
   }
 }

@@ -1,37 +1,28 @@
-import styles from "./Tour_Item_mini_Review.module.css";
+import styles from "./Tour_Item_mini_Reservation.module.css";
 import Rating from "../Star/Rating(Basic)";
 
-const info = {
-  tour: {
-    // 투어 정보
-    image:
-      "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-    title: "투어 제목",
-    nav: {
-      // 가이드 정보
-      image:
-        "https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_960_720.jpg",
-      nickname: "가이드이름",
-    },
-  },
-  progress: {
-    // 예약 정보
-    date: "2021-09-01",
-    participant: 2,
-  },
-};
-
 // 예약 작성 페이지에 작성할 관련 투어 정보를 간략하게 보여주는
-const Tour_Item_mini_Reservation = ({ image, title, score }) => {
+const Tour_Item_mini_Reservation = ({
+  image,
+  location,
+  title,
+  score,
+  language,
+}) => {
   return (
     <div className={styles.Tour_Item_mini_Review}>
       <section className={styles.tourImageSection}>
         <img src={image} alt="" />
       </section>
-      <section className={styles.tourInfoSection}>
-        <div className={styles.tourTextInfo}>
+      <section className={styles.tourTextInfo}>
+        <div className={styles.tourTextInfo_header}>
           <h3>{title}</h3>
-          <Rating reviewAverage={score} />
+          <p>
+            {language === "ko" ? "장소" : "location"} : {location || "abcd"}
+          </p>
+          <div className={styles.tourTextInfo_score}>
+            <Rating reviewAverage={score} />
+          </div>
         </div>
       </section>
     </div>
