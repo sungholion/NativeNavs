@@ -78,16 +78,12 @@ class KrossbowChattingViewModel : ViewModel() {
             currentChatRoom.value?.let {
                 _chatRoomId.value = roomId
             }
-            Log.d(TAG, "roomId value: ${_chatRoomId.value}")
         }
-
     }
 
     fun getChatRoomList() {
         viewModelScope.launch {
-            Log.d(TAG, "getChatRoomList raw: ${chatRetrofit.getChatRoomList()}")
             _chatRoomList.value = chatRetrofit.getChatRoomList()
-            Log.d(TAG, "getChatRoomList: ${chatRoomList.value}")
         }
     }
 
@@ -110,6 +106,30 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
+    fun setMessage(content: String) {
+        _uiState.value?.let {
+            it.message = content
+        }
+    }
+
+    private fun setMessages(list: List<MessageDto>) {
+        _uiState.value?.let { currentState ->
+            _uiState.postValue(currentState.copy(messages = list))
+        }
+    }
+
+    fun setSenderInfo(senderId: Int, senderNickname: String, senderImg: String) {
+        _uiState.value?.let {
+            it.senderId = senderId
+            it.senderNickName = senderNickname
+            it.senderImg = senderImg
+        }
+    }
+
+    fun resetUiState() {
+        _uiState.postValue(ChatScreenUiState())
+    }
+
     fun connectWebSocket() {
         viewModelScope.launch {
             try {
@@ -128,15 +148,13 @@ class KrossbowChattingViewModel : ViewModel() {
                 Log.d(TAG, "connectWebSocket: ${chatRoomId.value}")
                 stompSession = stompClient.connect(
 //                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-                    url = "ws://192.168.1.12:8080/api/ws-stomp/websocket",
+                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
                     customStompConnectHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
                         "roomId" to "${chatRoomId.value}"
                     ),
                 ).withMoshi(moshi)
                 updateConnectionStatus(ConnectionStatus.CONNECTING)
-
-                Log.d(TAG, "connectWebSocket: ${stompSession}")
 
                 observeMessages()
                 updateConnectionStatus(ConnectionStatus.OPENED)
@@ -161,7 +179,6 @@ class KrossbowChattingViewModel : ViewModel() {
 //                    )
                 )
             )
-
             isConnected = true
 
             subscription.collect { frame ->
@@ -180,34 +197,9 @@ class KrossbowChattingViewModel : ViewModel() {
     private fun handleOnMessageReceived(message: MessageDto) {
         Log.d(TAG, "handleOnMessageReceived: $message")
         try {
-//            if (message.senderId != uiState.value!!.senderId)
             addMessage(message)
         } catch (e: Exception) {
             Log.e(TAG, "handleOnMessageReceived: ", e)
-        }
-    }
-
-    fun setMessage(content: String) {
-        _uiState.value?.let {
-            it.message = content
-        }
-    }
-
-    fun setSenderInfo(senderId: Int, senderNickname: String, senderImg: String) {
-        _uiState.value?.let {
-            it.senderId = senderId
-            it.senderNickName = senderNickname
-            it.senderImg = senderImg
-        }
-    }
-
-    fun resetUiState() {
-        _uiState.postValue(ChatScreenUiState())
-    }
-
-    fun setMessages(list: List<MessageDto>) {
-        _uiState.value?.let { currentState ->
-            _uiState.postValue(currentState.copy(messages = list))
         }
     }
 
@@ -219,7 +211,7 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     fun sendMessage(messageSent: () -> Unit) {
-        val message = message()
+        val message = createMessage()
         if (message.content.isEmpty()) return
 
         viewModelScope.launch {
@@ -242,15 +234,7 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
-    private fun clearMessage() {
-        viewModelScope.launch {
-            delay(50)
-            _uiState.postValue(_uiState.value?.copy(message = ""))
-        }
-    }
-
-    private fun message(): MessageDto {
-        Log.d(TAG, "message: 메세지 객체 생성")
+    private fun createMessage(): MessageDto {
         val tempMessage = _uiState.value?.let {
             MessageDto(
                 roomId = currentChatRoom.value!!.roomId,
@@ -265,6 +249,13 @@ class KrossbowChattingViewModel : ViewModel() {
         } ?: MessageDto()
         Log.d(TAG, "message: $tempMessage")
         return tempMessage
+    }
+
+    private fun clearMessage() {
+        viewModelScope.launch {
+            delay(50)
+            _uiState.postValue(_uiState.value?.copy(message = ""))
+        }
     }
 
     fun disconnectWebSocket() {

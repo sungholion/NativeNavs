@@ -26,7 +26,6 @@ fun ImageView.loadImageUrl(imgUrl: String) {
 
 @BindingAdapter("time")
 fun TextView.setTimeText(time: String) {
-    Log.d("date time", "setTimeText: $time")
     val localDateTime = LocalDateTime.parse(time)
     val formattedTime = localDateTime.format(DateTimeFormatter.ofPattern("MM/dd HH:mm"))
     this.text = formattedTime
