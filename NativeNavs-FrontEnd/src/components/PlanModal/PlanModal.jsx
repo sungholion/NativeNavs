@@ -9,6 +9,8 @@ import { getStaticImage } from "@/utils/get-static-image";
 import { createPortal } from "react-dom";
 import MapModal from "@/components/MapModal/MapModal";
 
+const MAX_PLAN_DESCRIPTION_LENGTH = 200;
+
 const center = {
   lat: 37.5642,
   lng: 127.00169,
@@ -152,11 +154,20 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           </div>
         </section>
         <section className={styles.ModalContent}>
-          <h3>{user?.isKorean ? "계획 내용" : "Plan Description"}</h3>
+          <div className={styles.ModalContentHeader}>
+            <h3>{user?.isKorean ? "계획 내용" : "Plan Description"}</h3>
+            <p style={{ padding: "0px" }}>
+              {planData.description.length} / {MAX_PLAN_DESCRIPTION_LENGTH}
+            </p>
+          </div>
           <textarea
             maxLength={200}
             value={planData.description}
-            onChange={onChangeEvent}
+            onChange={(e) => {
+              if (e.target.value.length < MAX_PLAN_DESCRIPTION_LENGTH) {
+                setPlanData({ ...planData, description: e.target.value });
+              }
+            }}
             name="description"
           />
         </section>
