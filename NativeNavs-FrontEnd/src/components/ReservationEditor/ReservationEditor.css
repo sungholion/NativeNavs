@@ -15,7 +15,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -61,7 +61,7 @@
   flex-direction: column;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -125,7 +125,7 @@
   justify-content: center;
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -156,7 +156,7 @@
 
   width: 90vw;
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -201,7 +201,7 @@
     }
   }
   h4 {
-    font-size: 5vw;
+    font-size: 24px;
     font-weight: bold;
     padding: 0;
     margin-top: 20px;
@@ -225,12 +225,12 @@
   display: flex;
   justify-content: center;
   button {
-    width: 50vw;
-    height: 10vw;
+    width: 80vw;
+    height: 40px;
     font-size: 20px;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 20px;
     margin-bottom: 10px;
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;

@@ -152,10 +152,12 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
         console.log("날짜 입력해주세요");
         return 0;
       }
-      if (!resInfo.startAt || !resInfo.endAt) return 0;
-      if (resInfo.startAt > resInfo.endAt) {
+      if (!resInfo.startAt || !resInfo.endAt) {
         console.log("시간 입력해주세요");
-        console.log(resInfo.startAt, resInfo.endAt);
+        return 0;
+      }
+      if (resInfo.startAt >= resInfo.endAt) {
+        console.log("시작시간이 종료시간보다 늦어요.");
         return 0;
       }
       return 1;
@@ -170,7 +172,9 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
   return (
     <div className="ReservationEditor">
       <section className="ResDateSection">
-        <h4>투어 예약 날짜</h4>
+        <h4 style={{ color: `${!resInfo.date ? "lightcoral" : ""}` }}>
+          {user?.isKorean ? "투어 예약 날짜" : "Tour planned date"}
+        </h4>
         <div className="DateInput">
           <input
             type="date"
@@ -181,7 +185,19 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
         </div>
       </section>
       <section className="Res_Time_Section">
-        <h4>투어 예상 시간</h4>
+        <h4
+          style={{
+            color: `${
+              !resInfo.startAt ||
+              !resInfo.endAt ||
+              resInfo.startAt >= resInfo.endAt
+                ? "lightcoral"
+                : ""
+            }`,
+          }}
+        >
+          {user?.isKorean ? "투어 예정 시간" : "The scheduled time of the tour"}
+        </h4>
         <div className="Res_Time">
           <div className="TimeInput">
             <span>{user?.isKorean ? "시작시간" : "Start Time"}</span>
@@ -208,17 +224,16 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
         <div className="Res_People">
           <img
             src={getStaticImage("minus")}
+            style={{ cursor: "pointer", width: "40px", height: "40px" }}
             alt=""
             onClick={() => {
               onChangeParticipant(-1);
             }}
           />
-          <div>
-            {resInfo.participantCount}
-            {user?.isKorean ? "명" : "People/Person"}
-          </div>
+          <div>{resInfo.participantCount}</div>
           <img
             src={getStaticImage("add")}
+            style={{ cursor: "pointer", width: "40px", height: "40px" }}
             alt=""
             onClick={() => {
               onChangeParticipant(1);
@@ -228,13 +243,19 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
       </section>
       <section className="Res_Location_Section">
         <div className="Res_Location_Section_Header">
-          <h4>{user?.isKorean ? "만나는 위치" : "Meeting place"}</h4>
+          <h4
+            style={{
+              color: `${resInfo.meetingAddress === "" ? "lightcoral" : ""}`,
+            }}
+          >
+            {user?.isKorean ? "만나는 위치" : "Meeting place"}
+          </h4>
           <img src={getStaticImage("search")} alt="" onClick={openModal} />
           <div className="Res_Location_Info">
             {resInfo.meetingAddress === ""
               ? user?.isKorean
-                ? "위치를 입력해주세요"
-                : "Please enter the location"
+                ? "위치를 검색해주세요"
+                : "Please Search the location"
               : resInfo.meetingAddress}
           </div>
         </div>
@@ -263,8 +284,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
             buttonStatus === 1 ? "able" : ""
           } ${buttonStatus === 2 ? "loading" : ""}`}
           onClick={async () => {
-            console.log(resInfo);
-            console.log(buttonStatus);
             if (buttonStatus === 1) {
               setButtonStatus(2);
               await onSubmit(resInfo, user.userToken);
@@ -272,11 +291,17 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
             }
           }}
         >
-          {buttonStatus === 0
-            ? "빈 부분 입력해 주세요"
+          {user?.isKorean
+            ? buttonStatus === 0
+              ? "빨간색 부분 확인해 주세요"
+              : buttonStatus === 1
+              ? "예약하기"
+              : "예약중"
+            : buttonStatus === 0
+            ? "Check the RED part"
             : buttonStatus === 1
-            ? "예약하기"
-            : "예약중"}
+            ? "Make Reservation"
+            : "Reserving"}
         </button>
       </section>
     </div>

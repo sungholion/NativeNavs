@@ -116,14 +116,33 @@ const ReservationCreate = () => {
           title={tourInfo.title}
           score={tourInfo.reviewAverage}
           language={user?.isKorean ? "ko" : "en"}
+          location={tourInfo.location}
         />
       </section>
       <section className="TravInforSection">
-        <h4>{user.isKorean ? "Trav 정보" : "Trav Information"}</h4>
+        <h4>
+          {user.isKorean ? "예약 Trav 정보" : "Reservation Trav Information"}
+        </h4>
         <div className="TravInfo">
           <img src={travInfo.image} alt="프로필사진" />
           <div>{travInfo.nickname}</div>
         </div>
+        <section style={{ fontSize: "22px", width: "100%" }}>
+          <hr
+            style={{
+              border: "1px solid #d9d9d9",
+              alignSelf: "center",
+              width: "100%",
+              marginBottom: "10px",
+            }}
+          />
+          <br />
+          <div>
+            {user?.isKorean
+              ? "밑의 정보를 입력해 주세요"
+              : "Please enter the information below"}
+          </div>
+        </section>
       </section>
       <ReservationEditor
         maxParticipant_info={tourInfo.maxParticipants}
