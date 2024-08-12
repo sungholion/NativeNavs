@@ -31,7 +31,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/send");       //클라이언트에서 보낸 메세지를 받을 prefix
-        registry.enableSimpleBroker("/room");    //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
+        registry.enableSimpleBroker("/room", "/status");    //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
     }
 
     // Method to handle user connection
@@ -67,6 +67,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
         // Check if roomUsers is not null and contains exactly 1 connection
         return roomUsers != null && roomUsers.size() == 2;
+    }
+
+    public Integer getRoomIdBySessionId(String sessionId) {
+        return sessionIdToRoomId.get(sessionId);
     }
 
 }
