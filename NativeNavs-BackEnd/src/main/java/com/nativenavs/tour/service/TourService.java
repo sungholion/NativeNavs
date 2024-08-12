@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,22 +111,26 @@ public class TourService {
 
     //entity -> DTO 작업이 필요
     public List<TourDTO> findAllTours() {
-        List<TourEntity> tourEntityList = tourRepository.findAll();
+        List<TourEntity> tourEntityList = tourRepository.findAll().stream()
+                .sorted(Comparator.comparingInt(TourEntity::getReviewCount).reversed())
+                .toList();
+
+
         List<TourDTO> tourDTOList = new ArrayList<>();
 
         for (TourEntity tourEntity : tourEntityList) {
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
-            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
-                    .map(plan -> new PlanDTO(
-                            plan.getId(),
-                            plan.getField(),
-                            plan.getDescription(),
-                            plan.getImage(),
-                            plan.getLatitude(),
-                            plan.getLongitude(),
-                            plan.getAddressFull()))
-                    .collect(Collectors.toList());
-            tourDTO.setPlans(planDTOs);
+//            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+//                    .map(plan -> new PlanDTO(
+//                            plan.getId(),
+//                            plan.getField(),
+//                            plan.getDescription(),
+//                            plan.getImage(),
+//                            plan.getLatitude(),
+//                            plan.getLongitude(),
+//                            plan.getAddressFull()))
+//                    .collect(Collectors.toList());
+//            tourDTO.setPlans(planDTOs);
 
             tourDTOList.add(tourDTO);
         }
@@ -145,18 +150,18 @@ public class TourService {
                     .collect(Collectors.toList());
             tourDTO.setCategoryIds(categoryIds);
 
-            // Fetching plans
-            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
-                    .map(plan -> new PlanDTO(
-                            plan.getId(),
-                            plan.getField(),
-                            plan.getDescription(),
-                            plan.getImage(),
-                            plan.getLatitude(),
-                            plan.getLongitude(),
-                            plan.getAddressFull()))
-                    .collect(Collectors.toList());
-            tourDTO.setPlans(planDTOs);
+//            // Fetching plans
+//            List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+//                    .map(plan -> new PlanDTO(
+//                            plan.getId(),
+//                            plan.getField(),
+//                            plan.getDescription(),
+//                            plan.getImage(),
+//                            plan.getLatitude(),
+//                            plan.getLongitude(),
+//                            plan.getAddressFull()))
+//                    .collect(Collectors.toList());
+//            tourDTO.setPlans(planDTOs);
 
             return tourDTO;
         } else {

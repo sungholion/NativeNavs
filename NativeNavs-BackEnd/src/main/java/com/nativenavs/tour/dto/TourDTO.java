@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -56,6 +57,18 @@ public class TourDTO {
             UserDTO userDTO = UserDTO.toUserDTO(tourEntity.getUser()); // UserDTO 변환 메서드 호출
             tourDTO.setUser(userDTO);
         }
+
+        List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
+                .map(plan -> new PlanDTO(
+                        plan.getId(),
+                        plan.getField(),
+                        plan.getDescription(),
+                        plan.getImage(),
+                        plan.getLatitude(),
+                        plan.getLongitude(),
+                        plan.getAddressFull()))
+                .collect(Collectors.toList());
+        tourDTO.setPlans(planDTOs);
 
         return tourDTO;
     }

@@ -150,6 +150,7 @@ public class ReservationService {
         reservation.setTaggingAt(LocalDateTime.now());
         // 변경된 예약을 저장합니다.
         reservationRepository.save(reservation);
+
     }
 
     public ReservationReviewDTO getReservationForReview(int reservationId){
