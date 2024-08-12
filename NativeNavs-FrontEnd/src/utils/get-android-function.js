@@ -197,6 +197,18 @@ export function navigateToMyTripDetailFragment(tourId) {
   }
 }
 
+// Nav 투어 리스트 -> 투어 상세 페이지로 이동
+export function navigateToMyTripListToTourRegisterFragment(tourId) {
+  if (
+    window.Android &&
+    typeof window.Android.navigateToMyTripListToTourRegisterFragment === "function"
+  ) {
+    window.Android.navigateToMyTripListToTourRegisterFragment(tourId);
+  } else {
+    console.log("navigateToMyTripListToTourRegisterFragment function is not defined");
+  }
+}
+
 // Nav 투어 예약현황 페이지 -> 예약 상세 페이지로 이동
 export function navigateToReservationDetailFragment(tourId) {
   if (

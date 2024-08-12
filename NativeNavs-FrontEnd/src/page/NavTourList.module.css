@@ -12,3 +12,62 @@
 .TourList > *{
     margin-bottom: 10px;
 }
+
+.BrowseButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+    width: 150px;
+  }
+  
+  .BrowseButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .TopContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .MiddleContainer {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+
+  .MiddleContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 10px;
+  }
+  
+  .MiddleContainer h2 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+  
+  .MiddleContainer h5 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 180px;
+    text-align: center;
+  } 
+
+  .NativeNavsImg {
+    width: 80px;
+    height: 80px;
+  }

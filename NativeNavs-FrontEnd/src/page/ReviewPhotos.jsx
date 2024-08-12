@@ -19,15 +19,11 @@ const ReviewPhotos = () => {
   const handlePhotoClick = (index) => {
     setSelectedPhotoIndex(index);
     setShowModal(true);
-
-    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setShowModal(false);
     setSelectedPhotoIndex(0);
-
-    document.body.style.overflow = "auto";
   };
 
   // FE -> BE : ReviewData API 요청
