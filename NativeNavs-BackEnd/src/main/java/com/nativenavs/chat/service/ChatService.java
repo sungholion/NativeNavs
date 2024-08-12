@@ -1,7 +1,6 @@
 package com.nativenavs.chat.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
-import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
@@ -25,16 +24,15 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final WebSocketConfig webSocketConfig;
     private final UserService userService;
+    private final ConnectionService connectionService;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
 
-            boolean twoUserConnected = webSocketConfig.twoUserConnected(roomId); // 한명만 연결인지
-
-            boolean resultIsRead = false;
+        boolean twoUserConnected = connectionService.getConnectedUserCount(roomId) == 2;
+        boolean resultIsRead = false;
 
             if(twoUserConnected) {
                 resultIsRead = true;
@@ -94,6 +92,7 @@ public class ChatService {
     }
 
     // 추가: 특정 채팅을 읽음으로 표시하는 메서드
+    @Transactional
     public void markChatAsRead(String chatId) {
         ChatEntity chatEntity = chatRepository.findById(new ObjectId(chatId).getTimestamp())
                 .orElseThrow(() -> new NoSuchElementException("Chat not found with id: " + chatId));
