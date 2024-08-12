@@ -9,5 +9,5 @@ import java.util.List;
 public interface TourRepository extends JpaRepository<TourEntity, Integer>, JpaSpecificationExecutor<TourEntity> {
 
     List<TourEntity> findByUserId(int guideId);
-//    TourEntity findById(int id);
+
 }

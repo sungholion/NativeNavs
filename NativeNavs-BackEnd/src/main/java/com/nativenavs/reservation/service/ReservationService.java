@@ -1,5 +1,6 @@
 package com.nativenavs.reservation.service;
 
+import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 public class ReservationService {
 
     private final StampService userStampService;
-
+    private final RoomRepository roomRepository;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
@@ -71,6 +72,11 @@ public class ReservationService {
     public ReservationResponseDTO getReservationDetails(int reservationId){
         ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        int tourId = reservationEntity.getTour().getId();
+        Integer roomId = roomRepository.findByTourId(tourId).getRoomId();
+        System.out.println(roomId);
+        reservationEntity.setRoomId(roomId);
 
         return ReservationResponseDTO.toReservationDTO(reservationEntity);
     }

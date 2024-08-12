@@ -20,4 +20,7 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
 
     @Query("SELECT COUNT(r) FROM ReservationEntity r WHERE r.participant.id = :participantId")
     int countByParticipantId(@Param("participantId") int participantId);
+
+
+
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.nativenavs.notification.dto.FcmMessageDTO;
+import com.nativenavs.tour.entity.TourEntity;
+import com.nativenavs.tour.repository.TourRepository;
 import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FcmServiceImpl implements FcmService {
@@ -24,6 +27,8 @@ public class FcmServiceImpl implements FcmService {
     private UserRepository userRepository;
     @Autowired
     private TourService tourService;
+    @Autowired
+    private TourRepository tourRepository;
 
 //    @Override
 //    public int sendMessageTo(FcmSendDTO fcmSendDTO) throws IOException {
@@ -77,8 +82,11 @@ public class FcmServiceImpl implements FcmService {
         String sendTourId;
         String sendRoomId;
 
-        String tourTitle = tourService.findTourById(tourId).getTitle();
-
+        String tourTitle = tourRepository.findById(tourId)
+                .map(TourEntity::getTitle)
+                .orElse("투어 찾기 실패");
+        System.out.println(tourId);
+        System.out.println(tourTitle);
         // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
         if(flag == 1){
             sendTitle = "채팅 시작";
