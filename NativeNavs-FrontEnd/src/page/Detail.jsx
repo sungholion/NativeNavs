@@ -315,6 +315,11 @@ const Detail = () => {
       </div>
       {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
+        <div className={styles.buttonContainer}>
+          <button className={styles.Button}>
+            {user && user.isKorean ? "모든 리뷰 보기 >" : "View All Reviews >"}
+          </button>
+        </div>
         {firstReview ? (
           <Review_Item
             user={firstReview.reviewer}

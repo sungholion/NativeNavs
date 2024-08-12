@@ -89,7 +89,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
                   : `${reviewData.imageUrls.length} photos`}
               </h2>
               <button onClick={onClickButton} className={styles.headerButton}>
-                {user && user.isKorean ? "전체보기 >" : "View All >"}
+                {user && user.isKorean ? "전체 사진 보기 >" : "View All Photos >"}
               </button>
             </div>
 
