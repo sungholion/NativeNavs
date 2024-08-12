@@ -132,7 +132,9 @@ const ReservationDetail = () => {
             </div>
             {/* 채팅 아이디 수정 필요 ★★★★★★★★★★★★★★ */}
             <div
-              onClick={() => navigateToReservationDetailChattingRoom()}
+              onClick={() =>
+                navigateToReservationDetailChattingRoom(tour.roomId)
+              }
               className={styles.tourInfoTopTextBottom}
             >
               <img className={styles.messageBox} src={messageBox} alt="" />
@@ -170,9 +172,7 @@ const ReservationDetail = () => {
           {/* Bottom */}
           <div className={styles.tourInfoBottom}>
             <h3 className={styles.tourInfoBottomtitle}>
-              {user && user.isKorean
-                ? "예약 상세 내역"
-                : "Reservation Details"}
+              {user && user.isKorean ? "예약 상세 내역" : "Reservation Details"}
             </h3>
             <div className={styles.tourInfoBottominfoItem}>
               <p className={styles.tourInfoBottominfoItemTitle}>

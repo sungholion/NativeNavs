@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
   const [user, setUser] = useState(null);
   const params = useParams();
-
+  
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -45,7 +45,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
     const fetchReviewData = async () => {
       const url = getUrlParam();
       if (!url) return;
-
+      
       try {
         const response = await axios.get(url);
         if (keyword === "trav") {
