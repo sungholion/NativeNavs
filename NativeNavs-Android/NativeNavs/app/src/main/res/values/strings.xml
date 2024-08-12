@@ -194,7 +194,8 @@
     <string name="profile_empty_stamp">발급된 스탬프가 없어요</string>
     <string name="noti_empty">알림이 없습니다</string>
     <string name="stamp">스탬프</string>
-
+    <string name="search_check">선택</string>
+    <string name="search_cancel"><u>취소</u></string>
     <string name="stamp_detail_empty">스탬프가 없습니다</string>
     <string name="stamp_detail_empty_content">새로운 활동을 통해 스탬프를 모아보세요</string>
 </resources>

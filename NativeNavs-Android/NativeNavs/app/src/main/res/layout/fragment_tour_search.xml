@@ -239,6 +239,41 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/search_travel_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_travel_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -284,7 +319,7 @@
                 android:layout_height="0dp"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"
@@ -294,6 +329,41 @@
                     android:layout_marginTop="32dp"
                     app:mcv_selectionColor="@color/nn_blue"
                     app:mcv_showOtherDates="all" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/search_date_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_date_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -350,8 +420,43 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
                     android:layout_marginBottom="10dp"/>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/search_theme_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_theme_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

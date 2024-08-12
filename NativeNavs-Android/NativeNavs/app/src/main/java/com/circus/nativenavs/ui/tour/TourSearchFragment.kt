@@ -145,7 +145,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
                 val month = String.format("%02d", date.month)
                 val day = String.format("%02d", date.day)
                 homeActivityViewModel.updateSearchDate("$year-$month-$day")
-                dateClicked()
             }
         }
     }
@@ -170,7 +169,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
                     resetCheck()
                     binding.apply {
                         searchEditText.setText("")
-                        calendarView.isSelected = false
+                        calendarView.clearSelection()
                     }
 
                     updateSearchTravel("")
@@ -179,34 +178,46 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
                     categoryAdapter.notifyDataSetChanged()
                 }
             }
-
+            tourSearchTravelCheckBtn.setOnClickListener {
+                travelClicked()
+            }
+            tourSearchDateCheckBtn.setOnClickListener {
+                dateClicked()
+            }
+            tourSearchThemeCheckBtn.setOnClickListener {
+                themeClicked()
+            }
+            searchTravelCancelTv.setOnClickListener {
+                binding.searchEditText.setText("")
+            }
+            searchDateCancelTv.setOnClickListener {
+                binding.calendarView.clearSelection()
+            }
+            searchThemeCancelTv.setOnClickListener {
+                homeActivityViewModel.resetCheck()
+                homeActivityViewModel.updateCategory()
+                categoryAdapter.notifyDataSetChanged()
+            }
             buttonSeoul.setOnClickListener {
                 binding.searchEditText.setText("Seoul")
-                travelClicked()
             }
             buttonIncheon.setOnClickListener {
                 binding.searchEditText.setText("Incheon")
-                travelClicked()
             }
             buttonDaegu.setOnClickListener {
                 binding.searchEditText.setText("Daegu")
-                travelClicked()
             }
             buttonDaejeon.setOnClickListener {
                 binding.searchEditText.setText("Daejeon")
-                travelClicked()
             }
             buttonGwangju.setOnClickListener {
                 binding.searchEditText.setText("Gwangju")
-                travelClicked()
             }
             buttonBusan.setOnClickListener {
                 binding.searchEditText.setText("Busan")
-                travelClicked()
             }
             buttonJeju.setOnClickListener {
                 binding.searchEditText.setText("Jeju")
-                travelClicked()
             }
         }
     }

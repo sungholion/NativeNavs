@@ -189,4 +189,6 @@
     <string name="stamp_detail_empty_content">새로운 활동을 통해 스탬프를 모아보세요</string>
     <string name="profile_pw_help">프로필만 바꾸고 싶다면 현재 비밀번호를 입력해주세요 <br /> 알파벳, 소문자, 특수문자를 섞어서 8~20자리 입력해 주세요.</string>
     <string name="sign_photo">프로필 사진</string>
+    <string name="search_check">선택</string>
+    <string name="search_cancel"><u>취소</u></string>
 </resources>
