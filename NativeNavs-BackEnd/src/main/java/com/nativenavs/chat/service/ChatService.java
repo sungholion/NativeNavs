@@ -36,7 +36,7 @@ public class ChatService {
                     senderNickname,
                     senderProfileImage,
                     content,
-                    messageChecked,  // If connected, mark as read
+                    false,  // If connected, mark as read
                     sendTime
             ));
             eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
