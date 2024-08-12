@@ -12,10 +12,12 @@
 }
 
 .TourThumbnailCheck {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
+
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -30,26 +32,29 @@
 }
 
 .TourTitle {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
 
   > div {
-    margin: 10px;
-    font-size: 20px;
+    margin: 10px 30px;
+    font-size: 25px;
+    color : #595959;
   }
 }
 
 .TourDuration {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left : 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -66,34 +71,38 @@
     }
 
     .DateBox {
-      border: 1px solid #595959;
-      padding: 3%;
-      border-radius: 5%;
+      font-size: 20px;
+      color : #595959;
+
     }
   }
 }
 
 .TourMaxPeople {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left : 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
 
   > div {
-    margin-left: 3%;
+    width: 80vw;
+    align-self: center;
     font-size: 24px;
+    color : #595959;
   }
 }
 
 .TourPlanList {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   > p {
+    margin-left : 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -111,10 +120,11 @@
 }
 
 .TourTheme {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   > p {
+    margin-left:20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -123,6 +133,7 @@
 
 .TourThemeList {
   display: flex;
+  align-self: center;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -132,7 +143,8 @@
   .TourThemeItem {
     border: 1px solid #595959;
     font-size: 20px;
-    border-radius: 5%;
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
     padding: 2px;
     display: inline-block;
     width: 20vw;
@@ -184,37 +196,39 @@
 }
 
 .Tourdescription {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
   > div {
+    align-self: center;
+    width: 80vw;
     padding: 2%;
-    margin: 10px;
-    border-radius: 5%;
-    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    border: 2px solid #d9d9d9;
     font-size: 18px;
   }
 }
 
 .TourExpectPrice {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left:20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
   > div {
-    padding: 2%;
-    margin: 10px;
-    border-radius: 5%;
-    border: 1px solid #d9d9d9;
-    font-size: 18px;
+    width: 80vw;
+    align-self: center;
+    color : #595959;
+    font-size: 24px;
   }
 }

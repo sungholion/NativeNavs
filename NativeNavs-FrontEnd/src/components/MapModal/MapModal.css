@@ -52,7 +52,7 @@
     border: 1px solid #595959;
     height: 25px;
     width: 90%;
-    height: 5vh;
+    height: 30px;
     align-self: center;
     border-radius: 5px;
     margin-top: 0;
@@ -140,4 +140,11 @@
     position: absolute;
     right: 10vw;
   }
+}
+
+
+.pac-target-input,
+.gm-err-autocomplete {
+  border-radius: 10px;
+  border: 2px solid #d9d9d9;
 }

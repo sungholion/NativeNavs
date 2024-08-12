@@ -7,6 +7,7 @@ function WishList() {
   const [user, setUser] = useState(null);
   const [tours, setTours] = useState([]);
   const [wishList, setWishList] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -16,7 +17,6 @@ function WishList() {
       setUser(parsedUser);
     }
   }, []);
-
 
   // 투어 API
   useEffect(() => {
@@ -52,11 +52,38 @@ function WishList() {
           setWishList(response.data.map((item) => item.id));
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false); // 로딩 완료 후 로딩 상태 업데이트
         }
       }
     };
     fetchWishLists();
   }, [user]);
+
+  if (loading) {
+    return (
+      <>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+        <div>Loading...</div>
+      </>
+    );
+  }
 
   return (
     <div className={styles.container}>

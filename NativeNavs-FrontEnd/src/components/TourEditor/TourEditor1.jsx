@@ -172,7 +172,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
         />
       </div>
       <div className={styles.locationSection}>
-        <p>장소</p>
+        <p>{user?.isKorean ? "장소" : "Location"}</p>
         <input
           type="text"
           onChange={(e) => {

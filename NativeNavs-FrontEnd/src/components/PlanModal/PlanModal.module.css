@@ -60,7 +60,7 @@
   min-width: 90px;
   min-height: 90px;
   background-color: rgb(240, 240, 240);
-  border-radius: 5px;
+  border-radius: 10px;
   display: none;
 }
 
@@ -86,14 +86,19 @@
   height: auto;
   h3 {
     padding: 0%;
-    margin: 0;
+    margin: 0px;
+    margin-left: 5px;
     font-weight: 700;
   }
 
   input[type="text"] {
     width: 60vw;
-    height: 6vw;
-    font-size: 2vw;
+    height: 30px;
+    font-size: 3vw;
+    border: 2px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 0px 5px;
+    margin: 10px 0px;
   }
 }
 
@@ -138,7 +143,9 @@
   max-height: 30vh;
   height: 10vh;
   resize: vertical;
-  border: 2px solid #595959;
+  border: 2px solid #d9d9d9;
+  border-radius: 10px;
+  padding: 2px 5px;
 }
 
 .ButtonSection {
