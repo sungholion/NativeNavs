@@ -14,11 +14,11 @@ import {
 } from "@/utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
 import StarScore2 from "../components/Star/StarScore2";
+import Modal3 from "../components/Modal/Modal3";
 
 const Detail = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
-  // tour state 정의
   const [tour, setTour] = useState({
     price: 0,
     title: "",
@@ -42,6 +42,9 @@ const Detail = () => {
     reviews: [],
     totalImageCount: 0,
   });
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -155,6 +158,22 @@ const Detail = () => {
 
   // price 변수 fotmatting
   const formattedPrice = tour.price.toLocaleString();
+
+  const handlePlanClick = (plan) => {
+    setSelectedPlan(plan);
+    setShowModal(true);
+
+    // 모달이 열릴 때 body의 스크롤을 잠급니다.
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedPlan(null);
+
+    // 모달이 닫힐 때 body의 스크롤을 해제합니다.
+    document.body.style.overflow = "auto";
+  };
 
   return (
     <div className={styles.Detail}>
@@ -277,6 +296,7 @@ const Detail = () => {
               longitude={plan.longitude}
               addressFull={plan.addressFull}
               enableDeleteOption={false}
+              onClick={() => handlePlanClick(plan)}
             />
           ))}
         </div>
@@ -312,6 +332,11 @@ const Detail = () => {
           </p>
         )}
       </div>
+
+      {/* Plan 모달 */}
+      {selectedPlan && (
+        <Modal3 show={showModal} onClose={closeModal} plan={selectedPlan} />
+      )}
     </div>
   );
 };
