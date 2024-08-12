@@ -52,7 +52,11 @@ public class RoomService {
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
 
-            chatRepository.save(ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+            ChatEntity questionChat = ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+            chatRepository.save(questionChat);
+
+            System.out.println(questionChat.isMessageChecked());
 
             return newRoomDTO;
         }
