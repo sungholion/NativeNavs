@@ -129,7 +129,8 @@
 
     <!--notification-->
     <string name="noti_title">알림</string>
-    <string name="noti_empty">등록된 알림이 없어요</string>
+    <string name="noti_empty">알림이 없습니다</string>
+    <string name="noti_empty_content">새로운 알림이 오면 여기에 표시됩니다.</string>
 
     <!--reservation-->
     <string name="reservation_register_title">예약하기</string>
