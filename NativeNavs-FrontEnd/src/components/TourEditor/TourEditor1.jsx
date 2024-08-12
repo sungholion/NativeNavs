@@ -38,6 +38,10 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
     const { files } = e.target;
     if (files && files.length > 0) {
       const uploadFile = files[0];
+      if (uploadFile.size > 1024 * 1024 * 10) {
+        alert("10MB 이하의 이미지만 업로드 가능합니다.");
+        return;
+      }
       onTourDataChange("thumbnailImage", uploadFile);
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);

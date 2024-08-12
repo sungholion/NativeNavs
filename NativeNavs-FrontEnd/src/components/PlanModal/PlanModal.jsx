@@ -60,6 +60,10 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
       const { files } = e.target;
       if (files) {
         const uploadFile = files[0];
+        if (uploadFile.size > 1024 * 1024 * 10) {
+          alert("10MB 이하의 이미지만 업로드 가능합니다.");
+          return;
+        }
         setPlanData({ ...planData, [e.target.name]: uploadFile });
         getImageUrl(uploadFile, setPlanImg);
       } else {
