@@ -52,11 +52,19 @@ public class RoomService {
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
 
-            ChatEntity questionChat = ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            ChatEntity questionChat = chatRepository.save(
+                    ChatEntity.createChat(
+                            newRoomDTO.getRoomId(),
+                            travUserDTO.getId(),
+                            travUserDTO.getNickname(),
+                            travUserDTO.getImage(),
+                            "문의 신청합니다.",
+                            false,  // 여기서 명확하게 false로 지정
+                            LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    )
+            );
 
-            chatRepository.save(questionChat);
-
-            System.out.println(questionChat.isMessageChecked());
+            System.out.println("문의 채팅 messageChecked: " + questionChat.isMessageChecked());
 
             return newRoomDTO;
         }
