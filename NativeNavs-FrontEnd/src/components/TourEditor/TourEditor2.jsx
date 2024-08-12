@@ -197,6 +197,7 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
         </section>
         <section className={styles.ButtonSection}>
           <button
+            className={styles.leftButton}
             onClick={() => {
               onTourDataChange("plans", [...planList]);
               goBeforePage();
@@ -205,6 +206,7 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
             {user && user.isKorean ? "뒤로" : "Back"}
           </button>
           <button
+            className={styles.rightButton}
             onClick={() => {
               onTourDataChange("plans", [...planList]);
               goAfterPage();

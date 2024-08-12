@@ -16,6 +16,7 @@ import { PlacePicker } from "@googlemaps/extended-component-library/react";
 
 import { getStaticImage } from "@/utils/get-static-image";
 import { allowScroll, preventScroll } from "@/utils/scroll-prvent";
+
 const DEFAULT_CENTER = {
   // 서울역 좌표
   lat: 37.555167,
@@ -25,6 +26,12 @@ const DEFAULT_ZOOM = 12; // 검색 전 지도 확대 수준
 const DEFAULT_ZOOM_WITH_LOCATION = 16; // 검색 이루어 질 때 지도 확대 수준
 
 const MapModal = ({ onClose, onSubmit }) => {
+  // 유저 정보 가져오기
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   const pickerRef = useRef(null); // 자동 검색 결과 목록 중 선택된 것에 대한 값
   const [searchLocation, setSearchLocation] = useState(undefined); // 검색 결과 google PLACE 객체 저장
   const [selectedLocation, setSelectedLocation] = useState(undefined); // 위 검색 결과 PLACE의 좌표 및 리턴
@@ -87,7 +94,7 @@ const MapModal = ({ onClose, onSubmit }) => {
               forMap="gmap"
               country={["kr"]}
               language={"kr"}
-              placeholder="장소를 입력해 주세요"
+              placeholder={user && user.isKorean ? "장소 검색" : "Search"}
               style={{
                 width: "80vw",
                 height: "5vh",
@@ -109,7 +116,8 @@ const MapModal = ({ onClose, onSubmit }) => {
                     lat: pickerRef.current?.value.location.lat(),
                     lng: pickerRef.current?.value.location.lng(),
                     address:
-                      pickerRef.current?.value.displayName ||
+                      pickerRef.current?.value.displayName +
+                      " : " +
                       pickerRef.current?.value.formattedAddress,
                   });
                 }
@@ -125,13 +133,17 @@ const MapModal = ({ onClose, onSubmit }) => {
             </div>
           ) : (
             <div className="notSearch">
-              검색해 주세요
-              <p>장소 검색 결과가 여기에 뜹니다</p>
+              {user && user.isKorean ? "검색해 주세요" : "Please search"}
+              <p>
+                {user && user.isKorean
+                  ? "장소 검색 결과가 여기에 뜹니다"
+                  : "The search results for locations will appear here."}
+              </p>
             </div>
           )}
         </section>
         <section className="mapsearchButton">
-          <button className="left ">닫기</button>
+          <button className="left ">{user?.isKorean ? "닫기" : "Close"}</button>
           <button
             className={`right ${searchLocation ? "" : "disable"}`}
             onClick={() => {
@@ -144,7 +156,7 @@ const MapModal = ({ onClose, onSubmit }) => {
               onClose();
             }}
           >
-            등록
+            {user?.isKorean ? "등록" : "Register"}
           </button>
         </section>
       </div>

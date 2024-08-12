@@ -11,6 +11,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
   const {
     title,
     thumbnailImage,
+    location,
     startDate,
     endDate,
     price,
@@ -37,6 +38,10 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
     const { files } = e.target;
     if (files && files.length > 0) {
       const uploadFile = files[0];
+      if (uploadFile.size > 1024 * 1024 * 10) {
+        alert("10MB 이하의 이미지만 업로드 가능합니다.");
+        return;
+      }
       onTourDataChange("thumbnailImage", uploadFile);
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);
@@ -156,8 +161,23 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
           value={price.toString()}
           onChange={(e) => {
             const newValue = e.target.value;
-            if (!isNaN(newValue) && Number(newValue) >= 0) {
+            if (
+              !isNaN(newValue) &&
+              Number(newValue) >= 0 &&
+              newValue.length <= 1000000
+            ) {
               onTourDataChange("price", Number(newValue));
+            }
+          }}
+        />
+      </div>
+      <div className={styles.locationSection}>
+        <p>장소</p>
+        <input
+          type="text"
+          onChange={(e) => {
+            if (e.target.value.length <= 100) {
+              onTourDataChange("location", e.target.value);
             }
           }}
         />
@@ -199,13 +219,13 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
 
       <div className={styles.ButtonSection}>
         <button
+          className={styles.rightButton}
           onClick={() => {
             onTourDataChange("themes");
             goAfterPage();
           }}
         >
           {user && user.isKorean ? "다음" : "Next"}
-
         </button>
       </div>
     </section>
