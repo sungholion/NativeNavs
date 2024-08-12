@@ -26,25 +26,38 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
 
   // 업로드 가능 여부 확인 함수
   const checkUpload = () => {
+    // 썸네일 이미지가 있어야만 함
     if (typeof thumbnailImage === "string" && thumbnailImage === "") {
       return 0;
     }
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
       return 0;
+
+      // 당부사항 내용이 뭐라도 있어야 함
     }
     if (description.trim() === "") {
       return 0;
     }
+    // 시작일이 끝날짜보다 빠르면 안됨
     if (startDate > endDate) {
       return 0;
     }
-    if (maxParticipants === 0) {
+    // 시작 날짜가 오늘보다 뒤면 안됨
+    if (
+      startDate < getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9))
+    ) {
       return 0;
     }
-    if (plans.length === 0) {
+    // 최대 참가자 수는 0명 이면 안됨
+    if (maxParticipants <= 0) {
       return 0;
     }
-    if (categoryIds.length === 0) {
+    // 여행 PLANS 계획은 0개 이상이어야 함
+    if (plans.length <= 0) {
+      return 0;
+    }
+    // 카테고리 테마는 반드시 1개 이상 선택해야 함
+    if (categoryIds.length <= 0) {
       return 0;
     }
     return 1;
@@ -150,10 +163,10 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
           className={`rightButton ${uploadState === 0 ? "disabled" : ""}   ${
             uploadState === 2 ? "uploading" : ""
           }`}
-          onClick={() => {
+          onClick={async () => {
             if (uploadState === 1) {
               setUploadState(2);
-              onSubmit({
+              await onSubmit({
                 title,
                 thumbnailImage,
                 description: description.trim(),
@@ -175,7 +188,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
               : "Fill in the blanks"
             : uploadState === 1
             ? user && user.isKorean
-              ? "업로드"
+              ? "업로드하기"
               : "Upload"
             : user && user.isKorean
             ? "업로드 중"
