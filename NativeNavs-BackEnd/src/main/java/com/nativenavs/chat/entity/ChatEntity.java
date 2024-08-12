@@ -20,7 +20,7 @@ public class ChatEntity {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
-    private boolean messageChecked;
+    private Boolean messageChecked;
     private String sendTime;
 
     // 이게 필요한가? 없으면 초기화?가 안됬다고 하긴함
