@@ -27,9 +27,6 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
   // 업로드 가능 여부 확인 함수
   const checkUpload = () => {
     // 썸네일 이미지가 있어야만 함
-    if (typeof thumbnailImage === "string" && thumbnailImage === "") {
-      return 0;
-    }
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
       return 0;
 

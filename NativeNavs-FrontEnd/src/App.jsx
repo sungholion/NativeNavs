@@ -41,19 +41,6 @@ function App() {
     };
   }, []);
 
-  // 검색 정보 파싱 및 localStorage에 저장
-  useEffect(() => {
-    window.getSearchData = (searchJson) => {
-      console.log("Received searchJson:", searchJson);
-      try {
-        localStorage.setItem("search", searchJson); // 유저 정보를 localStorage에 저장
-        console.log("searchJson 저장 성공");
-      } catch (error) {
-        console.error("searchJson 저장 실패", error);
-      }
-    };
-  }, []);
-
   return (
     <>
       <Routes>
