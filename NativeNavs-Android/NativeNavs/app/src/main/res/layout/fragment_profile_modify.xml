@@ -323,7 +323,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_start_title_et"
-                    android:text="@string/sign_pw_help"
+                    android:text="@string/profile_pw_help"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_modify_password_et"
                     app:layout_constraintStart_toStartOf="@id/profile_modify_password_et"
                     app:layout_constraintTop_toBottomOf="@+id/profile_modify_password_et" />
 
