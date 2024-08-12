@@ -109,7 +109,7 @@ const MapModal = ({ onClose, onSubmit }) => {
                     lat: pickerRef.current?.value.location.lat(),
                     lng: pickerRef.current?.value.location.lng(),
                     address:
-                      pickerRef.current?.value.displayName ||
+                      pickerRef.current?.value.displayName +
                       pickerRef.current?.value.formattedAddress,
                   });
                 }
