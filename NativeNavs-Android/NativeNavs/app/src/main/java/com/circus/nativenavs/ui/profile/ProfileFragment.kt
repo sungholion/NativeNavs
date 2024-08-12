@@ -32,7 +32,7 @@ private const val TAG = "ProfileFragment"
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
     private var reviewList = mutableListOf<ProfileReviewDto>()
-    private lateinit var profileReviewAdapter : ProfileReviewListAdapter
+    private lateinit var profileReviewAdapter: ProfileReviewListAdapter
     private var dummy = arrayListOf<ProfileReviewDto>(
         ProfileReviewDto(
             4,
@@ -112,15 +112,22 @@ class ProfileFragment :
             }
 
             if (SharedPref.userId == it.id) {
-                binding.profileReviewTitle.apply {
-                    text = getString(R.string.profile_myreview)
-                }
                 binding.profileStampTitle.apply {
                     text = getString(R.string.profile_mystamp)
                 }
+
+                if (it.isNav) {
+                    binding.profileReviewTitle.apply {
+                        text = getString(R.string.profile_other_myreview)
+                    }
+                } else {
+                    binding.profileReviewTitle.apply {
+                        text = getString(R.string.profile_myreview)
+                    }
+                }
             } else {
                 binding.profileStampTitle.apply {
-                    text =  it.nickname + getString(R.string.profile_other_stamp)
+                    text = it.nickname + getString(R.string.profile_other_stamp)
                 }
 
                 if (it.isNav) {
@@ -203,23 +210,24 @@ class ProfileFragment :
                     profileUserReviewDto.value?.reviews?.let { review ->
                         reviewList.removeAll(reviewList)
                         review.map { it }.take(3).forEach { dto ->
-                            reviewList.add(ProfileReviewDto(
-                                dto.score.toInt(),
-                                formatDate(dto.createdAt.toString()),
-                                dto.description,
-                                dto.imageUrls[0],
-                                dto.reviewer.nickname,
-                                dto.reviewer.userLanguage,
-                                dto.reviewer.image
-                            ))
+                            reviewList.add(
+                                ProfileReviewDto(
+                                    dto.score.toInt(),
+                                    formatDate(dto.createdAt.toString()),
+                                    dto.description,
+                                    dto.imageUrls[0],
+                                    dto.reviewer.nickname,
+                                    dto.reviewer.userLanguage,
+                                    dto.reviewer.image
+                                )
+                            )
 
                         }
                         Log.d(TAG, "initObserve: ${profileUserReviewDto.value!!.reviews.size}")
-                        if(profileUserReviewDto.value!!.reviews.isEmpty()) {
+                        if (profileUserReviewDto.value!!.reviews.isEmpty()) {
                             binding.profileReviewRv.visibility = GONE
                             binding.profileEmptyReviews.visibility = VISIBLE
-                        }
-                        else {
+                        } else {
                             binding.profileReviewRv.visibility = VISIBLE
                             binding.profileEmptyReviews.visibility = GONE
                             profileReviewAdapter.submitList(reviewList)
@@ -229,14 +237,13 @@ class ProfileFragment :
 
                 }
             }
-            stamp.observe(viewLifecycleOwner){
+            stamp.observe(viewLifecycleOwner) {
 
-                if( it != null){
-                    if(it.isEmpty()){
+                if (it != null) {
+                    if (it.isEmpty()) {
                         binding.profileStampList.visibility = GONE
                         binding.profileEmptyStamp.visibility = VISIBLE
-                    }
-                    else{
+                    } else {
                         binding.profileStampList.visibility = VISIBLE
                         binding.profileEmptyStamp.visibility = GONE
                     }
@@ -268,12 +275,13 @@ class ProfileFragment :
             }
         }
     }
+
     fun formatDate(inputDate: String): String {
         // 기존 날짜 문자열 포맷 정의
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
         // 새로운 날짜 문자열 포맷 정의
         val outputFormatter =
-            if(SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
+            if (SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
             else DateTimeFormatter.ofPattern("MMMM yyyy");
 
         // 날짜 문자열을 LocalDateTime 객체로 파싱
