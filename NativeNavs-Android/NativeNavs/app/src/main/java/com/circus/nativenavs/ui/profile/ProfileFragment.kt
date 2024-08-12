@@ -120,7 +120,7 @@ class ProfileFragment :
                 }
             } else {
                 binding.profileStampTitle.apply {
-                    text = getString(R.string.profile_mystamp)
+                    text =  it.nickname + getString(R.string.profile_other_stamp)
                 }
 
                 if (it.isNav) {
@@ -159,7 +159,7 @@ class ProfileFragment :
         }
 
         builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
-            // 취소 버튼 클릭 시 수행할 동작
+            dialog.dismiss()
         }
         builder.show()
     }
