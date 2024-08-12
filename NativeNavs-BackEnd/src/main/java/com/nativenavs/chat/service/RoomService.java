@@ -58,7 +58,7 @@ public class RoomService {
             ChatDTO questionChatDTO = ChatDTO.toChatDTO(questionChat);
 
             eventPublisher.publishEvent(new ChatCreatedEvent(newRoom.getRoomId(), questionChatDTO.getContent(), questionChatDTO.getSendTime()));
-            System.out.println("createRoom : 문의 신청합니다!!!!!!!!!!!!!" + questionChatDTO.isMessageChecked());
+            System.out.println("createRoom : 문의 신청합니다!!!!!!!!!!!!!" + questionChatDTO.getMessageChecked());
 
             return newRoomDTO;
         }
