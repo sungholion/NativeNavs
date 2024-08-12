@@ -28,4 +28,5 @@ public interface UserService {
     public int changeEmailToId(String email);
 
     public void updateFcmToken(int userId, String fcmToken);
+
 }

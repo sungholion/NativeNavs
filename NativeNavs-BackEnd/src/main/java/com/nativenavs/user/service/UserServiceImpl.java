@@ -1,6 +1,7 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.stamp.service.StampService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
@@ -23,7 +24,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    private final StampService userStampService;
     @Autowired
     private UserRepository userRepository;
 
@@ -61,6 +62,8 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
         authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
+
+        userStampService.addStamp(1, userEntity.getId());
     }
 
     // -----------------------------------------------------------------------------------------------------------------
