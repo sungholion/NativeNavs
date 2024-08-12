@@ -81,7 +81,7 @@ public class FcmServiceImpl implements FcmService {
         String sendRoomId;
 
         String tourTitle = tourService.findTourById(tourId).getTitle();
-        String newRoomId = String.valueOf(roomRepository.findByTourId(tourId).getRoomId());
+
         // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
         if(flag == 1){
             sendTitle = "채팅 시작";
@@ -95,7 +95,7 @@ public class FcmServiceImpl implements FcmService {
             sendMessage = tourTitle + " 예약 신청이 완료되었습니다";
             sendReservationId = String.valueOf(reservationId);
             sendTourId = String.valueOf(tourId);
-            sendRoomId = newRoomId;
+            sendRoomId = String.valueOf(-1);
         }
         else if(flag == 3){
             sendTitle = "투어 종료";
