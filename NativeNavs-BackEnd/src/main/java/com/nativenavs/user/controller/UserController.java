@@ -163,6 +163,7 @@ public class UserController {
             }
 
             userService.signUp(user,profileImage);
+
             return ResponseEntity.accepted().body("회원 가입에 성공했습니다");
         } catch (Exception e) {
             e.printStackTrace();
