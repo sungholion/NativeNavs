@@ -3,6 +3,7 @@ import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
 import axios from "axios";
+import HeartOut from "../Heart/HeartOut"
 
 const Tour_Item = ({
   tourId = -1,
@@ -105,8 +106,18 @@ const Tour_Item = ({
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
         {!user.isNav && (
-          <div className={styles.heart_container}>
-            <Heart isWishListed={isWishListed} onClickEvent={toggleWishlist} />
+          <div>
+            <div className={styles.heart_container}>
+              <Heart
+                isWishListed={isWishListed}
+                onClickEvent={toggleWishlist}
+              />
+            </div>
+            <div className={styles.heart_container}>
+              <HeartOut
+                isWishListed={isWishListed}
+              />
+            </div>
           </div>
         )}
       </div>
