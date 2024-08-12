@@ -199,13 +199,13 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
 
       <div className={styles.ButtonSection}>
         <button
+          className={styles.rightButton}
           onClick={() => {
             onTourDataChange("themes");
             goAfterPage();
           }}
         >
           {user && user.isKorean ? "다음" : "Next"}
-
         </button>
       </div>
     </section>

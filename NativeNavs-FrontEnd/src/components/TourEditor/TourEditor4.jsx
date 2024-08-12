@@ -23,6 +23,40 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
   useEffect(() => {
     getImageUrl(thumbnailImage, setThumbnailImagUrl);
   }, [thumbnailImage]); //썸네일 이미지 보려주기, STRING이냐 FILE이냐에 따라서
+
+  // 업로드 가능 여부 확인 함수
+  const checkUpload = () => {
+    if (typeof thumbnailImage === "string" && thumbnailImage === "") {
+      return 0;
+    }
+    if (typeof thumbnailImage === "object" && !thumbnailImage) {
+      return 0;
+    }
+    if (description.trim() === "") {
+      return 0;
+    }
+    if (startDate > endDate) {
+      return 0;
+    }
+    if (maxParticipants === 0) {
+      return 0;
+    }
+    if (plans.length === 0) {
+      return 0;
+    }
+    if (categoryIds.length === 0) {
+      return 0;
+    }
+    return 1;
+  };
+
+  // 업로드 상태여부 확인
+  // 0 -> 업로드 불가능(빈 값 존재), 1 -> 업로드 가능, 2 -> 업로드 버튼 누름
+  const [uploadState, setUploadState] = useState(0);
+  useEffect(() => {
+    setUploadState(checkUpload());
+  }, []);
+
   return (
     <div className="TourConfirm">
       <section className="TourThumbnailCheck">
@@ -108,26 +142,44 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
         <div>{description}</div>
       </section>
       <section className="ButtonSection">
-        <button onClick={goBeforePage}>
+        <button className="leftButton" onClick={goBeforePage}>
           {user && user.isKorean ? "이전" : "Previous"}
         </button>
         <button
+          disabled={uploadState === 0 || uploadState === 2}
+          className={`rightButton ${uploadState === 0 ? "disabled" : ""}   ${
+            uploadState === 2 ? "uploading" : ""
+          }`}
           onClick={() => {
-            onSubmit({
-              title,
-              thumbnailImage,
-              description,
-              location,
-              price,
-              startDate,
-              endDate,
-              maxParticipants,
-              plans,
-              categoryIds,
-            });
+            if (uploadState === 1) {
+              setUploadState(2);
+              onSubmit({
+                title,
+                thumbnailImage,
+                description: description.trim(),
+                location,
+                price,
+                startDate,
+                endDate,
+                maxParticipants,
+                plans,
+                categoryIds,
+              });
+              setUploadState(1);
+            }
           }}
         >
-          {user && user.isKorean ? "추가" : "Add"}
+          {uploadState === 0
+            ? user && user.isKorean
+              ? "빈 값을 채워주세요"
+              : "Fill in the blanks"
+            : uploadState === 1
+            ? user && user.isKorean
+              ? "업로드"
+              : "Upload"
+            : user && user.isKorean
+            ? "업로드 중"
+            : "Uploading"}
         </button>
       </section>
     </div>

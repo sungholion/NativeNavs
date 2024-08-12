@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   z-index: 1;
+  padding-bottom: 12vh;
 }
 
 .Header {
@@ -41,20 +42,22 @@
 }
 
 .ButtonSection {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: fixed;
-  bottom: 2vh;
+  background-color: white;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0;
+  background-color: white;
+  border-top: 1px solid #d9d9d9;
 
   button {
     width: 20vw;
-    height: 5vh;
+    height: 6vh;
     color: white;
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
-    margin: 0px 20vw;
+    bottom: 2vh;
   }
 
   button:active {
@@ -63,5 +66,15 @@
   }
   button:focus {
     outline: none;
+  }
+
+  .leftButton {
+    position: absolute;
+    left: 10vw;
+  }
+
+  .rightButton {
+    position: absolute;
+    right: 10vw;
   }
 }
