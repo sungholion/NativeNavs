@@ -2,8 +2,10 @@ package com.nativenavs.chat.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.chat.dto.RoomDTO;
+import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
+import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.service.TourService;
@@ -25,7 +27,7 @@ public class RoomService {
 
     private final UserService userService;
     private final RoomRepository roomRepository;
-    private final ChatService chatService;
+    private final ChatRepository chatRepository;
     private final TourService tourService;
 
     // Method ----------------------------------------------------------------------------------------------------------
@@ -49,7 +51,8 @@ public class RoomService {
             roomRepository.save(newRoom);
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
-            chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+            chatRepository.save(ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
 
             return newRoomDTO;
         }
