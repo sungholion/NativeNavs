@@ -27,7 +27,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     private val emailPattern: Pattern = Patterns.EMAIL_ADDRESS
     private var emailBtnType : Boolean = false
-
+    private var emailBtnIsClicked : Boolean =false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -36,7 +36,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         signUpViewModel.emailStatus.observe(this) { statusCode ->
 
             binding.signupCodeSendBtn.isEnabled = true
-
+            emailBtnIsClicked = false
             if (statusCode == 202) {
                 binding.signupCodeSendBtn.text = "재입력"
                 binding.signupEmailEt.isEnabled = false
@@ -47,7 +47,6 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
             }
             else if (statusCode == 200) {
-                Log.d("여기", "onViewCreated: ㅁㅁㅁㅡ")
                 binding.signupCodeSendBtn.text = "재입력"
                 binding.signupEmailEt.isEnabled = false
                 binding.signupCodeEt.isEnabled = true
@@ -112,13 +111,19 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         }
         /** 이메일 전송 **/
         binding.signupCodeSendBtn.setOnClickListener {
+
+            if(emailBtnIsClicked) {
+                showToast("잠시만 기다려 주세요")
+                return@setOnClickListener
+            }
+
             email = binding.signupEmailEt.text.toString()
             if(!emailBtnType){
                 if(!emailPattern.matcher(email).matches()){
                     binding.signupEmailHint.visibility = VISIBLE
                 }
                 else{
-                    binding.signupCodeSendBtn.isEnabled = false
+                    emailBtnIsClicked = true
                     signUpViewModel.getEmailCode(email)
                 }
             }
