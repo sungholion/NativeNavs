@@ -35,9 +35,6 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
 
       // 당부사항 내용이 뭐라도 있어야 함
     }
-    if (description.trim() === "") {
-      return 0;
-    }
     // 시작일이 끝날짜보다 빠르면 안됨
     if (startDate > endDate) {
       return 0;
@@ -99,13 +96,35 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
       </section>
       <section className="TourDuration">
         <p>{user && user.isKorean ? "기간" : "Duration"}</p>
-        <div className="TourDateShow">
-          <span className="DateBox">
-            {getStringedDate(new Date(startDate))}
-          </span>
-          <span>~</span>
-          <span className="DateBox">{getStringedDate(new Date(endDate))}</span>
-        </div>
+        {(!startDate || !endDate) && <div></div>}
+        {startDate >= endDate &&
+          startDate >=
+            getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9)) && (
+            <div className="TourDateShow">
+              <span className="DateBox">
+                {getStringedDate(new Date(startDate))}
+              </span>
+              <span>~</span>
+              <span className="DateBox">
+                {getStringedDate(new Date(endDate))}
+              </span>
+            </div>
+          )}
+        {startDate < endDate && (
+          <div style={{ color: "red", fontSize: "20px" }}>
+            {user && user.isKorean
+              ? "시작일이 끝 날짜보다 클 수 없습니다"
+              : "The start date cannot be later than the end date."}
+          </div>
+        )}
+        {startDate <
+          getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9)) && (
+          <div style={{ color: "red", fontSize: "20px" }}>
+            {user && user.isKorean
+              ? "시작일은 항상 오늘포함 그 이후여야 합니다"
+              : "The start date must always be today or later."}
+          </div>
+        )}
       </section>
       <hr />
       <section className="TourMaxPeople">
@@ -128,25 +147,41 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
       </section>
       <section className="TourTheme">
         <p>{user && user.isKorean ? "테마" : "Theme"}</p>
-        <div className="TourThemeList">
-          {categoryIds.map((cartegoryid) => {
-            return (
-              <div key={cartegoryid} className="TourThemeItem">
-                {categoryItemKr[cartegoryid - 1]["name"]}
-              </div>
-            );
-          })}
-        </div>
+        {categoryIds.length > 0 ? (
+          <div className="TourThemeList">
+            {categoryIds.map((cartegoryid) => {
+              return (
+                <div key={cartegoryid} className="TourThemeItem">
+                  {categoryItemKr[cartegoryid - 1]["name"]}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{ color: "red", fontSize: "20px" }}>
+            {user && user.isKorean
+              ? "카테고리는 최소 1개 이상 선택해 주세요"
+              : "Please select at least one category"}
+          </div>
+        )}
       </section>
       <section className="TourPlanList">
         <p>{user && user.isKorean ? "일정" : "Plans"}</p>
-        <div className="TourPlanItem">
-          {plans.map((item) => {
-            return (
-              <Plan_Item key={item.id} {...item} enableDeleteOption={false} />
-            );
-          })}
-        </div>
+        {plans.length > 0 ? (
+          <div className="TourPlanItem">
+            {plans.map((item) => {
+              return (
+                <Plan_Item key={item.id} {...item} enableDeleteOption={false} />
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{ color: "red", fontSize: "20px" }}>
+            {user && user.isKorean
+              ? "일정은 최소 1개 이상 등록해 주세요"
+              : "Please register at least one plan"}
+          </div>
+        )}
       </section>
       <hr />
       <section className="TourMapList"></section>
