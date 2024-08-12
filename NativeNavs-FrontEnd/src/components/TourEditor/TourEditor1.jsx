@@ -160,7 +160,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
             if (
               !isNaN(newValue) &&
               Number(newValue) >= 0 &&
-              newValue.length < 100000000
+              newValue.length <= 1000000
             ) {
               onTourDataChange("price", Number(newValue));
             }
