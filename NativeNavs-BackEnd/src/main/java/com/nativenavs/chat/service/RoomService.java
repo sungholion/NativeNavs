@@ -85,14 +85,6 @@ public class RoomService {
         return RoomDTO.toRoomDTO(roomEntity);
     }
 
-    public void updateRecentMessageInfo(int roomId, String content, String sendTime){   // 최신 채팅 목록에서 확인하기 위함
-        RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID: " + roomId)); // 방 찾기 -> 없는 방일 경우 예외처리
-
-        room.setRecentMessageContent(content);
-        room.setRecentMessageTime(sendTime);
-        roomRepository.save(room);
-    }
 
     @EventListener
     public void handleChatCreatedEvent(ChatCreatedEvent event) {
