@@ -176,4 +176,7 @@
     <string name="reservation_done">stamp has been issued!</string>
     <string name="reservation_fail">Please try authentication again</string>
     <string name="chat_list_no_message_content">When you receive a new message, it will appear here</string>
+    <string name="profile_empty_review">There are no registered reviews</string>
+    <string name="profile_empty_stamp">There is no stamp issued</string>
+    <string name="noti_empty">There are no registered notifications</string>
 </resources>

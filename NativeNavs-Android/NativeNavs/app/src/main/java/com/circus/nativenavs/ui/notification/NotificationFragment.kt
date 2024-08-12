@@ -3,6 +3,8 @@ package com.circus.nativenavs.ui.notification
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentNotificationBinding
@@ -38,6 +40,8 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
 
     private fun initView(){
         binding.notiTitleLayout.titleText = getString(R.string.noti_title)
+        binding.notiRv.visibility = GONE
+        binding.notiEmptyTv.visibility = VISIBLE
     }
 
     private fun initEvent() {
@@ -48,7 +52,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>(
 
     private fun initAdapter() {
         binding.notiRv.adapter = notiListAdapter
-        notiListAdapter.submitList(COUNTRIES)
+        notiListAdapter.submitList(emptyList())
     }
 
 }

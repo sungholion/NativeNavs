@@ -189,7 +189,8 @@
                     android:layout_height="180dp"
                     android:gravity="center"
                     android:visibility="gone"
-                    android:text="등록된 리뷰가 없어요. "/>
+                    android:letterSpacing="0.03"
+                    android:text="@string/profile_empty_review"/>
             </LinearLayout>
 
             <LinearLayout
@@ -228,7 +229,8 @@
                     android:layout_height="180dp"
                     android:visibility="gone"
                     android:gravity="center"
-                    android:text="발급된 스탬프가 없어요."/>
+                    android:letterSpacing="0.03"
+                    android:text="@string/profile_empty_stamp"/>
                 <LinearLayout
                     android:id="@+id/profile_stamp_list"
                     android:layout_marginTop="10dp"
