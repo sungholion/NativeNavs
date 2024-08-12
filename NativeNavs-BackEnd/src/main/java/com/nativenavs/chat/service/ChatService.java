@@ -38,6 +38,7 @@ public class ChatService {
 
             if(content.equals("문의 신청합니다")){
                 resultIsRead = false;
+                System.out.println("여기는 문의 신청드립니다야!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + resultIsRead);
             }
 
             ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
