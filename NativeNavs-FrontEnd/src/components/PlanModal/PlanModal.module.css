@@ -130,22 +130,33 @@
   justify-content: center;
   margin: 0px auto;
   padding: 0px;
-}
 
-.ModalContent > h3 {
-  margin: 10px 0px;
-  font-size: 20px;
-  font-weight: bold;
-}
+  .ModalContentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  h3 {
+    margin: 10px 0px;
+    font-size: 20px;
+    font-weight: bold;
+  }
 
-.ModalContent > textarea {
-  width: 80vw;
-  max-height: 30vh;
-  height: 10vh;
-  resize: vertical;
-  border: 2px solid #d9d9d9;
-  border-radius: 10px;
-  padding: 2px 5px;
+  p {
+    margin-left: 10px;
+    color: #595959;
+  }
+
+  > textarea {
+    width: 80vw;
+    max-height: 30vh;
+    height: 10vh;
+    resize: vertical;
+    border: 2px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 2px 5px;
+  }
 }
 
 .ButtonSection {
