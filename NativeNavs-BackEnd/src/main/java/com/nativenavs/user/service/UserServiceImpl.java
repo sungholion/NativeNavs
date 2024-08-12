@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
         authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
 
-        userStampService.addStamp(1, userEntity.getId());
+//        userStampService.addStamp(1, userEntity.getId());
     }
 
     // -----------------------------------------------------------------------------------------------------------------
