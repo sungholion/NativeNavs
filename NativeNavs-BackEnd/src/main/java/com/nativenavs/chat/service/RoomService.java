@@ -1,17 +1,18 @@
 package com.nativenavs.chat.service;
 
 import com.nativenavs.auth.jwt.JwtTokenProvider;
+import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.entity.RoomEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
-import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,9 @@ public class RoomService {
 
     private final UserService userService;
     private final RoomRepository roomRepository;
-    private final ChatRepository chatRepository;
+    private final ChatService chatService;
     private final TourService tourService;
+    private final ApplicationEventPublisher eventPublisher;
 
     // Method ----------------------------------------------------------------------------------------------------------
 
@@ -52,7 +54,10 @@ public class RoomService {
 
             RoomDTO newRoomDTO = RoomDTO.toRoomDTO(newRoom);
 
-            chatRepository.save(ChatEntity.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+            ChatEntity questionChat = chatService.createChat(newRoomDTO.getRoomId(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getImage(), "문의 신청합니다.", false, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            ChatDTO questionChatDTO = ChatDTO.toChatDTO(questionChat);
+
+            eventPublisher.publishEvent(new ChatCreatedEvent(newRoom.getRoomId(), questionChatDTO.getContent(), questionChatDTO.getSendTime()));
 
             return newRoomDTO;
         }
