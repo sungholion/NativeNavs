@@ -185,4 +185,5 @@
     <string name="stamp_detail_empty">There is no stamp issued</string>
     <string name="stamp_detail_empty_content">Collect stamps through new activities</string>
     <string name="profile_pw_help">If you only want to change your profile, please enter your current password. \\n Please enter 8 to 20 characters using a mixture of alphabets, lowercase letters, and special characters.</string>
+    <string name="sign_photo">Profile Photo</string>
 </resources>
