@@ -11,6 +11,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
   const {
     title,
     thumbnailImage,
+    location,
     startDate,
     endDate,
     price,
@@ -158,6 +159,17 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
             const newValue = e.target.value;
             if (!isNaN(newValue) && Number(newValue) >= 0) {
               onTourDataChange("price", Number(newValue));
+            }
+          }}
+        />
+      </div>
+      <div className={styles.locationSection}>
+        <p>장소</p>
+        <input
+          type="text"
+          onChange={(e) => {
+            if (e.target.value.length <= 100) {
+              onTourDataChange("location", e.target.value);
             }
           }}
         />
