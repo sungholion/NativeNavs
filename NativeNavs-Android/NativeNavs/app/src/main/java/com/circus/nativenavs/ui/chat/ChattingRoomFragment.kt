@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity

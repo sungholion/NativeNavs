@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
+import com.circus.nativenavs.data.ChatStatusDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.service.ChatService
 import com.circus.nativenavs.util.SharedPref
@@ -172,7 +173,7 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private suspend fun observeMessages() {
         try {
-            val subscription = stompSession.subscribe(
+            val subscriptionMessage = stompSession.subscribe(
                 StompSubscribeHeaders(
                     destination = "/room/${chatRoomId.value}",
 //                    customHeaders = mapOf(
@@ -180,13 +181,35 @@ class KrossbowChattingViewModel : ViewModel() {
 //                    )
                 )
             )
+
+            val subscriptionConnection = stompSession.subscribe(
+                StompSubscribeHeaders(
+                    destination = "/room/${chatRoomId.value}/status",
+//                    customHeaders = mapOf(
+//                        "Authorization" to "${SharedPref.accessToken}"
+//                    )
+                )
+            )
             isConnected = true
 
-            subscription.collect { frame ->
+            subscriptionMessage.collect { frame ->
                 Log.d(TAG, "frame observeMessages: $frame")
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
                 newMessage?.let {
                     handleOnMessageReceived(newMessage)
+                }
+            }
+
+            subscriptionConnection.collect { frame ->
+                Log.d(TAG, "frame observe Connection: $frame")
+                val rawJson =  frame.bodyAsText
+
+                val chatStatus = moshi.adapter(ChatStatusDto::class.java).fromJson(frame.bodyAsText)
+                chatStatus?.let {
+                    if (chatStatus.status == "CONNECTED") {
+                        markMessagesAsRead()
+                    }
+
                 }
             }
         } catch (e: Exception) {
@@ -194,6 +217,23 @@ class KrossbowChattingViewModel : ViewModel() {
             Log.e(TAG, "Message observation failed: ", e)
         }
     }
+
+    private fun markMessagesAsRead() {
+        viewModelScope.launch {
+            try {
+//                chatRetrofit.markMessagesAsRead(chatRoomId.value!!)
+                // 서버에 읽음 처리 요청 후 UI 업데이트
+                Log.d(TAG, "markMessagesAsRead: ")
+                _chatMessages.value = _chatMessages.value?.map {
+                    it.copy(messageChecked = true)
+                }
+                _uiState.postValue(_chatMessages.value?.let { _uiState.value?.copy(messages = it) })
+            } catch (e: Exception) {
+                Log.e(TAG, "Mark messages as read failed: ", e)
+            }
+        }
+    }
+
 
     private fun handleOnMessageReceived(message: MessageDto) {
         Log.d(TAG, "handleOnMessageReceived: $message")
