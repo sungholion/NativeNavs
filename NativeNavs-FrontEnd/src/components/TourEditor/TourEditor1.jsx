@@ -157,7 +157,11 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
           value={price.toString()}
           onChange={(e) => {
             const newValue = e.target.value;
-            if (!isNaN(newValue) && Number(newValue) >= 0) {
+            if (
+              !isNaN(newValue) &&
+              Number(newValue) >= 0 &&
+              newValue.length < 100000000
+            ) {
               onTourDataChange("price", Number(newValue));
             }
           }}

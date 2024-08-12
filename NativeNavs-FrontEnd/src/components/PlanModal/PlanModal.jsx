@@ -15,6 +15,12 @@ const center = {
 };
 
 const PlanModal = ({ onClose, onSubmit, initData }) => {
+  // 유저정보 가져오기
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   // 계획 등록 데이터
   const [planData, setPlanData] = useState({
     field: "",
@@ -96,10 +102,14 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
             />
           </div>
           <div className={styles.ModalHeaderTitle}>
-            <h3>제목</h3>
+            <h3>{user?.isKorean ? "제목" : "Title"}</h3>
             <input
               type="text"
-              placeholder="일정 제목 입력해 주세요"
+              placeholder={
+                user?.isKorean
+                  ? "일정 제목 입력해 주세요"
+                  : "Enter the title of the plan"
+              }
               maxLength="20"
               name="field"
               value={planData.field}
@@ -109,7 +119,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
         </section>
         <section className={styles.ModalMap}>
           <div className={styles.ModalMapSearch}>
-            <h3>위치 검색</h3>
+            <h3>{user?.isKorean ? "위치 검색" : "Location Search"}</h3>
             <img
               src={getStaticImage("search")}
               alt=""
@@ -138,7 +148,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           </div>
         </section>
         <section className={styles.ModalContent}>
-          <h3>내용</h3>
+          <h3>{user?.isKorean ? "계획 내용" : "Plan Description"}</h3>
           <textarea
             maxLength={200}
             value={planData.description}
@@ -147,7 +157,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           />
         </section>
         <section className={styles.ButtonSection}>
-          <button onClick={onClose}>뒤로</button>
+          <button onClick={onClose}>{user?.isKorean ? "뒤로" : "Back"}</button>
           <button
             disabled={
               planData.field === "" ||
