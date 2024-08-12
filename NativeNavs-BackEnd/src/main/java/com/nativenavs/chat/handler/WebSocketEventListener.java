@@ -29,6 +29,13 @@ public class WebSocketEventListener {
         // Log the event
         System.out.println("User connected: sessionId=" + sessionId + ", roomId=" + roomId);
 
+        // 구독이 활성화되었는지 확인하기 위해 지연 추가
+        try {
+            Thread.sleep(100);  // 100ms 지연
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         connectionService.handleUserConnect(roomId, sessionId);
         sendUserCountUpdate(roomId);
     }
