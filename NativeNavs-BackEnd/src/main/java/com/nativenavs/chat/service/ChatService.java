@@ -72,7 +72,7 @@ public class ChatService {
                             .senderNickname(chatEntity.getSenderNickname())
                             .senderProfileImage(chatEntity.getSenderProfileImage())
                             .content(chatEntity.getContent())
-                            .messageChecked(chatEntity.isMessageChecked())
+                            .messageChecked(chatEntity.getMessageChecked())
                             .sendTime(chatEntity.getSendTime())
                             .build();
                 })
