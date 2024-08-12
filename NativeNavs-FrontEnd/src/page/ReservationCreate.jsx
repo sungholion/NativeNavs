@@ -115,6 +115,7 @@ const ReservationCreate = () => {
           image={tourInfo.thumbnailImage}
           title={tourInfo.title}
           score={tourInfo.reviewAverage}
+          language={user?.isKorean ? "ko" : "en"}
         />
       </section>
       <section className="TravInforSection">
