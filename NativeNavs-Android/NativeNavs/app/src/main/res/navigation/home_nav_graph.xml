@@ -77,7 +77,9 @@
             app:destination="@id/reservationDetailFragment" />
         <action
             android:id="@+id/action_reservationListFragment_to_tourListFragment"
-            app:destination="@id/tourListFragment" />
+            app:destination="@id/tourListFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/tourListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/tourRegisterFragment"
@@ -312,7 +314,9 @@
             app:destination="@id/tourDetailFragment" />
         <action
             android:id="@+id/action_tourWishListFragment_to_tourListFragment"
-            app:destination="@id/tourListFragment" />
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/myTripReservationListFragment"
@@ -363,7 +367,9 @@
         tools:layout="@layout/fragment_tour_search">
         <action
             android:id="@+id/action_tourSearchFragment_to_tourListFragment"
-            app:destination="@id/tourListFragment" />
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/tourModifyFragment"
