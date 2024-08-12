@@ -26,7 +26,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
 
   // 업로드 가능 여부 확인 함수
   const checkUpload = () => {
-    // 썸네일 이미지가 있어야만 함 - 단 이미 있으면 
+    // 썸네일 이미지가 있어야만 함 - 단 이미 있으면
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
       return 0;
       // 당부사항 내용이 뭐라도 있어야 함
@@ -93,7 +93,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
       <section className="TourDuration">
         <p>{user && user.isKorean ? "기간" : "Duration"}</p>
         {(!startDate || !endDate) && <div></div>}
-        {startDate >= endDate &&
+        {startDate <= endDate &&
           startDate >=
             getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9)) && (
             <div className="TourDateShow">
@@ -106,7 +106,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
               </span>
             </div>
           )}
-        {startDate < endDate && (
+        {startDate > endDate && (
           <div style={{ color: "red", fontSize: "20px" }}>
             {user && user.isKorean
               ? "시작일이 끝 날짜보다 클 수 없습니다"
@@ -192,7 +192,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
         <button
           disabled={uploadState === 0 || uploadState === 2}
           className={`rightButton ${uploadState === 0 ? "disabled" : ""}   ${
-            uploadState === 2 ? "uploading" : ""
+            uploadState === 2 ? "loading" : ""
           }`}
           onClick={async () => {
             if (uploadState === 1) {
