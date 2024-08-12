@@ -7,16 +7,19 @@
 
 .StarScore {
     width: 180px;
+    padding: 0 10px;
 }
 
 .headerHeader {
     display: flex;
     justify-content: space-between;
-    padding: 0px 5px;
+    padding: 0px 10px;
 }
 
 .headerPhotoCounter {
     margin-bottom: 0px;
+    font-size: 20px;    
+    font-weight: bold;
 }
 
 .headerButton {
@@ -27,7 +30,7 @@
 
 .headerPhotoPreview {
     display: flex;
-    padding: 10px 0px;
+    padding: 10px;
 }
 
 .headerPhotoPreview > img {
@@ -38,9 +41,10 @@
 }
 
 .bodyHeader {
-    padding: 0px 5px;
+    padding: 0px 10px;
     margin-bottom: 0px;
-    
+    font-weight: bold;
+    font-size: 20px;    
 }
 
 .bodyReviewList {

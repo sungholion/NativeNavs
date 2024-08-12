@@ -14,7 +14,7 @@ const Review_Item = ({
     <div className={styles.Review_Item}>
       <section className={styles.Review_Item_header}>
         <div className={styles.Review_Item_travel}>
-          <img src={user.image} alt="user_profile" />
+          <img className={styles.userImage} src={user.image} alt="user_profile" />
           <div className={styles.Review_Item_travel_text}>
             <p className={styles.Review_Item_travel_nickname}>
               {user.nickname}
@@ -26,7 +26,7 @@ const Review_Item = ({
         </div>
       </section>
       <section className={styles.Review_Item_content}>
-        {needToShowTourTitle ? <div>[ {tourTitle} ]</div> : null}
+        {needToShowTourTitle ? <div><p className={styles.tourTitle}>{tourTitle}</p></div> : null}
         <div className={styles.Review_Item_tour_description}>{description}</div>
         <div className={styles.Review_Item_image}></div>
       </section>
