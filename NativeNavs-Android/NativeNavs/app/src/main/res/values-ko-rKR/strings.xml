@@ -185,4 +185,6 @@
     <string name="noti_empty_content">새로운 알림이 오면 여기에 표시됩니다.</string>
     <string name="profile_other_myreview">나의 리뷰</string>
     <string name="stamp">스탬프</string>
+    <string name="stamp_detail_empty">스탬프가 없습니다</string>
+    <string name="stamp_detail_empty_content">새로운 활동을 통해 스탬프를 모아보세요</string>
 </resources>

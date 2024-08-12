@@ -22,5 +22,57 @@
             app:spanCount="3"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/stamp_title_layout" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stamp_empty_cl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stamp_title_layout">
+
+            <ImageView
+                android:id="@+id/stamp_empty_iv"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginBottom="18dp"
+                android:src="@drawable/icon_stamp"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/stamp_empty_tv"/>
+            <TextView
+                android:id="@+id/stamp_empty_tv"
+                style="@style/medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/stamp_detail_empty"
+                android:textSize="16sp"
+                android:letterSpacing="0.03"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stamp_empty_iv"
+                app:layout_constraintBottom_toTopOf="@+id/stamp_empty_content_tv"/>
+
+            <TextView
+                android:id="@+id/stamp_empty_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_8A8A"
+                style="@style/regular"
+                android:letterSpacing="0.03"
+                android:text="@string/stamp_detail_empty_content"
+                android:textSize="14sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stamp_empty_tv"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

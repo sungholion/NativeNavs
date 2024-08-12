@@ -4,6 +4,8 @@ import StampListAdapter
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -35,10 +37,19 @@ class StampFragment : BaseFragment<FragmentStampBinding>(FragmentStampBinding::b
     }
 
     fun initView(){
-        binding.stampTitleLayout.titleText = getString(R.string.stamp)
-        binding.stampRv.adapter = stampListAdapter.apply {
-            submitList(homeActivityViewModel.stamp.value)
+
+        if(homeActivityViewModel.stamp.value?.isEmpty() == true){
+            binding.stampEmptyCl.visibility = VISIBLE
+            binding.stampRv.visibility = GONE
         }
+        else{
+            binding.stampEmptyCl.visibility = GONE
+            binding.stampRv.visibility = VISIBLE
+            binding.stampRv.adapter = stampListAdapter.apply {
+                submitList(homeActivityViewModel.stamp.value)
+            }
+        }
+        binding.stampTitleLayout.titleText = getString(R.string.stamp)
         binding.stampTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
