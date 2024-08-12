@@ -23,4 +23,10 @@ class MyTripListBridge(
             Log.d(TAG, "navigateToMyTripDetailFragment: $tourId")
         }
     }
+    @JavascriptInterface
+    fun navigateToMyTripListToTourRegisterFragment(){
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToMyTripListToTourRegisterFragment()
+        }
+    }
 }

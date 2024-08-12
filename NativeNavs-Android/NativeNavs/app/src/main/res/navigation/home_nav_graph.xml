@@ -298,6 +298,9 @@
         <action
             android:id="@+id/action_myTripFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
+        <action
+            android:id="@+id/action_myTripFragment_to_tourRegisterFragment"
+            app:destination="@id/tourRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourWishListFragment"
