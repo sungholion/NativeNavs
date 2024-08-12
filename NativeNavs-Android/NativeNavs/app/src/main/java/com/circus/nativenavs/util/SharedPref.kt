@@ -41,7 +41,6 @@ object SharedPref {
             }
         }
 
-
     var language: String?
         get() = sharedPrefs?.getString(LANGUAGE, null) ?: "ko"
         set(value) {
@@ -66,5 +65,12 @@ object SharedPref {
             sharedPrefs?.edit()?.putString(FCM_TOKEN, value)?.apply()
         }
 
+    var enabledNoti: Boolean?
+        get() = sharedPrefs?.getBoolean(ENABLED_NOTI, true)
+        set(value) {
+            if (value != null) {
+                sharedPrefs?.edit()?.putBoolean(ENABLED_NOTI, value)?.apply()
+            }
+        }
 
 }

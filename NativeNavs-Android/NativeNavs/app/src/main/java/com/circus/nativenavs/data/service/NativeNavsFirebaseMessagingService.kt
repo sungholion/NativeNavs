@@ -30,7 +30,7 @@ class NativeNavsFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "onMessageReceived: ${message.data}")
 
         // data - 백그라운드
-        if (message.data.isNotEmpty()) {
+        if (message.data.isNotEmpty() && SharedPref.enabledNoti!!) {
             sendNotification(
                 message.data["flag"]!!.toInt(),
                 message
