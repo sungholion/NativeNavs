@@ -1,24 +1,18 @@
 package com.nativenavs.chat.config;
 
-import com.nativenavs.chat.service.ConnectionService;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 
-//@EnableWebSocketMessageBroker
+@EnableWebSocketMessageBroker
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final ConnectionService connectionService;
-
-    public WebSocketConfig(@Lazy ConnectionService connectionService) {
-        this.connectionService = connectionService;
-    }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -32,4 +26,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/send");
         registry.enableSimpleBroker("/room", "/status");
     }
+
+
 }

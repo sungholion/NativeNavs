@@ -1,6 +1,7 @@
 package com.nativenavs.chat.service;
 
 import com.nativenavs.chat.dto.UserCountDTO;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class ConnectionService {
     private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
     private final SimpMessageSendingOperations messagingTemplate;
 
-    public ConnectionService(SimpMessageSendingOperations messagingTemplate) {
+    public ConnectionService(@Lazy SimpMessageSendingOperations messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
 
