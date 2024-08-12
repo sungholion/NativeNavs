@@ -24,6 +24,7 @@
 .Request textarea {
   margin: 2vw;
   padding: 10px;
+  height: 50vh;
   font-size: 16px;
   border: 2px solid black;
   min-height: 150px;
@@ -35,6 +36,12 @@
   color: #595959;
   font-size: 14px;
   margin-left: 10vw;
+}
+
+.lengthCounter {
+  margin-left: 10vw;
+  color: #595959;
+  font-size: 14px;
 }
 
 .ButtonSection {
