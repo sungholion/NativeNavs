@@ -18,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit
 class ApplicationClass : Application() {
     companion object {
         lateinit var retrofit: Retrofit
+        lateinit var translationRetrofit: Retrofit
         private val authInterceptor = AuthInterceptor("")
         val gson: Gson = GsonBuilder().setLenient().create()
         fun setAuthToken(token: String) {
@@ -71,6 +73,28 @@ class ApplicationClass : Application() {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+
+        val translationClient = OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor { chain ->
+                val originalRequest: Request = chain.request()
+                val requestWithHeaders = originalRequest.newBuilder()
+                    .header("X-NCP-APIGW-API-KEY-ID", "eedtgq7ie7") // Client ID 추가
+                    .header("X-NCP-APIGW-API-KEY", "K1bjIq79fFQmPsf9XsLGGvuZ0I1H4FmPrrk4Oezx") // Client Secret 추가
+                    .header("Content-Type", "application/json") // Client Secret 추가
+                    .build()
+                chain.proceed(requestWithHeaders)
+            }
+            .addInterceptor(loggingInterceptor)
+            .build()
+
+        translationRetrofit = Retrofit.Builder()
+            .baseUrl("https://naveropenapi.apigw.ntruss.com/nmt/v1/")
+            .client(translationClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
         WebView.setWebContentsDebuggingEnabled(true)
     }
 }

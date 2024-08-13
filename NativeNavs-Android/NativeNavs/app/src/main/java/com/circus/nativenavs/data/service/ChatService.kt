@@ -1,7 +1,6 @@
 package com.circus.nativenavs.data.service
 
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -26,10 +25,5 @@ interface ChatService {
     suspend fun createChatRoom(
         @Path(value = "tourId") tourId: Int
     ): ChatRoomDto
-
-//    @GET("chat/messages/{roomId}")
-//    suspend fun getMessageList(
-//        @Path(value = "roomId") roomId: Int
-//    ): List<MessageDto>
 
 }

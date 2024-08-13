@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.core.os.HandlerCompat.postDelayed
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatTourInfoDto
 import com.circus.nativenavs.data.MessageDto
+import com.circus.nativenavs.data.RequestTranslate
 import com.circus.nativenavs.databinding.FragmentChattingRoomBinding
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.home.HomeActivityViewModel
@@ -69,7 +70,8 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private fun initObserve() {
         chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             Log.d(TAG, "observeViewModel: $uiState")
-            messageListAdapter.submitList(uiState.messages)
+            messageListAdapter.submitList(uiState.messages.toList())
+            messageListAdapter.notifyDataSetChanged()
             binding.chatMessageRv.apply {
                 postDelayed({
                     layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
@@ -79,6 +81,27 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     }
 
     private fun initEvent() {
+        messageListAdapter.setItemClickListener(object : MessageListAdapter.ChatItemClickListener {
+            override fun onItemClicked(content: String, position: Int) {
+                //번역본<->원문으로 돌리기
+                if (chattingViewModel.uiState.value!!.messages[position].translatedContent != "") {
+                    chattingViewModel.translateMessage(position)
+                } else {
+                    //번역해서 가져오기
+                    chattingViewModel.translateMessage(
+                        RequestTranslate(
+                            source = "auto",
+                            target = SharedPref.language!!,
+                            text = content
+                        ),
+                        position = position
+                    )
+
+                }
+            }
+
+        })
+
         binding.chatRoomSendBtn.setOnClickListener {
             chattingViewModel.setMessage(binding.chatRoomTypingEt.text.toString())
             chattingViewModel.sendMessage {

@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
+import com.circus.nativenavs.data.ChatUserCountDto
 import com.circus.nativenavs.data.MessageDto
+import com.circus.nativenavs.data.RequestTranslate
 import com.circus.nativenavs.data.service.ChatService
+import com.circus.nativenavs.data.service.TranslateService
 import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -45,6 +48,9 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private val chatRetrofit = ApplicationClass.retrofit.create(ChatService::class.java)
 
+    private val translateRetrofit =
+        ApplicationClass.translationRetrofit.create(TranslateService::class.java)
+
     private val _uiState = MutableLiveData(ChatScreenUiState())
     val uiState: LiveData<ChatScreenUiState> = _uiState
 
@@ -54,6 +60,32 @@ class KrossbowChattingViewModel : ViewModel() {
     private val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
+
+    fun translateMessage(message: RequestTranslate, position: Int) {
+        _uiState.value?.let {
+            viewModelScope.launch {
+                try {
+                    val result = translateRetrofit.getTranslatedMessage(message)
+                    val returnMessage = result.message.result.translatedText
+
+                    it.messages[position].translatedContent = returnMessage
+                    it.messages[position].isTranslated = true
+
+                    _uiState.postValue(it.copy(messages = it.messages))
+
+                } catch (e: Exception) {
+                    Log.d(TAG, "translateMessage: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun translateMessage(position: Int) {
+        _uiState.value?.let {
+            it.messages[position].isTranslated = !it.messages[position].isTranslated
+            _uiState.postValue(it.copy(messages = it.messages))
+        }
+    }
 
     fun createChatRoom(tourId: Int) {
         Log.d(TAG, "createChatRoom: 실행전")
@@ -172,7 +204,7 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private suspend fun observeMessages() {
         try {
-            val subscription = stompSession.subscribe(
+            val subscriptionMessage = stompSession.subscribe(
                 StompSubscribeHeaders(
                     destination = "/room/${chatRoomId.value}",
 //                    customHeaders = mapOf(
@@ -180,20 +212,60 @@ class KrossbowChattingViewModel : ViewModel() {
 //                    )
                 )
             )
+
+            val subscriptionConnection = stompSession.subscribe(
+                StompSubscribeHeaders(
+                    destination = "/status/room/${chatRoomId.value}",
+//                    customHeaders = mapOf(
+//                        "Authorization" to "${SharedPref.accessToken}"
+//                    )
+                )
+            )
+
             isConnected = true
 
-            subscription.collect { frame ->
+            subscriptionMessage.collect { frame ->
                 Log.d(TAG, "frame observeMessages: $frame")
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
                 newMessage?.let {
                     handleOnMessageReceived(newMessage)
                 }
             }
+
+            subscriptionConnection.collect { frame ->
+                Log.d(TAG, "frame observe Connection: $frame")
+
+                val userCount =
+                    moshi.adapter(ChatUserCountDto::class.java).fromJson(frame.bodyAsText)
+                userCount?.let {
+                    if (userCount.userCount == 2) {
+                        markMessagesAsRead()
+                    }
+                }
+            }
+
         } catch (e: Exception) {
             isConnected = false
             Log.e(TAG, "Message observation failed: ", e)
         }
     }
+
+    private fun markMessagesAsRead() {
+        viewModelScope.launch {
+            try {
+//                chatRetrofit.markMessagesAsRead(chatRoomId.value!!)
+                // 서버에 읽음 처리 요청 후 UI 업데이트
+                Log.d(TAG, "markMessagesAsRead: ")
+                _chatMessages.value = _chatMessages.value?.map {
+                    it.copy(messageChecked = true)
+                }
+                _uiState.postValue(_chatMessages.value?.let { _uiState.value?.copy(messages = it) })
+            } catch (e: Exception) {
+                Log.e(TAG, "Mark messages as read failed: ", e)
+            }
+        }
+    }
+
 
     private fun handleOnMessageReceived(message: MessageDto) {
         Log.d(TAG, "handleOnMessageReceived: $message")
