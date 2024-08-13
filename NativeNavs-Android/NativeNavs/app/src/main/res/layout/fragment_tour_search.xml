@@ -38,12 +38,12 @@
                 android:padding="16dp">
 
                 <TextView
+                    style="@style/bold"
                     android:id="@+id/tour_search_travel_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/search_title_travel"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"/>
 
                 <TextView
                     android:id="@+id/tour_search_travel_title_content_tv"
@@ -296,12 +296,12 @@
                 android:padding="16dp">
 
                 <TextView
+                    style="@style/bold"
                     android:id="@+id/tour_search_date_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/search_title_date"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tour_search_date_title_content_tv"
@@ -335,6 +335,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
                     <TextView
+                        style="@style/regular"
                         android:id="@+id/search_date_cancel_tv"
                         android:backgroundTint="@color/gray_d9d9"
                         android:layout_width="wrap_content"
@@ -385,12 +386,12 @@
                 android:padding="16dp">
 
                 <TextView
+                    style="@style/bold"
                     android:id="@+id/tour_search_theme_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/search_title_theme"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/tour_search_theme_contentLayout"
@@ -426,6 +427,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
                     <TextView
+                        style="@style/regular"
                         android:id="@+id/search_theme_cancel_tv"
                         android:backgroundTint="@color/gray_d9d9"
                         android:layout_width="wrap_content"
