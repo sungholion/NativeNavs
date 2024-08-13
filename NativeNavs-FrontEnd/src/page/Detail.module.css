@@ -4,7 +4,7 @@
   align-items: center;
   width: 100vw;
   height: 100%;
-  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
+  box-sizing: border-box;
 }
 
 .tour_img {
@@ -28,7 +28,7 @@
 }
 
 .tour_title {
-  margin: 0; /* 수정 */
+  margin: 0;
   font-weight: 600;
   color: black;
   max-width: 70%;
@@ -42,11 +42,9 @@
 
 .tour_duration {
   font-size: 14px;
-  margin: 0; /* 수정 */
+  margin: 0;
   color: #585858;
 }
-
-
 
 .tour_nav {
   display: flex;
@@ -60,7 +58,8 @@
   justify-content: end;
   padding: 0px;
 }
-.langlang{
+
+.langlang {
   margin-left: 3.5px;
 }
 
@@ -146,8 +145,8 @@
 
 /* 투어 일정 */
 .tourPlan {
-  width: 100%; /* 추가 */
-  text-align: left; /* 추가 */
+  width: 100%;
+  text-align: left;
   border-bottom: 1px solid #d9d9d9;
 }
 
@@ -158,9 +157,9 @@
 
 /* 투어 당부사항 */
 .tourReminder {
-  width: 100%; /* 추가 */
-  text-align: left; /* 추가 */
-  padding-left: 0 20px; /* 추가 */
+  width: 100%;
+  text-align: left;
+  padding-left: 0 20px;
   border-bottom: 1px solid #d9d9d9;
 }
 
@@ -176,9 +175,9 @@
 .tourPlan,
 .tourReminder,
 .tourReview {
-  width: 100vw; /* 전체 너비 사용 */
-  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
-  padding: 0 10px; /* 좌우 여백 추가 */
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 .tourPlan {
@@ -190,7 +189,7 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden; /* 수평 스크롤 숨기기 */
+  overflow-x: hidden;
 }
 
 html {
@@ -221,44 +220,82 @@ html {
   right: 10px;
   top: 10px;
   z-index: 1000;
+}
 
-  .WriterOptions {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.WriterOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
 
-    button {
-      height: 30px;
-      font-size: 20px;
-    }
+button {
+  height: 30px;
+  font-size: 20px;
+}
 
-    .buttonEdit {
-      width: 25vw;
-      background-color: #d9d9d9;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      transition: all 0.05s ease-in-out;
-    }
+.buttonEdit {
+  width: 25vw;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: all 0.05s ease-in-out;
+}
 
-    .buttonDelete {
-      width: 25vw;
-      background-color: #ff3333;
-      border-radius: 5px;
-      border: none;
-      color: white;
-      margin-top: 10px;
-      transition: all 0.05s ease-in-out;
-    }
+.buttonDelete {
+  width: 25vw;
+  background-color: #ff3333;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  margin-top: 10px;
+  transition: all 0.05s ease-in-out;
+}
 
-    .buttonDelete:active,
-    .buttonEdit:active {
-      transform: scale(0.95);
-    }
+.buttonDelete:active,
+.buttonEdit:active {
+  transform: scale(0.95);
+}
 
-    .buttonDelete:focus,
-    .buttonEdit:focus {
-      outline: none;
-    }
+.buttonDelete:focus,
+.buttonEdit:focus {
+  outline: none;
+}
+
+@keyframes rotateNeedle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
+
+.compassContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.needle {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  transform-origin: center center;
+  animation: rotateNeedle 1s cubic-bezier(0.5, 0, 1, 1) infinite;
+  z-index: 2;
+}
+ 

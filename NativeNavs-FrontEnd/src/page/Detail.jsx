@@ -15,6 +15,8 @@ import {
 import NativeNavs from "@/assets/NativeNavs.png";
 import StarScore2 from "../components/Star/StarScore2";
 import Modal3 from "../components/Modal/Modal3";
+import NativeNavsRemoveNeedle from "@/assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "@/assets/compassNeedleRemoveBack.png";
 
 const Detail = () => {
   const params = useParams();
@@ -33,6 +35,8 @@ const Detail = () => {
     plans: [],
     removed: false,
   });
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   // review state 정의
   const [reviewData, setReviewData] = useState({
@@ -75,15 +79,17 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
+        setLoading(false); // 데이터 로드가 완료되면 로딩 상태를 false로 설정
         console.log("Tours response data : ", response.data);
-        console.log("Tours response data : ", response.data.user.id);
-        console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
+        setLoading(false);
       }
     };
 
-    fetchTour();
+    if (user) {
+      fetchTour();
+    }
   }, [user]);
 
   // NavLanguages 관리 state : 문자열을 배열로 변환
@@ -123,7 +129,6 @@ const Detail = () => {
   // 첫 번째 리뷰를 변수에 저장
   const firstReview =
     reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
-  // console.log(firstReview);
 
   // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
@@ -175,44 +180,65 @@ const Detail = () => {
     document.body.style.overflow = "auto";
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.Detail}>
       {/* 투어 사진(캐러셀) */}
-      {
-        // 해당 글 작성자와 로그인한 유저가 같고, 글 작성자가 Nav인 경우
-        // 수정 & 삭제 버튼을 보여줌
-        user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
-          <div className={styles.WriterOnlyOptionSection}>
-            <img
-              src={getStaticImage("menu_vertical_button")}
-              style={{ width: "30px", height: "30px" }}
-              onClick={() => setOpenOption((cur) => !cur)} // 토글
-            />
-            {openOption && (
-              <div className={styles.WriterOptions}>
-                {/* 해당 버튼 클릭시 수정 버튼 이동 */}
-                <button
-                  className={styles.buttonEdit}
-                  onClick={() => {
-                    navigateToTourModifyFragment(Number(params.tour_id));
-                  }}
-                >
-                  {user && user.isKorean ? "수정" : "Edit"}
-                </button>
-                {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
-                <button
-                  className={styles.buttonDelete}
-                  onClick={() => {
-                    onDeleteEvent();
-                  }}
-                >
-                  삭제
-                </button>
-              </div>
-            )}
-          </div>
-        )
-      }
+      {user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
+        <div className={styles.WriterOnlyOptionSection}>
+          <img
+            src={getStaticImage("menu_vertical_button")}
+            style={{ width: "30px", height: "30px" }}
+            onClick={() => setOpenOption((cur) => !cur)} // 토글
+          />
+          {openOption && (
+            <div className={styles.WriterOptions}>
+              <button
+                className={styles.buttonEdit}
+                onClick={() => {
+                  navigateToTourModifyFragment(Number(params.tour_id));
+                }}
+              >
+                {user && user.isKorean ? "수정" : "Edit"}
+              </button>
+              <button
+                className={styles.buttonDelete}
+                onClick={() => {
+                  onDeleteEvent();
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          )}
+        </div>
+      )}
       <Carousel tourId={tour.tourId} images={images} user={user} />
 
       {/* 투어 정보(간략하게) */}
