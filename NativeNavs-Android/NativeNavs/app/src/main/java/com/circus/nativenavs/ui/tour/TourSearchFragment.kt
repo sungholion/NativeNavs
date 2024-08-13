@@ -191,6 +191,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
                 binding.searchEditText.setText("")
             }
             searchDateCancelTv.setOnClickListener {
+                homeActivityViewModel.updateSearchDate("")
                 binding.calendarView.clearSelection()
             }
             searchThemeCancelTv.setOnClickListener {
