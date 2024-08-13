@@ -8,10 +8,14 @@ import {
 } from "../utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
 import Button from "@/components/Button/Button";
+import NativeNavsRemoveNeedle from "@/assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "@/assets/compassNeedleRemoveBack.png";
 
 const NavTourList = () => {
   const [user, setUser] = useState();
   const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -38,14 +42,45 @@ const NavTourList = () => {
       setTours(response.data);
     } catch (error) {
       console.error("투어 API 요청 실패", error);
+    } finally {
+      setLoading(false); // API 요청 완료 후 로딩 상태 false
     }
   };
 
   // 유저 정보가 업데이트되면 tour api 요청을 실행
   useEffect(() => {
-    console.log("투어 API 요청 시작");
-    fetchTours();
+    if (user) {
+      console.log("투어 API 요청 시작");
+      fetchTours();
+    }
   }, [user]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.NavTourList}>
@@ -55,6 +90,8 @@ const NavTourList = () => {
             <Tour_Item4
               key={tour.tourId}
               tour={tour}
+              wishCount={tour.wishedCount}
+              bookCount={tour.reservationCount}
               onClickEvent={navigateToMyTripDetailFragment}
             />
           ))}
