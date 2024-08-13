@@ -3,13 +3,9 @@ package com.nativenavs.notification.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
-import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.notification.dto.FcmMessageDTO;
-import com.nativenavs.tour.entity.TourEntity;
-import com.nativenavs.tour.repository.TourRepository;
 import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -19,39 +15,18 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FcmServiceImpl implements FcmService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TourService tourService;
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final TourService tourService;
 
-//    @Override
-//    public int sendMessageTo(FcmSendDTO fcmSendDTO) throws IOException {
-//        String message = makeMessage(fcmSendDTO);
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        restTemplate.getMessageConverters()
-//                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("Authorization", "Bearer " + getAccessToken());
-//
-//        HttpEntity<String> entity = new HttpEntity<>(message, headers);
-//
-//        String API_URL = "https://fcm.googleapis.com/v1/projects/nativenavs/messages:send";
-//        ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, String.class);
-//
-//        return response.getStatusCode() == HttpStatus.OK ? 1 : 0;
-//    }
+    FcmServiceImpl(UserRepository userRepository, TourService tourService) {
+        this.userRepository = userRepository;
+        this.tourService = tourService;
+    }
+
 
     public int sendMessageTo(int flag, int userId, int reservationId, int tourId, int roomId) throws IOException {
         String message = sendNotification(flag, userId, reservationId, tourId, roomId);
@@ -154,28 +129,4 @@ public class FcmServiceImpl implements FcmService {
         return googleCredentials.getAccessToken().getTokenValue();
     }
 
-//    private String makeMessage(FcmSendDTO fcmSendDTO) throws JsonProcessingException {
-//        ObjectMapper om = new ObjectMapper();
-//
-//        // 모든 int 타입 값을 문자열로 변환합니다.
-//        FcmMessageDTO.Data data = new FcmMessageDTO.Data(
-//                String.valueOf(fcmSendDTO.getData().getFlag()),
-//                fcmSendDTO.getData().getTitle(),
-//                fcmSendDTO.getData().getBody(),
-//                String.valueOf(fcmSendDTO.getData().getReservationId()),
-//                String.valueOf(fcmSendDTO.getData().getTourId()),
-//                String.valueOf(fcmSendDTO.getData().getRoomId())
-//        );
-//
-//        FcmMessageDTO.Message message = FcmMessageDTO.Message.builder()
-//                .token(fcmSendDTO.getToken())
-//                .data(data)
-//                .build();
-//
-//        FcmMessageDTO fcmMessageDto = FcmMessageDTO.builder()
-//                .message(message)
-//                .build();
-//
-//        return om.writeValueAsString(fcmMessageDto);
-//    }
 }
