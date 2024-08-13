@@ -162,7 +162,7 @@ const Detail = () => {
   };
 
   // price 변수 fotmatting
-  const formattedPrice = tour.price.toLocaleString();
+  const formattedPrice = `₩ ${tour.price.toLocaleString()}`;
 
   const handlePlanClick = (plan) => {
     setSelectedPlan(plan);
@@ -372,7 +372,7 @@ const Detail = () => {
           {" "}
           {user && user.isKorean ? "예상 금액" : "Estimated Price"}
         </h3>
-        <h4>{formattedPrice}₩</h4>
+        <h4>{formattedPrice}</h4>
         <h3 className={styles.tourReminderDecription}>
           {user && user.isKorean ? "투어 설명" : "Tour Description"}
         </h3>
