@@ -12,6 +12,7 @@
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
   z-index: 10000;
+  overflow-y: auto;
 }
 
 .ModalBackground {
@@ -28,7 +29,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 3vh 0;
+  margin-top: 3vh;
+
   height: auto;
 }
 
@@ -93,13 +95,20 @@
 
   input[type="text"] {
     width: 60vw;
-    height: 30px;
+    height: 36px;
     font-size: 3vw;
     border: 2px solid #d9d9d9;
     border-radius: 10px;
     padding: 0px 5px;
     margin: 10px 0px;
   }
+}
+.ModalHeaderComment {
+  margin-top: 10px;
+  width: 86%;
+  margin-bottom: 10px;
+  color: #595959;
+  font-size: 14px;
 }
 
 .ModalMap {
@@ -115,7 +124,7 @@
   justify-content: flex-start;
   align-items: center;
   align-self: flex-start;
-  width: 80vw;
+  width: 86vw;
 }
 
 .ModalMapSearch > h3 {
@@ -128,8 +137,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0px auto;
+  margin: 10px auto;
   padding: 0px;
+  width: 86vw;
 
   .ModalContentHeader {
     display: flex;
@@ -149,13 +159,14 @@
   }
 
   > textarea {
-    width: 80vw;
-    max-height: 30vh;
-    height: 10vh;
+    width: 90%;
+    max-height: 200px;
+    height: 20vh;
     resize: vertical;
     border: 2px solid #d9d9d9;
     border-radius: 10px;
-    padding: 2px 5px;
+    padding: 5%;
+    align-self: center;
   }
 }
 
@@ -166,7 +177,8 @@
   align-items: center;
   position: fixed;
   bottom: 0;
-  padding-bottom: 1%;
+  padding-bottom: 10px;
+  background-color: white;
 
   button {
     width: 20vw;

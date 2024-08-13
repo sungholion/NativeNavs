@@ -83,7 +83,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
         {title.length > 0 ? (
           <div>{title}</div>
         ) : (
-          <div style={{ color: "red" }}>
+          <div style={{ color: "red", fontSize: "20px", marginLeft: "20px" }}>
             {user && user.isKorean
               ? "제목 입력해 주세요"
               : "Please enter a title"}
@@ -97,13 +97,15 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
           startDate >=
             getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9)) && (
             <div className="TourDateShow">
-              <span className="DateBox">
-                {getStringedDate(new Date(startDate))}
-              </span>
-              <span>~</span>
-              <span className="DateBox">
-                {getStringedDate(new Date(endDate))}
-              </span>
+              <div className="TourDateArea">
+                <span className="DateBox">
+                  {getStringedDate(new Date(startDate))}
+                </span>
+                <span>~</span>
+                <span className="DateBox">
+                  {getStringedDate(new Date(endDate))}
+                </span>
+              </div>
             </div>
           )}
         {startDate > endDate && (

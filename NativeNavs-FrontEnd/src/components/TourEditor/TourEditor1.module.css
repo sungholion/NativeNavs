@@ -91,8 +91,8 @@
 .DateInput {
   position: relative;
   display: inline-block;
-  width: 36vw;
-  height: 6vh;
+  width: 34vw;
+  height: 35px;
   text-align: center;
   border-radius: 10px;
   border: 2px solid #d9d9d9;

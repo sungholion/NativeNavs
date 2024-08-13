@@ -123,6 +123,11 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
             />
           </div>
         </section>
+        <div className={styles.ModalHeaderComment}>
+          {user?.isKorean
+            ? "10MB 이하 이미지만 업로드 가능합니다"
+            : "Image must be 10MB or less"}
+        </div>
         <section className={styles.ModalMap}>
           <div className={styles.ModalMapSearch}>
             <h3>{user?.isKorean ? "위치 검색" : "Location Search"}</h3>
@@ -146,9 +151,17 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               document.body
             )}
           <div>
-            {planData.addressFull !== "" && (
-              <div>
+            {planData.addressFull !== "" ? (
+              <div style={{ width: "70vw" }}>
                 <div>{planData.addressFull}</div>
+              </div>
+            ) : (
+              <div>
+                {user?.isKorean ? (
+                  <div>위치를 검색해주세요</div>
+                ) : (
+                  <div>Search for a location</div>
+                )}
               </div>
             )}
           </div>

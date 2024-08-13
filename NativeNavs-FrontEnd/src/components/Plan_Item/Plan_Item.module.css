@@ -10,13 +10,13 @@
 
 .delete_button {
   position: absolute;
-  right: 2%;
+  right: 1%;
   cursor: pointer;
 }
 
 .delete_button > img {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
 }
 
 .content {
@@ -71,5 +71,5 @@ text-overflow : ellipsis -> 일정 영역 벗어난 글은 전부 ... 으로 숨
 
 .addressFull {
   color: #595959;
-  font-size: 13px;
+  font-size: 12px;
 }

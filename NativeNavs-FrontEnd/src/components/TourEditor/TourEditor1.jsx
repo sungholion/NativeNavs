@@ -88,6 +88,13 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
           id="thumbnail"
           onChange={onImgChange}
         />
+        <div
+          style={{ textAlign: "center", marginTop: "10px", color: "#595959" }}
+        >
+          {user?.isKorean
+            ? "10MB 이하 이미지만 업로드 가능합니다"
+            : "Image must be 10MB or less"}
+        </div>
       </div>
       <div className={styles.Title}>
         <p>{user && user.isKorean ? "제목" : "Title"}</p>
@@ -155,7 +162,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
         </div>
       </div>
       <div className={styles.Cost}>
-        <p>{user && user.isKorean ? "예상 비용" : "Estimated Cost"}</p>
+        <p>{user && user.isKorean ? "예상 비용(₩)" : "Estimated Cost"}</p>
         <input
           type="number"
           value={price.toString()}
@@ -170,6 +177,11 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
             }
           }}
         />
+        <div style={{ marginLeft: "26px", color: "#595959" }}>
+          {user?.isKorean
+            ? "최대 1,000,000₩ 까지 설정 가능합니다"
+            : "You can set up to a maximum of 1,000,000 KRW"}
+        </div>
       </div>
       <div className={styles.locationSection}>
         <p>{user?.isKorean ? "장소" : "Location"}</p>
