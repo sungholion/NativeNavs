@@ -65,6 +65,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 if (!isLogin) {
                     startActivity(Intent(this, LoginActivity::class.java))
                 } else startActivity(homeActivityIntent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish()
             }
         }
