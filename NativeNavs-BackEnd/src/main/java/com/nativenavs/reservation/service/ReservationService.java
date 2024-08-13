@@ -32,14 +32,10 @@ public class ReservationService {
 
     private final StampService userStampService;
     private final RoomRepository roomRepository;
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private WishlistRepository wishlistRepository;
+    private final ReservationRepository reservationRepository;
+    private final UserRepository userRepository;
+    private final TourRepository tourRepository;
+    private final WishlistRepository wishlistRepository;
 
     public ReservationEntity addReservation(ReservationRequestDTO requestDTO, int guideId) {
         UserEntity guide = userRepository.findById(guideId)

@@ -25,31 +25,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-    @Autowired
-    private ReviewImageRepository reviewImageRepository;
+    private final ReviewImageRepository reviewImageRepository;
+    private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
+    private final ReservationRepository reservationRepository;
+    private final TourRepository tourRepository;
+    private final AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-    @Autowired
-    private ReservationRepository reservationRepository;
-
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
     @Transactional
     public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images, int reservationId) {
         // Tour, Guide와 Reviewer 정보를 조회
         TourEntity tour = tourRepository.findById(reviewRequestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
-
         //투어 정보에 해당하는 guidId 찾기
         UserEntity guide = tour.getUser();
-
         // 리뷰 생성
         ReviewEntity review = new ReviewEntity();
 
