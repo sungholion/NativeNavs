@@ -113,37 +113,6 @@ class ProfileFragment :
             binding.profileUserUseNum.apply {
                 text = getString(R.string.profile_user_use) + " " + it.travReservationCount
             }
-
-            if (SharedPref.userId == it.id) {
-                binding.profileStampTitle.apply {
-                    text = getString(R.string.profile_mystamp)
-                }
-
-                if (it.isNav) {
-                    binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_other_myreview)
-                    }
-                } else {
-                    binding.profileReviewTitle.apply {
-                        text = getString(R.string.profile_myreview)
-                    }
-                }
-            } else {
-                binding.profileStampTitle.apply {
-                    text = it.nickname + getString(R.string.profile_other_stamp)
-                }
-
-                if (it.isNav) {
-                    binding.profileReviewTitle.apply {
-                        text = it.nickname + getString(R.string.profile_other_nav_review)
-                    }
-                } else {
-                    binding.profileReviewTitle.apply {
-                        text = it.nickname + getString(R.string.profile_other_trav_review)
-                    }
-                }
-            }
-
         }
 
     }

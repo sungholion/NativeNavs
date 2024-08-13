@@ -160,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_horizontal_page"
-                        android:text="@string/profile_myreview"
+                        android:text="@string/app_bar_review"
                         android:textSize="@dimen/font_size_profile_title" />
 
                     <ImageView
@@ -213,7 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_horizontal_page"
-                        android:text="@string/profile_mystamp"
+                        android:text="@string/stamp"
                         android:textSize="@dimen/font_size_profile_title" />
 
                     <ImageView
