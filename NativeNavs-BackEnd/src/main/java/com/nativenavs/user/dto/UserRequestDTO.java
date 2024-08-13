@@ -1,6 +1,5 @@
 package com.nativenavs.user.dto;
 
-import com.nativenavs.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 

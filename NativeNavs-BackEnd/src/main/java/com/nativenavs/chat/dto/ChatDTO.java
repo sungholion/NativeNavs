@@ -7,10 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
 public class ChatDTO {
     private String id;
     private int roomId;
@@ -18,7 +17,6 @@ public class ChatDTO {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
-
     private Boolean messageChecked;
     private String sendTime;
 

@@ -1,6 +1,5 @@
 package com.nativenavs.chat.controller;
 
-import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.service.ChatService;
@@ -8,49 +7,77 @@ import com.nativenavs.chat.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/rooms")
 @CrossOrigin("*")
-@Tag(name = "chat API", description = "chat")
+@RequiredArgsConstructor
+@Slf4j
+@Tag(name = "채팅방 API", description = "채팅방 생성 / 채팅방 목록 조회 / 채팅방 입장 / 특정 채팅방 정보 조회")
 public class RoomController {
+
     // DI --------------------------------------------------------------------------------------------------------------
 
     private final ChatService chatService;
     private final RoomService roomService;
-    private final WebSocketConfig webSocketConfig;
 
     // API -------------------------------------------------------------------------------------------------------------
 
-    @Operation(summary = "채팅방 생성 API", description = "채팅방을 생성하는 API. 투어 상세보기에서 '1:1 하기' 클릭 시 채팅방이 생성된다.")
+    @Operation(summary = "채팅방 생성 API", description = "tourId, token을 입력하여 채팅방 생성")
     @PostMapping("/create/{tourId}")
     public RoomDTO createRoom(@PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
-        return roomService.createRoom(tourId,token);    // tourId로 해당 tourId를 가진 roomDTO를 생성하여 반환한다.
+        log.info("채팅방 생성 요청: tourId={}, token={}", tourId, token);
+
+        RoomDTO roomDTO = roomService.createRoom(tourId, token);
+
+        log.info("채팅방 생성 성공: roomId={}", roomDTO.getRoomId());
+
+        return roomDTO;
     }
 
-    @Operation(summary = "채팅방 목록 API", description = "채팅방 목록을 보는 API. 현재 유저가 진행중인 채팅방 전체를 조회한다.")
+    @Operation(summary = "채팅방 목록 조회 API", description = "token으로 로그인한 회원의 채팅방 목록을 조회")
     @GetMapping("/search/all")
     public ResponseEntity<?> roomList(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(roomService.myRoomList(token));   // token으로 현재 로그인중인 user의 room을 리스트로 반환한다.
+        log.info("채팅방 목록 조회 요청: token={}", token);
+
+        List<RoomDTO> roomList = roomService.myRoomList(token);
+
+        log.info("채팅방 목록 조회 성공: {}개의 채팅방이 조회됨", roomList.size());
+
+        return ResponseEntity.ok(roomList);
     }
 
-    // service가 chat에 있는 게 맞나? Room에 Chat을 저장해야할까? 조회만 하면될까
-    @Operation(summary = "채팅방 입장 API", description = "채팅방에 입장하는 API. 해당 채팅방의 Chat 목록을 불러온다.")
+    @Operation(summary = "채팅방 입장 API", description = "roomId에 해당하는 채팅방의 채팅 List를 조회")
     @GetMapping("enter/{roomId}")
     public List<ChatDTO> joinRoom(@PathVariable int roomId, @RequestHeader("Authorization") String token) {
-        return chatService.findAllChatByRoomId(roomId,token);   // roomId로 해당 채팅방에 저장된 모든 채팅을 리스트로 반환
+        log.info("채팅방 입장 요청: roomId={}, token={}", roomId, token);
+
+        List<ChatDTO> chatList = chatService.findAllChatByRoomId(roomId, token);
+
+        log.info("채팅방 입장 성공: roomId={}, {}개의 메시지가 조회됨", roomId, chatList.size());
+
+        return chatList;
     }
 
-    // 개선 필요. joinRoom과 왜 분리? token은 필요없나?
-    @Operation(summary = "채팅방 조회 API", description = "채팅방 정보를 조회하는 API. 채팅 알림 클릭시 해당 채팅방을 DTO로 반환한다")
+    @Operation(summary = "특정 채팅방 정보 조회 API", description = "특정 채팅방 정보를 조회")
     @GetMapping("search/{roomId}")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable int roomId) {
-        return ResponseEntity.ok(roomService.findRoomDTOById(roomId));
-    }
+        log.info("특정 채팅방 정보 조회 요청: roomId={}", roomId);
 
+        RoomDTO roomDTO = roomService.findRoomDTOById(roomId);
+
+        log.info("특정 채팅방 정보 조회 성공: roomId={}", roomDTO.getRoomId());
+
+        return ResponseEntity.ok(roomDTO);
+    }
 }
+
+/*
+    리팩토링
+
+ */
