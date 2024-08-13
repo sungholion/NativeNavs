@@ -197,7 +197,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         binding.signupPhoneValidTv.visibility = INVISIBLE
     }
 
-    fun isValidDate(dateString: String): Boolean {
+    private fun isValidDate(dateString: String): Boolean {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         return try {

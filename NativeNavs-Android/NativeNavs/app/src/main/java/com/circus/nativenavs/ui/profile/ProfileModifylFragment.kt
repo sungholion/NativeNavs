@@ -156,7 +156,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                     profileModifyNameEt.setText(it.name)
                     profileModifyNicknameEt.setText(it.nickname)
                     profileModifyNationalityEt.setText(it.nation)
-                    profileModifyBirthEt.setText(it.birth.substring(0, 9))
+                    profileModifyBirthEt.setText(it.birth.substring(0, 10))
                     profileModifySelectedLanguageTv.setText(it.userLanguage)
                     profileModifyPhoneEt.setText(it.phone)
                 }
