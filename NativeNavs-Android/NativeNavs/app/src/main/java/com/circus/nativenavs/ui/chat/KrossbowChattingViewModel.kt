@@ -9,7 +9,9 @@ import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
 import com.circus.nativenavs.data.ChatStatusDto
 import com.circus.nativenavs.data.MessageDto
+import com.circus.nativenavs.data.RequestTranslate
 import com.circus.nativenavs.data.service.ChatService
+import com.circus.nativenavs.data.service.TranslateService
 import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -46,6 +48,8 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private val chatRetrofit = ApplicationClass.retrofit.create(ChatService::class.java)
 
+    private val translateRetrofit = ApplicationClass.retrofit.create(TranslateService::class.java)
+
     private val _uiState = MutableLiveData(ChatScreenUiState())
     val uiState: LiveData<ChatScreenUiState> = _uiState
 
@@ -55,6 +59,29 @@ class KrossbowChattingViewModel : ViewModel() {
     private val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
+
+    fun translateMessage(message: RequestTranslate, position: Int) {
+        _uiState.value?.let {
+            viewModelScope.launch {
+                val result = translateRetrofit.getTranslatedMessage(
+                    "ncp_iam_BPAMKRZYDfpW2oS2d2ak",
+                    "ncp_iam_BPKMKRAnmc7BrexZlz0QEO4yvHK5JTg2g1",
+                    message
+                )
+                val returnMessage = result.message.result.translatedText
+
+                it.messages[position].translatedContent = returnMessage
+            }
+        }
+        translateMessage(position)
+    }
+
+    fun translateMessage(position: Int) {
+        _uiState.value?.let {
+            it.messages[position].isTranslated = !it.messages[position].isTranslated
+            _uiState.postValue(_uiState.value?.copy(messages = it.messages))
+        }
+    }
 
     fun createChatRoom(tourId: Int) {
         Log.d(TAG, "createChatRoom: 실행전")
@@ -149,8 +176,8 @@ class KrossbowChattingViewModel : ViewModel() {
                 val stompClient = StompClient(wsClient)
                 Log.d(TAG, "connectWebSocket: ${chatRoomId.value}")
                 stompSession = stompClient.connect(
-//                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
+                    url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
+//                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
                     customStompConnectHeaders = mapOf(
                         "Authorization" to "${SharedPref.accessToken}",
                         "roomId" to "${chatRoomId.value}"
@@ -202,7 +229,7 @@ class KrossbowChattingViewModel : ViewModel() {
 
             subscriptionConnection.collect { frame ->
                 Log.d(TAG, "frame observe Connection: $frame")
-                val rawJson =  frame.bodyAsText
+                val rawJson = frame.bodyAsText
 
                 val chatStatus = moshi.adapter(ChatStatusDto::class.java).fromJson(frame.bodyAsText)
                 chatStatus?.let {

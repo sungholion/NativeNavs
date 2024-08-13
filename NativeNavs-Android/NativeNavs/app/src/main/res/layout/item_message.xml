@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="@{message.content}"
+                android:text="@{message.isTranslated ? message.content : message.translatedContent}"
                 app:layout_constraintEnd_toStartOf="@+id/chat_sender_time_tv"
                 app:layout_constraintStart_toStartOf="@+id/chat_sender_nickname_tv"
                 app:layout_constraintTop_toBottomOf="@id/chat_sender_nickname_tv"

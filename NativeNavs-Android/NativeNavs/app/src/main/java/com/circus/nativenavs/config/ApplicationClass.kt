@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit
 class ApplicationClass : Application() {
     companion object {
         lateinit var retrofit: Retrofit
+        lateinit var translationRetrofit: Retrofit
         private val authInterceptor = AuthInterceptor("")
         val gson: Gson = GsonBuilder().setLenient().create()
         fun setAuthToken(token: String) {
@@ -71,6 +72,18 @@ class ApplicationClass : Application() {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+
+        val translationClient = OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .build()
+
+        translationRetrofit = Retrofit.Builder()
+            .baseUrl("https://naveropenapi.apigw.ntruss.com/nmt/v1/")
+            .client(translationClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+
         WebView.setWebContentsDebuggingEnabled(true)
     }
 }

@@ -43,9 +43,9 @@ class MessageListAdapter :
                 binding.chatSenderMessageTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             }
 
-//            binding.root.setOnClickListener {
-//                itemClickListener.onItemClicked(chat.chatId)
-//            }
+            binding.root.setOnClickListener {
+                itemClickListener.onItemClicked(message.content, adapterPosition)
+            }
         }
 
     }
@@ -66,7 +66,7 @@ class MessageListAdapter :
     }
 
     interface ChatItemClickListener {
-        fun onItemClicked(chatId: Int)
+        fun onItemClicked(content:String, position: Int)
     }
 
     private lateinit var itemClickListener: ChatItemClickListener
