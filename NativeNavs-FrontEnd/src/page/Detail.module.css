@@ -299,3 +299,17 @@ button {
   z-index: 2;
 }
  
+
+
+.categoryContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.categoryBox {
+  padding: 0 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: #20bec9;
+  margin: 2px;
+}

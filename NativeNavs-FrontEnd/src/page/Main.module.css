@@ -46,3 +46,5 @@
   animation: rotateNeedle 1s cubic-bezier(0.5, 0, 1, 1) infinite; /* 1초 동안 지수적으로 가속하며 360도 회전, 무한 반복 */
   z-index: 2; /* 바늘 이미지가 앞에 위치 */
 }
+
+

@@ -3,7 +3,7 @@ import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
 import axios from "axios";
-import HeartOut from "../Heart/HeartOut"
+import HeartOut from "../Heart/HeartOut";
 
 const Tour_Item = ({
   tourId = -1,
@@ -18,6 +18,7 @@ const Tour_Item = ({
   navigateFragment,
   user,
   userLanguages,
+  categoryIds,
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
@@ -101,6 +102,31 @@ const Tour_Item = ({
     }
   }, [userLanguages]);
 
+  // 카테고리 맵핑 데이터
+  const categoryMapping = {
+    1: { ko: "시장", en: "Market" },
+    2: { ko: "액티비티", en: "Activity" },
+    3: { ko: "자연", en: "Nature" },
+    4: { ko: "역사", en: "History" },
+    5: { ko: "문화", en: "Culture" },
+    6: { ko: "축제", en: "Festival" },
+    7: { ko: "음식", en: "Food" },
+    8: { ko: "트렌디", en: "Trendy" },
+    9: { ko: "랜드마크", en: "Landmark" },
+    10: { ko: "쇼핑", en: "Shopping" },
+    11: { ko: "미용", en: "Beauty" },
+    12: { ko: "사진", en: "Photography" },
+  };
+
+  // 카테고리 이름 가져오기
+  const getCategoryNames = () => {
+    return categoryIds
+      .map((id) => categoryMapping[id])
+      .filter(Boolean)
+      .map((category) => (user.isKorean ? category.ko : category.en))
+      .join(", ");
+  };
+
   return (
     <div className={styles.Tour_Item} onClick={onClickTour}>
       <div className={styles.thumbnail_container}>
@@ -114,9 +140,7 @@ const Tour_Item = ({
               />
             </div>
             <div className={styles.heart_container}>
-              <HeartOut
-                isWishListed={isWishListed}
-              />
+              <HeartOut isWishListed={isWishListed} />
             </div>
           </div>
         )}
@@ -139,8 +163,19 @@ const Tour_Item = ({
               />
               <p className={styles.tour_nav}>{nickname}</p>
             </div>
+            <div className={styles.categoryContainer}>
+              {getCategoryNames()
+                .split(", ")
+                .slice(0, 2)
+                .map((category, index) => (
+                  <div key={index} className={styles.categoryBox}>
+                    {category}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
+
         <div className={styles.infoBottomContainer}>
           <Rating reviewAverage={reviewAverage} />
 

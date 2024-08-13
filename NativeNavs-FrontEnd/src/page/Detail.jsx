@@ -190,6 +190,31 @@ const Detail = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
+  // 테마 맵핑 데이터
+  const categoryMapping = {
+    1: { ko: "시장", en: "Market" },
+    2: { ko: "액티비티", en: "Activity" },
+    3: { ko: "자연", en: "Nature" },
+    4: { ko: "역사", en: "History" },
+    5: { ko: "문화", en: "Culture" },
+    6: { ko: "축제", en: "Festival" },
+    7: { ko: "음식", en: "Food" },
+    8: { ko: "트렌디", en: "Trendy" },
+    9: { ko: "랜드마크", en: "Landmark" },
+    10: { ko: "쇼핑", en: "Shopping" },
+    11: { ko: "미용", en: "Beauty" },
+    12: { ko: "사진", en: "Photography" },
+  };
+
+  // 테마 이름 가져오기
+  const getCategoryNames = () => {
+    return tour.categoryIds
+      .map((id) => categoryMapping[id])
+      .filter(Boolean)
+      .map((category) => (user.isKorean ? category.ko : category.en))
+      .join(", ");
+  };
+
   if (!isReadyToDisplay) {
     return (
       <div className={styles.compassContainer}>
@@ -243,32 +268,46 @@ const Detail = () => {
 
       {/* 투어 정보(간략하게) */}
       <div className={styles.tour_info}>
+        {/* first */}
         <div className={styles.tour_info_first}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
           <div>
             <StarScore2 score={tour.reviewAverage * 20} />
           </div>
         </div>
+        {/* second */}
         <div className={styles.tour_info_first}>
           <div className={styles.tour_maxParticipants}>
             {user && user.isKorean
               ? `최대 인원 ${tour.maxParticipants}명`
               : `Maximum ${tour.maxParticipants} people`}
           </div>
-          <div>
-            {user && user.isKorean
-              ? `🌏 ${navLanguages[0]} 외`
-              : `🌏 ${navLanguages[0]} and`}
+          <div className={styles.categoryContainer}>
+            {getCategoryNames() &&
+              getCategoryNames()
+                .split(", ")
+                .slice(2) // 3번째 이후의 카테고리들을 가져옵니다.
+                .map((category, index) => (
+                  <div key={index + 2} className={styles.categoryBox}>
+                    {category}
+                  </div>
+                ))}
           </div>
         </div>
+        {/* third */}
         <div className={styles.tour_info_first}>
           <div>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
           </div>
-          <div>
-            {user && user.isKorean
-              ? `${navLanguages.length - 1}개 국어`
-              : `${navLanguages.length - 1} other language`}
+          <div className={styles.categoryContainer}>
+            {getCategoryNames()
+              .split(", ")
+              .slice(0, 2)
+              .map((category, index) => (
+                <div key={index} className={styles.categoryBox}>
+                  {category}
+                </div>
+              ))}
           </div>
         </div>
       </div>

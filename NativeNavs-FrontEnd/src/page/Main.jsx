@@ -5,6 +5,7 @@ import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
+import { categoryItemKr } from './../utils/constant';
 
 const Main = () => {
   const [tours, setTours] = useState([]);
@@ -116,6 +117,7 @@ const Main = () => {
             navigateFragment={navigateToTourDetailFragment}
             user={user}
             userLanguages={tour.user.userLanguage}
+            categoryIds={tour.categoryIds}
           />
         ))}
       </div>
