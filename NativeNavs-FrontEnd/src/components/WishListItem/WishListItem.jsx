@@ -56,7 +56,7 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
     <div className={styles.TotalContainer}>
       {/* 위시리스트 */}
       {wishListedTours.length === 0 ? (
-        <div className={styles.TopContainer}>
+        <div className={styles.WishListContainer}>
           <img
             className={styles.NativeNavsImg}
             src={NativeNavs}

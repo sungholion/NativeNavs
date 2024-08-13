@@ -26,6 +26,8 @@ const Main = () => {
     };
   }, []);
 
+  
+
   // 투어 검색 API 정의
   const fetchTours = async () => {
     setLoading(true); // API 요청 시작 전에 로딩 상태 true
