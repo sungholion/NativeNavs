@@ -1,5 +1,5 @@
-import add from "@/assets/add.png";
-import close from "@/assets/close.png";
+import add from "@/assets/add.svg";
+import close from "@/assets/close.svg";
 import heart_off from "@/assets/heart_off.png";
 import heart_on from "@/assets/heart_on.png";
 import language from "@/assets/language.png";

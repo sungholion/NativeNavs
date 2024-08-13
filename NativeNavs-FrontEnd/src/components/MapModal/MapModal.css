@@ -69,6 +69,7 @@
   width: 90vw;
   margin-top: 10px;
   border-radius: 5px;
+  overflow-y: auto;
 }
 
 .SearchResult {
@@ -77,7 +78,7 @@
   justify-content: center;
   align-self: center;
   width: 90vw;
-  margin-top: 30px;
+  margin-top: 20px;
 
   .notSearch {
     align-self: center;
@@ -141,7 +142,6 @@
     right: 10vw;
   }
 }
-
 
 .pac-target-input,
 .gm-err-autocomplete {
