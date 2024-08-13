@@ -191,4 +191,5 @@
     <string name="sign_photo">프로필 사진</string>
     <string name="search_check">선택</string>
     <string name="search_cancel"><u>취소</u></string>
+    <string name="tour_detail_booking_help">Nav와의 대화를 통해 투어를 예약해보세요!</string>
 </resources>

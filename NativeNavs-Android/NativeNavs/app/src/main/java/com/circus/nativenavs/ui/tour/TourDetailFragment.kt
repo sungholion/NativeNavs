@@ -56,7 +56,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     }
 
-    private fun initObserve(){
+    private fun initObserve() {
         chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
             if (roomId != -1) {
                 Log.d(TAG, "onViewCreated: 화면 이동")
@@ -78,9 +78,11 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
             } else {
                 binding.tourDetailBottomCl.visibility = View.GONE
             }
+            binding.tourDetailBookingHelpTv.visibility = View.GONE
         } else {
             binding.tourDetailBottomCl.visibility = View.VISIBLE
             binding.tourDetailBottomBtn.text = getString(R.string.tour_detail_chat)
+            binding.tourDetailBookingHelpTv.visibility = View.VISIBLE
         }
     }
 
@@ -150,7 +152,11 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
 
     fun navigateToNavProfileFragment(navId: Int) {
         Log.d(TAG, "navigateToNavProfileFragment: $navId")
-        val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(userId = navId, navId = navId, 0)
+        val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(
+            userId = navId,
+            navId = navId,
+            0
+        )
         navigate(action)
     }
 
@@ -168,7 +174,7 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         navigate(action)
     }
 
-    fun navigateToTourListFragment(){
+    fun navigateToTourListFragment() {
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToTourListFragment()
         navigate(action)

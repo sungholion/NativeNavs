@@ -188,4 +188,5 @@
     <string name="sign_photo">Profile Photo</string>
     <string name="search_check">Check</string>
     <string name="search_cancel"><u>Cancel</u></string>
+    <string name="tour_detail_booking_help">Book your trip by chatting with Nav!</string>
 </resources>
