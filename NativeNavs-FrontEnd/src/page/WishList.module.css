@@ -8,30 +8,3 @@
     width: 300px;
     height: 300px;
 }
-
-@keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  .NativeNavs {
-    width: 100px;
-    height: 100px;
-    animation: pulse 2s infinite;
-    margin: auto;
-  }
-  
-  .loaderContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  

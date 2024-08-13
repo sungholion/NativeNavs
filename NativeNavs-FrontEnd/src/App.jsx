@@ -27,7 +27,9 @@ import ReservationListForTour from "./page/ReservationListForTour";
 import NavTourList from "./page/NavTourList";
 import ReservationCreate from "./page/ReservationCreate";
 
+
 function App() {
+
   // 유저 정보 파싱 및 localStorage에 저장
   useEffect(() => {
     window.getUserData = (userJson) => {
@@ -39,6 +41,7 @@ function App() {
         console.error("userJson 저장 실패", error);
       }
     };
+
   }, []);
 
   return (
