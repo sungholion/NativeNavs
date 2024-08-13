@@ -50,9 +50,7 @@ const ReviewCreate = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization:
-              user?.userToken ||
-              "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlb2JsdWUyM0BnbWFpbC5jb20iLCJpYXQiOjE3MjMyODM4NDQsImV4cCI6MTcyMzI4NzQ0NH0.N7sHXAvqHbVbWXBfwYOtYeu1sTZdaHxo-I_8XINobqYMgf1fIghH-SmTevqj_eeU6grBMTpE56ZAyh4y5lg2-g",
+            Authorization: user?.userToken,
           },
         }
       )
@@ -67,13 +65,25 @@ const ReviewCreate = () => {
     const { files } = e.target;
     if (files && files.length > 0) {
       if (files.length > MAX_IMAGE_COUNT) {
-        alert("최대 5개까지 업로드 가능합니다.");
+        alert(
+          `${
+            user?.isKorean
+              ? "5개 이하의 이미지만 업로드 가능합니다."
+              : "Up to 5 images can be uploaded."
+          }`
+        );
         return;
       }
       const fileArr = [...files];
       for (let file of fileArr) {
         if (file.size > 1024 * 1024 * 10) {
-          alert("10MB 이하의 파일만 업로드 가능합니다.");
+          alert(
+            `${
+              user?.isKorean
+                ? "10메가 이하의 이미지만 업로드 가능합니다."
+                : "Only images up to 10MB can be uploaded."
+            }`
+          );
           return;
         }
       }
