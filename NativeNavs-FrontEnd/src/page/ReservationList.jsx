@@ -1,19 +1,23 @@
-import Carousel2 from "@/components/Carousel/Carousel2";
-import styles from "./ReservationList.module.css";
-import Tour_Item3 from "@/components/Tour_Item/Tour_Item3";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Carousel2 from "@/components/Carousel/Carousel2";
+import Tour_Item3 from "@/components/Tour_Item/Tour_Item3";
+import Button from "@/components/Button/Button";
+import styles from "./ReservationList.module.css";
 import {
   navigateToReservationListFragmentReservationDetail,
   navigateToReservationListFragmentTourList,
 } from "../utils/get-android-function";
-import Button from "@/components/Button/Button";
 import NativeNavs from "../assets/NativeNavs.png";
+import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
 const ReservationList = () => {
   const [user, setUser] = useState(null);
   const [reservationsInProgress, setreservationsInProgress] = useState([]);
   const [reservationsCompleted, setreservationsCompleted] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -28,8 +32,6 @@ const ReservationList = () => {
         {
           headers: {
             Authorization: user.userToken,
-            // Authorization:
-            // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
           },
         }
       );
@@ -38,13 +40,41 @@ const ReservationList = () => {
       console.log("받아온 정보:", response.data);
     } catch (error) {
       console.error("투어 예약 리스트 받아오기 실패:", error);
+    } finally {
+      setLoading(false); // 요청이 완료되면 로딩 상태 false
     }
   };
 
   useEffect(() => {
     getReservationList();
-    // }
   }, [user]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   if (reservationsInProgress.length != 0) {
     return (
@@ -102,9 +132,7 @@ const ReservationList = () => {
             {user && user.isKorean == true ? (
               "아직 예약한 Tour가 없어요!"
             ) : (
-              <>
-                No upcoming tours booked!
-              </>
+              <>No upcoming tours booked!</>
             )}
           </h2>
           <h5>

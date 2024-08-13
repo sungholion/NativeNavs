@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./WishList.module.css";
 import WishListItem from "../components/WishListItem/WishListItem";
-import NativeNavs from "@/assets/NativeNavs.png";
+
 
 function WishList() {
   const [user, setUser] = useState(null);
   const [tours, setTours] = useState([]);
   const [wishList, setWishList] = useState([]);
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -40,6 +40,7 @@ function WishList() {
     const fetchWishLists = async () => {
       if (user && user.isNav == false) {
         try {
+          setLoading(true); // API 요청 시작 전에 로딩 상태 true
           const response = await axios.get(
             "https://i11d110.p.ssafy.io/api/wishlist",
             {
@@ -54,24 +55,21 @@ function WishList() {
         } catch (error) {
           console.error(error);
         } finally {
-          setLoading(false); // 로딩 완료 후 로딩 상태 업데이트
+          setLoading(false); // 요청이 완료되면 로딩 상태 false
         }
       }
     };
     fetchWishLists();
   }, [user]);
 
-  if (loading) {
-    return (
-      <div className={styles.loaderContainer}>
-        <img className={styles.NativeNavs} src={NativeNavs} alt="Loading..." />
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.WishList}>
-      <WishListItem user={user} tours={tours} wishList={wishList} />
+    <div className={styles.container}>
+      <WishListItem
+        user={user}
+        tours={tours}
+        wishList={wishList}
+        loading={loading}
+      />
     </div>
   );
 }

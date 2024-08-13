@@ -3,13 +3,15 @@ import axios from "axios";
 import Tour_Item from "../components/Tour_Item/Tour_Item";
 import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
-import confetti from "canvas-confetti";
+import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
 const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
@@ -60,6 +62,16 @@ const Main = () => {
     }
   }, [user, search]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
   // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -67,10 +79,19 @@ const Main = () => {
     return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
   };
 
-  if (loading) {
+  if (!isReadyToDisplay) {
     return (
-      <div className={styles.loaderContainer}>
-        <div className={styles.loader}></div>
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
       </div>
     );
   }
