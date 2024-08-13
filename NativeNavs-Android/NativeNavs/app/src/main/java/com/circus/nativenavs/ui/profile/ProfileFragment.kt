@@ -126,23 +126,6 @@ class ProfileFragment :
         }
     }
 
-    private fun checkPassDialog() {
-        val builder = MaterialAlertDialogBuilder(homeActivity)
-        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
-
-        builder.setView(view)
-        builder.setTitle(getString(R.string.dialog_pass_title))
-        builder.setMessage(getString(R.string.dialog_pass_content))
-        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
-            navigate(R.id.action_profileFragment_to_profileModifylFragment)
-        }
-
-        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
-            dialog.dismiss()
-        }
-        builder.show()
-    }
-
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
 //            checkPassDialog()

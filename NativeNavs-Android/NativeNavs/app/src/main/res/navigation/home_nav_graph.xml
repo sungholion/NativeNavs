@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_tosFragment"
             app:destination="@id/tosFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
     </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
@@ -380,4 +383,9 @@
             android:name="tourId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.circus.nativenavs.ui.mypage.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" />
 </navigation>

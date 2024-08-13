@@ -79,7 +79,11 @@ class MypageFragment :
 
         binding.mypageProfileCl.setOnClickListener {
             val action =
-                MypageFragmentDirections.actionMypageFragmentToProfileFragment(userId = SharedPref.userId!!, 0,0)
+                MypageFragmentDirections.actionMypageFragmentToProfileFragment(
+                    userId = SharedPref.userId!!,
+                    0,
+                    0
+                )
             navigate(action)
         }
 
@@ -95,6 +99,10 @@ class MypageFragment :
             navigate(R.id.action_mypageFragment_to_tosFragment)
         }
 
+        binding.mypagePasswordCl.setOnClickListener {
+            checkPassDialog()
+        }
+
         binding.mypageLogoutCl.setOnClickListener {
             SharedPref.remove(LOGOUT)
             startActivity(Intent(requireContext(), LoginActivity::class.java))
@@ -108,13 +116,30 @@ class MypageFragment :
             builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
                 homeActivityViewModel.withdrawal()
             }
-            builder.setNegativeButton(getString(R.string.dialog_cancel_btn)){ dialog, which ->
+            builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
                 dialog.dismiss()
             }
 
             builder.show()
         }
 
+    }
+
+    private fun checkPassDialog() {
+        val builder = MaterialAlertDialogBuilder(homeActivity)
+        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
+
+        builder.setView(view)
+        builder.setTitle(getString(R.string.dialog_pass_title))
+        builder.setMessage(getString(R.string.dialog_pass_content))
+        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
+            navigate(R.id.action_mypageFragment_to_passwordFragment)
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
 }

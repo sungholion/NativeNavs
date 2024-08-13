@@ -44,6 +44,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
     private lateinit var homeActivity: HomeActivity
     private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
     private var clicked: Boolean = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -242,16 +243,17 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         binding.profileModifyCompleteBtn.setOnClickListener {
             if (clicked) showToast("잠시만 기다려 주세요")
             else {
-                clicked = true
-                val password = binding.profileModifyPasswordEt.text.toString()
-                val passwordCheck = binding.profileModifyPasswordCheckEt.text.toString()
-                if (!isPasswordValid(password)) {
-                    clicked = false
-                    showToast(getString(R.string.profile_password_message))
-                } else if (passwordCheck != password) {
-                    showToast(getString(R.string.profile_password_check_message))
-                    clicked = false
-                } else if (homeActivityViewModel.nicknameCheck.value == false){
+//                clicked = true
+//                val password = binding.profileModifyPasswordEt.text.toString()
+//                val passwordCheck = binding.profileModifyPasswordCheckEt.text.toString()
+//                if (!isPasswordValid(password)) {
+//                    clicked = false
+//                    showToast(getString(R.string.profile_password_message))
+//                } else if (passwordCheck != password) {
+//                    showToast(getString(R.string.profile_password_check_message))
+//                    clicked = false
+//                } else
+                    if (homeActivityViewModel.nicknameCheck.value == false){
                     showToast(getString(R.string.profile_nickname_check))
                     clicked = false
                 }
@@ -261,7 +263,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                             it.updateProfileModifyUser(
                                 SignUpDto(
                                     email = it.userDto.value!!.email,
-                                    password = profileModifyPasswordEt.text.toString(),
+                                    password = "",
                                     isNav = it.userDto.value!!.isNav,
                                     nickname = profileModifyNicknameEt.text.toString(),
                                     userLanguage = profileModifySelectedLanguageTv.text.toString(),
@@ -290,7 +292,7 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         }
 
         binding.profileModifyTitle.customWebviewTitleBackIv.setOnClickListener {
-            findNavController().popBackStack()
+            popBackStack()
         }
     }
 

@@ -192,4 +192,5 @@
     <string name="search_check">선택</string>
     <string name="search_cancel"><u>취소</u></string>
     <string name="tour_detail_booking_help">Nav와의 대화를 통해 투어를 예약해보세요!</string>
+    <string name="mypage_password">비밀번호 변경</string>
 </resources>
