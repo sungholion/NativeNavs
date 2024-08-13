@@ -19,7 +19,7 @@
     <string name="app_bar_review">Review</string>
     <string name="app_bar_review_register">Write Review</string>
     <string name="app_bar_profile">Profile</string>
-    <string name="app_bar_profile_modify">Edit Profile</string>
+    <string name="app_bar_profile_modify">Edit</string>
 
     <string name="app_bar_my_trip_list">My TourList</string>
     <string name="tour_wish_list_title">WishList</string>
