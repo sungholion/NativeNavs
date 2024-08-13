@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  transition: background-color 2s ease-in-out; /* 오버레이 배경 부드럽게 사라지게 */
 }
 
 .modalContent {
@@ -19,44 +20,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s ease;
 }
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 40px;
-  font-weight: lighter;
-  cursor: pointer;
-  color: white;
+.dimmedBackground {
+  background-color: rgba(0, 0, 0, 0.8); /* 배경을 어둡게 */
 }
 
 .modalImage {
   max-width: 100%;
   max-height: 100%;
   border-radius: 5px;
-}
-
-.prevButton, .nextButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent; /* 배경색 투명하게 설정 */
-  color: white;
-  border: none; /* 테두리 제거 */
-  font-size: 30px;
-  cursor: pointer;
-  z-index: 1001;
-  padding: 10px;
-  border-radius: 50%;
   user-select: none;
-  box-shadow: none; /* 그림자 제거 */
 }
 
-.prevButton {
-  left: 10px;
+.indicatorOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* 버튼이 잘 보이도록 어두운 오버레이 추가 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1001; /* 버튼이 가장 위에 보이도록 설정 */
+  animation: fadeOutOverlay 2s forwards 1s; /* 오버레이 애니메이션 추가 */
 }
 
-.nextButton {
-  right: 10px;
+.indicator {
+  font-size: 30px; 
+  color: white;
+  font-weight: bold; /* 텍스트를 더 두껍게 */
+  opacity: 1;
+  transition: opacity 2s ease-in-out; /* 부드럽게 사라지도록 애니메이션 */
+  pointer-events: none;
+  margin: 0 20px;
+}
+
+.leftIndicator {
+  animation: fadeOut 2s forwards 1s; /* 1초 후 2초 동안 서서히 사라짐 */
+}
+
+.rightIndicator {
+  animation: fadeOut 2s forwards 1s; /* 1초 후 2초 동안 서서히 사라짐 */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOutOverlay {
+  from {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0); /* 완전히 투명해지도록 */
+  }
 }
