@@ -3,6 +3,7 @@ package com.nativenavs.tour.dto;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -57,6 +58,11 @@ public class TourDTO {
             UserDTO userDTO = UserDTO.toUserDTO(tourEntity.getUser()); // UserDTO 변환 메서드 호출
             tourDTO.setUser(userDTO);
         }
+
+        List<Integer> categoryIds = tourEntity.getTourCategories()
+                .stream().map(tourCategory -> tourCategory.getCategory().getId())
+                .toList();
+        tourDTO.setCategoryIds(categoryIds);
 
         List<PlanDTO> planDTOs = tourEntity.getPlans().stream()
                 .map(plan -> new PlanDTO(
