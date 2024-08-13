@@ -5,6 +5,8 @@ import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
 import com.nativenavs.chat.interceptor.UserPresenceInterceptor;
 import com.nativenavs.chat.repository.ChatRepository;
+import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -65,7 +67,7 @@ public class ChatService {
                     senderNickname,
                     senderProfileImage,
                     content,
-                    resultIsRead,  // If connected, mark as read
+                    resultIsRead,  // 두명 다 연결이면 읽음 처리
                     sendTime
             ));
 
@@ -101,11 +103,21 @@ public class ChatService {
 
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
+
+        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String email = JwtTokenProvider.getEmailFromToken(jwtToken);
+        UserDTO userDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
+
+
         return chatRepository.findAllByRoomId(roomId).stream()
                 .map(chatEntity -> {
                     // 채팅 조회 시 읽음 처리
-                    chatEntity.markAsRead();
-                    chatRepository.save(chatEntity);  // 읽음 상태 저장
+
+                    if(userDTO.getId() != chatEntity.getSenderId()){
+                        chatEntity.markAsRead();
+                    }
+
+                    chatRepository.save(chatEntity);  // 읽음 상태 저장 or 미저장
 
                     return ChatDTO.builder()
                             .id(chatEntity.getId().toHexString())
@@ -114,7 +126,7 @@ public class ChatService {
                             .senderNickname(chatEntity.getSenderNickname())
                             .senderProfileImage(chatEntity.getSenderProfileImage())
                             .content(chatEntity.getContent())
-                            .messageChecked(chatEntity.isMessageChecked())
+                            .messageChecked(chatEntity.getMessageChecked())
                             .sendTime(chatEntity.getSendTime())
                             .build();
                 })
@@ -122,6 +134,7 @@ public class ChatService {
     }
 
     // 추가: 특정 채팅을 읽음으로 표시하는 메서드
+    @Transactional
     public void markChatAsRead(String chatId) {
         ChatEntity chatEntity = chatRepository.findById(new ObjectId(chatId).getTimestamp())
                 .orElseThrow(() -> new NoSuchElementException("Chat not found with id: " + chatId));

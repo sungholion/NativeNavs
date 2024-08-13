@@ -19,7 +19,7 @@ public class ChatDTO {
     private String senderProfileImage;
     private String content;
 
-    private boolean messageChecked;
+    private Boolean messageChecked;
     private String sendTime;
 
     public static ChatDTO toChatDTO(ChatEntity chatEntity) {
@@ -30,7 +30,7 @@ public class ChatDTO {
                 .senderNickname(chatEntity.getSenderNickname())
                 .senderProfileImage(chatEntity.getSenderProfileImage())
                 .content(chatEntity.getContent())
-                .messageChecked(chatEntity.isMessageChecked())
+                .messageChecked(chatEntity.getMessageChecked())
                 .sendTime(chatEntity.getSendTime())
                 .build();
     }
