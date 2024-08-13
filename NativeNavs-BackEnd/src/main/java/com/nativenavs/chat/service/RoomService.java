@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +51,15 @@ public class RoomService {
 
             UserDTO travUserDTO = userService.searchByEmail(email); // 투어 이용자(Trav) DTO
 
+            // 중복 방지: 이미 동일한 투어에 대해 사용자가 채팅방을 가지고 있는지 확인
+            RoomEntity existingRoom = roomRepository.findByTourIdAndSenderId(tourId, travUserDTO.getId());
+            if (existingRoom != null) {
+                // 이미 존재하는 방의 RoomDTO 반환
+                return RoomDTO.toRoomDTO(existingRoom);
+            }
+
+
+
             RoomEntity newRoom = RoomEntity.createRoom(tourDTO.getId(), tourDTO.getTitle(), tourDTO.getThumbnailImage(), tourDTO.getLocation(), travUserDTO.getId(), travUserDTO.getNickname(), travUserDTO.getIsNav(), navUserDTO.getId(), navUserDTO.getNickname(), navUserDTO.getIsNav());
             roomRepository.save(newRoom);
 
@@ -66,16 +77,25 @@ public class RoomService {
         }
     }
 
-    public List<RoomEntity> myRoomList(String token) { //findAllRoom -> myRoomList
+    public List<RoomDTO> myRoomList(String token) { //findAllRoom -> myRoomList
         String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-        UserDTO UserDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
+        UserDTO userDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
 
-        if(UserDTO.getIsNav()){ // 가이드라면
-            return roomRepository.findAllByReceiverId(UserDTO.getId());
-        } else{ // 여행자라면
-            return roomRepository.findAllBySenderId(UserDTO.getId());
+        List<RoomEntity> roomEntities;
+
+        if (userDTO.getIsNav()) { // 가이드라면
+            roomEntities = roomRepository.findAllByReceiverId(userDTO.getId());
+        } else { // 여행자라면
+            roomEntities = roomRepository.findAllBySenderId(userDTO.getId());
         }
+
+        // 최근 메시지 시간(recentMessageTime)으로 정렬 (최신순)
+        return roomEntities.stream()
+                .sorted(Comparator.comparing(RoomEntity::getRecentMessageTime, Comparator.nullsLast(Comparator.reverseOrder())))
+                .map(RoomDTO::toRoomDTO)
+                .collect(Collectors.toList());
+
     }
 
     public RoomDTO findRoomDTOById(int roomId) {
