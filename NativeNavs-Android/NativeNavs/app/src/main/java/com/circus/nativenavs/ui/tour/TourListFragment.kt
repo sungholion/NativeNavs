@@ -57,17 +57,17 @@ class TourListFragment : BaseFragment<FragmentTourListBinding>(
     }
 
     private fun initObserve() {
-        chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
-            if (roomId != -1) {
-                val action =
-                    TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
-                        chatId = roomId
-                    )
-                navigate(action)
-                chattingViewModel.setChatRoomId(-1)
-            }
-
-        }
+//        chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
+//            if (roomId != -1) {
+//                val action =
+//                    TourListFragmentDirections.actionTourListFragmentToChattingRoomFragment(
+//                        chatId = roomId
+//                    )
+//                navigate(action)
+//                chattingViewModel.setChatRoomId(-1)
+//            }
+//
+//        }
 
         homeActivityViewModel.notiFlag.observe(viewLifecycleOwner) { flag ->
             if (flag != -1) {

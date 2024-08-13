@@ -62,6 +62,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
 
         NavigationUI.setupWithNavController(binding.mainBottomNav, navController)
         binding.mainBottomNav.setOnClickListener {
+//            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             findNavController(R.id.home_fcv).popBackStack()
         }
     }

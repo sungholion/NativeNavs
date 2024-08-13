@@ -53,7 +53,7 @@ interface UserService {
         @Query("email") email: String
     ): Response<Void>
 
-    @GET("language")
+    @GET("language/search/all")
     suspend fun getLanguageList(): LanguageServerDto
 
     @GET("users/checkDuplicated/nickname/{nickname}")
