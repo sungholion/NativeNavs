@@ -35,7 +35,6 @@ public class ChatController {
                 chatDTO.getSendTime()
         );
 
-        System.out.println("뿌리기 직전 DTO : " + ChatDTO.toChatDTO(chatEntity));
         return ChatDTO.toChatDTO(chatEntity);
     }
 
@@ -43,7 +42,6 @@ public class ChatController {
     @PostMapping("/read/{chatId}")
     public ResponseEntity<Void> markAsRead(@PathVariable String chatId) {
         chatService.markChatAsRead(chatId);
-        System.out.println("marked as read : " + chatId);
         return ResponseEntity.ok().build();
     }
 }

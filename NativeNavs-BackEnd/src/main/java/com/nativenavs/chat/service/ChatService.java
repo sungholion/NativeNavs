@@ -1,9 +1,9 @@
 package com.nativenavs.chat.service;
 
+import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.entity.ChatEntity;
 import com.nativenavs.chat.event.ChatCreatedEvent;
-import com.nativenavs.chat.interceptor.UserPresenceInterceptor;
 import com.nativenavs.chat.repository.ChatRepository;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.service.UserService;
@@ -11,8 +11,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,81 +24,39 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final @Lazy UserPresenceInterceptor userPresenceInterceptor;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final UserService userService;
+    private final ConnectionService connectionService;
     // Method ----------------------------------------------------------------------------------------------------------
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
-        ChatEntity chatEntity;
 
-        if(content.equals("문의 신청합니다.")){
-            chatEntity = chatRepository.save(ChatEntity.createChat(
-                    roomId,
-                    senderId,
-                    senderNickname,
-                    senderProfileImage,
-                    content,
-                    messageChecked,  // If connected, mark as read
-                    sendTime
-            ));
+        boolean twoUserConnected = connectionService.getConnectedUserCount(roomId) == 2;
+        boolean resultIsRead = false;
 
+        if(twoUserConnected) {
+            resultIsRead = true;
         }
 
-        else{
-            boolean twoUserConnected = userPresenceInterceptor.twoUserConnected(roomId); // 한명만 연결인지
-
-            System.out.println("twoUserConnected: " + twoUserConnected);
-
-            boolean resultIsRead = false;
-
-            if(twoUserConnected) {
-                resultIsRead = true;
-                markAllChatsAsReadInRoom(roomId);
-            }
-
-
-
-            chatEntity = chatRepository.save(ChatEntity.createChat(
-                    roomId,
-                    senderId,
-                    senderNickname,
-                    senderProfileImage,
-                    content,
-                    resultIsRead,  // 두명 다 연결이면 읽음 처리
-                    sendTime
-            ));
-
-
-            System.out.println("is Read : " + chatEntity.isMessageChecked());
-
+        if(content.equals("문의 신청합니다")){
+            resultIsRead = false;
         }
+
+        ChatEntity chatEntity = chatRepository.save(ChatEntity.createChat(
+                roomId,
+                senderId,
+                senderNickname,
+                senderProfileImage,
+                content,
+                resultIsRead,  // 두명 다 연결이면 읽음 처리
+                sendTime
+        ));
+
         eventPublisher.publishEvent(new ChatCreatedEvent(roomId, content, sendTime));
-
 
         return chatEntity;
 
-
     }
-
-    public void markAllChatsAsReadInRoom(int roomId) {
-        List<ChatEntity> unreadChats = chatRepository.findAllByRoomId(roomId).stream()
-                .filter(chatEntity -> !chatEntity.isMessageChecked())
-                .toList();
-
-        for (ChatEntity chatEntity : unreadChats) {
-            chatEntity.markAsRead();
-            chatRepository.save(chatEntity);
-        }
-
-        notifyClientsAboutReadStatus(roomId);
-    }
-
-    private void notifyClientsAboutReadStatus(int roomId) {
-        // Send a WebSocket message to notify clients about the read status change
-        messagingTemplate.convertAndSend("/room/" + roomId + "/read-status", "Messages have been read");
-    }
-
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
 
@@ -140,10 +96,7 @@ public class ChatService {
                 .orElseThrow(() -> new NoSuchElementException("Chat not found with id: " + chatId));
         chatEntity.markAsRead();
 
-        System.out.println("ChatEntity에 read 여긴가 " + chatEntity);
         chatRepository.save(chatEntity);
-
-        notifyClientsAboutReadStatus(chatEntity.getRoomId());
     }
 
 }

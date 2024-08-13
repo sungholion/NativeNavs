@@ -51,13 +51,6 @@ public class ConnectionService {
         return sessionIdToRoomId.get(sessionId);
     }
 
-//    private void sendUserCount(int roomId) {
-//        int userCount = getConnectedUserCount(roomId);
-//        messagingTemplate.convertAndSend("/status/room/" + roomId, new UserCountDTO(roomId, userCount));
-//    }
-
-
-
     private void sendUserCount(int roomId) {
         int userCount = getConnectedUserCount(roomId);
         messagingTemplate.convertAndSendToUser(
@@ -67,8 +60,6 @@ public class ConnectionService {
                 createHeaders(roomId)
         );
     }
-
-
 
     private MessageHeaders createHeaders(int roomId) {
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);

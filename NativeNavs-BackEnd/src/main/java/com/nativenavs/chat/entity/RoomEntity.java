@@ -55,17 +55,6 @@ public class RoomEntity {
     private String recentMessageTime;
 
 
-    /**
-     * 채팅방 생성
-     * @param tourId 투어 ID
-     * @param senderId 발신자 ID
-     * @param senderNickname 발신자 닉네임
-     * @param senderIsNav 발신자 NAV 여부
-     * @param receiverId 수신자 ID
-     * @param receiverNickname 수신자 닉네임
-     * @param receiverIsNav 수신자 NAV 여부
-     * @return Room Entity
-     */
     public static RoomEntity createRoom(int tourId, String tourTitle, String tourImgUrl, String tourRegion, int senderId, String senderNickname, boolean senderIsNav, int receiverId, String receiverNickname, boolean receiverIsNav) {
         return RoomEntity.builder()
                 .tourId(tourId)
