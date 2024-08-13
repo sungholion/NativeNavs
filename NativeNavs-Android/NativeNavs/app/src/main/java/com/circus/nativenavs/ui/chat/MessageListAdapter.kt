@@ -18,13 +18,21 @@ class MessageListAdapter :
 
     companion object MessageComparator : DiffUtil.ItemCallback<MessageDto>() {
         override fun areItemsTheSame(oldItem: MessageDto, newItem: MessageDto): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.hashCode() == newItem.hashCode()
         }
 
         override fun areContentsTheSame(oldItem: MessageDto, newItem: MessageDto): Boolean {
             return oldItem == newItem
         }
 
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     inner class MessageViewHolder(val binding: ItemMessageBinding) :
@@ -43,7 +51,7 @@ class MessageListAdapter :
                 binding.chatSenderMessageTv.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             }
 
-            binding.root.setOnClickListener {
+            binding.chatSenderMessageTv.setOnClickListener {
                 itemClickListener.onItemClicked(message.content, adapterPosition)
             }
         }

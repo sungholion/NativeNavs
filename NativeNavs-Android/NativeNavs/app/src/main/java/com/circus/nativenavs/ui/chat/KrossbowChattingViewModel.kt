@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatStatusDto
+import com.circus.nativenavs.data.ChatUserCountDto
 import com.circus.nativenavs.data.MessageDto
 import com.circus.nativenavs.data.RequestTranslate
 import com.circus.nativenavs.data.service.ChatService
@@ -48,7 +48,8 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private val chatRetrofit = ApplicationClass.retrofit.create(ChatService::class.java)
 
-    private val translateRetrofit = ApplicationClass.retrofit.create(TranslateService::class.java)
+    private val translateRetrofit =
+        ApplicationClass.translationRetrofit.create(TranslateService::class.java)
 
     private val _uiState = MutableLiveData(ChatScreenUiState())
     val uiState: LiveData<ChatScreenUiState> = _uiState
@@ -63,23 +64,26 @@ class KrossbowChattingViewModel : ViewModel() {
     fun translateMessage(message: RequestTranslate, position: Int) {
         _uiState.value?.let {
             viewModelScope.launch {
-                val result = translateRetrofit.getTranslatedMessage(
-                    "ncp_iam_BPAMKRZYDfpW2oS2d2ak",
-                    "ncp_iam_BPKMKRAnmc7BrexZlz0QEO4yvHK5JTg2g1",
-                    message
-                )
-                val returnMessage = result.message.result.translatedText
+                try {
+                    val result = translateRetrofit.getTranslatedMessage(message)
+                    val returnMessage = result.message.result.translatedText
 
-                it.messages[position].translatedContent = returnMessage
+                    it.messages[position].translatedContent = returnMessage
+                    it.messages[position].isTranslated = true
+
+                    _uiState.postValue(it.copy(messages = it.messages))
+
+                } catch (e: Exception) {
+                    Log.d(TAG, "translateMessage: ${e.message}")
+                }
             }
         }
-        translateMessage(position)
     }
 
     fun translateMessage(position: Int) {
         _uiState.value?.let {
             it.messages[position].isTranslated = !it.messages[position].isTranslated
-            _uiState.postValue(_uiState.value?.copy(messages = it.messages))
+            _uiState.postValue(it.copy(messages = it.messages))
         }
     }
 
@@ -211,12 +215,13 @@ class KrossbowChattingViewModel : ViewModel() {
 
             val subscriptionConnection = stompSession.subscribe(
                 StompSubscribeHeaders(
-                    destination = "/room/${chatRoomId.value}/status",
+                    destination = "/status/room/${chatRoomId.value}",
 //                    customHeaders = mapOf(
 //                        "Authorization" to "${SharedPref.accessToken}"
 //                    )
                 )
             )
+
             isConnected = true
 
             subscriptionMessage.collect { frame ->
@@ -229,16 +234,16 @@ class KrossbowChattingViewModel : ViewModel() {
 
             subscriptionConnection.collect { frame ->
                 Log.d(TAG, "frame observe Connection: $frame")
-                val rawJson = frame.bodyAsText
 
-                val chatStatus = moshi.adapter(ChatStatusDto::class.java).fromJson(frame.bodyAsText)
-                chatStatus?.let {
-                    if (chatStatus.status == "CONNECTED") {
+                val userCount =
+                    moshi.adapter(ChatUserCountDto::class.java).fromJson(frame.bodyAsText)
+                userCount?.let {
+                    if (userCount.userCount == 2) {
                         markMessagesAsRead()
                     }
-
                 }
             }
+
         } catch (e: Exception) {
             isConnected = false
             Log.e(TAG, "Message observation failed: ", e)

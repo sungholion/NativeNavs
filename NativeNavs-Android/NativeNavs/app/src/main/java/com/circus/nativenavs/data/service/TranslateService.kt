@@ -10,8 +10,6 @@ interface TranslateService {
 
     @POST("translation")
     suspend fun getTranslatedMessage(
-        @Header("X-NCP-APIGW-API-KEY-ID") token: String?,
-        @Header("X-NCP-APIGW-API-KEY") secretToken: String?,
         @Body message: RequestTranslate
     ): ResponseTranslate
 
