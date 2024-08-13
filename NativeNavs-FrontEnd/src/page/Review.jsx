@@ -107,7 +107,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
       <div className={styles.body}>
         <h2 className={styles.bodyHeader}>
           {user && user.isKorean
-            ? `후기 ${
+            ? `리뷰 ${
                 keyword === "trav"
                   ? travReviewData.reviewCount
                   : reviewData.reviewCount

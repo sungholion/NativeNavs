@@ -343,7 +343,7 @@ const Detail = () => {
       <div className="" onClick={onClickReview}>
         <div className={styles.buttonContainer}>
           <button className={styles.Button}>
-            {user && user.isKorean ? "모든 리뷰 보기 >" : "View All Reviews >"}
+            {user && user.isKorean ? "전체 리뷰 보기 >" : "View All Reviews >"}
           </button>
         </div>
         {firstReview ? (
