@@ -1,5 +1,6 @@
 package com.nativenavs.chat.controller;
 
+import com.nativenavs.chat.config.WebSocketConfig;
 import com.nativenavs.chat.dto.ChatDTO;
 import com.nativenavs.chat.dto.RoomDTO;
 import com.nativenavs.chat.service.ChatService;
@@ -22,10 +23,11 @@ public class RoomController {
 
     private final ChatService chatService;
     private final RoomService roomService;
+    private final WebSocketConfig webSocketConfig;
 
     // API -------------------------------------------------------------------------------------------------------------
 
-    @Operation(summary = "채팅방 생성 API", description = "채팅방을 생성하는 API. 투어 상세보기에서 '1:1 문의하기' 클릭 시 채팅방이 생성된다.")
+    @Operation(summary = "채팅방 생성 API", description = "채팅방을 생성하는 API. 투어 상세보기에서 '1:1 하기' 클릭 시 채팅방이 생성된다.")
     @PostMapping("/create/{tourId}")
     public RoomDTO createRoom(@PathVariable("tourId") int tourId, @RequestHeader("Authorization") String token) {
         return roomService.createRoom(tourId,token);    // tourId로 해당 tourId를 가진 roomDTO를 생성하여 반환한다.

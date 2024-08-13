@@ -44,6 +44,8 @@ public class ReservationResponseDTO {
     private BigDecimal meetingLongitude; // 만남 장소 경도
     private String reservationDescription;
 
+    private Integer roomId;
+
     public static ReservationResponseDTO toReservationDTO(ReservationEntity reservationEntity) {
         ReservationResponseDTO dto = new ReservationResponseDTO();
         TourEntity tourEntity = reservationEntity.getTour();
@@ -68,6 +70,8 @@ public class ReservationResponseDTO {
         dto.setMeetingLatitude(reservationEntity.getMeetingLatitude());
         dto.setMeetingLongitude(reservationEntity.getMeetingLongitude());
         dto.setReservationDescription(reservationEntity.getDescription());
+
+        dto.setRoomId(reservationEntity.getRoomId());
 
         return dto;
     }

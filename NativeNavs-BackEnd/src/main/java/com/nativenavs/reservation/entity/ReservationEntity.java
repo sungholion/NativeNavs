@@ -82,4 +82,6 @@ public class ReservationEntity {
     @Column(name = "meeting_longitude", precision = 11, scale = 8)
     private BigDecimal meetingLongitude;
 
+    @Column(name = "room_id")
+    private Integer roomId;
 }

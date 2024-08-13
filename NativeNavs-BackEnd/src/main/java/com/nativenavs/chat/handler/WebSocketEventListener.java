@@ -1,68 +1,103 @@
 // WebSocketEventListener.java
 package com.nativenavs.chat.handler;
 
-import com.nativenavs.chat.dto.UserCountDTO;
-import com.nativenavs.chat.service.ConnectionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class WebSocketEventListener {
 
-    private final ConnectionService connectionService;
-    private final SimpMessageSendingOperations messagingTemplate;
+//    private final SimpMessagingTemplate messagingTemplate;
+//
+//    // Store connected users by room ID
+//    private final ConcurrentMap<Integer, ConcurrentMap<String, Boolean>> connectedUsers = new ConcurrentHashMap<>();
+//    private final ConcurrentMap<String, Integer> sessionIdToRoomId = new ConcurrentHashMap<>();
+//
+//    @EventListener
+//    public synchronized void handleWebSocketConnectListener(SessionConnectEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = headerAccessor.getSessionId();
+//        int roomId = getRoomIdFromSession(headerAccessor);
+//
+//        handleUserConnect(roomId, sessionId);
+//        broadcastBothConnectedStatus(roomId);
+//    }
+//
+//    @EventListener
+//    public synchronized void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String sessionId = headerAccessor.getSessionId();
+//        Integer roomId = getRoomIdForSession(sessionId);
+//
+//        if (roomId != null) {
+//            handleUserDisconnect(sessionId);
+//            broadcastBothConnectedStatus(roomId);
+//        }
+//    }
+//
+//    @EventListener
+//    public void handleWebSocketSubscribeListener(SessionSubscribeEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String destination = headerAccessor.getDestination();
+//
+//        if (destination != null && destination.startsWith("/room/")) {
+//            int roomId = extractRoomIdFromDestination(destination);
+//            boolean bothConnected = twoUserConnected(roomId);
+//
+//            // Send the current connection status back to the client
+//            messagingTemplate.convertAndSend(destination + "/status", new UserStatusDTO(bothConnected));
+//        }
+//    }
+//
+//    private void handleUserConnect(int roomId, String sessionId) {
+//        connectedUsers.computeIfAbsent(roomId, k -> new ConcurrentHashMap<>()).put(sessionId, true);
+//        sessionIdToRoomId.put(sessionId, roomId);
+//        System.out.println("User connected: sessionId=" + sessionId + ", roomId=" + roomId);
+//        System.out.println("Connected users: " + connectedUsers);
+//    }
+//
+//    private void handleUserDisconnect(String sessionId) {
+//        Integer roomId = sessionIdToRoomId.remove(sessionId);
+//        if (roomId != null) {
+//            ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
+//            if (roomUsers != null) {
+//                roomUsers.remove(sessionId);
+//                if (roomUsers.isEmpty()) {
+//                    connectedUsers.remove(roomId);
+//                }
+//            }
+//            System.out.println("User disconnected: sessionId=" + sessionId + ", roomId=" + roomId);
+//            System.out.println("Connected users: " + connectedUsers);
+//        }
+//    }
+//
+//    public boolean twoUserConnected(int roomId) {
+//        ConcurrentMap<String, Boolean> roomUsers = connectedUsers.get(roomId);
+//        return roomUsers != null && roomUsers.size() == 2;
+//    }
+//
+//    private void broadcastBothConnectedStatus(int roomId) {
+//        boolean bothConnected = twoUserConnected(roomId);
+//        String destination = "/room/" + roomId + "/status";
+//        System.out.println("Broadcasting bothConnected=" + bothConnected + " to room " + roomId);
+//        messagingTemplate.convertAndSend(destination, new UserStatusDTO(bothConnected));
+//    }
 
-    @EventListener
-    public void handleWebSocketConnectListener(SessionConnectEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String sessionId = headerAccessor.getSessionId();
-        int roomId = getRoomIdFromSession(headerAccessor);
-
-        // Log the event
-        System.out.println("User connected: sessionId=" + sessionId + ", roomId=" + roomId);
-
-        // 구독이 활성화되었는지 확인하기 위해 지연 추가
-        try {
-            Thread.sleep(100);  // 100ms 지연
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        connectionService.handleUserConnect(roomId, sessionId);
-        sendUserCountUpdate(roomId);
-    }
-
-    @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String sessionId = headerAccessor.getSessionId();
-        Integer roomId = connectionService.getRoomIdBySessionId(sessionId);
-        if (roomId != null) {
-            System.out.println("User disconnected: sessionId=" + sessionId + ", roomId=" + roomId);
-
-            connectionService.handleUserDisconnect(sessionId);
-            sendUserCountUpdate(roomId);
-        }
-    }
-
-    private void sendUserCountUpdate(int roomId) {
-        int userCount = connectionService.getConnectedUserCount(roomId);
-        messagingTemplate.convertAndSend("/status/room/" + roomId, new UserCountDTO(roomId, userCount));
-    }
-
-    private int getRoomIdFromSession(StompHeaderAccessor headerAccessor) {
-        List<String> roomIdHeader = headerAccessor.getNativeHeader("roomId");
-        if (roomIdHeader == null || roomIdHeader.isEmpty()) {
-            throw new IllegalArgumentException("Missing roomId header in WebSocket session");
-        }
-        return Integer.parseInt(roomIdHeader.get(0));
-    }
+//    private int getRoomIdFromSession(StompHeaderAccessor headerAccessor) {
+//        List<String> roomIdHeader = headerAccessor.getNativeHeader("roomId");
+//        if (roomIdHeader == null || roomIdHeader.isEmpty()) {
+//            throw new IllegalArgumentException("Missing roomId header in WebSocket session");
+//        }
+//        return Integer.parseInt(roomIdHeader.get(0));
+//    }
+//
+//    private int extractRoomIdFromDestination(String destination) {
+//        String[] parts = destination.split("/");
+//        return Integer.parseInt(parts[2]); // Assuming the format is /room/{roomId}
+//    }
+//
+//    private Integer getRoomIdForSession(String sessionId) {
+//        return sessionIdToRoomId.get(sessionId);
+//    }
 }

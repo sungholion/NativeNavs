@@ -1,9 +1,12 @@
 package com.nativenavs.reservation.service;
 
+import com.nativenavs.chat.entity.RoomEntity;
+import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.reservation.dto.*;
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
+import com.nativenavs.stamp.service.StampService;
 import com.nativenavs.tour.dto.TourDTO;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.tour.repository.TourRepository;
@@ -26,18 +29,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
-    @Autowired
-    private ReservationRepository reservationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-
-
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private WishlistRepository wishlistRepository;
+    private final StampService userStampService;
+    private final RoomRepository roomRepository;
+    private final ReservationRepository reservationRepository;
+    private final UserRepository userRepository;
+    private final TourRepository tourRepository;
+    private final WishlistRepository wishlistRepository;
 
     public ReservationEntity addReservation(ReservationRequestDTO requestDTO, int guideId) {
         UserEntity guide = userRepository.findById(guideId)
@@ -71,6 +69,14 @@ public class ReservationService {
     public ReservationResponseDTO getReservationDetails(int reservationId){
         ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found with id: " + reservationId));
+
+        int tourId = reservationEntity.getTour().getId();
+        RoomEntity roomEntity = roomRepository.findByTourId(tourId);
+        Integer roomId = (roomEntity != null) ? roomEntity.getRoomId() : null;
+
+
+        System.out.println(roomId);
+        reservationEntity.setRoomId(roomId);
 
         return ReservationResponseDTO.toReservationDTO(reservationEntity);
     }
@@ -140,6 +146,7 @@ public class ReservationService {
         reservation.setTaggingAt(LocalDateTime.now());
         // 변경된 예약을 저장합니다.
         reservationRepository.save(reservation);
+
     }
 
     public ReservationReviewDTO getReservationForReview(int reservationId){
@@ -155,5 +162,15 @@ public class ReservationService {
 
         return reservationReviewDTO;
     }
+
+    public void checkFirstReservation(UserEntity user){
+        int userId = user.getId();
+        int count =reservationRepository.countByParticipantId(userId);
+        // 예약 기록이 없으면 첫 예약이므로 스탬프 발급
+        if (count==1) {
+            userStampService.addStamp(2, userId); // 스탬프 ID 1을 발급
+        }
+    }
+
 
 }

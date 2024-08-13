@@ -3,7 +3,11 @@ package com.nativenavs.notification.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.nativenavs.chat.repository.RoomRepository;
 import com.nativenavs.notification.dto.FcmMessageDTO;
+import com.nativenavs.tour.entity.TourEntity;
+import com.nativenavs.tour.repository.TourRepository;
+import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -15,12 +19,19 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FcmServiceImpl implements FcmService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TourService tourService;
+    @Autowired
+    private TourRepository tourRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
 //    @Override
 //    public int sendMessageTo(FcmSendDTO fcmSendDTO) throws IOException {
@@ -74,6 +85,8 @@ public class FcmServiceImpl implements FcmService {
         String sendTourId;
         String sendRoomId;
 
+        String tourTitle = tourService.findTourById(tourId).getTitle();
+
         // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
         if(flag == 1){
             sendTitle = "채팅 시작";
@@ -84,10 +97,10 @@ public class FcmServiceImpl implements FcmService {
         }
         else if(flag == 2){
             sendTitle = "예약 신청 완료";
-            sendMessage = "부산 가이드 예약 신청이 완료되었습니다";
+            sendMessage = tourTitle + " 예약 신청이 완료되었습니다";
             sendReservationId = String.valueOf(reservationId);
-            sendTourId = String.valueOf(-1);
-            sendRoomId = String.valueOf(-1);
+            sendTourId = String.valueOf(tourId);
+            sendRoomId = String.valueOf(roomId);
         }
         else if(flag == 3){
             sendTitle = "투어 종료";
