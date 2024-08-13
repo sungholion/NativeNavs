@@ -1,3 +1,5 @@
+/* PlanModal.module.css */
+
 .Modal {
   background-color: white;
   display: flex;
@@ -12,6 +14,8 @@
   border-top-left-radius: 5%;
   border-top-right-radius: 5%;
   z-index: 10000;
+  overflow-y: auto; /* 스크롤 활성화 */
+  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
 }
 
 .ModalBackground {
@@ -23,168 +27,34 @@
   background-color: rgba(240, 240, 240, 0.8);
 }
 
-.ModalHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 3vh 0;
-  height: auto;
-}
-
-.ModalImg {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  margin-right: 1vw;
-}
-
-.ModalImg label {
-  display: inline-block;
-  cursor: pointer;
-  margin: 0px auto;
-}
-
-.ModalImg img {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb;
-  object-fit: cover;
-}
-
-.ModalImg input {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 10px;
-  display: none;
-}
-
-.emptyModalImg {
-  width: 10vw;
-  height: 10vw;
-  min-width: 90px;
-  min-height: 90px;
-  background-color: rgb(240, 240, 240);
-  border-radius: 5%;
-  font-size: small;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.ModalHeaderTitle {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  width: 100%;
-  height: auto;
-  h3 {
-    padding: 0%;
-    margin: 0px;
-    margin-left: 5px;
-    font-weight: 700;
-  }
-
-  input[type="text"] {
-    width: 60vw;
-    height: 30px;
-    font-size: 3vw;
-    border: 2px solid #d9d9d9;
-    border-radius: 10px;
-    padding: 0px 5px;
-    margin: 10px 0px;
-  }
-}
-
-.ModalMap {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2vh;
-  height: 15vh;
-}
-
-.ModalMapSearch {
-  margin: 0 auto;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  align-self: flex-start;
-  width: 80vw;
-}
-
-.ModalMapSearch > h3 {
-  margin: 10px 0px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.ModalContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px auto;
-  padding: 0px;
-
-  .ModalContentHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  h3 {
-    margin: 10px 0px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  p {
-    margin-left: 10px;
-    color: #595959;
-  }
-
-  > textarea {
-    width: 80vw;
-    max-height: 30vh;
-    height: 10vh;
-    resize: vertical;
-    border: 2px solid #d9d9d9;
-    border-radius: 10px;
-    padding: 2px 5px;
-  }
-}
-
 .ButtonSection {
   display: flex;
   justify-content: space-between;
   align-self: center;
   align-items: center;
-  position: fixed;
+  width: 100%;
+  padding: 10px 0;
+  background: white;
+  position: sticky;
   bottom: 0;
-  padding-bottom: 1%;
+}
 
-  button {
-    width: 20vw;
-    height: 5vh;
-    color: white;
-    background-color: #20bec9;
-    border: none;
-    border-radius: 5px;
-    margin: 0px 20vw;
-  }
+button {
+  width: 20vw;
+  height: 5vh;
+  color: white;
+  background-color: #20bec9;
+  border: none;
+  border-radius: 5px;
+  margin: 0 5vw;
+}
 
-  button:active {
-    background-color: #1a9c9c;
-    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
-  }
+button:active {
+  background-color: #1a9c9c;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+}
 
-  button:disabled {
-    display: hidden;
-    opacity: 0;
-  }
+button:disabled {
+  display: hidden;
+  opacity: 0;
 }
