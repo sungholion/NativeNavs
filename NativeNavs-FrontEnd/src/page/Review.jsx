@@ -130,6 +130,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
               user={review.reviewer}
               score={review.score}
               tourTitle={review.tourTitle}
+              createdAt={review.createdAt}
               needToShowTourTitle={true}
             />
           ))}
