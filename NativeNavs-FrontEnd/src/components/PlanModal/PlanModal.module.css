@@ -142,6 +142,7 @@
   margin: 10px auto;
   padding: 0px;
   width: 86vw;
+  margin-top: 20px;
 
   .ModalContentHeader {
     display: flex;
@@ -175,24 +176,32 @@
 .ButtonSection {
   display: flex;
   justify-content: space-between;
-  align-self: center;
   align-items: center;
-  width: 100%;
-  padding: 10px 0;
+  width: 100vw;
   background: white;
-  position: sticky;
-  bottom: 0;
+  position: fixed;
+  bottom: 0px;
   padding-bottom: 10px;
   background-color: white;
+  height: 30px;
 
   button {
-    width: 20vw;
-    height: 5vh;
+    width: 25vw;
+    height: 24px;
     color: white;
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
-    margin: 0px 20vw;
+  }
+
+  .leftButton {
+    position: absolute;
+    left: 10vw;
+  }
+
+  .rightButton {
+    position: absolute;
+    right: 10vw;
   }
 
   button:active {

@@ -217,15 +217,15 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
         >
           {uploadState === 0
             ? user && user.isKorean
-              ? "빈 값을 채워주세요"
-              : "Fill in the blanks"
+              ? "제출 불가능"
+              : "Not available"
             : uploadState === 1
             ? user && user.isKorean
-              ? "업로드하기"
-              : "Upload"
+              ? "등록하기"
+              : "Apply"
             : user && user.isKorean
-            ? "업로드 중"
-            : "Uploading"}
+            ? "..."
+            : "..."}
         </button>
       </section>
     </div>

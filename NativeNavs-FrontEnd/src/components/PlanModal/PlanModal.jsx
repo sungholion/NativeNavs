@@ -185,8 +185,11 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
           />
         </section>
         <section className={styles.ButtonSection}>
-          <button onClick={onClose}>{user?.isKorean ? "뒤로" : "Back"}</button>
+          <button className={styles.leftButton} onClick={onClose}>
+            {user?.isKorean ? "뒤로" : "Back"}
+          </button>
           <button
+            className={styles.rightButton}
             disabled={
               planData.field === "" ||
               planData.image === "" ||
@@ -194,23 +197,11 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               planData.addressFull === ""
             }
             onClick={() => {
-              if (planData.field === "") {
-                window.alert("제목을 입력하세요");
-                return;
-              }
-              if (planData.image === "") {
-                window.alert("해당 일정에 대한 이미지를 업로드 하세요");
-                return;
-              }
-              if (planData.description === "") {
-                window.alert("해당 일정에 대한 글을 써주세요");
-                return;
-              }
               onSubmit({ ...planData });
               onClose();
             }}
           >
-            계획 등록
+            {user?.isKorean ? "반영" : "Reflect"}
           </button>
         </section>
       </div>

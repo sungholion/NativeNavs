@@ -36,6 +36,8 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
   const planCount = useRef(0);
   const [editPlanData, setEditPlanData] = useState();
 
+  // 1 : plan Data 없음
+
   useEffect(() => {
     if (plans.length) {
       dispatch({
@@ -149,7 +151,12 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
               );
             })
           ) : (
-            <div className={styles.PlanListEmpty}>
+            <div
+              className={styles.PlanListEmpty}
+              onClick={() => {
+                setAddModalOpen(true);
+              }}
+            >
               <p style={{ fontSize: "24px", fontWeight: "bold" }}>
                 <span
                   style={{
@@ -208,8 +215,16 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
           <button
             className={styles.rightButton}
             onClick={() => {
-              onTourDataChange("plans", [...planList]);
-              goAfterPage();
+              if (planList.length > 0) {
+                onTourDataChange("plans", [...planList]);
+                goAfterPage();
+              } else {
+                window.alert(
+                  user?.isKorean
+                    ? "일정을 추가해 주세요"
+                    : "Please add a schedule"
+                );
+              }
             }}
           >
             {user && user.isKorean ? "다음" : "Next"}
