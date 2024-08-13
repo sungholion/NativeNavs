@@ -19,16 +19,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
 @CrossOrigin("*")
+@RequiredArgsConstructor
+@Slf4j
 @Tag(name = "회원 API", description = "중복 체크 / 이메일 인증 / 회원 가입 CRUD / FCM Token")
 public class UserController {
 
+    // DI --------------------------------------------------------------------------------------------------------------
+
     private final UserService userService;
     private final EmailService emailService;
+
+    // API -------------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "email 중복 체크 API", description = "회원 가입 시 email이 중복인지 확인")
     @GetMapping("/checkDuplicated/email/{email}")
@@ -380,3 +385,10 @@ public class UserController {
         }
     }
 }
+
+/*
+    리팩토링
+
+
+
+ */

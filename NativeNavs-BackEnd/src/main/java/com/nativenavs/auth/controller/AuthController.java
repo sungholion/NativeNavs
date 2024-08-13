@@ -18,8 +18,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @Slf4j
 @Tag(name = "로그인 API", description = "로그인 / 로그아웃 / AccessToken 갱신")
 public class AuthController {
@@ -156,5 +156,9 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
 }
+
+/*
+    리팩토링
+
+ */

@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/chats")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @Slf4j
 public class ChatController {
+
     // DI --------------------------------------------------------------------------------------------------------------
 
     private final ChatService chatService;
@@ -43,7 +44,9 @@ public class ChatController {
 
         return ChatDTO.toChatDTO(chatEntity);
     }
-
 }
 
+/*
+    리팩토링
 
+ */

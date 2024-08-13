@@ -15,8 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rooms")
-@RequiredArgsConstructor
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @Slf4j
 @Tag(name = "채팅방 API", description = "채팅방 생성 / 채팅방 목록 조회 / 채팅방 입장 / 특정 채팅방 정보 조회")
 public class RoomController {
@@ -75,5 +75,9 @@ public class RoomController {
 
         return ResponseEntity.ok(roomDTO);
     }
-
 }
+
+/*
+    리팩토링
+
+ */
