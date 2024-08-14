@@ -76,7 +76,7 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
-        setLoading(false); 
+        setLoading(false);
         console.log("Tours response data : ", response.data);
       } catch (error) {
         console.error("Error fetching tours:", error);
@@ -242,7 +242,7 @@ const Detail = () => {
                   onDeleteEvent();
                 }}
               >
-                삭제
+                {user && user.isKorean ? "삭제" : "Delete"}
               </button>
             </div>
           )}

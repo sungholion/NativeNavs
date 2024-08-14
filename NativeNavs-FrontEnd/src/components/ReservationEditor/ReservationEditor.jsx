@@ -15,10 +15,10 @@ const MAX_DESCRIPTION_LENGTH = 300;
 const initData = {
   tourId: 0,
   date: new Date(),
-  startAt: new Date(), 
-  endAt: new Date(), 
+  startAt: new Date(),
+  endAt: new Date(),
   participantCount: 1,
-  description: "", 
+  description: "",
   meetingAddress: "",
   meetingLatitude: IMPOSSIBLE_CORD,
   meetingLongitude: IMPOSSIBLE_CORD,
@@ -98,7 +98,7 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
   const onChangeParticipant = (value) => {
     if (
       resInfo.participantCount + value > 0 &&
-      resInfo.participantCount + value < maxParticipants
+      resInfo.participantCount + value <= maxParticipants
     ) {
       dispatch({
         type: "participantCount",

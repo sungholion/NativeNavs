@@ -22,7 +22,7 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
   const [thumbnailImgUrl, setThumbnailImagUrl] = useState("");
   useEffect(() => {
     getImageUrl(thumbnailImage, setThumbnailImagUrl);
-  }, [thumbnailImage]); 
+  }, [thumbnailImage]);
 
   const checkUpload = () => {
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
@@ -200,8 +200,14 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
                 maxParticipants,
                 plans,
                 categoryIds,
-              });
-              setUploadState(1);
+              })
+                .then((res) => {
+                  setUploadState(1);
+                })
+                .catch((err) => {
+                  console.log(err);
+                  setUploadState(1);
+                });
             }
           }}
         >
