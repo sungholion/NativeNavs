@@ -81,4 +81,9 @@ class MyTripFragment :
             )
         navigate(action)
     }
+    fun navigateToMyTripListToTourRegisterFragment() {
+        val action =
+            MyTripFragmentDirections.actionMyTripFragmentToTourRegisterFragment()
+        navigate(action)
+    }
 }

@@ -7,6 +7,9 @@ import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "ReviewRegisterBridge"
 
@@ -18,22 +21,23 @@ class ReviewRegisterBridge(
 
     @JavascriptInterface
     fun moveFromReviewRegisterToReviewListFragment(tourId: Int) {
-        fragment.moveFromReviewRegisterToReviewListFragment(tourId)
-        Log.d(TAG, "moveFromReviewRegisterToReviewListFragment: $tourId")
+        CoroutineScope(Dispatchers.Main).launch{
+            fragment.moveFromReviewRegisterToReviewListFragment(tourId)
+        }
     }
 
     @JavascriptInterface
     fun showReviewRegisterFailDialog() {
-        fragment.showReviewRegisterFailDialog()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.showReviewRegisterFailDialog()
+        }
     }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }

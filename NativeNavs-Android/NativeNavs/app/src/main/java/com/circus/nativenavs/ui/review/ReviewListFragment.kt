@@ -68,7 +68,8 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }
@@ -84,13 +85,11 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
             url = WEBURL + "trav/${args.travId}/reviews"
         }
 
-        Log.d(TAG, "initCustomView: $url")
         binding.reviewCustomWv.loadWebViewUrl(url)
 
     }
 
     fun navigateToTourReviewPhotoFragment(tourId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $tourId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(tourId = tourId)
         navigate(action)
@@ -103,7 +102,6 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTravReviewPhotoFragment(travId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(travId = travId)
         navigate(action)

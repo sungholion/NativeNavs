@@ -70,7 +70,8 @@ class TourWishListFragment : BaseFragment<FragmentTourWishListBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }

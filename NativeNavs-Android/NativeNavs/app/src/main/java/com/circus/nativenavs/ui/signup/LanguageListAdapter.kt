@@ -39,7 +39,6 @@ class LanguageListAdapter(private val onLanguageCheckedChange: (String, Boolean)
             binding.languageCb.isChecked = languageItem.isChecked
 
             binding.root.setOnClickListener {
-                // Only proceed if checkedItemCount is less than maxCheckedCount
                 if (languageItem.isChecked || checkedItemCount < MAX_COUNT) {
                     languageItem.isChecked = !languageItem.isChecked
                     binding.languageCb.isChecked = languageItem.isChecked

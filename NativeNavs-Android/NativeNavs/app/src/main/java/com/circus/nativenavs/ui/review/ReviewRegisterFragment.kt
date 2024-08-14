@@ -40,22 +40,31 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
     private var isPageLoaded = false
 
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
-    private var fileChooserLauncher =
+    private val fileChooserLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val uri = result.data?.data
-                if (filePathCallback != null) {
-                    filePathCallback?.onReceiveValue(arrayOf(uri!!))
-                    filePathCallback = null
-                }
-            } else {
-                if (filePathCallback != null) {
+                val data: Intent? = result.data
+                if (data != null) {
+                    val clipData = data.clipData
+                    if (clipData != null) {
+                        val uris = ArrayList<Uri>()
+                        for (i in 0 until clipData.itemCount) {
+                            uris.add(clipData.getItemAt(i).uri)
+                        }
+                        filePathCallback?.onReceiveValue(uris.toTypedArray())
+                    } else {
+                        val uri = data.data
+                        filePathCallback?.onReceiveValue(arrayOf(uri!!))
+                    }
+                } else {
                     filePathCallback?.onReceiveValue(null)
-                    filePathCallback = null
                 }
+                filePathCallback = null
+            } else {
+                filePathCallback?.onReceiveValue(null)
+                filePathCallback = null
             }
         }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,7 +83,6 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
         initBridge()
         initCustomView()
         initWebView()
-
     }
 
     private fun initBridge() {
@@ -110,11 +118,10 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                             .setPositiveButton(getString(R.string.dialog_register_tour_positive)) { _, _ ->
                                 popBackStack()
                             }.show()
-
                     }
                 }
-            })
-
+            }
+        )
     }
 
     private fun initWebView() {
@@ -128,12 +135,12 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }
                 }
-
             }
 
         binding.reviewRegisterCustomWv.binding.customWebviewTitleWv.webChromeClient =
@@ -148,15 +155,14 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                     val intent = Intent(Intent.ACTION_GET_CONTENT)
                     intent.addCategory(Intent.CATEGORY_OPENABLE)
                     intent.type = "image/*"
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true) // 여러 파일 선택 허용
                     fileChooserLauncher.launch(intent)
                     return true
                 }
             }
 
-        val url = WEBURL + "tour/detail/${args.tourId}/reviews/create"
-        Log.d(TAG, "initCustomView: $url")
+        val url = WEBURL + "tour/detail/${args.tourId}/reviews/create/${args.reservationId}"
         binding.reviewRegisterCustomWv.loadWebViewUrl(url)
-
     }
 
     fun showReviewRegisterFailDialog() {
@@ -174,6 +180,4 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
             )
         navigate(action)
     }
-
-
 }

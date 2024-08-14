@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="message"
             type="com.circus.nativenavs.data.MessageDto" />
@@ -31,6 +33,18 @@
                 app:layout_constraintStart_toEndOf="@+id/chat_my_time_tv"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="안녕하세요" />
+
+            <TextView
+                android:id="@+id/chat_my_message_read"
+                style="@style/chat_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="1"
+                android:textColor="@color/nn_blue"
+                android:visibility="@{message.messageChecked ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toTopOf="@+id/chat_my_time_tv"
+                app:layout_constraintEnd_toStartOf="@+id/chat_my_message_tv" />
 
             <TextView
                 android:id="@+id/chat_my_time_tv"
@@ -72,6 +86,7 @@
 
             <TextView
                 android:id="@+id/chat_sender_nickname_tv"
+                style="@style/regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -87,11 +102,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="@{message.content}"
+                android:text="@{message.isTranslated ? message.translatedContent : message.content}"
                 app:layout_constraintEnd_toStartOf="@+id/chat_sender_time_tv"
                 app:layout_constraintStart_toStartOf="@+id/chat_sender_nickname_tv"
                 app:layout_constraintTop_toBottomOf="@id/chat_sender_nickname_tv"
                 tools:text="안녕하세요" />
+
+            <TextView
+                android:id="@+id/chat_sender_message_read"
+                style="@style/chat_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="1"
+                android:textColor="@color/nn_blue"
+                android:visibility="@{message.messageChecked ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toTopOf="@+id/chat_sender_time_tv"
+                app:layout_constraintStart_toEndOf="@+id/chat_sender_message_tv" />
 
             <TextView
                 android:id="@+id/chat_sender_time_tv"

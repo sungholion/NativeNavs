@@ -6,6 +6,9 @@ import android.webkit.WebView
 import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.ui.home.HomeActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val TAG = "WishListBridge"
 
@@ -17,23 +20,23 @@ class WishListBridge(
 
     @JavascriptInterface
     fun navigateToWishDetailFragment(tourId: Int, navId: Int) {
-        fragment.navigateToWishDetailFragment(tourId, navId)
-        Log.d(TAG, "navigateToWishDetailFragment: $tourId, $navId")
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateToWishDetailFragment(tourId, navId)
+        }
     }
 
     @JavascriptInterface
     fun navigateFromWishToTourListFragment() {
-        fragment.navigateFromWishToTourListFragment()
-        Log.d(TAG, "navigateFromWishToTourListFragment: ")
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.navigateFromWishToTourListFragment()
+        }
     }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }

@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.fragment.app.activityViewModels
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
@@ -43,8 +45,15 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
 
     private fun initObserve() {
         chattingViewModel.chatRoomList.observe(viewLifecycleOwner) { chatRoomList ->
-            Log.d(TAG, "observeViewModel: $chatRoomList")
-            chatListAdapter.submitList(chatRoomList)
+            if(chatRoomList.isNotEmpty()){
+                chatListAdapter.submitList(chatRoomList)
+                binding.noChattingCl.visibility = GONE
+                binding.chatListRv.visibility = VISIBLE
+            }
+            else{
+                binding.noChattingCl.visibility = VISIBLE
+                binding.chatListRv.visibility = GONE
+            }
         }
     }
 
@@ -52,7 +61,6 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
         chatListAdapter.setItemClickListener(object : ChatListAdapter.ChatItemClickListener {
             override fun onItemClicked(chatRoom: ChatRoomDto) {
                 chattingViewModel.setCurrentChatRoom(chatRoom)
-                Log.d(TAG, "onItemClicked: $chatRoom")
                 val action =
                     ChatListFragmentDirections.actionChatListFragmentToChattingRoomFragment(
                         chatRoom.roomId
@@ -64,47 +72,7 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     }
 
     private fun initAdapter() {
-//        val chatList = arrayListOf(
-//            ChatRoomDto(
-//                roomId = 1,
-//                senderId = SharedPref.userId!!,
-//                receiverId = 17,
-//                senderNickname = homeViewModel.userDto.value!!.nickname,
-//                receiverNickname = "김네브",
-//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-//                imgUrl = "",
-//                tourRegion = "서울",
-//                recentMessage = "문의드립니다~",
-//                recentMessageTime = System.currentTimeMillis()
-//            ),
-//            ChatRoomDto(
-//                roomId = 2,
-//                senderId = SharedPref.userId!!,
-//                receiverId = 17,
-//                senderNickname = homeViewModel.userDto.value!!.nickname,
-//                receiverNickname = "김네브",
-//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-//                imgUrl = "",
-//                tourRegion = "서울",
-//                recentMessage = "문의드립니다~",
-//                recentMessageTime = System.currentTimeMillis()
-//            ),
-//            ChatRoomDto(
-//                roomId = 3,
-//                senderId = SharedPref.userId!!,
-//                receiverId = 17,
-//                senderNickname = homeViewModel.userDto.value!!.nickname,
-//                receiverNickname = "김네브",
-//                tourTitle = "남산투어 남산투어 남산투어 남산투어 남산투어",
-//                imgUrl = "",
-//                tourRegion = "서울",
-//                recentMessage = "문의드립니다~",
-//                recentMessageTime = System.currentTimeMillis()
-//            ),
-//        )
-
         binding.chatListRv.adapter = chatListAdapter
-//        chatListAdapter.submitList(chatList)
     }
 
     override fun onResume() {

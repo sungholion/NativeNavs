@@ -16,7 +16,7 @@ object SharedPref {
             } else {
                 remove(type)
             }
-            apply() // 모든 변경 사항을 적용
+            apply()
         }
     }
 
@@ -40,7 +40,6 @@ object SharedPref {
                 sharedPrefs?.edit()?.putBoolean(IS_NAV, value)?.apply()
             }
         }
-
 
     var language: String?
         get() = sharedPrefs?.getString(LANGUAGE, null) ?: "ko"
@@ -66,5 +65,12 @@ object SharedPref {
             sharedPrefs?.edit()?.putString(FCM_TOKEN, value)?.apply()
         }
 
+    var enabledNoti: Boolean?
+        get() = sharedPrefs?.getBoolean(ENABLED_NOTI, true)
+        set(value) {
+            if (value != null) {
+                sharedPrefs?.edit()?.putBoolean(ENABLED_NOTI, value)?.apply()
+            }
+        }
 
 }

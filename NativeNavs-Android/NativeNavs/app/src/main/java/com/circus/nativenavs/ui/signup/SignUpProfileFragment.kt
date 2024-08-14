@@ -52,19 +52,22 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         signUpActivity = context as SignUpActivity
     }
 
-    private var nickname =""
+    private var nickname = ""
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-
         initEvent()
         initSpinner()
         initTextWatcher()
+        initObserve()
 
-        signUpViewModel.body.observe(viewLifecycleOwner){
-            if(it != null) binding.signupProfileImgIv.setImageURI(signUpViewModel.imageUri.value)
+    }
+
+    private fun initObserve() {
+        signUpViewModel.body.observe(viewLifecycleOwner) {
+            if (it != null) binding.signupProfileImgIv.setImageURI(signUpViewModel.imageUri.value)
         }
 
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
@@ -105,7 +108,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
             }
 
         }
-
     }
 
     private fun initTextWatcher() {
@@ -151,7 +153,7 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
     }
 
     private fun initView() {
-
+        binding.signupTitleLayout.titleText = getString(R.string.sign_login_signup)
         if (signUpViewModel.nicknameCheck.value == true) {
             binding.signupDupliOk.visibility = VISIBLE
             binding.signupDupliBad.visibility = INVISIBLE
@@ -195,30 +197,29 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         binding.signupPhoneValidTv.visibility = INVISIBLE
     }
 
-    fun isValidDate(dateString: String): Boolean {
+    private fun isValidDate(dateString: String): Boolean {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         return try {
             val date = LocalDate.parse(dateString, formatter)
 
-            // 월이 1월부터 12월 사이인지 확인합니다.
             val isCorrectMonth = date.monthValue in 1..12
-            // 일이 1일부터 해당 월의 마지막 날까지 유효한지 확인합니다.
             val isCorrectDay = date.dayOfMonth in 1..date.lengthOfMonth()
 
             isCorrectMonth && isCorrectDay
         } catch (e: DateTimeParseException) {
-            // 날짜 파싱에 실패하면 false를 반환합니다.
             false
         }
     }
-    // 이미지 선택 인텐트 시작
+
     private fun openImagePicker() {
         getImageLauncher.launch("image/*")
     }
+
     private fun uriToFile(context: Context, uri: Uri): File {
         val contentResolver = context.contentResolver
-        val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
+        val file =
+            File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "temp_image.jpg")
 
         contentResolver.openInputStream(uri)?.use { inputStream ->
             FileOutputStream(file).use { outputStream ->
@@ -229,9 +230,9 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 }
             }
         }
-        Log.d("FileConversion", "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes")
         return file
     }
+
     private fun compressImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
         val compressedFile = File(file.parent, "compressed_${file.name}")
@@ -240,32 +241,36 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         }
         return compressedFile
     }
-    // 선택한 이미지 처리
+
     private fun handleImage(imageUri: Uri) {
-        Log.d("YourFragment", "Selected Image URI: $imageUri")
         var file = uriToFile(requireContext(), imageUri)
 
         val maxSize = 10 * 1024 * 1024 // 10MB
         if (file.length() > maxSize) {
             file = compressImage(file)
 
-            // 압축 후에도 파일 크기가 허용 범위를 초과하는지 확인
             if (file.length() > maxSize) {
                 showToast("File size still exceeds limit after compression")
                 return
             }
         }
-        Log.d("handle", "handleImage: ${file.length()}")
-        // 파일을 MultipartBody.Part로 변환
+
         val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
-        signUpViewModel.updateImageFile(MultipartBody.Part.createFormData("profileImage", file.name, requestFile),imageUri)
+        signUpViewModel.updateImageFile(
+            MultipartBody.Part.createFormData(
+                "profileImage",
+                file.name,
+                requestFile
+            ), imageUri
+        )
 
 
     }
-    // ActivityResultLauncher 선언
-    private val getImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { handleImage(it) }
-    }
+
+    private val getImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { handleImage(it) }
+        }
 
     private fun initEvent() {
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
@@ -315,11 +320,10 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 binding.signupPhoneValidTv.visibility = VISIBLE
             } else if (!binding.signupTermsCb.isChecked) {
                 showToast("이용 동의를 해주세요")
-            } else if(signUpViewModel.body.value == null){
+            } else if (signUpViewModel.body.value == null) {
                 showToast("사진을 넣어 주세요!")
 
-            }
-            else {
+            } else {
                 signUpViewModel.updateName(name)
                 signUpViewModel.updateBirth(birth)
                 signUpViewModel.updatePhone(phone)

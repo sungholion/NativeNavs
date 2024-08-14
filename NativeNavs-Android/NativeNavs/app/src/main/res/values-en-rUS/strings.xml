@@ -19,7 +19,7 @@
     <string name="app_bar_review">Review</string>
     <string name="app_bar_review_register">Write Review</string>
     <string name="app_bar_profile">Profile</string>
-    <string name="app_bar_profile_modify">Edit Profile</string>
+    <string name="app_bar_profile_modify">Edit</string>
 
     <string name="app_bar_my_trip_list">My TourList</string>
     <string name="tour_wish_list_title">WishList</string>
@@ -144,6 +144,7 @@
     <string name="dialog_cancel_btn">Cancel</string>
     <string name="success">Success</string>
     <string name="fail">Fail</string>
+    <string name="chat_list_no_message_title">You don\'t have any messages</string>
     <string name="search_title_travel">Where to</string>
     <string name="search_title_date">Date</string>
     <string name="search_title_theme">Category</string>
@@ -165,8 +166,28 @@
     <string name="dialog_register_fail">Tour registration failed. Please try again.</string>
     <string name="dialog_confirm">Got it</string>
     <string name="dialog_modify_fail">Tour modification failed. Please try again.</string>
+    <string name="dialog_cancel_register_reservation">Are you sure you want to finish registering your reservation?</string>
     <string name="dialog_cancel_modify_tour">Are you sure you want to finish modifying your tour?</string>
     <string name="dialog_cancel_register_review">Are you sure you want to finish registering your review?</string>
     <string name="dialog_register_review_fail">Review registration failed. Please try again.</string>
     <string name="dialog_cancel_reservation_tour">Are you sure you want to finish registering your reservation?</string>
+    <string name="dialog_register_reservation_fail">Reservation registration failed. Please try again.</string>
+    <string name="reservation_review_btn">Review</string>
+    <string name="reservation_done">stamp has been issued!</string>
+    <string name="reservation_fail">Please try authentication again</string>
+    <string name="chat_list_no_message_content">When you receive a new message, it will appear here</string>
+    <string name="profile_empty_review">There are no registered reviews</string>
+    <string name="profile_empty_stamp">There is no stamp issued</string>
+    <string name="noti_empty">There are no registered notifications</string>
+    <string name="noti_empty_content">When you receive a new notification, it will appear here</string>
+    <string name="profile_other_myreview">My Reivew</string>
+    <string name="stamp">Stamp</string>
+    <string name="stamp_detail_empty">There is no stamp issued</string>
+    <string name="stamp_detail_empty_content">Collect stamps through new activities</string>
+    <string name="profile_pw_help">If you only want to change your profile, please enter your current password. \\n Please enter 8 to 20 characters using a mixture of alphabets, lowercase letters, and special characters.</string>
+    <string name="sign_photo">Profile Photo</string>
+    <string name="search_check">Check</string>
+    <string name="search_cancel"><u>Cancel</u></string>
+    <string name="tour_detail_booking_help">Book your trip by chatting with Nav!</string>
+    <string name="mypage_password">"Change Password "</string>
 </resources>

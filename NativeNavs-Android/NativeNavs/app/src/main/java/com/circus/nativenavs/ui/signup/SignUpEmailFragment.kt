@@ -26,8 +26,8 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
     private val signUpViewModel: SignUpActivityViewModel by activityViewModels()
     private val emailPattern: Pattern = Patterns.EMAIL_ADDRESS
-    private var emailBtnType : Boolean = false
-
+    private var emailBtnType: Boolean = false
+    private var emailBtnIsClicked: Boolean = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -36,7 +36,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         signUpViewModel.emailStatus.observe(this) { statusCode ->
 
             binding.signupCodeSendBtn.isEnabled = true
-
+            emailBtnIsClicked = false
             if (statusCode == 202) {
                 binding.signupCodeSendBtn.text = "재입력"
                 binding.signupEmailEt.isEnabled = false
@@ -45,9 +45,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 binding.signupEmailHint.visibility = GONE
 
                 binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
-            }
-            else if (statusCode == 200) {
-                Log.d("여기", "onViewCreated: ㅁㅁㅁㅡ")
+            } else if (statusCode == 200) {
                 binding.signupCodeSendBtn.text = "재입력"
                 binding.signupEmailEt.isEnabled = false
                 binding.signupCodeEt.isEnabled = true
@@ -55,16 +53,13 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 binding.signupEmailHint.visibility = GONE
 
                 binding.signupCodeAuthBtn.setBackgroundResource(R.drawable.shape_round_10_blue)
-            }
-            else {
+            } else {
                 showToast("이미 존재하는 이메일 입니다.")
             }
         }
 
         signUpViewModel.emailStatusCode.observe(viewLifecycleOwner) { statusCode ->
-            // 상태 코드 처리
             if (statusCode == 200) {
-                // 코드 인증을 마쳐야 비밀 번호 활성화
                 binding.signupCodeEt.isEnabled = false
                 binding.signupEmailNextBtn.isEnabled = true
                 binding.signupPwCheckEt.isEnabled = true
@@ -80,21 +75,23 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
     }
 
-    private fun initView(){
-        if(signUpViewModel.signUpDTO.value?.email?.let { emailPattern.matcher(it).matches() } == true){
+    private fun initView() {
+        binding.signupTitleLayout.titleText = getString(R.string.sign_login_signup)
+        if (signUpViewModel.signUpDTO.value?.email?.let {
+                emailPattern.matcher(it).matches()
+            } == true) {
             binding.signupCodeSendBtn.text = "재입력"
             binding.signupEmailEt.isEnabled = false
             binding.signupPwCheckEt.isEnabled = true
             binding.signupPwEt.isEnabled = true
             binding.signupEmailNextBtn.isEnabled = true
-        }
-        else {
+        } else {
             binding.signupCodeSendBtn.text = getString(R.string.sign_send)
             binding.signupEmailEt.isEnabled = true
         }
     }
 
-    private fun allBtnUnEnabled(){
+    private fun allBtnUnEnabled() {
         binding.signupCodeAuthBtn.isEnabled = false
         binding.signupEmailNextBtn.isEnabled = false
         binding.signupCodeEt.isEnabled = false
@@ -109,19 +106,22 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
         binding.signupTitleLayout.customWebviewTitleBackIv.setOnClickListener {
             popBackStack()
         }
-        /** 이메일 전송 **/
+
         binding.signupCodeSendBtn.setOnClickListener {
+            if (emailBtnIsClicked) {
+                showToast("잠시만 기다려 주세요")
+                return@setOnClickListener
+            }
+
             email = binding.signupEmailEt.text.toString()
-            if(!emailBtnType){
-                if(!emailPattern.matcher(email).matches()){
+            if (!emailBtnType) {
+                if (!emailPattern.matcher(email).matches()) {
                     binding.signupEmailHint.visibility = VISIBLE
-                }
-                else{
-                    binding.signupCodeSendBtn.isEnabled = false
+                } else {
+                    emailBtnIsClicked = true
                     signUpViewModel.getEmailCode(email)
                 }
-            }
-            else{
+            } else {
                 allBtnUnEnabled()
                 binding.signupCodeSendBtn.text = getString(R.string.sign_send)
                 binding.signupEmailEt.isEnabled = true
@@ -133,7 +133,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
                 emailBtnType = false
             }
         }
-        /** 코드 인증 **/
+
         binding.signupCodeAuthBtn.setOnClickListener {
             email = binding.signupEmailEt.text.toString()
             code = binding.signupCodeEt.text.toString()
@@ -141,9 +141,7 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
 
         }
 
-//        binding.signupEmailNextBtn.isEnabled =true
         binding.signupEmailNextBtn.setOnClickListener {
-//            navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)
             email = binding.signupEmailEt.text.toString()
             password = binding.signupPwEt.text.toString()
             val passwordCheck = binding.signupPwCheckEt.text.toString()
@@ -153,16 +151,14 @@ class SignUpEmailFragment : BaseFragment<FragmentSignUpEmailBinding>(
             binding.signupPwCheckHelpTv.visibility = VISIBLE
             binding.signupPwCheckValidTv.visibility = INVISIBLE
 
-            if(!isPasswordValid(password)){
+            if (!isPasswordValid(password)) {
                 binding.signupPwValidTv.visibility = VISIBLE
                 binding.signupPwHelpTv.visibility = INVISIBLE
-            }
-            else{
-                if(password != passwordCheck){
+            } else {
+                if (password != passwordCheck) {
                     binding.signupPwCheckHelpTv.visibility = INVISIBLE
                     binding.signupPwCheckValidTv.visibility = VISIBLE
-                }
-                else{
+                } else {
                     signUpViewModel.updateEmail(email)
                     signUpViewModel.updatePassword(password)
                     navigate(R.id.action_signUpEmailFragment_to_signUpUserTypeFragment)

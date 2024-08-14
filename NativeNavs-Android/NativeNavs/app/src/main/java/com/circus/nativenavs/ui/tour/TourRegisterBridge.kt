@@ -22,22 +22,21 @@ class TourRegisterBridge(
     fun moveFromTourRegisterToTourDetailFragment(tourId: Int, navId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.moveFromTourRegisterToTourDetailFragment(tourId, navId)
-            Log.d(TAG, "moveFromTourRegisterToTourDetailFragment: $tourId ,$navId")
         }
     }
 
     @JavascriptInterface
     fun showRegisterFailDialog() {
-        fragment.showRegisterFailDialog()
+        CoroutineScope(Dispatchers.Main).launch {
+            fragment.showRegisterFailDialog()
+        }
     }
 
     fun sendUserData(user: UserDto) {
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }

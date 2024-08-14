@@ -46,11 +46,11 @@ class MypageFragment :
     private fun initObserve() {
         homeActivityViewModel.userDto.observe(viewLifecycleOwner) { it ->
             Glide.with(this)
-                .load(it.image) // 불러올 이미지 url
-                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(binding.mypageProfileImgIv) // 이미지를 넣을 뷰
+                .load(it.image)
+                .placeholder(R.drawable.logo_nativenavs)
+                .error(R.drawable.logo_nativenavs)
+                .fallback(R.drawable.logo_nativenavs)
+                .into(binding.mypageProfileImgIv)
             binding.mypageNicknameTv.text = it.nickname
         }
 
@@ -79,7 +79,11 @@ class MypageFragment :
 
         binding.mypageProfileCl.setOnClickListener {
             val action =
-                MypageFragmentDirections.actionMypageFragmentToProfileFragment(userId = SharedPref.userId!!, 0,0)
+                MypageFragmentDirections.actionMypageFragmentToProfileFragment(
+                    userId = SharedPref.userId!!,
+                    0,
+                    0
+                )
             navigate(action)
         }
 
@@ -95,6 +99,10 @@ class MypageFragment :
             navigate(R.id.action_mypageFragment_to_tosFragment)
         }
 
+        binding.mypagePasswordCl.setOnClickListener {
+            checkPassDialog()
+        }
+
         binding.mypageLogoutCl.setOnClickListener {
             SharedPref.remove(LOGOUT)
             startActivity(Intent(requireContext(), LoginActivity::class.java))
@@ -108,13 +116,30 @@ class MypageFragment :
             builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
                 homeActivityViewModel.withdrawal()
             }
-            builder.setNegativeButton(getString(R.string.dialog_cancel_btn)){ dialog, which ->
+            builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
                 dialog.dismiss()
             }
 
             builder.show()
         }
 
+    }
+
+    private fun checkPassDialog() {
+        val builder = MaterialAlertDialogBuilder(homeActivity)
+        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
+
+        builder.setView(view)
+        builder.setTitle(getString(R.string.dialog_pass_title))
+        builder.setMessage(getString(R.string.dialog_pass_content))
+        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
+            navigate(R.id.action_mypageFragment_to_passwordFragment)
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
 }

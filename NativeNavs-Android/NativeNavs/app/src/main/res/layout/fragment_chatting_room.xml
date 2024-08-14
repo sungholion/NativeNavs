@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="userId"
+            type="Integer" />
+
+        <variable
             name="chatRoom"
             type="com.circus.nativenavs.data.ChatRoomDto" />
     </data>
@@ -19,7 +23,7 @@
         <include
             android:id="@+id/chat_room_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{chatRoom.senderNickname}" />
+            app:titleText="@{userId == chatRoom.senderId ? chatRoom.receiverNickname : chatRoom.senderNickname}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/chat_tour_info_cl"
@@ -99,6 +103,7 @@
 
                 <TextView
                     android:id="@+id/chat_tour_book_tv"
+                    style="@style/regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -125,6 +130,7 @@
 
                 <TextView
                     android:id="@+id/chat_tour_call_tv"
+                    style="@style/regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.circus.nativenavs.config.ApplicationClass
 import com.circus.nativenavs.data.ChatRoomDto
-import com.circus.nativenavs.data.ChatTourInfoDto
+import com.circus.nativenavs.data.ChatUserCountDto
 import com.circus.nativenavs.data.MessageDto
+import com.circus.nativenavs.data.RequestTranslate
 import com.circus.nativenavs.data.service.ChatService
+import com.circus.nativenavs.data.service.TranslateService
+import com.circus.nativenavs.util.SharedPref
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.delay
@@ -26,7 +29,6 @@ import org.hildan.krossbow.websocket.okhttp.OkHttpWebSocketClient
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
 
 private const val TAG = "KrossbowChattingViewMod"
 
@@ -38,13 +40,16 @@ class KrossbowChattingViewModel : ViewModel() {
     private val _currentChatRoom = MutableLiveData<ChatRoomDto>()
     val currentChatRoom: LiveData<ChatRoomDto> = _currentChatRoom
 
-    private val _chatRoomId = MutableLiveData<Int>(-1)
+    private val _chatRoomId = MutableLiveData(-1)
     val chatRoomId: LiveData<Int> = _chatRoomId
 
     private val _chatMessages = MutableLiveData<List<MessageDto>>()
     val chatMessages: LiveData<List<MessageDto>> = _chatMessages
 
     private val chatRetrofit = ApplicationClass.retrofit.create(ChatService::class.java)
+
+    private val translateRetrofit =
+        ApplicationClass.translationRetrofit.create(TranslateService::class.java)
 
     private val _uiState = MutableLiveData(ChatScreenUiState())
     val uiState: LiveData<ChatScreenUiState> = _uiState
@@ -56,11 +61,35 @@ class KrossbowChattingViewModel : ViewModel() {
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
+    fun translateMessage(message: RequestTranslate, position: Int) {
+        _uiState.value?.let {
+            viewModelScope.launch {
+                try {
+                    val result = translateRetrofit.getTranslatedMessage(message)
+                    val returnMessage = result.message.result.translatedText
+
+                    it.messages[position].translatedContent = returnMessage
+                    it.messages[position].isTranslated = true
+
+                    _uiState.postValue(it.copy(messages = it.messages))
+
+                } catch (e: Exception) {
+                    Log.d(TAG, "translateMessage: ${e.message}")
+                }
+            }
+        }
+    }
+
+    fun translateMessage(position: Int) {
+        _uiState.value?.let {
+            it.messages[position].isTranslated = !it.messages[position].isTranslated
+            _uiState.postValue(it.copy(messages = it.messages))
+        }
+    }
+
     fun createChatRoom(tourId: Int) {
-        Log.d(TAG, "createChatRoom: 실행전")
         viewModelScope.launch {
             _currentChatRoom.value = chatRetrofit.createChatRoom(tourId)
-            Log.d(TAG, "createChatRoom: ${currentChatRoom.value}")
             currentChatRoom.value?.let {
                 _chatRoomId.value = it.roomId
             }
@@ -78,23 +107,19 @@ class KrossbowChattingViewModel : ViewModel() {
         viewModelScope.launch {
             _currentChatRoom.value = chatRetrofit.getChatRoom(roomId)
             currentChatRoom.value?.let {
-                _chatRoomId.value = it.roomId
+                _chatRoomId.value = roomId
             }
         }
-
     }
 
     fun getChatRoomList() {
         viewModelScope.launch {
-            Log.d(TAG, "getChatRoomList raw: ${chatRetrofit.getChatRoomList()}")
             _chatRoomList.value = chatRetrofit.getChatRoomList()
-            Log.d(TAG, "getChatRoomList: ${chatRoomList.value}")
         }
     }
 
     fun setChatRoomId(roomId: Int) {
         _chatRoomId.value = roomId
-        Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
     }
 
     fun getChatMessages(roomId: Int) {
@@ -105,6 +130,30 @@ class KrossbowChattingViewModel : ViewModel() {
             }
 
         }
+    }
+
+    fun setMessage(content: String) {
+        _uiState.value?.let {
+            it.message = content
+        }
+    }
+
+    private fun setMessages(list: List<MessageDto>) {
+        _uiState.value?.let { currentState ->
+            _uiState.postValue(currentState.copy(messages = list))
+        }
+    }
+
+    fun setSenderInfo(senderId: Int, senderNickname: String, senderImg: String) {
+        _uiState.value?.let {
+            it.senderId = senderId
+            it.senderNickName = senderNickname
+            it.senderImg = senderImg
+        }
+    }
+
+    fun resetUiState() {
+        _uiState.postValue(ChatScreenUiState())
     }
 
     fun connectWebSocket() {
@@ -124,9 +173,10 @@ class KrossbowChattingViewModel : ViewModel() {
                 val stompClient = StompClient(wsClient)
                 stompSession = stompClient.connect(
                     url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-//                    customStompConnectHeaders = mapOf(
-//                        "Authorization" to "${SharedPref.accessToken}"
-//                    ),
+                    customStompConnectHeaders = mapOf(
+                        "Authorization" to "${SharedPref.accessToken}",
+                        "roomId" to "${chatRoomId.value}"
+                    ),
                 ).withMoshi(moshi)
                 updateConnectionStatus(ConnectionStatus.CONNECTING)
 
@@ -145,85 +195,79 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private suspend fun observeMessages() {
         try {
-            val subscription = stompSession.subscribe(
-                StompSubscribeHeaders(
-                    destination = "/room/${chatRoomId.value}",
-//                    customHeaders = mapOf(
-//                        "Authorization" to "${SharedPref.accessToken}"
-//                    )
-                )
+            val subscriptionMessage = stompSession.subscribe(
+                StompSubscribeHeaders(destination = "/room/${chatRoomId.value}")
+            )
+
+            val subscriptionConnection = stompSession.subscribe(
+                StompSubscribeHeaders(destination = "/status/room/${chatRoomId.value}")
             )
 
             isConnected = true
 
-            subscription.collect { frame ->
-                Log.d(TAG, "frame observeMessages: $frame")
+            subscriptionMessage.collect { frame ->
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
                 newMessage?.let {
                     handleOnMessageReceived(newMessage)
                 }
             }
+
+            subscriptionConnection.collect { frame ->
+                val userCount =
+                    moshi.adapter(ChatUserCountDto::class.java).fromJson(frame.bodyAsText)
+                userCount?.let {
+                    if (userCount.userCount == 2) {
+                        markMessagesAsRead()
+                    }
+                }
+            }
+
         } catch (e: Exception) {
             isConnected = false
             Log.e(TAG, "Message observation failed: ", e)
         }
     }
 
+    private fun markMessagesAsRead() {
+        val messages = uiState.value?.let {
+            it.messages.toMutableList().map {
+                it.copy(messageChecked = true)
+            }
+        }
+        _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
+    }
+
+
     private fun handleOnMessageReceived(message: MessageDto) {
-        Log.d(TAG, "handleOnMessageReceived: $message")
         try {
-//            if (message.senderId != uiState.value!!.senderId)
-                addMessage(message)
+            addMessage(message)
         } catch (e: Exception) {
             Log.e(TAG, "handleOnMessageReceived: ", e)
         }
     }
 
-    fun setMessage(content: String) {
-        _uiState.value?.let {
-            it.message = content
-        }
-    }
-
-    fun setSenderInfo(senderId: Int, senderNickname: String, senderImg: String) {
-        _uiState.value?.let {
-            it.senderId = senderId
-            it.senderNickName = senderNickname
-            it.senderImg = senderImg
-        }
-    }
-
-    fun setMessages(list: List<MessageDto>) {
-        _uiState.value?.let { currentState ->
-            _uiState.postValue(currentState.copy(messages = list))
-        }
-    }
-
     private fun addMessage(message: MessageDto) {
-        Log.d(TAG, "addMessage: $message")
+        if (message.senderId != SharedPref.userId) {
+            markMessagesAsRead()
+        }
+
         val messages = uiState.value?.messages?.toMutableList()
         messages?.add(message)
-        _uiState.postValue(messages?.let { _uiState.value?.copy(messages = it) })
+        _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
     }
 
     fun sendMessage(messageSent: () -> Unit) {
-        val message = message()
+        val message = createMessage()
         if (message.content.isEmpty()) return
 
         viewModelScope.launch {
             try {
                 stompSession.withMoshi(moshi).convertAndSend(
-                    StompSendHeaders(
-                        destination = "/send/${chatRoomId.value}",
-//                        customHeaders = mapOf(
-//                            "Authorization" to "${SharedPref.accessToken}"
-//                        )
-                    ),
+                    StompSendHeaders(destination = "/send/${chatRoomId.value}"),
                     message
                 )
 
                 messageSent()
-//                addMessage(message)
                 clearMessage()
             } catch (e: Exception) {
                 Log.e(TAG, "Message sending failed: ", e)
@@ -231,25 +275,27 @@ class KrossbowChattingViewModel : ViewModel() {
         }
     }
 
+    private fun createMessage(): MessageDto {
+        val tempMessage = _uiState.value?.let {
+            MessageDto(
+                roomId = currentChatRoom.value!!.roomId,
+                senderId = it.senderId,
+                senderNickname = it.senderNickName,
+                senderProfileImage = it.senderImg,
+                content = it.message,
+                sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    .toString(),
+                messageChecked = false
+            )
+        } ?: MessageDto()
+        return tempMessage
+    }
+
     private fun clearMessage() {
         viewModelScope.launch {
             delay(50)
             _uiState.postValue(_uiState.value?.copy(message = ""))
         }
-    }
-
-    private fun message(): MessageDto {
-        return _uiState.value?.let {
-            MessageDto(
-                roomId = chatRoomId.value!!,
-                senderId = it.senderId,
-                senderNickname = it.senderNickName,
-                senderProfileImage = it.senderImg,
-                content = it.message,
-                sendTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).toString(),
-                isRead = false
-            )
-        } ?: MessageDto()
     }
 
     fun disconnectWebSocket() {

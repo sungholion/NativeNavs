@@ -32,7 +32,11 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
         super.onAttach(context)
         homeActivity = context as HomeActivity
     }
-
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+        isPageLoaded = false
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,7 +48,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
 
     private fun initWebView() {
         val url = WEBURL + "reservation/${args.tourId}/list"
-        Log.d(TAG, "initCustomView: $url")
         binding.myTripReservationListWv.loadWebViewUrl(url)
 
     }
@@ -88,12 +91,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
             bridge,
             "Android"
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(true)
-        isPageLoaded = false
     }
 
 }

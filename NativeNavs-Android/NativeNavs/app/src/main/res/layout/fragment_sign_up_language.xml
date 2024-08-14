@@ -10,7 +10,7 @@
         <include
             android:id="@+id/signup_title_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{`구사언어 선택`}" />
+            app:titleText="@string/sign_login_signup" />
 
         <TextView
             android:id="@+id/signup_language_help_tv"

@@ -34,6 +34,7 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
 
         signUpViewModel.languageCheckList.value?.forEach {
             if (it.isChecked) count++
@@ -41,8 +42,6 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
 
         initAdapter()
         initEvent()
-
-        // 선택된 언어를 observe
         signUpViewModel.languageList.observe(viewLifecycleOwner) { languageList ->
             val selectedLanguages = languageList.language
             count.apply {
@@ -51,16 +50,17 @@ class SignUpLanguageFragment : BaseFragment<FragmentSignUpLanguageBinding>(
                 }
             }
 
-            // 기존 리스트에서 체크 상태를 업데이트
             val updatedList = languageListAdapter.currentList.map { language ->
                 language.copy(isChecked = selectedLanguages.contains(language.language))
             }
 
-            // 업데이트된 리스트를 어댑터에 제출
             languageListAdapter.submitList(updatedList)
         }
 
     }
+private fun initView(){
+    binding.signupTitleLayout.titleText = getString(R.string.sign_languages)
+}
 
     private fun initAdapter() {
         binding.signupLanguageRv.adapter = languageListAdapter

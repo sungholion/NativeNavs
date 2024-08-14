@@ -5,8 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.widget.ImageView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.navArgs
@@ -24,13 +26,14 @@ import com.circus.nativenavs.util.popBackStack
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.log
 
 private const val TAG = "ProfileFragment"
 
 class ProfileFragment :
     BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::bind, R.layout.fragment_profile) {
     private var reviewList = mutableListOf<ProfileReviewDto>()
-    private lateinit var profileReviewAdapter : ProfileReviewListAdapter
+    private lateinit var profileReviewAdapter: ProfileReviewListAdapter
     private var dummy = arrayListOf<ProfileReviewDto>(
         ProfileReviewDto(
             4,
@@ -78,20 +81,25 @@ class ProfileFragment :
                 if (args.navId != 0) it.getNavReview(args.navId)
                 else it.getTravReview(args.travId)
             }
+            it.getStamp(args.userId)
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
+        binding.profileTitleLayout.titleText = getString(R.string.app_bar_profile)
+
         homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
             if (SharedPref.userId != it.id) binding.profileModifyBtn.visibility = INVISIBLE
             else binding.profileModifyBtn.visibility = VISIBLE
+
             Glide.with(this)
-                .load(it.image) // 불러올 이미지 url
-                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(binding.profileUserIv) // 이미지를 넣을 뷰
+                .load(it.image)
+                .placeholder(R.drawable.logo_nativenavs)
+                .error(R.drawable.logo_nativenavs)
+                .fallback(R.drawable.logo_nativenavs)
+                .into(binding.profileUserIv)
+
             binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
@@ -104,31 +112,8 @@ class ProfileFragment :
             binding.profileUserUseNum.apply {
                 text = getString(R.string.profile_user_use) + " " + it.travReservationCount
             }
-
-            if (SharedPref.userId == it.id) {
-                binding.profileReviewTitle.apply {
-                    text = getString(R.string.profile_myreview)
-                }
-                binding.profileStampTitle.apply {
-                    text = getString(R.string.profile_mystamp)
-                }
-            } else {
-                binding.profileStampTitle.apply {
-                    text = getString(R.string.profile_mystamp)
-                }
-
-                if (it.isNav) {
-                    binding.profileReviewTitle.apply {
-                        text = it.nickname + getString(R.string.profile_other_nav_review)
-                    }
-                } else {
-                    binding.profileReviewTitle.apply {
-                        text = it.nickname + getString(R.string.profile_other_trav_review)
-                    }
-                }
-            }
-
         }
+
     }
 
     private fun initAdapter() {
@@ -140,26 +125,9 @@ class ProfileFragment :
         }
     }
 
-    private fun checkPassDialog() {
-        val builder = MaterialAlertDialogBuilder(homeActivity)
-        val view = homeActivity.layoutInflater.inflate(R.layout.dialog_pass_check, null)
-
-        builder.setView(view)
-        builder.setTitle(getString(R.string.dialog_pass_title))
-        builder.setMessage(getString(R.string.dialog_pass_content))
-        builder.setPositiveButton(getString(R.string.dialog_ok_btn)) { dialog, which ->
-            navigate(R.id.action_profileFragment_to_profileModifylFragment)
-        }
-
-        builder.setNegativeButton(getString(R.string.dialog_cancel_btn)) { dialog, which ->
-            // 취소 버튼 클릭 시 수행할 동작
-        }
-        builder.show()
-    }
-
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
-            checkPassDialog()
+            navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
 
         binding.profileTitleLayout.customWebviewTitleBackIv.setOnClickListener {
@@ -187,43 +155,82 @@ class ProfileFragment :
     private fun initObserve() {
         homeActivityViewModel.apply {
             reviewStatus.observe(viewLifecycleOwner) {
+                binding.profileReviewRv.visibility = GONE
+                binding.profileEmptyReviews.visibility = VISIBLE
                 if (it != -1) {
-                    this.profileUserReviewDto.value?.reviews?.let { review ->
+                    profileUserReviewDto.value?.reviews?.let { review ->
                         reviewList.removeAll(reviewList)
                         review.map { it }.take(3).forEach { dto ->
-                            reviewList.add(ProfileReviewDto(
-                                dto.score.toInt(),
-                                formatDate(dto.createdAt.toString()),
-                                dto.description,
-                                dto.imageUrls[0],
-                                dto.reviewer.nickname,
-                                dto.reviewer.userLanguage,
-                                dto.reviewer.image
-                            ))
+                            reviewList.add(
+                                ProfileReviewDto(
+                                    dto.score.toInt(),
+                                    formatDate(dto.createdAt.toString()),
+                                    dto.description,
+                                    dto.imageUrls[0],
+                                    dto.reviewer.nickname,
+                                    dto.reviewer.userLanguage,
+                                    dto.reviewer.image
+                                )
+                            )
 
                         }
-
-                        if(reviewList.size == 0 ) profileReviewAdapter.submitList(dummy)
-                        else profileReviewAdapter.submitList(reviewList)
+                        if (profileUserReviewDto.value!!.reviews.isEmpty()) {
+                            binding.profileReviewRv.visibility = GONE
+                            binding.profileEmptyReviews.visibility = VISIBLE
+                        } else {
+                            binding.profileReviewRv.visibility = VISIBLE
+                            binding.profileEmptyReviews.visibility = GONE
+                            profileReviewAdapter.submitList(reviewList)
+                        }
                     }
 
 
                 }
             }
+            stamp.observe(viewLifecycleOwner) {
+
+                if (it != null) {
+                    if (it.isEmpty()) {
+                        binding.profileStampList.visibility = GONE
+                        binding.profileEmptyStamp.visibility = VISIBLE
+                    } else {
+                        binding.profileStampList.visibility = VISIBLE
+                        binding.profileEmptyStamp.visibility = GONE
+                    }
+                    val stampsToDisplay = it.take(3)
+                    val imageViews = arrayOf(
+                        binding.profileStamp1,
+                        binding.profileStamp2,
+                        binding.profileStamp3
+                    )
+
+                    for (i in imageViews.indices) {
+                        if (i < stampsToDisplay.size) {
+                            val stamp = stampsToDisplay[i]
+                            imageViews[i].visibility = VISIBLE
+                            Glide.with(requireContext())
+                                .load(stamp.image)
+                                .placeholder(R.drawable.logo_nativenavs)
+                                .error(R.drawable.logo_nativenavs)
+                                .fallback(R.drawable.logo_nativenavs)
+                                .into(imageViews[i])
+                        } else {
+                            imageViews[i].visibility = GONE
+                        }
+                    }
+                }
+            }
         }
     }
-    fun formatDate(inputDate: String): String {
-        // 기존 날짜 문자열 포맷 정의
+
+    private fun formatDate(inputDate: String): String {
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-        // 새로운 날짜 문자열 포맷 정의
         val outputFormatter =
-            if(SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
+            if (SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
             else DateTimeFormatter.ofPattern("MMMM yyyy");
 
-        // 날짜 문자열을 LocalDateTime 객체로 파싱
         val dateTime = LocalDateTime.parse(inputDate, inputFormatter)
 
-        // LocalDateTime 객체를 원하는 포맷의 문자열로 변환
         return dateTime.format(outputFormatter)
     }
 }

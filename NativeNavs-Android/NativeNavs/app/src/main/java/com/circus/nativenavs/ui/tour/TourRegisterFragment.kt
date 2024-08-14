@@ -141,7 +141,8 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
                             UserDto(
                                 SharedPref.userId!!,
                                 SharedPref.accessToken!!,
-                                SharedPref.isNav!!
+                                SharedPref.isNav!!,
+                                SharedPref.language == "ko"
                             )
                         )
                     }
@@ -167,7 +168,6 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
             }
 
         val url = WEBURL + "tour/create"
-        Log.d(TAG, "initCustomView: $url")
         binding.tourRegisterWv.loadWebViewUrl(url)
 
     }

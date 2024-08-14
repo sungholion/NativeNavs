@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -11,7 +12,7 @@
         <include
             android:id="@+id/noti_title_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{`알림`}" />
+            app:titleText="@string/noti_title" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/noti_rv"
@@ -25,6 +26,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noti_title_layout"
             tools:listitem="@layout/item_noti" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/noti_empty_cl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noti_title_layout">
+
+            <ImageView
+                android:id="@+id/noti_empty_iv"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginBottom="18dp"
+                android:src="@drawable/icon_notifications"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/noti_empty_tv"/>
+            <TextView
+                android:id="@+id/noti_empty_tv"
+                style="@style/medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/noti_empty"
+                android:textSize="16sp"
+                android:letterSpacing="0.03"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noti_empty_iv"
+                app:layout_constraintBottom_toTopOf="@+id/noti_empty_content_tv"/>
+
+            <TextView
+                android:id="@+id/noti_empty_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_8A8A"
+                style="@style/regular"
+                android:letterSpacing="0.03"
+                android:text="@string/noti_empty_content"
+                android:textSize="14sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noti_empty_tv"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

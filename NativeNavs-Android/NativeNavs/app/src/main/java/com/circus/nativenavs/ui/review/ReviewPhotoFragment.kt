@@ -39,7 +39,6 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showToast(args.toString())
         initBridge()
         initCustomView()
         initWebView()
@@ -59,7 +58,8 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
                         UserDto(
                             SharedPref.userId!!,
                             SharedPref.accessToken!!,
-                            SharedPref.isNav!!
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
                         )
                     )
                 }
@@ -76,7 +76,6 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
             url = WEBURL + "trav/${args.travId}/reviewphotos"
         }
 
-        Log.d(TAG, "initCustomView: $url")
         binding.reviewPhotoCustomWv.loadWebViewUrl(url)
 
     }

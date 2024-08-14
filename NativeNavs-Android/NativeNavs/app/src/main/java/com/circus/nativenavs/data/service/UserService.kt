@@ -7,7 +7,9 @@ import com.circus.nativenavs.data.LoginResponse
 import com.circus.nativenavs.data.ProfileUserDto
 import com.circus.nativenavs.data.ProfileUserReviewDto
 import com.circus.nativenavs.data.RefreshResponse
+import com.circus.nativenavs.data.ReservationDto
 import com.circus.nativenavs.data.SignUpDto
+import com.circus.nativenavs.data.StampDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -51,7 +53,7 @@ interface UserService {
         @Query("email") email: String
     ): Response<Void>
 
-    @GET("language")
+    @GET("language/search/all")
     suspend fun getLanguageList(): LanguageServerDto
 
     @GET("users/checkDuplicated/nickname/{nickname}")
@@ -92,4 +94,19 @@ interface UserService {
         @Query("userId") userId: Int,
         @Query("fcmToken") fcmToken: String
     ): Response<Void>
+
+    @GET("users/stamp/{userId}")
+    suspend fun getStamp(
+        @Path("userId") userId : Int
+    ) : List<StampDto>
+
+    @GET("reservations/{reservation}/review")
+    suspend fun getReservation(
+        @Path("reservation") reservationId : Int
+    ) : ReservationDto
+
+    @PUT("reservations/{reservation}/done")
+    suspend fun updateReservationStatus(
+        @Path("reservation") reservationId : Int
+    ) : Response<Void>
 }
