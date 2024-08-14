@@ -251,19 +251,15 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     private fun markMessagesAsRead() {
-        viewModelScope.launch {
-            try {
-//                chatRetrofit.markMessagesAsRead(chatRoomId.value!!)
-                // 서버에 읽음 처리 요청 후 UI 업데이트
-                Log.d(TAG, "markMessagesAsRead: ")
-                _chatMessages.value = _chatMessages.value?.map {
-                    it.copy(messageChecked = true)
-                }
-                _uiState.postValue(_chatMessages.value?.let { _uiState.value?.copy(messages = it) })
-            } catch (e: Exception) {
-                Log.e(TAG, "Mark messages as read failed: ", e)
+        Log.d(TAG, "markMessagesAsRead: ")
+        val messages = uiState.value?.let {
+            it.messages.toMutableList().map {
+                it.copy(messageChecked = true)
             }
         }
+        Log.d(TAG, "Messages markMessagesAsRead: $messages")
+        _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
+        Log.d(TAG, "markMessagesAsRead: 11111111111111111111111 ${_uiState.value}")
     }
 
 
@@ -278,9 +274,16 @@ class KrossbowChattingViewModel : ViewModel() {
 
     private fun addMessage(message: MessageDto) {
         Log.d(TAG, "addMessage: $message")
+
+        if (message.senderId != SharedPref.userId) {
+            markMessagesAsRead()
+        }
+        Log.d(TAG, "markMessagesAsRead: 22222222222222222222222")
+        Log.d(TAG, "addMessage------------: ${uiState.value}")
         val messages = uiState.value?.messages?.toMutableList()
         messages?.add(message)
-        _uiState.postValue(messages?.let { _uiState.value?.copy(messages = it) })
+        _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
+        Log.d(TAG, "markMessagesAsRead: 333333333333333333333")
     }
 
     fun sendMessage(messageSent: () -> Unit) {
