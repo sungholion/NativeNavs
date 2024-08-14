@@ -129,16 +129,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
-//        updateUserEntity.setImage(updateUserDTO.getImage());
         if(updateUserEntity.getImage()!= null &&!updateUserDTO.getImage().isEmpty()){
             awsS3ObjectStorageUpload.deleteFile(updateUserEntity.getImage());
             String imageUrl =  awsS3ObjectStorageUpload.uploadFile(profileImage);
             updateUserEntity.setImage(imageUrl);
         }
-        updateUserEntity.setNickname(updateUserDTO.getNickname());
-        updateUserEntity.setUserLanguage(updateUserDTO.getUserLanguage());
-        updateUserEntity.setPhone(updateUserDTO.getPhone());
-        updateUserEntity.setPassword(updateUserDTO.getPassword());
+
+
+        if (updateUserDTO.getNickname() == null) {
+            updateUserEntity.setNickname(updateUserEntity.getNickname());
+        } else {
+            updateUserEntity.setNickname(updateUserDTO.getNickname());
+        }
+
+        if(updateUserDTO.getPassword() == null) {
+            updateUserEntity.setPassword(updateUserEntity.getPassword());
+        } else {
+            updateUserEntity.setPassword(updateUserDTO.getPassword());
+        }
+
+        if(updateUserDTO.getUserLanguage() == null) {
+            updateUserEntity.setUserLanguage(updateUserEntity.getUserLanguage());
+        } else {
+            updateUserEntity.setUserLanguage(updateUserDTO.getUserLanguage());
+        }
+
+        if(updateUserDTO.getPhone() == null) {
+            updateUserEntity.setPhone(updateUserEntity.getPhone());
+        } else {
+            updateUserEntity.setPhone(updateUserDTO.getPhone());
+        }
+
     }
 
     @Override
