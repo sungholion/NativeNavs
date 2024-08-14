@@ -374,7 +374,7 @@ const Detail = () => {
         </h3>
         <h4>{formattedPrice}</h4>
         <h3 className={styles.tourReminderDecription}>
-          {user && user.isKorean ? "투어 설명" : "Tour Description"}
+          {user && user.isKorean ? "당부 사항" : "Reminder"}
         </h3>
         <h4>{tour.description}</h4>
       </div>
