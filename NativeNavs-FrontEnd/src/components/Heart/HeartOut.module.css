@@ -1,21 +1,22 @@
 .heart {
   position: relative;
-  width: 13px; /* 20px의 3분의 2 */
-  height: 13px; /* 20px의 3분의 2 */
-  background-color: #444;
+  width: 17px; /* 26px의 3분의 2 */
+  height: 17px; /* 26px의 3분의 2 */
+  background-color: #444; /* 기본 어두운 색 */
   transform: rotate(-45deg);
   margin: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  z-index: 1000;
+  transition: background-color 0.3s ease;  
+  left: 2px; /* 3px의 3분의 2 */
+  top: -2px; /* -3px의 3분의 2 */
 }
 
 .heart::before,
 .heart::after {
   content: "";
   position: absolute;
-  width: 13px; /* 20px의 3분의 2 */
-  height: 13px; /* 20px의 3분의 2 */
+  width: 17px; /* 26px의 3분의 2 */
+  height: 17px; /* 26px의 3분의 2 */
   background-color: inherit;
   border-radius: 50%;
 }
@@ -32,7 +33,7 @@
 
 /* 클릭되지 않은 상태 */
 .heart-unliked {
-  background-color: #444;
+  background-color: #ffffff;
 }
 
 /* 클릭된 상태 */

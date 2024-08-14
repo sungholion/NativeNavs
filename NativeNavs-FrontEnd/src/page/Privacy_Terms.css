@@ -1,0 +1,30 @@
+.PrivacyTerms {
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    padding: 0;
+  }
+  h1,
+  h2,
+  h3 {
+    color: #333;
+  }
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  h3 {
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+  p {
+    margin: 0 0 10px;
+  }
+}

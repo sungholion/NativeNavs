@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import styles from "./StarScore.module.css";
+import styles from "./StarScore2.module.css";
 
 function StarScore2({ score }) {
   const ratesResArr = [14];

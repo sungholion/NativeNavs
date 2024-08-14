@@ -6,31 +6,37 @@ import { getStringedDate } from "@/utils/get-stringed-date";
 import { getFromattedDatetime } from "@/utils/get-formatted-datetime";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { navigateToReservationRegisterChattingRoom } from "@/utils/get-android-function";
+import {
+  navigateToReservationRegisterDetailFragment,
+  showReservationRegisterFailDialog,
+} from "@/utils/get-android-function";
 
 const initData = {
-  tourId: 0, //투어 글에 대한 것
+  tourId: 0, 
   participantId: 0,
-  date: new Date(), // 예약 날짜 -> yyyy-mm-dd로 바꾸기
-  startAt: new Date(), // 시작시간 -> yyyy-mm-ddThh:mm:ss
-  endAt: new Date(), //종료시간 -> yyyy-mm-ddThh:mm:ss
-  participantCount: 1, //참가자 수
-  description: "", // 당부사항
-  meetingAddress: "", // 만남 장소
-  meetingLatitude: -1, // 만남 장소 위도
-  meetingLongitude: -1, // 만남 장소 경도
+  date: new Date(), 
+  startAt: new Date(), 
+  endAt: new Date(), 
+  participantCount: 1, 
+  description: "", 
+  meetingAddress: "", 
+  meetingLatitude: -1, 
+  meetingLongitude: -1, 
 };
 
 const ReservationCreate = () => {
   const params = useParams();
 
-  // 참가 관광객에 대한 정보 변수
   const [travInfo, setTravInfo] = useState(null);
 
-  // 관련 투어 정보에 대한 정보 변수
   const [tourInfo, setTourInfo] = useState(null);
 
-  // 해당 관강객에 대한 정보 가져오기
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   useEffect(() => {
     axios
       .get(`https://i11d110.p.ssafy.io/api/users/search/id/${params.trav_id}`)
@@ -43,7 +49,6 @@ const ReservationCreate = () => {
       });
   }, [params.trav_id]);
 
-  // 투어 정보 가져오기
   useEffect(() => {
     axios
       .get(`https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`)
@@ -80,11 +85,15 @@ const ReservationCreate = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        navigateToReservationRegisterChattingRoom();
+        const resId = Number(res.data.substr(res.data.indexOf(":") + 1));
+        navigateToReservationRegisterDetailFragment(
+          Number(params.tour_id),
+          resId
+        );
       })
       .catch((err) => {
         console.log(err);
+        showReservationRegisterFailDialog();
       });
   };
 
@@ -99,14 +108,34 @@ const ReservationCreate = () => {
           image={tourInfo.thumbnailImage}
           title={tourInfo.title}
           score={tourInfo.reviewAverage}
+          language={user?.isKorean ? "ko" : "en"}
+          location={tourInfo.location}
         />
       </section>
       <section className="TravInforSection">
-        <h4>Trav 정보</h4>
+        <h4>
+          {user.isKorean ? "예약 Trav 정보" : "Reservation Trav Information"}
+        </h4>
         <div className="TravInfo">
           <img src={travInfo.image} alt="프로필사진" />
           <div>{travInfo.nickname}</div>
         </div>
+        <section style={{ fontSize: "22px", width: "100%" }}>
+          <hr
+            style={{
+              border: "1px solid #d9d9d9",
+              alignSelf: "center",
+              width: "100%",
+              marginBottom: "10px",
+            }}
+          />
+          <br />
+          <div>
+            {user?.isKorean
+              ? "밑의 정보를 입력해 주세요"
+              : "Please enter the information below"}
+          </div>
+        </section>
       </section>
       <ReservationEditor
         maxParticipant_info={tourInfo.maxParticipants}

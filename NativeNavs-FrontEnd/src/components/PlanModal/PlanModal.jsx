@@ -9,13 +9,19 @@ import { getStaticImage } from "@/utils/get-static-image";
 import { createPortal } from "react-dom";
 import MapModal from "@/components/MapModal/MapModal";
 
+const MAX_PLAN_DESCRIPTION_LENGTH = 200;
+
 const center = {
   lat: 37.5642,
   lng: 127.00169,
 };
 
 const PlanModal = ({ onClose, onSubmit, initData }) => {
-  // 계획 등록 데이터
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
   const [planData, setPlanData] = useState({
     field: "",
     description: "",
@@ -25,7 +31,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     image: "",
   });
 
-  // 이미지 미리보기 전용
   const [planImg, setPlanImg] = useState("");
   useEffect(() => {
     if (initData) {
@@ -37,7 +42,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     }
   }, [initData]);
 
-  // 지도 검색 결과 넣는 곳
   const inputMapData = (data) => {
     setPlanData({
       ...planData,
@@ -47,13 +51,17 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     });
   };
 
-  const [isOpenMapModal, setIsOpenMapModal] = useState(false); // 맵 지도 검색 모달 띄울것인가?
+  const [isOpenMapModal, setIsOpenMapModal] = useState(false);
 
   const onChangeEvent = (e) => {
     if (e.target.name === "image") {
       const { files } = e.target;
       if (files) {
         const uploadFile = files[0];
+        if (uploadFile.size > 1024 * 1024 * 10) {
+          alert("10MB 이하의 이미지만 업로드 가능합니다.");
+          return;
+        }
         setPlanData({ ...planData, [e.target.name]: uploadFile });
         getImageUrl(uploadFile, setPlanImg);
       } else {
@@ -96,10 +104,14 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
             />
           </div>
           <div className={styles.ModalHeaderTitle}>
-            <h3>제목</h3>
+            <h3>{user?.isKorean ? "제목" : "Title"}</h3>
             <input
               type="text"
-              placeholder="일정 제목 입력해 주세요"
+              placeholder={
+                user?.isKorean
+                  ? "일정 제목 입력해 주세요"
+                  : "Enter the title of the plan"
+              }
               maxLength="20"
               name="field"
               value={planData.field}
@@ -107,9 +119,14 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
             />
           </div>
         </section>
+        <div className={styles.ModalHeaderComment}>
+          {user?.isKorean
+            ? "10MB 이하 이미지만 업로드 가능합니다"
+            : "Image must be 10MB or less"}
+        </div>
         <section className={styles.ModalMap}>
           <div className={styles.ModalMapSearch}>
-            <h3>위치 검색</h3>
+            <h3>{user?.isKorean ? "위치 검색" : "Location Search"}</h3>
             <img
               src={getStaticImage("search")}
               alt=""
@@ -130,25 +147,45 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               document.body
             )}
           <div>
-            {planData.addressFull !== "" && (
-              <div>
+            {planData.addressFull !== "" ? (
+              <div style={{ width: "70vw" }}>
                 <div>{planData.addressFull}</div>
+              </div>
+            ) : (
+              <div>
+                {user?.isKorean ? (
+                  <div>위치를 검색해주세요</div>
+                ) : (
+                  <div>Search for a location</div>
+                )}
               </div>
             )}
           </div>
         </section>
         <section className={styles.ModalContent}>
-          <h3>내용</h3>
+          <div className={styles.ModalContentHeader}>
+            <h3>{user?.isKorean ? "계획 내용" : "Plan Description"}</h3>
+            <p style={{ padding: "0px" }}>
+              {planData.description.length} / {MAX_PLAN_DESCRIPTION_LENGTH}
+            </p>
+          </div>
           <textarea
             maxLength={200}
             value={planData.description}
-            onChange={onChangeEvent}
+            onChange={(e) => {
+              if (e.target.value.length < MAX_PLAN_DESCRIPTION_LENGTH) {
+                setPlanData({ ...planData, description: e.target.value });
+              }
+            }}
             name="description"
           />
         </section>
         <section className={styles.ButtonSection}>
-          <button onClick={onClose}>뒤로</button>
+          <button className={styles.leftButton} onClick={onClose}>
+            {user?.isKorean ? "뒤로" : "Back"}
+          </button>
           <button
+            className={styles.rightButton}
             disabled={
               planData.field === "" ||
               planData.image === "" ||
@@ -156,23 +193,11 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
               planData.addressFull === ""
             }
             onClick={() => {
-              if (planData.field === "") {
-                window.alert("제목을 입력하세요");
-                return;
-              }
-              if (planData.image === "") {
-                window.alert("해당 일정에 대한 이미지를 업로드 하세요");
-                return;
-              }
-              if (planData.description === "") {
-                window.alert("해당 일정에 대한 글을 써주세요");
-                return;
-              }
               onSubmit({ ...planData });
               onClose();
             }}
           >
-            계획 등록
+            {user?.isKorean ? "반영" : "Reflect"}
           </button>
         </section>
       </div>

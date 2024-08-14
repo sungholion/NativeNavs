@@ -5,7 +5,6 @@ import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Carousel from "@/components/Carousel/Carousel.jsx";
-import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
 import { getStaticImage } from "@/utils/get-static-image";
@@ -14,13 +13,14 @@ import {
   navigateToTourListFragment,
 } from "@/utils/get-android-function";
 import NativeNavs from "@/assets/NativeNavs.png";
-import StarScore from "../components/Star/StarScore";
 import StarScore2 from "../components/Star/StarScore2";
+import Modal3 from "../components/Modal/Modal3";
+import NativeNavsRemoveNeedle from "@/assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "@/assets/compassNeedleRemoveBack.png";
 
 const Detail = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
-  // tour state 정의
   const [tour, setTour] = useState({
     price: 0,
     title: "",
@@ -35,8 +35,9 @@ const Detail = () => {
     plans: [],
     removed: false,
   });
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // review state 정의
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -45,16 +46,11 @@ const Detail = () => {
     totalImageCount: 0,
   });
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      console.log("User data : ", parsedUser);
-    } else {
-      console.log("No login user data");
-    }
+    setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
   const onDeleteEvent = async () => {
@@ -73,7 +69,6 @@ const Detail = () => {
       });
   };
 
-  // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -81,18 +76,19 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
+        setLoading(false); 
         console.log("Tours response data : ", response.data);
-        console.log("Tours response data : ", response.data.user.id);
-        console.log(tour);
       } catch (error) {
         console.error("Error fetching tours:", error);
+        setLoading(false);
       }
     };
 
-    fetchTour();
+    if (user) {
+      fetchTour();
+    }
   }, [user]);
 
-  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
@@ -106,7 +102,6 @@ const Detail = () => {
 
   const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
 
-  // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
@@ -123,15 +118,11 @@ const Detail = () => {
     fetchReviewData();
   }, []);
 
-  // 작성자 전용 -> 수정, 삭제 버튼 클릭 시 옵션창 열기
   const [openOption, setOpenOption] = useState(false);
 
-  // 첫 번째 리뷰를 변수에 저장
   const firstReview =
     reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
-  // console.log(firstReview);
 
-  // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
     if (
       window.Android &&
@@ -143,7 +134,6 @@ const Detail = () => {
     }
   };
 
-  // MB : 리뷰 클릭 이벤트 정의
   const onClickReview = (e) => {
     if (
       window.Android &&
@@ -155,96 +145,153 @@ const Detail = () => {
     }
   };
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
-  // price 변수 fotmatting
-  const formattedPrice = tour.price.toLocaleString();
+  const formattedPrice = `₩ ${tour.price.toLocaleString()}`;
+
+  const handlePlanClick = (plan) => {
+    setSelectedPlan(plan);
+    setShowModal(true);
+
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedPlan(null);
+
+    document.body.style.overflow = "auto";
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const categoryMapping = {
+    1: { ko: "시장", en: "Market" },
+    2: { ko: "액티비티", en: "Activity" },
+    3: { ko: "자연", en: "Nature" },
+    4: { ko: "역사", en: "History" },
+    5: { ko: "문화", en: "Culture" },
+    6: { ko: "축제", en: "Festival" },
+    7: { ko: "음식", en: "Food" },
+    8: { ko: "트렌디", en: "Trendy" },
+    9: { ko: "랜드마크", en: "Landmark" },
+    10: { ko: "쇼핑", en: "Shopping" },
+    11: { ko: "미용", en: "Beauty" },
+    12: { ko: "사진", en: "Photography" },
+  };
+
+  const getCategoryNames = () => {
+    return tour.categoryIds
+      .map((id) => categoryMapping[id])
+      .filter(Boolean)
+      .map((category) => (user.isKorean ? category.ko : category.en))
+      .join(", ");
+  };
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.Detail}>
-      {/* 투어 사진(캐러셀) */}
-      {
-        // 해당 글 작성자와 로그인한 유저가 같고, 글 작성자가 Nav인 경우
-        // 수정 & 삭제 버튼을 보여줌
-        user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
-          <div className={styles.WriterOnlyOptionSection}>
-            <img
-              src={getStaticImage("menu_vertical_button")}
-              style={{ width: "30px", height: "30px" }}
-              onClick={() => setOpenOption((cur) => !cur)} // 토글
-            />
-            {openOption && (
-              <div className={styles.WriterOptions}>
-                {/* 해당 버튼 클릭시 수정 버튼 이동 */}
-                <button
-                  className={styles.buttonEdit}
-                  onClick={() => {
-                    navigateToTourModifyFragment(Number(params.tour_id));
-                  }}
-                >
-                  수정
-                </button>
-                {/* 해당 버튼 클릭시 삭제 버튼 이동 */}
-                <button
-                  className={styles.buttonDelete}
-                  onClick={() => {
-                    onDeleteEvent();
-                  }}
-                >
-                  삭제
-                </button>
-              </div>
-            )}
-          </div>
-        )
-      }
-      <Carousel images={images} />
+      {user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
+        <div className={styles.WriterOnlyOptionSection}>
+          <img
+            src={getStaticImage("menu_vertical_button")}
+            style={{ width: "30px", height: "30px" }}
+            onClick={() => setOpenOption((cur) => !cur)}
+          />
+          {openOption && (
+            <div className={styles.WriterOptions}>
+              <button
+                className={styles.buttonEdit}
+                onClick={() => {
+                  navigateToTourModifyFragment(Number(params.tour_id));
+                }}
+              >
+                {user && user.isKorean ? "수정" : "Edit"}
+              </button>
+              <button
+                className={styles.buttonDelete}
+                onClick={() => {
+                  onDeleteEvent();
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      <Carousel tourId={tour.tourId} images={images} user={user} />
 
-      {/* 투어 정보(간략하게) */}
-      <section className={styles.tour_info}>
-        {/* left */}
-        <div className={styles.tour_leftinfo}>
+      <div className={styles.tour_info}>
+        <div className={styles.tour_info_first}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
-          <p className={styles.tour_maxParticipants}>
-            최대 인원 {tour.maxParticipants}명
-          </p>
-          <p className={styles.tour_duration}>
+          <div>
+            <StarScore2 score={tour.reviewAverage * 20} />
+          </div>
+        </div>
+        <div className={styles.tour_info_first}>
+          <div className={styles.tour_maxParticipants}>
+            {user && user.isKorean
+              ? `최대 인원 ${tour.maxParticipants}명`
+              : `Maximum ${tour.maxParticipants} people`}
+          </div>
+          <div className={styles.categoryContainer}>
+            {getCategoryNames() &&
+              getCategoryNames()
+                .split(", ")
+                .slice(2)
+                .map((category, index) => (
+                  <div key={index + 2} className={styles.categoryBox}>
+                    {category}
+                  </div>
+                ))}
+          </div>
+        </div>
+        <div className={styles.tour_info_first}>
+          <div>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
-          </p>
-        </div>
-
-        {/* right */}
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_rating}>
-            <div className={styles.tour_rating_inner}>
-              {/* <Rating reviewAverage={tour.reviewAverage} /> */}
-              <StarScore2 score={tour.reviewAverage * 20} />
-            </div>
           </div>
-
-          <div className={styles.tour_nav_language}>
-            <div className={styles.tour_nav_language_inner}>
-              <div>🌏</div>
-              <div className={styles.langlang}>
-                {navLanguages.length > 1 ? (
-                  <p>
-                    {navLanguages[0]} 외 {navLanguages.length - 1}개 국어
-                  </p>
-                ) : (
-                  <p>{navLanguages[0]}</p>
-                )}
-              </div>
-            </div>
+          <div className={styles.categoryContainer}>
+            {getCategoryNames()
+              .split(", ")
+              .slice(0, 2)
+              .map((category, index) => (
+                <div key={index} className={styles.categoryBox}>
+                  {category}
+                </div>
+              ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Nav 정보 */}
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
@@ -262,20 +309,25 @@ const Detail = () => {
             {tour && tour.user ? (
               <p className={styles.navNickname}>
                 <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
-                Nav: {tour.user.nickname}님
+                {user && user.isKorean
+                  ? `Nav: ${tour.user.nickname}님`
+                  : `Nav: ${tour.user.nickname}`}
               </p>
             ) : (
               <p>loading..</p>
             )}
             <p className={styles.navLanguage}>
-              🌏 Language: {navLanguages.join(", ")}
+              {user && user.isKorean
+                ? `🌏 언어: ${navLanguages.join(", ")}`
+                : `🌏 Language: ${navLanguages.join(", ")}`}
             </p>
           </div>
         </div>
       </div>
-      {/* 투어 일정 */}
       <div className={styles.tourPlan}>
-        <h3 className={styles.tourPlanTitle}>Plan</h3>
+        <h3 className={styles.tourPlanTitle}>
+          {user && user.isKorean ? `일정` : `Plan`}
+        </h3>
         <div className={styles.tourPlanContainer}>
           {tour.plans.map((plan) => (
             <Plan_Item2
@@ -287,19 +339,28 @@ const Detail = () => {
               longitude={plan.longitude}
               addressFull={plan.addressFull}
               enableDeleteOption={false}
+              onClick={() => handlePlanClick(plan)}
             />
           ))}
         </div>
       </div>
-      {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
-        <h3 className={styles.tourReminderPrive}>예상 금액</h3>
-        <h4>{formattedPrice}₩</h4>
-        <h3 className={styles.tourReminderDecription}>투어 설명</h3>
+        <h3 className={styles.tourReminderPrive}>
+          {" "}
+          {user && user.isKorean ? "예상 금액" : "Estimated Price"}
+        </h3>
+        <h4>{formattedPrice}</h4>
+        <h3 className={styles.tourReminderDecription}>
+          {user && user.isKorean ? "당부 사항" : "Reminder"}
+        </h3>
         <h4>{tour.description}</h4>
       </div>
-      {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
+        <div className={styles.buttonContainer}>
+          <button className={styles.Button}>
+            {user && user.isKorean ? "전체 리뷰 보기 >" : "View All Reviews >"}
+          </button>
+        </div>
         {firstReview ? (
           <Review_Item
             user={firstReview.reviewer}
@@ -310,9 +371,17 @@ const Detail = () => {
             imageList={firstReview.imageUrls}
           />
         ) : (
-          <p>첫 리뷰를 남겨주세요!</p>
+          <p>
+            {user && user.isKorean
+              ? "첫 리뷰를 남겨주세요!"
+              : "Be the first to leave a review!"}
+          </p>
         )}
       </div>
+
+      {selectedPlan && (
+        <Modal3 show={showModal} onClose={closeModal} plan={selectedPlan} />
+      )}
     </div>
   );
 };

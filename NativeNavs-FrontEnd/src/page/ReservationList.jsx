@@ -1,47 +1,28 @@
-import Carousel2 from "@/components/Carousel/Carousel2";
-import styles from "./ReservationList.module.css";
-import Tour_Item3 from "@/components/Tour_Item/Tour_Item3";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Carousel2 from "@/components/Carousel/Carousel2";
+import Tour_Item3 from "@/components/Tour_Item/Tour_Item3";
+import Button from "@/components/Button/Button";
+import styles from "./ReservationList.module.css";
 import {
   navigateToReservationListFragmentReservationDetail,
   navigateToReservationListFragmentTourList,
 } from "../utils/get-android-function";
-import Button from "@/components/Button/Button";
 import NativeNavs from "../assets/NativeNavs.png";
+import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
 const ReservationList = () => {
   const [user, setUser] = useState(null);
   const [reservationsInProgress, setreservationsInProgress] = useState([]);
   const [reservationsCompleted, setreservationsCompleted] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      console.log(user);
-    }
+    setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // // MB -> FE : 유저 정보 파싱
-  useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`);
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
-    };
-  }, []);
-
-  // FE -> BE : 예정된 투어 정보 요청
   const getReservationList = async (e) => {
     try {
       const response = await axios.get(
@@ -49,8 +30,6 @@ const ReservationList = () => {
         {
           headers: {
             Authorization: user.userToken,
-            // Authorization:
-            // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzNEBnbWFpbC5jb20iLCJpYXQiOjE3MjMwNzgzOTUsImV4cCI6MTcyMzA4MTk5NX0.xRtizR6U4bIh8VYnqNrpkRPobjS1bIhznIL1IYAYMRbcFPE0IROdhyi-GQWJhgXHXiX6wXX3VuctcQQOUxISCg",
           },
         }
       );
@@ -59,39 +38,64 @@ const ReservationList = () => {
       console.log("받아온 정보:", response.data);
     } catch (error) {
       console.error("투어 예약 리스트 받아오기 실패:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
-  // user 상태가 설정된 후 예정된 투어 요청 함수 호출
   useEffect(() => {
-    //   if (user && user.userToken) {
     getReservationList();
-    // }
   }, [user]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   if (reservationsInProgress.length != 0) {
     return (
       <>
-        <h2 className={styles.TourListTitle}>예정된 Tour</h2>
+        <h2 className={styles.TourListTitle}>
+          {user && user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
+        </h2>
         <div className={styles.ReservationList}>
-          {/* 예약된 투어 리스트 */}
 
-          <h3 className={styles.reservationLength}>
-            {/* 총 {tourData.length}개의 투어가 예약 중입니다 */}
-          </h3>
           <div className={styles.upcomingTourList}>
-            {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
             {reservationsInProgress.length > 0 && (
               <Carousel2
                 reservationsInProgress={reservationsInProgress}
                 navigateToReservationListFragmentReservationDetail={
                   navigateToReservationListFragmentReservationDetail
                 }
+                user={user}
               />
             )}
           </div>
-          {/* 완료된 투어 리스트 */}
-          <h2 className={styles.TourListTitle}>완료된 Tour</h2>
+          <h2 className={styles.TourListTitle}>
+            {user && user.isKorean ? "완료된 Tour" : "Completed Tour"}
+          </h2>
           <div className={styles.completedTourList}>
             {reservationsCompleted.map((tour) => (
               <Tour_Item3
@@ -109,7 +113,9 @@ const ReservationList = () => {
   }
   return (
     <>
-      <h2 className={styles.TourListTitle}>예정된 Tour</h2>
+      <h2 className={styles.TourListTitle}>
+        {user && user.isKorean == true ? "예정된 Tour" : "Upcoming Tour"}
+      </h2>
       <div className={styles.TopContainer}>
         <div className={styles.MiddleContainer}>
           <img
@@ -117,18 +123,30 @@ const ReservationList = () => {
             src={NativeNavs}
             alt="NativeNavs"
           />
-          <h2>아직 예약한 Tour가 없어요!</h2>
-          <h5>NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!</h5>
+          <h2>
+            {user && user.isKorean == true ? (
+              "아직 예약한 Tour가 없어요!"
+            ) : (
+              <>No upcoming tours booked!</>
+            )}
+          </h2>
+          <h5>
+            {user && user.isKorean == true
+              ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
+              : "Create special memories in Korea with NativeNavs!"}
+          </h5>
           <Button
             size="4"
-            text={"둘러보기"}
+            text={user && user.isKorean ? "둘러보기" : "Browse"}
             onClickEvent={() => {
-              navigateToReservationListFragmentTourList(); // 네이티브 함수 호출
+              navigateToReservationListFragmentTourList(); 
             }}
           />
         </div>
       </div>
-      <h2 className={styles.TourListTitle}>완료된 Tour</h2>
+      <h2 className={styles.TourListTitle}>
+        {user && user.isKorean == true ? "완료된 Tour" : "Completed Tour"}
+      </h2>
       <div className={styles.completedTourList}>
         {reservationsCompleted.map((tour) => (
           <Tour_Item3

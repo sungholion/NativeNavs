@@ -67,6 +67,8 @@ const TourCreate = () => {
       formData.append(`planImages`, plan.image);
     });
     console.log(formData.getAll("planImages"));
+    console.log(formData.getAll("tour"));
+    console.log(formData.getAll("thumbnailImage"));
     console.log("--------");
     axios
       .post("https://i11d110.p.ssafy.io/api/tours", formData, {

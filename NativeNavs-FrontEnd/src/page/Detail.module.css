@@ -4,7 +4,7 @@
   align-items: center;
   width: 100vw;
   height: 100%;
-  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
+  box-sizing: border-box;
 }
 
 .tour_img {
@@ -16,43 +16,34 @@
 
 .tour_info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  margin: 10px 0;
-  padding: 0px;
+  align-items: stretch;
+  margin: 10px 0px;
 }
 
-.tour_leftinfo {
+.tour_info_first {
   display: flex;
-  flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
 }
 
 .tour_title {
-  margin: 0; /* 수정 */
+  margin: 0;
   font-weight: 600;
-  color: #585858;
+  color: black;
+  max-width: 70%;
 }
 
 .tour_maxParticipants {
+  display: flex;
+  justify-content: space-between;
   margin: 0;
 }
 
 .tour_duration {
   font-size: 14px;
-  margin: 0; /* 수정 */
+  margin: 0;
   color: #585858;
-}
-
-.tour_leftinfo,
-.tour_rightinfo {
-  display: flex;
-  flex-direction: column;
-}
-.tour_rating {
-  display: flex;
-  justify-content: end;
 }
 
 .tour_nav {
@@ -67,7 +58,8 @@
   justify-content: end;
   padding: 0px;
 }
-.langlang{
+
+.langlang {
   margin-left: 3.5px;
 }
 
@@ -153,8 +145,8 @@
 
 /* 투어 일정 */
 .tourPlan {
-  width: 100%; /* 추가 */
-  text-align: left; /* 추가 */
+  width: 100%;
+  text-align: left;
   border-bottom: 1px solid #d9d9d9;
 }
 
@@ -165,9 +157,9 @@
 
 /* 투어 당부사항 */
 .tourReminder {
-  width: 100%; /* 추가 */
-  text-align: left; /* 추가 */
-  padding-left: 0 20px; /* 추가 */
+  width: 100%;
+  text-align: left;
+  padding-left: 0 20px;
   border-bottom: 1px solid #d9d9d9;
 }
 
@@ -183,9 +175,9 @@
 .tourPlan,
 .tourReminder,
 .tourReview {
-  width: 100vw; /* 전체 너비 사용 */
-  box-sizing: border-box; /* 패딩 및 보더를 포함한 크기 계산 */
-  padding: 0 20px; /* 좌우 여백 추가 */
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 .tourPlan {
@@ -197,12 +189,26 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden; /* 수평 스크롤 숨기기 */
+  overflow-x: hidden;
 }
 
 html {
   width: 100%;
   height: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.Button {
+  border: none;
+  background-color: white;
+  font-size: 18px;
+  padding: 0;
 }
 
 .WriterOnlyOptionSection {
@@ -214,44 +220,96 @@ html {
   right: 10px;
   top: 10px;
   z-index: 1000;
+}
 
-  .WriterOptions {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+.WriterOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
 
-    button {
-      height: 30px;
-      font-size: 20px;
-    }
+button {
+  height: 30px;
+  font-size: 20px;
+}
 
-    .buttonEdit {
-      width: 25vw;
-      background-color: #d9d9d9;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      transition: all 0.05s ease-in-out;
-    }
+.buttonEdit {
+  width: 25vw;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  transition: all 0.05s ease-in-out;
+}
 
-    .buttonDelete {
-      width: 25vw;
-      background-color: #ff3333;
-      border-radius: 5px;
-      border: none;
-      color: white;
-      margin-top: 10px;
-      transition: all 0.05s ease-in-out;
-    }
+.buttonDelete {
+  width: 25vw;
+  background-color: #ff3333;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  margin-top: 10px;
+  transition: all 0.05s ease-in-out;
+}
 
-    .buttonDelete:active,
-    .buttonEdit:active {
-      transform: scale(0.95);
-    }
+.buttonDelete:active,
+.buttonEdit:active {
+  transform: scale(0.95);
+}
 
-    .buttonDelete:focus,
-    .buttonEdit:focus {
-      outline: none;
-    }
+.buttonDelete:focus,
+.buttonEdit:focus {
+  outline: none;
+}
+
+@keyframes rotateNeedle {
+  0% {
+    transform: rotate(0deg);
   }
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(1440deg);
+  }  
+}  
+
+.needle {
+  position: absolute;
+  width: 30%; /* 바늘 이미지 크기 */
+  height: 30%;
+  transform-origin: center center; /* 바늘의 중심을 회전 축으로 설정 */
+  animation: rotateNeedle 4s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* 1초 동안 지수적으로 가속하며 360도 회전, 무한 반복 */
+  z-index: 2; /* 바늘 이미지가 앞에 위치 */
+}
+.compassContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.categoryContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.categoryBox {
+  padding: 0 5px;
+  border-radius: 5px;
+  color: white;
+  background-color: #20bec9;
+  margin: 2px;
 }
