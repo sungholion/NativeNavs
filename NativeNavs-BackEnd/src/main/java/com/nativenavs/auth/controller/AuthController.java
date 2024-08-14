@@ -4,6 +4,7 @@ import com.nativenavs.auth.jwt.JwtTokenProvider;
 import com.nativenavs.auth.service.AuthService;
 import com.nativenavs.user.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -156,6 +157,31 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @Operation(summary = "AccessToken 만료 여부 확인 API", description = "AccessToken 만료 여부 확인")
+    @GetMapping("/checkAccessTokenExpired/{accessToken}")
+    public ResponseEntity<Map<String, Object>> checkAccessTokenExpired(
+            @Parameter(description = "accessToken", required = true) @PathVariable("accessToken") String accessToken) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean isExpired = jwtTokenProvider.validateToken(accessToken);
+            response.put("isExpired", isExpired);
+            if (isExpired) {
+                response.put("message", "AccessToken이 만료되었습니다.");
+            } else {
+                response.put("message", "AccessToken이 유효합니다.");
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("AccessToken 만료 여부 확인 중 오류 발생 : {}", e.getMessage(), e);
+            response.put("message", "서버 오류로 인해 AccessToken 만료 여부를 확인할 수 없습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
 }
 
 /*
