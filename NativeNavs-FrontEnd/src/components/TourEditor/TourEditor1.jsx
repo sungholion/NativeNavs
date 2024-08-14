@@ -15,7 +15,12 @@ const checkData = (data) => {
   if (data.title.trim() === "") {
     errorDate |= 1 << 1;
   }
-  if (!data.startDate || !data.endDate || data.startDate > data.endDate) {
+  if (
+    !data.startDate ||
+    !data.endDate ||
+    data.startDate > data.endDate ||
+    data.startDate < getStringedDate(new Date())
+  ) {
     errorDate |= 1 << 2;
   }
   if (data.maxParticipants < 1) {
@@ -175,6 +180,19 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
             }
           />
         </div>
+        <div
+          style={{
+            marginTop: "10px",
+            marginLeft: "20px",
+            color: "#595959",
+            fontSize: "15px",
+            alignSelf: "flex-start",
+          }}
+        >
+          {user?.isKorean
+            ? "시작날짜는 항상 오늘 이후이어야 합니다"
+            : "The start date must always be after today."}
+        </div>
       </div>
       <div className={styles.MaxPeople}>
         <p style={{ color: `${checkInput & (1 << 3) ? "lightcoral" : ""}` }}>
@@ -214,7 +232,7 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
             if (
               !isNaN(newValue) &&
               Number(newValue) >= 0 &&
-              newValue.length <= 1000000
+              Number(newValue) <= 1000000
             ) {
               onTourDataChange("price", Number(newValue));
             }
