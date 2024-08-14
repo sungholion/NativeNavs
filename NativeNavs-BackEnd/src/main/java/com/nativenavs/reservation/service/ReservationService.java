@@ -115,7 +115,7 @@ public class ReservationService {
         ReservationTourDTO reservationTourDTO = new ReservationTourDTO();
 
         reservationTourDTO.setTourDTO(TourDTO.toTourDTO(tour));
-        reservationTourDTO.setBookCount(reservationRepository.countByTour(tour));
+        reservationTourDTO.setBookCount(reservationRepository.countByTourAndStatusOrderByCreatedAtDesc(tour,ReservationStatus.RESERVATION));
         reservationTourDTO.setWishCount(wishlistRepository.countByTourId(tour.getId()));
 
         List<ParticipantDTO> participants = new ArrayList<>();

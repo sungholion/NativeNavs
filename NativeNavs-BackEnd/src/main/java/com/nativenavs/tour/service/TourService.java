@@ -1,6 +1,7 @@
 package com.nativenavs.tour.service;
 
 import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.reservation.enums.ReservationStatus;
 import com.nativenavs.reservation.repository.ReservationRepository;
 import com.nativenavs.tour.dto.*;
 import com.nativenavs.tour.entity.CategoryEntity;
@@ -234,7 +235,7 @@ public class TourService {
         GuideTourDTO dto = new GuideTourDTO();
         dto.setTourId(tour.getId());
         dto.setThumbnailImage(tour.getThumbnailImage());
-        dto.setReservationCount(reservationRepository.countByTour(tour));
+        dto.setReservationCount(reservationRepository.countByTourAndStatusOrderByCreatedAtDesc(tour, ReservationStatus.RESERVATION));
         dto.setWishedCount(wishlistRepository.countByTourId(tour.getId()));
         dto.setTitle(tour.getTitle());
         dto.setRemoved(tour.isRemoved());
