@@ -94,8 +94,8 @@
 }
 
 .singlecarouselImage {
-    width: 390px;
-    height: 390px;
+    width: 335px;
+    height: 335px;
     object-fit: cover; 
     border-radius: 10px;
 }
