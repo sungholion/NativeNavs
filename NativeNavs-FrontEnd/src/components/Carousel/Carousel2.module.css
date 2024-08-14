@@ -6,7 +6,7 @@
 .carouselImage {
     width: 100%;
     height: 288.4px;
-    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    object-fit: cover; 
     border-radius: 10px;
 }
 
@@ -94,9 +94,9 @@
 }
 
 .singlecarouselImage {
-    width: 320px;
-    height: 320px;
-    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    width: 390px;
+    height: 390px;
+    object-fit: cover; 
     border-radius: 10px;
 }
 
