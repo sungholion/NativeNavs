@@ -89,6 +89,7 @@
                     android:layout_marginStart="@dimen/margin_horizontal_page"
                     android:layout_marginEnd="0dp"
                     android:maxLength="20"
+                    android:lines="1"
                     android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/signup_nickname_check_btn"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -232,6 +233,8 @@
                 <EditText
                     android:id="@+id/signup_name_et"
                     style="@style/et_default"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
@@ -269,6 +272,7 @@
                     android:layout_marginStart="@dimen/margin_start_title_et"
                     android:layout_marginTop="20dp"
                     android:text="@string/sign_birth"
+                    android:inputType="number"
                     app:layout_constraintStart_toStartOf="@id/signup_birth_et"
                     app:layout_constraintTop_toBottomOf="@id/signup_name_help_tv" />
 
@@ -309,6 +313,8 @@
                     android:id="@+id/signup_phone_et"
                     style="@style/et_default"
                     android:layout_width="0dp"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_horizontal_page"
                     android:inputType="number"

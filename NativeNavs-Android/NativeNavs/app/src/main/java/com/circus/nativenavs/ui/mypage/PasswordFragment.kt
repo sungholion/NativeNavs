@@ -82,6 +82,7 @@ class PasswordFragment : BaseFragment<FragmentPasswordBinding>(
                         )
                     }
                     it.updateUser()
+                    popBackStack()
                 }
             }
         }
