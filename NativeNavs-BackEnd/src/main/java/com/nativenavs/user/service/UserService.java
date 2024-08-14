@@ -15,7 +15,7 @@ public interface UserService {
     public void signUp(UserDTO userDTO, MultipartFile profileImage);
 
     public void updateUser(int existingId, UserDTO updateUserDTO, MultipartFile profileImage);
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage);
+    public UserEntity updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage);
     public void deleteUser(int id);
 
     public List<UserSearchDTO> searchAllUser();
@@ -28,4 +28,5 @@ public interface UserService {
     public int changeEmailToId(String email);
 
     public void updateFcmToken(int userId, String fcmToken);
+
 }

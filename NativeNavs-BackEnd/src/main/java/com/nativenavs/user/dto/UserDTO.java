@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    private int id; // int or long
+    private int id;
     private String email;
     private String password;
     private String name;
@@ -33,7 +33,7 @@ public class UserDTO {
     private String device;
     private String fcmToken;
 
-    // Entity -> DTO
+
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();
         userDTO.setPassword(userEntity.getPassword());

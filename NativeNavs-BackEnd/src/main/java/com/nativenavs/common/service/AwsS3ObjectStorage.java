@@ -34,31 +34,28 @@ public class AwsS3ObjectStorage {
             amazonS3.putObject(bucket, fileName, multipartFile.getInputStream(), metadata);
             amazonS3.setObjectAcl(bucket, fileName, CannedAccessControlList.PublicRead);
         } catch (IOException ioException) {
-            ioException.printStackTrace(); //to-do exeception handler 작성후 수정
+            ioException.printStackTrace();
         }
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
     public void deleteFile(String fileUrl) {
         try {
-            // URL에서 객체 키 추출
+
             URI uri = new URI(fileUrl);
-            // URL의 첫 번째 '/'를 제거하여 객체 키 얻기
+
             String key = uri.getPath().substring(1);
 
-            // 파일 존재 여부 확인
+
             if (amazonS3.doesObjectExist(bucket, key)) {
-                // S3에서 파일 삭제
+
                 amazonS3.deleteObject(bucket, key);
                 log.info("File deleted successfully: {}", key);
                 }
-//            } else { // file not found
-//                log.warn("File not found: {}", key);
-//                throw new GlobalException(ErrorCode.FILE_NOT_FOUND);
-//            }
+
         } catch (Exception e) { //error
             log.error("Failed to delete file!: {}", fileUrl, e);
-//            throw new GlobalException(ErrorCode.AWS_SERVER_ERROR);
+
         }
     }
 

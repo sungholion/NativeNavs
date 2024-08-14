@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.nativenavs.notification.dto.FcmMessageDTO;
+import com.nativenavs.tour.service.TourService;
 import com.nativenavs.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -19,28 +19,14 @@ import java.util.List;
 @Service
 public class FcmServiceImpl implements FcmService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TourService tourService;
 
-//    @Override
-//    public int sendMessageTo(FcmSendDTO fcmSendDTO) throws IOException {
-//        String message = makeMessage(fcmSendDTO);
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        restTemplate.getMessageConverters()
-//                .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("Authorization", "Bearer " + getAccessToken());
-//
-//        HttpEntity<String> entity = new HttpEntity<>(message, headers);
-//
-//        String API_URL = "https://fcm.googleapis.com/v1/projects/nativenavs/messages:send";
-//        ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, String.class);
-//
-//        return response.getStatusCode() == HttpStatus.OK ? 1 : 0;
-//    }
+    FcmServiceImpl(UserRepository userRepository, TourService tourService) {
+        this.userRepository = userRepository;
+        this.tourService = tourService;
+    }
+
 
     public int sendMessageTo(int flag, int userId, int reservationId, int tourId, int roomId) throws IOException {
         String message = sendNotification(flag, userId, reservationId, tourId, roomId);
@@ -74,7 +60,8 @@ public class FcmServiceImpl implements FcmService {
         String sendTourId;
         String sendRoomId;
 
-        // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
+        String tourTitle = tourService.findTourById(tourId).getTitle();
+
         if(flag == 1){
             sendTitle = "채팅 시작";
             sendMessage = "김싸피님과 채팅을 시작합니다";
@@ -84,10 +71,10 @@ public class FcmServiceImpl implements FcmService {
         }
         else if(flag == 2){
             sendTitle = "예약 신청 완료";
-            sendMessage = "부산 가이드 예약 신청이 완료되었습니다";
+            sendMessage = tourTitle + " 예약 신청이 완료되었습니다";
             sendReservationId = String.valueOf(reservationId);
-            sendTourId = String.valueOf(-1);
-            sendRoomId = String.valueOf(-1);
+            sendTourId = String.valueOf(tourId);
+            sendRoomId = String.valueOf(roomId);
         }
         else if(flag == 3){
             sendTitle = "투어 종료";
@@ -141,28 +128,4 @@ public class FcmServiceImpl implements FcmService {
         return googleCredentials.getAccessToken().getTokenValue();
     }
 
-//    private String makeMessage(FcmSendDTO fcmSendDTO) throws JsonProcessingException {
-//        ObjectMapper om = new ObjectMapper();
-//
-//        // 모든 int 타입 값을 문자열로 변환합니다.
-//        FcmMessageDTO.Data data = new FcmMessageDTO.Data(
-//                String.valueOf(fcmSendDTO.getData().getFlag()),
-//                fcmSendDTO.getData().getTitle(),
-//                fcmSendDTO.getData().getBody(),
-//                String.valueOf(fcmSendDTO.getData().getReservationId()),
-//                String.valueOf(fcmSendDTO.getData().getTourId()),
-//                String.valueOf(fcmSendDTO.getData().getRoomId())
-//        );
-//
-//        FcmMessageDTO.Message message = FcmMessageDTO.Message.builder()
-//                .token(fcmSendDTO.getToken())
-//                .data(data)
-//                .build();
-//
-//        FcmMessageDTO fcmMessageDto = FcmMessageDTO.builder()
-//                .message(message)
-//                .build();
-//
-//        return om.writeValueAsString(fcmMessageDto);
-//    }
 }

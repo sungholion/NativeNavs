@@ -41,6 +41,8 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
+
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "리뷰 등록 API", description = "리뷰를 등록할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
@@ -48,14 +50,15 @@ public class ReviewController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewSave(@RequestHeader("Authorization") String token,
                                         @RequestPart("review") ReviewRequestDTO reviewDTO,
-                                        @RequestPart("reviewImages") List<MultipartFile> images){
+                                        @RequestPart("reviewImages") List<MultipartFile> images,
+                                        @RequestParam("reservationNumber") int reservationId){
         try {
-            int userId = getUserIdFromJWT(token); // JWT에서 사용자 ID 추출
+            int userId = getUserIdFromJWT(token);
             UserEntity reviewer = userRepository.findById(userId)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images);
-            //반환 여부 토론
+            ReviewEntity review = reviewService.addReview(reviewDTO, reviewer, images,reservationId);
+
             return ResponseEntity.ok("리뷰 작성 완료");
 
         } catch (Exception e) {
@@ -71,7 +74,7 @@ public class ReviewController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewFindByTourId(@Parameter(description = "조회 기준이 될 투어 ID", required = true, example = "1")
                                                     @PathVariable("tourId") int tourId){
-    //jwt 사용자 정보가 필요한가?? 보류
+
         try {
             TourReviewDTO tourReviewDTO = reviewService.findReviewByTourId(tourId);
             return ResponseEntity.ok(tourReviewDTO);
@@ -89,7 +92,7 @@ public class ReviewController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewFindByGuideId(@Parameter(description = "조회 기준이 될 가이드 ID", required = true, example = "10")
                                                 @PathVariable("guideId") int guideId){
-        //jwt 사용자 정보가 필요한가?? 보류
+
         try {
             GuideReviewDTO guideReviewDTO = reviewService.findReviewByGuideId(guideId);
             return ResponseEntity.ok(guideReviewDTO);
@@ -107,7 +110,7 @@ public class ReviewController {
     @ApiResponse(responseCode = "500", description = "서버 내부 오류가 발생했습니다.", content = @Content(mediaType = "application/json"))
     public ResponseEntity<?> reviewFindByTravId(@Parameter(description = "조회 기준이 될 Trav ID", required = true, example = "10")
                                                     @PathVariable("travId") int travId){
-        //jwt 사용자 정보가 필요한가?? 보류
+
         try {
             TravReviewDTO travReviewDTO = reviewService.findReviewByUserId(travId);
             return ResponseEntity.ok(travReviewDTO);
@@ -118,9 +121,9 @@ public class ReviewController {
 
     }
 
-    //JWT에서 이메일 받아 id로 치환
+
     private int getUserIdFromJWT(String token){
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String jwtToken = token.replace("Bearer ", "");
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
         return userService.changeEmailToId(email);
     }

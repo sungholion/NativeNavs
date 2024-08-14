@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-// test용 컨트롤러
+
 @RestController
 @RequestMapping("/api/files")
 public class FileUploadController {

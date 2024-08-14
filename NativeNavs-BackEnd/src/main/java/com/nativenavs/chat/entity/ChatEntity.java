@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "chats")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString
 public class ChatEntity {
 
@@ -20,29 +20,37 @@ public class ChatEntity {
     private String senderNickname;
     private String senderProfileImage;
     private String content;
-    private boolean isRead;
+    private Boolean messageChecked;
     private String sendTime;
 
+
     @Builder
-    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, String sendTime) {
+    public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, Boolean messageChecked, String sendTime) {
         this.roomId = roomId;
         this.senderId = senderId;
         this.senderNickname = senderNickname;
         this.senderProfileImage = senderProfileImage;
         this.content = content;
-        this.isRead = isRead;
+        this.messageChecked = messageChecked;
         this.sendTime = sendTime;
     }
 
-    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean isRead, String sendTime) {
+    @Builder
+    public static ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, Boolean messageChecked, String sendTime) {
         return ChatEntity.builder()
                 .roomId(roomId)
                 .senderId(senderId)
                 .senderNickname(senderNickname)
                 .senderProfileImage(senderProfileImage)
                 .content(content)
-                .isRead(isRead)
+                .messageChecked(messageChecked)
                 .sendTime(sendTime)
                 .build();
     }
+
+
+    public void markAsRead() {
+        this.messageChecked = true;
+    }
+
 }

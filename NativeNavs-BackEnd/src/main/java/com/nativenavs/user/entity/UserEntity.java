@@ -2,6 +2,7 @@ package com.nativenavs.user.entity;
 
 import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.review.entity.ReviewEntity;
+import com.nativenavs.stamp.entity.UserStampEntity;
 import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.wishlist.entity.WishlistEntity;
@@ -27,7 +28,7 @@ public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 투어 ID
+    private int id;
 
     @Column(nullable = false, length = 50)
     private String email;
@@ -56,17 +57,17 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String nation;
 
-    @Column(nullable = false, length = 255) // 254 255
+    @Column(nullable = false, length = 255)
     private String image;
 
     @Column(nullable = true)
-    private int navReviewCount; // 가이드가 받은 리뷰 총 수
+    private int navReviewCount;
 
     @Column(nullable = true)
-    private float navReviewAverage; // 가이드가 받은 리뷰 총 평점
+    private float navReviewAverage;
 
     @Column(nullable = true)
-    private int travReservationCount;   // 여행자가 경험한 여행 총 수
+    private int travReservationCount;
 
     @Column(nullable = false)
     private boolean isKorean;
@@ -77,6 +78,8 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String fcmToken;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserStampEntity> userStamps;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistEntity> wishList = new ArrayList<>();

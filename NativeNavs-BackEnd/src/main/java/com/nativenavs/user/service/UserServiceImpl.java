@@ -1,6 +1,7 @@
 package com.nativenavs.user.service;
 
 import com.nativenavs.common.service.AwsS3ObjectStorage;
+import com.nativenavs.stamp.service.StampService;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.dto.UserSearchDTO;
 import com.nativenavs.user.entity.UserEntity;
@@ -23,15 +24,15 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
+    private final StampService userStampService;
     @Autowired
     private UserRepository userRepository;
 
-    private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();   // 인증 회원을 임시 저장
+    private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();
     @Autowired
     private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public boolean checkDuplicatedEmail(String email) {
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByNickname(nickname).isPresent();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public void addAuthenticatedUser(String email){
@@ -60,10 +61,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setImage(imageUrl);
 
         userRepository.save(userEntity);
-        authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
+        authenticatedUsers.remove(userDTO.getEmail());
+
+
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public List<UserSearchDTO> searchAllUser() {
@@ -81,13 +84,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO searchByEmail(String email) {    // 로그인이나 내부에서 필요할 때 password를 포함하여 반환
+    public UserDTO searchByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return UserDTO.toUserDTO(userEntity);
     }
 
-    public UserSearchDTO searchByEmailForClient(String email){  // 사용자가 조회 시, password를 빼고 반환
+    public UserSearchDTO searchByEmailForClient(String email){
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return UserSearchDTO.toUserSearchDTO(userEntity);
@@ -107,7 +110,7 @@ public class UserServiceImpl implements UserService {
         return UserSearchDTO.toUserSearchDTO(userEntity);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Transactional
     @Override
@@ -116,26 +119,49 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> findUserEntity = userRepository.findById(existingId);
         if (findUserEntity.isPresent()) {
             UserEntity updateUserEntity = findUserEntity.get();
-            updateUserDTOFields(updateUserEntity, updateUserDTO, profileImage);
-            userRepository.save(updateUserEntity);
-
+            userRepository.save(updateUserDTOFields(updateUserEntity, updateUserDTO, profileImage));
         } else {
             throw new EntityNotFoundException("User with id " + id + " not found");
         }
     }
 
     @Override
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
-//        updateUserEntity.setImage(updateUserDTO.getImage());
+    @Transactional
+    public UserEntity updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
         if(updateUserEntity.getImage()!= null &&!updateUserDTO.getImage().isEmpty()){
             awsS3ObjectStorageUpload.deleteFile(updateUserEntity.getImage());
             String imageUrl =  awsS3ObjectStorageUpload.uploadFile(profileImage);
             updateUserEntity.setImage(imageUrl);
         }
-        updateUserEntity.setNickname(updateUserDTO.getNickname());
-        updateUserEntity.setUserLanguage(updateUserDTO.getUserLanguage());
-        updateUserEntity.setPhone(updateUserDTO.getPhone());
-        updateUserEntity.setPassword(updateUserDTO.getPassword());
+
+
+
+        if (updateUserDTO.getNickname() == null ) {
+            updateUserEntity.setNickname(updateUserEntity.getNickname());
+        } else {
+            updateUserEntity.setNickname(updateUserDTO.getNickname());
+        }
+
+        if(updateUserDTO.getPassword() == null) {
+            updateUserEntity.setPassword(updateUserEntity.getPassword());
+        } else {
+            updateUserEntity.setPassword(updateUserDTO.getPassword());
+        }
+
+        if(updateUserDTO.getUserLanguage() == null) {
+            updateUserEntity.setUserLanguage(updateUserEntity.getUserLanguage());
+        } else {
+            updateUserEntity.setUserLanguage(updateUserDTO.getUserLanguage());
+        }
+
+        if(updateUserDTO.getPhone() == null) {
+            updateUserEntity.setPhone(updateUserEntity.getPhone());
+        } else {
+            updateUserEntity.setPhone(updateUserDTO.getPhone());
+        }
+
+        return updateUserEntity;
+
     }
 
     @Override
@@ -144,7 +170,7 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(findUserEntity.get());
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public int changeEmailToId(String email) {
@@ -153,7 +179,7 @@ public class UserServiceImpl implements UserService {
         return userEntity.getId();
     }
 
-    // ----
+
 
     @Transactional
     @Override

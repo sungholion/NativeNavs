@@ -32,7 +32,7 @@ public class UserSearchDTO {
     private String device;
     private String fcmToken;
 
-    // Entity -> DTO
+
     public static UserSearchDTO toUserSearchDTO(UserEntity userEntity){
         UserSearchDTO userSearchDTO = new UserSearchDTO();
         userSearchDTO.setId(userEntity.getId());

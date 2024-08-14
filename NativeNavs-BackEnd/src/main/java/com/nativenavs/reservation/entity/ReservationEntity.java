@@ -28,8 +28,7 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @Column(nullable = false,name="reservation_number", unique = true,updatable = false)
-//    private UUID reservationNumber=UUID.randomUUID();
+
     @Column(length=8, unique = true)
     private String reservationNumber;
 
@@ -74,7 +73,7 @@ public class ReservationEntity {
     private LocalDateTime taggingAt;
 
     @Column(columnDefinition = "TEXT")
-    private String description; // 추가요청사항
+    private String description;
 
     @Column(name = "meeting_latitude", precision = 10, scale = 8)
     private BigDecimal meetingLatitude;
@@ -82,4 +81,6 @@ public class ReservationEntity {
     @Column(name = "meeting_longitude", precision = 11, scale = 8)
     private BigDecimal meetingLongitude;
 
+    @Column(name = "room_id")
+    private Integer roomId;
 }

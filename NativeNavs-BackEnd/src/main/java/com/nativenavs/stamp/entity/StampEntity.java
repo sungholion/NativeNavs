@@ -24,12 +24,9 @@ public class StampEntity {
     @Column(nullable = false)
     private String image;
 
-//    @OneToMany(mappedBy = "")
-//    private
 
 
 }
 
-//    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ReviewImageEntity> images; // 리뷰 이미지
+
 

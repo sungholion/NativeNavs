@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
     public List<CategoryDTO> getAllCategories() {
         List<CategoryEntity> categories = categoryRepository.findAll();
         return categories.stream()

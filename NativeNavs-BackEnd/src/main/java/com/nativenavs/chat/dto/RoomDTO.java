@@ -6,19 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class RoomDTO {
     private int roomId;
     private int tourId;
     private String tourTitle;
     private String tourImgUrl;
     private String tourRegion;
-
     private int senderId;
     private String senderNickname;
     private boolean senderIsNav;
@@ -45,25 +42,4 @@ public class RoomDTO {
                 .recentMessageTime(roomEntity.getRecentMessageTime())
                 .build();
     }
-
-
-//    public static RoomDTO toRoomDTO(RoomEntity roomEntity){
-//        RoomDTO roomDTO = new RoomDTO();
-//        roomDTO.setRoomId(roomEntity.getRoomId());
-//        roomDTO.setTourId(roomEntity.getTourId());
-//        roomDTO.setTourTitle(roomEntity.getTourTitle());
-//        roomDTO.setTourRegion(roomEntity.getTourRegion());
-//        roomDTO.setTourImgUrl(roomEntity.getTourImgUrl());
-//        roomDTO.setSenderId(roomEntity.getSenderId());
-//        roomDTO.setSenderNickname(roomEntity.getSenderNickname());
-//        roomDTO.setSenderIsNav(roomEntity.isSenderIsNav());
-//        roomDTO.setReceiverId(roomEntity.getReceiverId());
-//        roomDTO.setReceiverNickname(roomEntity.getReceiverNickname());
-//        roomDTO.setReceiverIsNav(roomEntity.isReceiverIsNav());
-//        roomDTO.setRecentMessageContent(roomEntity.getRecentMessageContent());
-//        roomDTO.setRecentMessageTime(roomEntity.getRecentMessageTime());
-//
-//        return roomDTO;
-//    }
-
 }
