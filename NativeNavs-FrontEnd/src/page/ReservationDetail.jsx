@@ -200,7 +200,7 @@ const ReservationDetail = () => {
                 {tour.reservationDescription}
               </p>
             </div>
-            {tour && tour.reservationDate < getStringedDate(new Date()) && (
+            {tour && tour.reservationDate > getStringedDate(new Date()) && (
               <div className={styles.buttonContainer}>
                 {!modal ? (
                   <button onClick={clickModal} className={styles.reserveButton}>
