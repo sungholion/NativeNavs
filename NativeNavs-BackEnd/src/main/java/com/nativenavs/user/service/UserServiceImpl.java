@@ -119,16 +119,15 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> findUserEntity = userRepository.findById(existingId);
         if (findUserEntity.isPresent()) {
             UserEntity updateUserEntity = findUserEntity.get();
-            updateUserDTOFields(updateUserEntity, updateUserDTO, profileImage);
-            userRepository.save(updateUserEntity);
-
+            userRepository.save(updateUserDTOFields(updateUserEntity, updateUserDTO, profileImage));
         } else {
             throw new EntityNotFoundException("User with id " + id + " not found");
         }
     }
 
     @Override
-    public void updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
+    @Transactional
+    public UserEntity updateUserDTOFields(UserEntity updateUserEntity, UserDTO updateUserDTO,MultipartFile profileImage) {
         if(updateUserEntity.getImage()!= null &&!updateUserDTO.getImage().isEmpty()){
             awsS3ObjectStorageUpload.deleteFile(updateUserEntity.getImage());
             String imageUrl =  awsS3ObjectStorageUpload.uploadFile(profileImage);
@@ -136,7 +135,8 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (updateUserDTO.getNickname() == null) {
+        //새로 들어오는 정보가 없다면
+        if (updateUserDTO.getNickname() == null ) {
             updateUserEntity.setNickname(updateUserEntity.getNickname());
         } else {
             updateUserEntity.setNickname(updateUserDTO.getNickname());
@@ -159,6 +159,8 @@ public class UserServiceImpl implements UserService {
         } else {
             updateUserEntity.setPhone(updateUserDTO.getPhone());
         }
+
+        return updateUserEntity;
 
     }
 

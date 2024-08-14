@@ -22,7 +22,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "로그인 API", description = "로그인 / 로그아웃 / AccessToken 갱신")
+@Tag(name = "로그인 API", description = "로그인 / 로그아웃 / AccessToken 갱신 / AccessToken 만료 확인")
 public class AuthController {
 
     // DI --------------------------------------------------------------------------------------------------------------
