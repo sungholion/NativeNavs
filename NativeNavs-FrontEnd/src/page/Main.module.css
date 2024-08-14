@@ -14,10 +14,23 @@
   0% {
     transform: rotate(0deg);
   }
-  100% {
+  0% {
     transform: rotate(360deg);
   }
+  100% {
+    transform: rotate(1440deg);
+  }  
+}  
+
+.needle {
+  position: absolute;
+  width: 30%; /* 바늘 이미지 크기 */
+  height: 30%;
+  transform-origin: center center; /* 바늘의 중심을 회전 축으로 설정 */
+  animation: rotateNeedle 4s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* 1초 동안 지수적으로 가속하며 360도 회전, 무한 반복 */
+  z-index: 2; /* 바늘 이미지가 앞에 위치 */
 }
+
 
 .compassContainer {
   position: absolute;
@@ -29,22 +42,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
+}  
 
 .backgroundImage {
   position: absolute;
   width: 100%; /* 부모 요소에 맞게 전체 크기로 설정 */
   height: 100%;
   z-index: 1; /* 배경 이미지가 뒤에 위치 */
-}
-
-.needle {
-  position: absolute;
-  width: 30%; /* 바늘 이미지 크기 */
-  height: 30%;
-  transform-origin: center center; /* 바늘의 중심을 회전 축으로 설정 */
-  animation: rotateNeedle 1s cubic-bezier(0.5, 0, 1, 1) infinite; /* 1초 동안 지수적으로 가속하며 360도 회전, 무한 반복 */
-  z-index: 2; /* 바늘 이미지가 앞에 위치 */
-}
-
-
+}  

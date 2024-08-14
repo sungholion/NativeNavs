@@ -5,7 +5,7 @@ import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
-import { categoryItemKr } from './../utils/constant';
+
 
 const Main = () => {
   const [tours, setTours] = useState([]);
@@ -74,6 +74,23 @@ const Main = () => {
 
     return () => clearTimeout(timer);
   }, [loading]);
+
+  // 페이지 상단에 도달했을 때 새로고침
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        // 페이지가 상단에 도달했을 때 새로고침
+        fetchTours();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup 이벤트 리스너
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [search]);
 
   // tour date formatting
   const formatDate = (date) => {

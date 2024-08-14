@@ -19,6 +19,7 @@ const Tour_Item = ({
   user,
   userLanguages,
   categoryIds,
+  isWishPage = false,
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
@@ -166,7 +167,7 @@ const Tour_Item = ({
             <div className={styles.categoryContainer}>
               {getCategoryNames()
                 .split(", ")
-                .slice(0, 2)
+                .slice(0, isWishPage ? 1 : 2) // isWishPage가 true이면 1개, false이면 2개 출력
                 .map((category, index) => (
                   <div key={index} className={styles.categoryBox}>
                     {category}

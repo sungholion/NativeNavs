@@ -56,7 +56,7 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
     <div className={styles.TotalContainer}>
       {/* 위시리스트 */}
       {wishListedTours.length === 0 ? (
-        <div className={styles.WishListContainer}>
+        <div className={styles.NoneWishListContainer}>
           <img
             className={styles.NativeNavsImg}
             src={NativeNavs}
@@ -97,6 +97,8 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
               nickname={tour.user.nickname}
               userLanguages={tour.user.userLanguage}
               navigateFragment={navigateToWishDetailFragment}
+              categoryIds={tour.categoryIds}
+              isWishPage={true}
             />
           ))}
         </div>

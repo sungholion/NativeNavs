@@ -1,35 +1,42 @@
-.WishListContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%; /* 부모 요소의 전체 너비를 차지하도록 설정 */
+.TotalContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
 }
 
-.WishListContainer h2 {
+.NoneWishListContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%; /* 부모 요소의 전체 너비를 차지하도록 설정 */
+    border: 1px solid #d9d9d9;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.NoneWishListContainer h2 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 0px;
 }
 
-.WishListContainer h5 {
+.NoneWishListContainer h5 {
     margin-top: 0px;
     margin-bottom: 20px;
     width: 180px;
     text-align: center;
 } 
 
-.TotalContainer {
-    width: 100%;
-}
 
 .WishListContainer {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    border: 1px solid #d9d9d9;
-    padding: 10px;
-    border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px
 }
 
 .WishListTitle {
