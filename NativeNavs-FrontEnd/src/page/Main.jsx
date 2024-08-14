@@ -14,24 +14,21 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
     setSearch(JSON.parse(localStorage.getItem("search")));
 
-    // 안드로이드로부터 search 데이터를 받는 함수 정의
     window.getSearchData = (searchJson) => {
       const parsedSearch = JSON.parse(searchJson);
       setSearch(parsedSearch);
-      localStorage.setItem("search", searchJson); // localStorage에도 저장
+      localStorage.setItem("search", searchJson);
     };
   }, []);
 
   
 
-  // 투어 검색 API 정의
   const fetchTours = async () => {
-    setLoading(true); // API 요청 시작 전에 로딩 상태 true
+    setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -53,11 +50,10 @@ const Main = () => {
     } catch (error) {
       console.error("투어 API 요청 실패", error);
     } finally {
-      setLoading(false); // 요청이 완료되면 로딩 상태 false
+      setLoading(false);
     }
   };
 
-  // search 상태가 변경될 때마다 투어 데이터를 다시 가져옴
   useEffect(() => {
     if (user && search) {
       console.log("API 요청 시작");
@@ -75,28 +71,24 @@ const Main = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
-  // 페이지 상단에 도달했을 때 새로고침
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
-        // 페이지가 상단에 도달했을 때 새로고침
         fetchTours();
       }
     };
 
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup 이벤트 리스너
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [search]);
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
   if (!isReadyToDisplay) {

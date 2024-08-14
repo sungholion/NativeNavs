@@ -30,12 +30,12 @@ export default function Carousel3({ images }) {
     centerMode: false,
     infinite: true,
     dots: true,
-    arrows: false, // 슬라이더 화살표 버튼 비활성화
+    arrows: false,  
     speed: 750,
     slidesToShow: 1,
     slidesToScroll: 1,
     adaptiveHeight: false,
-    variableWidth: false, // Set to false to make slides have equal width
+    variableWidth: false, 
   };
   return (
     <div className={styles.carouselContainer}>

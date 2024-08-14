@@ -10,7 +10,6 @@ function WishList() {
   const [wishList, setWishList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -19,7 +18,6 @@ function WishList() {
     }
   }, []);
 
-  // 투어 API
   useEffect(() => {
     console.log("Tour API Run");
     const fetchTours = async () => {
@@ -35,12 +33,11 @@ function WishList() {
     fetchTours();
   }, []);
 
-  // 위시리스트 API
   useEffect(() => {
     const fetchWishLists = async () => {
       if (user && user.isNav == false) {
         try {
-          setLoading(true); // API 요청 시작 전에 로딩 상태 true
+          setLoading(true);
           const response = await axios.get(
             "https://i11d110.p.ssafy.io/api/wishlist",
             {
@@ -55,7 +52,7 @@ function WishList() {
         } catch (error) {
           console.error(error);
         } finally {
-          setLoading(false); // 요청이 완료되면 로딩 상태 false
+          setLoading(false);
         }
       }
     };

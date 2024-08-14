@@ -17,13 +17,11 @@ const center = {
 };
 
 const PlanModal = ({ onClose, onSubmit, initData }) => {
-  // 유저정보 가져오기
   const [user, setUser] = useState(null);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // 계획 등록 데이터
   const [planData, setPlanData] = useState({
     field: "",
     description: "",
@@ -33,7 +31,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     image: "",
   });
 
-  // 이미지 미리보기 전용
   const [planImg, setPlanImg] = useState("");
   useEffect(() => {
     if (initData) {
@@ -45,7 +42,6 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     }
   }, [initData]);
 
-  // 지도 검색 결과 넣는 곳
   const inputMapData = (data) => {
     setPlanData({
       ...planData,
@@ -55,7 +51,7 @@ const PlanModal = ({ onClose, onSubmit, initData }) => {
     });
   };
 
-  const [isOpenMapModal, setIsOpenMapModal] = useState(false); // 맵 지도 검색 모달 띄울것인가?
+  const [isOpenMapModal, setIsOpenMapModal] = useState(false);
 
   const onChangeEvent = (e) => {
     if (e.target.name === "image") {

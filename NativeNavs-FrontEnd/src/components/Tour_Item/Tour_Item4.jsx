@@ -1,17 +1,18 @@
-// src/components/Tour_Item4.jsx
 import React from "react";
 import styles from "./Tour_Item4.module.css";
 
 const Tour_Item4 = ({ tour, onClickEvent, wishCount, bookCount }) => {
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
-  
+
   return (
-    <div onClick={() => onClickEvent(tour.tourId)} className={styles.Tour_Item4}>
+    <div
+      onClick={() => onClickEvent(tour.tourId)}
+      className={styles.Tour_Item4}
+    >
       <div className={styles.TourImageContainer}>
         <img
           className={styles.TourImage}

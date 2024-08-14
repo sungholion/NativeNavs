@@ -7,10 +7,6 @@ const Privacy_Terms = () => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // if (!user) {
-  //   return <div>Loading...</div>;
-  // }
-
   if (!user || user?.isKorean) {
     return (
       <div className="PrivacyTerms">

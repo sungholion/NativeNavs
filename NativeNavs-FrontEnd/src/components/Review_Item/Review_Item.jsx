@@ -17,11 +17,11 @@ const Review_Item = ({
     const currentDate = new Date();
     const reviewDate = new Date(createdAt);
     const differenceInTime = currentDate.getTime() - reviewDate.getTime();
-    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); // 밀리초를 일 단위로 변환
+    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   };
   
-  const daysAgo = getDaysAgo(createdAt); // 작성일과 현재일의 차이 계산
+  const daysAgo = getDaysAgo(createdAt);
 
   return (
     <div className={styles.Review_Item}>

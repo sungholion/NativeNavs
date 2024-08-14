@@ -1,7 +1,6 @@
 import styles from "./Tour_Item_mini_Reservation.module.css";
 import Rating from "../Star/Rating(Basic)";
 
-// 예약 작성 페이지에 작성할 관련 투어 정보를 간략하게 보여주는
 const Tour_Item_mini_Reservation = ({
   image,
   location,

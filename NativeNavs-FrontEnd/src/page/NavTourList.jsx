@@ -17,7 +17,6 @@ const NavTourList = () => {
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -26,7 +25,6 @@ const NavTourList = () => {
     }
   }, []);
 
-  // 투어 api 요청 정의
   const fetchTours = async () => {
     try {
       const response = await axios.get(
@@ -43,11 +41,10 @@ const NavTourList = () => {
     } catch (error) {
       console.error("투어 API 요청 실패", error);
     } finally {
-      setLoading(false); // API 요청 완료 후 로딩 상태 false
+      setLoading(false);
     }
   };
 
-  // 유저 정보가 업데이트되면 tour api 요청을 실행
   useEffect(() => {
     if (user) {
       console.log("투어 API 요청 시작");

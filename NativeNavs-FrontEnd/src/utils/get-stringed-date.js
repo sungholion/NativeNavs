@@ -1,6 +1,4 @@
-// get-stringed-date.js
 export const getStringedDate = (targetDate) => {
-  // YYYY-mm-dd
   let year = targetDate.getFullYear();
   let month = targetDate.getMonth() + 1;
   let date = targetDate.getDate();

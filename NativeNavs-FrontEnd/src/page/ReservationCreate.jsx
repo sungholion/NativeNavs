@@ -12,35 +12,31 @@ import {
 } from "@/utils/get-android-function";
 
 const initData = {
-  tourId: 0, //투어 글에 대한 것
+  tourId: 0, 
   participantId: 0,
-  date: new Date(), // 예약 날짜 -> yyyy-mm-dd로 바꾸기
-  startAt: new Date(), // 시작시간 -> yyyy-mm-ddThh:mm:ss
-  endAt: new Date(), //종료시간 -> yyyy-mm-ddThh:mm:ss
-  participantCount: 1, //참가자 수
-  description: "", // 당부사항
-  meetingAddress: "", // 만남 장소
-  meetingLatitude: -1, // 만남 장소 위도
-  meetingLongitude: -1, // 만남 장소 경도
+  date: new Date(), 
+  startAt: new Date(), 
+  endAt: new Date(), 
+  participantCount: 1, 
+  description: "", 
+  meetingAddress: "", 
+  meetingLatitude: -1, 
+  meetingLongitude: -1, 
 };
 
 const ReservationCreate = () => {
   const params = useParams();
 
-  // 참가 관광객에 대한 정보 변수
   const [travInfo, setTravInfo] = useState(null);
 
-  // 관련 투어 정보에 대한 정보 변수
   const [tourInfo, setTourInfo] = useState(null);
 
   const [user, setUser] = useState(null);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // 해당 관강객에 대한 정보 가져오기
   useEffect(() => {
     axios
       .get(`https://i11d110.p.ssafy.io/api/users/search/id/${params.trav_id}`)
@@ -53,7 +49,6 @@ const ReservationCreate = () => {
       });
   }, [params.trav_id]);
 
-  // 투어 정보 가져오기
   useEffect(() => {
     axios
       .get(`https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`)
@@ -90,8 +85,6 @@ const ReservationCreate = () => {
         },
       })
       .then((res) => {
-        // console.log(res);
-        // console.log(Number(params.tour_id));
         const resId = Number(res.data.substr(res.data.indexOf(":") + 1));
         navigateToReservationRegisterDetailFragment(
           Number(params.tour_id),

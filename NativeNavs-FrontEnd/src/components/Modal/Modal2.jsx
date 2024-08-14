@@ -2,8 +2,7 @@ import styles from "./Modal2.module.css";
 
 function Modal2({ cancelTourReservation, clickModal, navigateBack, user }) {
   const handleCancelClick = async () => {
-    // 비동기 함수 선언
-    await cancelTourReservation(); // 투어 예약 취소가 될 때까지 wait 후 뒤로가기 실행
+    await cancelTourReservation();
     navigateBack();
   };
 

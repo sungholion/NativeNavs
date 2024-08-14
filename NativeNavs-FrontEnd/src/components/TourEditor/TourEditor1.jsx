@@ -46,20 +46,15 @@ const TourEditor1 = ({ BeforePage, goAfterPage, user }) => {
     categoryIds,
   } = useContext(TourDataContext);
 
-  const [checkInput, setCheckInput] = useState(0); // 2진수로 각 자리 위치마다 문제점 표시
-  // 1: thumbnail, 2: title, 4: date, 8: maxPeople, 16: cost, 32: location, 64: theme
+  const [checkInput, setCheckInput] = useState(0);
 
   const { onTourDataChange } = useContext(TourDispatchContext);
 
-  const [prevThumbnailImage, setPrevThumbnailImage] = useState(""); //썸네일 이미지 미리보기
-  // onTourDataChange가 함수인지 확인
+  const [prevThumbnailImage, setPrevThumbnailImage] = useState("");
   if (typeof onTourDataChange !== "function") {
     throw new Error("onTourDataChange is not a function");
   }
 
-  // 썸네일 이미지
-  // 투어 생성인 경우 썸네일 이미지가 아직 객체 상태
-  // 아닌 경우 - 서버로드 이미지인경우 URL이니 그대로 사용
   useEffect(() => {
     getImageUrl(thumbnailImage, setPrevThumbnailImage);
   }, [thumbnailImage]);

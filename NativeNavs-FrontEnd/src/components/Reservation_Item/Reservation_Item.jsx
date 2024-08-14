@@ -6,11 +6,10 @@ const Reservation_Item = ({
   navigateToReservationDetailFragment,
   user,
 }) => {
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, ""); 
   };
 
   return (
@@ -20,7 +19,6 @@ const Reservation_Item = ({
         navigateToReservationDetailFragment(participantInfo.reservationId)
       }
     >
-      {/* 상단 */}
       <div className={styles.Reservation_Top}>
         <img
           className={styles.Profile_Image}
@@ -42,7 +40,6 @@ const Reservation_Item = ({
           </p>
         </div>
       </div>
-      {/* 하단 */}
       <div className={styles.Reservation_Bottom}>
         <div className={styles.Reservation_Number}>
           <p>{user && user.isKorean ? "예약 번호" : "Reservation Number"}</p>
@@ -54,7 +51,6 @@ const Reservation_Item = ({
         </div>
         <div className={styles.Reservation_Message}>
           <p>{user && user.isKorean ? "요청 사항" : "Requests"}</p>
-          {/* <p>{participantInfo.trav_message}</p> */}
         </div>
       </div>
     </div>

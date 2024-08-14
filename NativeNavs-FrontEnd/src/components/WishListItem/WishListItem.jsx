@@ -6,7 +6,7 @@ import Tour_Item from "../Tour_Item/Tour_Item.jsx";
 import {
   navigateToWishDetailFragment,
   navigateFromWishToTourListFragment,
-} from "../../utils/get-android-function"; // 함수 임포트
+} from "../../utils/get-android-function";
 
 import NativeNavsRemoveNeedle from "../../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../../assets/compassNeedleRemoveBack.png";
@@ -16,22 +16,19 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
 
   const wishListedTours = tours.filter((tour) => wishList.includes(tour.id));
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
   useEffect(() => {
-    // 최소 0.5초의 딜레이를 설정
     const timer = setTimeout(() => {
       if (!loading) {
         setIsReadyToDisplay(true);
       }
     }, 500);
 
-    // 컴포넌트 언마운트 시 타이머 클리어
     return () => clearTimeout(timer);
   }, [loading]);
 
@@ -39,12 +36,12 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
     return (
       <div className={styles.compassContainer}>
         <img
-          src={NativeNavsRemoveNeedle} // 배경 이미지
+          src={NativeNavsRemoveNeedle}
           alt="Compass Background"
           className={styles.backgroundImage}
         />
         <img
-          src={compassNeedleRemoveBack} // 바늘 이미지
+          src={compassNeedleRemoveBack}
           alt="Compass Needle"
           className={styles.needle}
         />
@@ -54,7 +51,6 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
 
   return (
     <div className={styles.TotalContainer}>
-      {/* 위시리스트 */}
       {wishListedTours.length === 0 ? (
         <div className={styles.NoneWishListContainer}>
           <img
@@ -76,7 +72,7 @@ const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
             size="4"
             text={user && user.isKorean ? "둘러보기" : "Browse"}
             onClickEvent={() => {
-              navigateFromWishToTourListFragment(); // 네이티브 함수 호출
+              navigateFromWishToTourListFragment();
             }}
           />
         </div>

@@ -30,15 +30,15 @@ export default function Carousel2({
   user,
 }) {
   const settings = {
-    centerMode: reservationsInProgress.length > 1, // 투어 데이터가 1개 이상일 때 중앙 모드 활성화
+    centerMode: reservationsInProgress.length > 1,
     centerPadding: reservationsInProgress.length > 1 ? "20px" : "0",
-    infinite: true, // 투어 데이터가 1개 이상일 때 무한 스크롤 활성화
-    arrows: false, // 슬라이더 화살표 버튼 비활성화
-    speed: 750, // 슬라이더 전환 속도 (밀리초)
-    slidesToShow: 1, // 한 번에 보여줄 슬라이드 수
-    slidesToScroll: 1, // 한 번에 스크롤할 슬라이드 수
-    adaptiveHeight: false, // 슬라이드 높이를 콘텐츠에 맞게 조정하지 않음
-    variableWidth: false, // 슬라이드 너비를 고정된 너비로 설정 (가변 너비 비활성화)
+    infinite: true, 
+    arrows: false, 
+    speed: 750,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: false,
+    variableWidth: false,
   };
 
   if (
@@ -49,20 +49,17 @@ export default function Carousel2({
     return null;
   }
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, ""); // 마지막 점 제거
+    return dateString.replace(/\.$/, "");
   };
 
-  // Nav language formatting : 문자열 -> 배열로 반환
   const formatLanguages = (languages) => {
     return languages.split(",").map((lang) => lang.trim());
   };
 
   if (reservationsInProgress.length === 1) {
-    // 예정된 투어가 하나일 때 : 캐러셀을 사용하지 않고 단일 컴포넌트로 렌더링
     const tour = reservationsInProgress[0];
     const formattedLanguages = formatLanguages(tour.guide.userLanguage);
     return (
@@ -121,7 +118,6 @@ export default function Carousel2({
     );
   }
 
-  // 예정된 투어가 여러 개일 때 : 캐러셀
   return (
     <div className={styles.carouselContainer}>
       <StyledSlider {...settings}>

@@ -19,45 +19,35 @@ const Confirm = ({ goBeforePage, onSubmit, user }) => {
     plans,
     categoryIds,
   } = useContext(TourDataContext);
-  const [thumbnailImgUrl, setThumbnailImagUrl] = useState(""); //실제 사용자게에 보여줄 썸내일 이미지 담긴 것
+  const [thumbnailImgUrl, setThumbnailImagUrl] = useState("");
   useEffect(() => {
     getImageUrl(thumbnailImage, setThumbnailImagUrl);
-  }, [thumbnailImage]); //썸네일 이미지 보려주기, STRING이냐 FILE이냐에 따라서
+  }, [thumbnailImage]); 
 
-  // 업로드 가능 여부 확인 함수
   const checkUpload = () => {
-    // 썸네일 이미지가 있어야만 함 - 단 이미 있으면
     if (typeof thumbnailImage === "object" && !thumbnailImage) {
       return 0;
-      // 당부사항 내용이 뭐라도 있어야 함
     }
-    // 시작일이 끝날짜보다 뒤면 안됨
     if (startDate > endDate) {
       return 0;
     }
-    // 시작 날짜가 오늘보다 뒤면 안됨
     if (
       startDate < getStringedDate(new Date(new Date() + 1000 * 60 * 60 * 9))
     ) {
       return 0;
     }
-    // 최대 참가자 수는 0명 이면 안됨
     if (maxParticipants <= 0) {
       return 0;
     }
-    // 여행 PLANS 계획은 0개 이상이어야 함
     if (plans.length <= 0) {
       return 0;
     }
-    // 카테고리 테마는 반드시 1개 이상 선택해야 함
     if (categoryIds.length <= 0) {
       return 0;
     }
     return 1;
   };
 
-  // 업로드 상태여부 확인
-  // 0 -> 업로드 불가능(빈 값 존재), 1 -> 업로드 가능, 2 -> 업로드 버튼 누름
   const [uploadState, setUploadState] = useState(0);
   useEffect(() => {
     setUploadState(checkUpload());

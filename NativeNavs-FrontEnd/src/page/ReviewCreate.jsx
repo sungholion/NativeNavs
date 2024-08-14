@@ -9,7 +9,7 @@ import {
   showReviewRegisterFailDialog,
 } from "@/utils/get-android-function";
 
-const MAX_IMAGE_COUNT = 5; // 최대 이미지 업로드 수
+const MAX_IMAGE_COUNT = 5; 
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,11 +27,10 @@ const ReviewCreate = () => {
   const [reviewData, dispatch] = useReducer(reducer, {
     score: 0,
     description: "",
-    image: [], //이미지 파일 - Max 5개
+    image: [], 
   });
 
   const [user, setUser] = useState(null);
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -39,9 +38,8 @@ const ReviewCreate = () => {
       setUser(parsedUser);
     }
   }, []);
-  const [info, setInfo] = useState(null); // 예약 상세 정보
+  const [info, setInfo] = useState(null); 
 
-  // 예약 상세 정보 가져오기
   useEffect(() => {
     axios
       .get(
@@ -94,7 +92,6 @@ const ReviewCreate = () => {
     }
   };
 
-  // 서버제출
   const onSubmit = async () => {
     const formData = new FormData();
 
@@ -112,7 +109,6 @@ const ReviewCreate = () => {
     );
 
     for (const imgFile of reviewData.image) {
-      // imageUrl s
       formData.append("reviewImages", imgFile);
     }
 

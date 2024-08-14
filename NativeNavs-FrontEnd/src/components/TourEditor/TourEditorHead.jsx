@@ -56,12 +56,9 @@ const reducer = (state, action) => {
 export const TourDataContext = createContext(null);
 export const TourDispatchContext = createContext(null);
 
-// sucessFunc :  성공시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
-// FailFunc : 실패시 실행할 함수 - 안드로이드 전용 함수 - TourCreate.jsx 혹은 TourEdit.jsx에서 정의할 것
 const TourEditorHead = ({ initData, onSubmit, sucessFunc, failFunc }) => {
   const [user, setUser] = useState(null);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);

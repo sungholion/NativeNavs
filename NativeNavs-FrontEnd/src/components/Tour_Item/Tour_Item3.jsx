@@ -4,11 +4,10 @@ const Tour_Item3 = ({
   tour,
   navigateToReservationListFragmentReservationDetail,
 }) => {
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
   return (

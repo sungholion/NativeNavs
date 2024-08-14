@@ -12,20 +12,18 @@ import { useParams } from "react-router-dom";
 const IMPOSSIBLE_CORD = -1000;
 const MAX_DESCRIPTION_LENGTH = 300;
 
-// 초기 예약 정보 데이터들, tourId 및 participantId가 필요
 const initData = {
-  tourId: 0, //투어 글에 대한 것
-  date: new Date(), // 예약 날짜 -> yyyy-mm-dd로 바꾸기
-  startAt: new Date(), // 시작시간 -> yyyy-mm-ddThh:mm:ss
-  endAt: new Date(), //종료시간 -> yyyy-mm-ddThh:mm:ss
-  participantCount: 1, //참가자 수
-  description: "", // 당부사항
-  meetingAddress: "", //주소
-  meetingLatitude: IMPOSSIBLE_CORD, // 위도
-  meetingLongitude: IMPOSSIBLE_CORD, // 경도
+  tourId: 0,
+  date: new Date(),
+  startAt: new Date(), 
+  endAt: new Date(), 
+  participantCount: 1,
+  description: "", 
+  meetingAddress: "",
+  meetingLatitude: IMPOSSIBLE_CORD,
+  meetingLongitude: IMPOSSIBLE_CORD,
 };
 
-// 예약 정보 데이터에 대한 reducer
 const reducer = (state, action) => {
   switch (action.type) {
     case "init":
@@ -52,19 +50,17 @@ const reducer = (state, action) => {
 };
 
 const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
-  // 유저정보가져오기 -> language 전용
   const [user, setUser] = useState(null);
 
-  // 버튼 상태 -> 0 : 입력불가 , 1 : 입력가능, 2 : 입력된 상태 - 로딩
   const [buttonStatus, setButtonStatus] = useState(0);
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  const [openMapModal, setToggleMapModal] = useState(false); //맵 지도와 관련된 모달 state
+  const [openMapModal, setToggleMapModal] = useState(false);
   const [maxParticipants, setMaxParticipants] = useState(
     maxParticipant_info || 1
-  ); //최대참가자수
+  );
   const params = useParams();
   const openModal = () => {
     setToggleMapModal(true);
@@ -74,7 +70,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
   };
   const [resInfo, dispatch] = useReducer(reducer, { ...initData });
 
-  // 투어 id에 대한 정보
   useEffect(() => {
     dispatch({
       type: "init",
@@ -85,7 +80,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
     });
   }, [params.tour_id]);
 
-  // 예약 날짜
   const onChangeDate = useCallback((e) => {
     dispatch({
       type: "date",
@@ -93,7 +87,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
     });
   }, []);
 
-  // 시간
   const onChangeHour = (e) => {
     console.log(resInfo.date);
     dispatch({
@@ -102,7 +95,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
     });
   };
 
-  // 참가자 수
   const onChangeParticipant = (value) => {
     if (
       resInfo.participantCount + value > 0 &&
@@ -115,7 +107,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
     }
   };
 
-  // 지역 위치
   const onEditLocation = (data) => {
     dispatch({
       type: "mapInput",
@@ -123,7 +114,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
     });
   };
 
-  // 당부사항
   const onDescriptionChange = (e) => {
     if (e.target.value.length < 300)
       dispatch({
@@ -165,7 +155,6 @@ const ReservationEditor = ({ maxParticipant_info, onSubmit }) => {
   }, [resInfo]);
 
   if (!resInfo) {
-    // 초기값 설정 전에 로딩
     return <div>Loading</div>;
   }
 

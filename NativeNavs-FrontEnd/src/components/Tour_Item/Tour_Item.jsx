@@ -23,7 +23,6 @@ const Tour_Item = ({
 }) => {
   const [isWishListed, setIsWishListed] = useState(false);
 
-  // 위시리스트 API
   const fetchWishLists = async () => {
     if (user && user.isNav == false) {
       console.log("위시리스트 체크 API 요청 시작");
@@ -45,14 +44,11 @@ const Tour_Item = ({
     }
   };
 
-  // tourId가 변경될 때마다 isWishListed를 업데이트
   useEffect(() => {
     fetchWishLists();
   }, [tourId]);
 
-  // 투어 클릭 이벤트
   const onClickTour = (e) => {
-    // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
     console.log(parseInt(tourId));
     console.log(userId);
     console.log(user);
@@ -60,11 +56,9 @@ const Tour_Item = ({
   };
 
   const toggleWishlist = async (e) => {
-    // 투어 상세 페이지 이동 이벤트 전파 방지
     e.stopPropagation();
     try {
       if (isWishListed) {
-        // 위시리스트에서 삭제
         await axios.delete(
           `https://i11d110.p.ssafy.io/api/wishlist/${tourId}`,
           {
@@ -74,7 +68,6 @@ const Tour_Item = ({
           }
         );
       } else {
-        // 위시리스트에 등록
         await axios.post(
           `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
           null,
@@ -85,14 +78,12 @@ const Tour_Item = ({
           }
         );
       }
-      // 위시리스트 상태를 토글
       setIsWishListed((prev) => !prev);
     } catch (error) {
       console.error("위시리스트 업데이트 중 오류 발생:", error);
     }
   };
 
-  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (userLanguages) {
@@ -103,7 +94,6 @@ const Tour_Item = ({
     }
   }, [userLanguages]);
 
-  // 카테고리 맵핑 데이터
   const categoryMapping = {
     1: { ko: "시장", en: "Market" },
     2: { ko: "액티비티", en: "Activity" },
@@ -119,7 +109,6 @@ const Tour_Item = ({
     12: { ko: "사진", en: "Photography" },
   };
 
-  // 카테고리 이름 가져오기
   const getCategoryNames = () => {
     return categoryIds
       .map((id) => categoryMapping[id])
@@ -167,7 +156,7 @@ const Tour_Item = ({
             <div className={styles.categoryContainer}>
               {getCategoryNames()
                 .split(", ")
-                .slice(0, isWishPage ? 1 : 2) // isWishPage가 true이면 1개, false이면 2개 출력
+                .slice(0, isWishPage ? 1 : 2)
                 .map((category, index) => (
                   <div key={index} className={styles.categoryBox}>
                     {category}

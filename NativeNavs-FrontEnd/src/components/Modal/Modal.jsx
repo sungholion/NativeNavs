@@ -10,7 +10,7 @@ const Modal = ({ show, onClose, photos, selectedPhotoIndex, setSelectedPhotoInde
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowIndicators(false);
-    }, 1000); // 1초 후에 사라지기 시작
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -62,11 +62,11 @@ const Modal = ({ show, onClose, photos, selectedPhotoIndex, setSelectedPhotoInde
   };
 
   const handleOverlayClick = () => {
-    onClose(); // 배경 클릭 시 모달 닫기
+    onClose(); 
   };
 
   const handleContentClick = (e) => {
-    e.stopPropagation(); // 이벤트 전파를 막아 모달이 닫히지 않도록 함
+    e.stopPropagation();
   };
 
   return (

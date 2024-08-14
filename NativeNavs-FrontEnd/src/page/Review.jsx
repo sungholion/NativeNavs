@@ -22,12 +22,10 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
     reviews: [],
   });
 
-  // 유저 정보 가져오기
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const getUrlParam = () => {
       switch (keyword) {
@@ -62,7 +60,7 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
     fetchReviewData();
   }, [keyword]);
 
-  // 페이지 이동 함수 매개변수 분기
+
   const onClickButton = () => {
     if (params.tour_id) {
       navigateToReviewPhotoFragment(parseInt(params.tour_id));
@@ -76,12 +74,10 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
       <div className={styles.header}>
         {keyword !== "trav" && reviewData && (
           <>
-            {/* 별점 */}
             <div className={styles.StarScore}>
               <StarScore score={reviewData.reviewAverage * 20} />
             </div>
 
-            {/* 상단 사진 장수 & 전체보기 버튼 */}
             <div className={styles.headerHeader}>
               <h2 className={styles.headerPhotoCounter}>
                 {user && user.isKorean
@@ -93,7 +89,6 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
               </button>
             </div>
 
-            {/* 사진 미리보기 4장 */}
             <div onClick={onClickButton} className={styles.headerPhotoPreview}>
               {reviewData.imageUrls.slice(0, 4).map((photo, index) => (
                 <img key={index} src={photo} alt={`리뷰 사진 ${index + 1}`} />
@@ -103,7 +98,6 @@ const Review = ({ navigateToReviewPhotoFragment, keyword = "" }) => {
         )}
       </div>
 
-      {/* 리뷰 하단 상세보기 */}
       <div className={styles.body}>
         <h2 className={styles.bodyHeader}>
           {user && user.isKorean

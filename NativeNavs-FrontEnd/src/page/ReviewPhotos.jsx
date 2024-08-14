@@ -26,7 +26,6 @@ const ReviewPhotos = ({ keyword }) => {
     setSelectedPhotoIndex(0);
   };
 
-  // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const getUrlParam = () => {
       switch (keyword) {

@@ -15,7 +15,6 @@ const ReservationDetail = () => {
   const [user, setUser] = useState();
   const [images, setImages] = useState([]);
 
-  // 모달
   const [modal, setModal] = useState(false);
 
   const clickModal = () => {
@@ -34,7 +33,6 @@ const ReservationDetail = () => {
     }
   }, []);
 
-  // FE -> BE : 투어 정보 요청 api
   const getReservationDetail = async (e) => {
     try {
       const response = await axios.get(
@@ -52,24 +50,21 @@ const ReservationDetail = () => {
     }
   };
 
-  // user 상태가 설정된 후 예정된 투어 요청 함수 호출
   useEffect(() => {
     getReservationDetail();
   }, [user]);
 
-  // tour 정보를 받아온 후 실행
   useEffect(() => {
     if (tour && tour.thumbnailImage && tour.planImages) {
       setImages([tour.thumbnailImage, ...tour.planImages]);
     }
   }, [tour]);
 
-  // FE -> BE : 투어 예약 취소 api
   const cancelTourReservation = async (e) => {
     try {
       const response = await axios.post(
         `https://i11d110.p.ssafy.io/api/reservations/${params.res_id}/cancel`,
-        {}, // 빈 객체를 데이터로 전달 -> 세 번째 인자 headers를 전달해야하므로!
+        {},
         {
           headers: {
             Authorization: user.userToken,
@@ -82,14 +77,12 @@ const ReservationDetail = () => {
     }
   };
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
-  // time formatting
   const formatTime = (time) => {
     const dateObj = new Date(`1970-01-01T${time}Z`);
     const hours = dateObj.getUTCHours();
@@ -103,7 +96,6 @@ const ReservationDetail = () => {
     <div>
       {tour && (
         <>
-          {/* Top */}
           <div className={styles.tourInfoTop}>
             <div className={styles.tourInfoTopImage}>
               <Carousel3 images={images} />
@@ -130,7 +122,6 @@ const ReservationDetail = () => {
                 <p className={styles.value2}>{formatTime(tour.meetingEndAt)}</p>
               </div>
             </div>
-            {/* 채팅 아이디 수정 필요 ★★★★★★★★★★★★★★ */}
             <div
               onClick={() =>
                 navigateToReservationDetailChattingRoom(tour.roomId)
@@ -166,10 +157,8 @@ const ReservationDetail = () => {
             </div>
           </div>
 
-          {/* Middle */}
           <div className={styles.tourInfoMiddle}></div>
 
-          {/* Bottom */}
           <div className={styles.tourInfoBottom}>
             <h3 className={styles.tourInfoBottomtitle}>
               {user && user.isKorean ? "예약 상세 내역" : "Reservation Details"}
@@ -196,7 +185,6 @@ const ReservationDetail = () => {
               <p className={styles.tourInfoBottominfoItemTitle}>
                 {user && user.isKorean ? "만남 장소" : "Meeting Location"}
               </p>
-              {/* 구글 맵 API */}
               <p className={styles.tourInfoBottominfoItemContent}>
                 {tour.meetingAddress}
               </p>

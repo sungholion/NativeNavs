@@ -1,7 +1,3 @@
-// get-android-function.js
-
-// Trav
-// Trav 예약 리스트 페이지 -> 예약 상세 페이지로 이동
 export function navigateToReservationListFragmentReservationDetail(
   tour_id,
   reservation_id
@@ -22,7 +18,6 @@ export function navigateToReservationListFragmentReservationDetail(
   }
 }
 
-// Trav 예약 리스트 페이지 -> 예약 상세 페이지로 이동
 export function navigateToReservationListFragmentTourList() {
   if (
     window.Android &&
@@ -37,7 +32,6 @@ export function navigateToReservationListFragmentTourList() {
   }
 }
 
-// Trav 예약 상세 페이지 -> 채팅방으로 이동
 export function navigateToReservationDetailChattingRoom(chat_id) {
   if (
     window.Android &&
@@ -51,7 +45,6 @@ export function navigateToReservationDetailChattingRoom(chat_id) {
   }
 }
 
-// Trav 예약 상세 페이지 -> 뒤로가기
 export function navigateBack() {
   if (window.Android && typeof window.Android.navigateBack === "function") {
     window.Android.navigateBack();
@@ -60,7 +53,6 @@ export function navigateBack() {
   }
 }
 
-// Trav 위시리스트 -> 메인 페이지로 이동
 export function navigateFromWishToTourListFragment() {
   if (
     window.Android &&
@@ -72,7 +64,6 @@ export function navigateFromWishToTourListFragment() {
   }
 }
 
-// Trav 위시리스트 상세보기로 이동
 export function navigateToWishDetailFragment(tour_id, user_id) {
   if (
     window.Android &&
@@ -84,7 +75,6 @@ export function navigateToWishDetailFragment(tour_id, user_id) {
   }
 }
 
-// Trav 리뷰 보기로 이동
 export function navigateToTravReviewPhotoFragment(trav_id) {
   if (
     window.Android &&
@@ -96,8 +86,6 @@ export function navigateToTravReviewPhotoFragment(trav_id) {
   }
 }
 
-// 투어
-// 투어 상세 페이지 -> 투어 수정 페이지로 이동
 export function navigateToTourModifyFragment(tour_id) {
   if (
     window.Android &&
@@ -109,7 +97,6 @@ export function navigateToTourModifyFragment(tour_id) {
   }
 }
 
-// 투어 상세 페이지 -> 메인 페이지 이동
 export function navigateToTourListFragment() {
   if (
     window.Android &&
@@ -121,7 +108,6 @@ export function navigateToTourListFragment() {
   }
 }
 
-// 투어 작성 -> 투어 상세보기로 이동
 export function moveFromTourRegisterToTourDetailFragment(tourId, navId) {
   if (
     window.Android &&
@@ -136,7 +122,6 @@ export function moveFromTourRegisterToTourDetailFragment(tourId, navId) {
   }
 }
 
-// 투어 작성 실패 시 안드로이드에서 경고 이펙트 주는 함수
 export function showRegisterFailDialog() {
   if (
     window.Android &&
@@ -148,7 +133,6 @@ export function showRegisterFailDialog() {
   }
 }
 
-// 투어 상세보기로 이동
 export function navigateToTourDetailFragment(tour_id, user_id) {
   if (
     window.Android &&
@@ -160,7 +144,6 @@ export function navigateToTourDetailFragment(tour_id, user_id) {
   }
 }
 
-// 투어 리뷰 보기로 이동
 export function navigateToTourReviewPhotoFragment(tour_id) {
   if (
     window.Android &&
@@ -172,8 +155,6 @@ export function navigateToTourReviewPhotoFragment(tour_id) {
   }
 }
 
-// Nav
-// Nav 리뷰 보기로 이동
 export function navigateToNavReviewPhotoFragment(nav_id) {
   if (
     window.Android &&
@@ -185,7 +166,6 @@ export function navigateToNavReviewPhotoFragment(nav_id) {
   }
 }
 
-// Nav 투어 리스트 -> 투어 상세 페이지로 이동
 export function navigateToMyTripDetailFragment(tourId) {
   if (
     window.Android &&
@@ -197,19 +177,20 @@ export function navigateToMyTripDetailFragment(tourId) {
   }
 }
 
-// Nav 투어 리스트 -> 투어 상세 페이지로 이동
 export function navigateToMyTripListToTourRegisterFragment(tourId) {
   if (
     window.Android &&
-    typeof window.Android.navigateToMyTripListToTourRegisterFragment === "function"
+    typeof window.Android.navigateToMyTripListToTourRegisterFragment ===
+      "function"
   ) {
     window.Android.navigateToMyTripListToTourRegisterFragment(tourId);
   } else {
-    console.log("navigateToMyTripListToTourRegisterFragment function is not defined");
+    console.log(
+      "navigateToMyTripListToTourRegisterFragment function is not defined"
+    );
   }
 }
 
-// Nav 투어 예약현황 페이지 -> 예약 상세 페이지로 이동
 export function navigateToReservationDetailFragment(tourId) {
   if (
     window.Android &&
@@ -221,7 +202,6 @@ export function navigateToReservationDetailFragment(tourId) {
   }
 }
 
-// 투어 수정 성공 -> 그 투어 상세로
 export function navigateFromTourModifyToTourDetailFragment(tourId, navId) {
   if (
     window.Android &&
@@ -236,7 +216,6 @@ export function navigateFromTourModifyToTourDetailFragment(tourId, navId) {
   }
 }
 
-// 투어 수정 실패시 뜨는 정보
 export function showModifyFailDialog() {
   if (
     window.Android &&
@@ -261,7 +240,6 @@ export function navigateToReservationRegisterChattingRoom() {
     );
   }
 }
-// 리뷰 작성 성공시 -> 해당 투어 리뷰 리스트 페이지 이동
 export function moveFromReviewRegisterToReviewListFragment(tourId) {
   if (
     window.Android &&
@@ -276,7 +254,6 @@ export function moveFromReviewRegisterToReviewListFragment(tourId) {
   }
 }
 
-// 리뷰 작성 실패시 뜨는 정보
 export function showReviewRegisterFailDialog() {
   if (
     window.Android &&
@@ -288,7 +265,6 @@ export function showReviewRegisterFailDialog() {
   }
 }
 
-// 예약 작성 성공 시 -> 해당 예약 상세 페이지 이동
 export function navigateToReservationRegisterDetailFragment(
   tourId,
   reservationId
@@ -309,7 +285,6 @@ export function navigateToReservationRegisterDetailFragment(
   }
 }
 
-// 예약 실패 시 띄우는 정보
 export function showReservationRegisterFailDialog() {
   if (
     window.Android &&

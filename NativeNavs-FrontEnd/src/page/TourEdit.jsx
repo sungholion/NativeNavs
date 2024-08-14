@@ -7,12 +7,10 @@ import {
   navigateFromTourModifyToTourDetailFragment,
 } from "@/utils/get-android-function";
 
-// 투어 수정을 위한 페이지
 const TourEdit = () => {
   const [initData, setInitData] = useState();
   const param = useParams();
   const [navUser, setNavUser] = useState(null);
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {

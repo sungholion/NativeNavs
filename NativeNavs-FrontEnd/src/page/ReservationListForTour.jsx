@@ -14,12 +14,10 @@ const ReservationListForTour = () => {
   const [reservationCount, setReservationCount] = useState(0);
   const params = useParams();
 
-    // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
     useEffect(() => {
       setUser(JSON.parse(localStorage.getItem("user")));
     }, []);
 
-  // 투어 참여자 조회 API 정의
   const fetchParticipantsInfo = async () => {
     try {
       const response = await axios.get(
@@ -42,14 +40,13 @@ const ReservationListForTour = () => {
     }
   };
 
-  // user 정보를 받아오면 axios 실행
+
   useEffect(() => {
     fetchParticipantsInfo();
   }, [user]);
 
   return (
     <div className={styles.ReservationListForTour}>
-      {/* 투어 정보 */}
       <div className={styles.TourInfo}>
         {tour ? (
           <Tour_Item4
@@ -60,7 +57,6 @@ const ReservationListForTour = () => {
         ) : null}
       </div>
 
-      {/* 예약 목록 */}
       <div className={styles.ReservationList}>
         <div className={styles.ReservationCount}>
           <h4>

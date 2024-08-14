@@ -2,12 +2,12 @@ import styles from "./TourEditor3.module.css";
 import { useContext, useEffect, useState } from "react";
 import { TourDataContext, TourDispatchContext } from "./TourEditorHead";
 
-const MAX_DESCRIPTION_LENGTH = 1000; // 최대 당부사항 길이
+const MAX_DESCRIPTION_LENGTH = 1000; 
 
 const TourEditor3 = ({ goBeforePage, goAfterPage, user }) => {
   const { description } = useContext(TourDataContext);
   const { onTourDataChange } = useContext(TourDispatchContext);
-  const [requestTest, setrequestTest] = useState(""); //
+  const [requestTest, setrequestTest] = useState(""); 
 
   useEffect(() => {
     if (description !== "") {

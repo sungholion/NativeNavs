@@ -19,12 +19,10 @@ const ReservationList = () => {
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
-  // FE -> BE : 예정된 투어 정보 요청
   const getReservationList = async (e) => {
     try {
       const response = await axios.get(
@@ -41,7 +39,7 @@ const ReservationList = () => {
     } catch (error) {
       console.error("투어 예약 리스트 받아오기 실패:", error);
     } finally {
-      setLoading(false); // 요청이 완료되면 로딩 상태 false
+      setLoading(false); 
     }
   };
 
@@ -83,10 +81,8 @@ const ReservationList = () => {
           {user && user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
         </h2>
         <div className={styles.ReservationList}>
-          {/* 예약된 투어 리스트 */}
 
           <div className={styles.upcomingTourList}>
-            {/* <Carousel2 reservationsInProgress={reservationsInProgress} navigateToReservationListFragmentReservationDetail={() => navigateToReservationListFragmentReservationDetail(reservationsInProgress.tourId, reservationsInProgress.reservationId)} /> */}
             {reservationsInProgress.length > 0 && (
               <Carousel2
                 reservationsInProgress={reservationsInProgress}
@@ -97,7 +93,6 @@ const ReservationList = () => {
               />
             )}
           </div>
-          {/* 완료된 투어 리스트 */}
           <h2 className={styles.TourListTitle}>
             {user && user.isKorean ? "완료된 Tour" : "Completed Tour"}
           </h2>
@@ -144,7 +139,7 @@ const ReservationList = () => {
             size="4"
             text={user && user.isKorean ? "둘러보기" : "Browse"}
             onClickEvent={() => {
-              navigateToReservationListFragmentTourList(); // 네이티브 함수 호출
+              navigateToReservationListFragmentTourList(); 
             }}
           />
         </div>

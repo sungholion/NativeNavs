@@ -36,8 +36,6 @@ const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
   const planCount = useRef(0);
   const [editPlanData, setEditPlanData] = useState();
 
-  // 1 : plan Data 없음
-
   useEffect(() => {
     if (plans.length) {
       dispatch({

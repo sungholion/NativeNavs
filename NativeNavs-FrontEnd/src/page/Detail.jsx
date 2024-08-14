@@ -38,7 +38,6 @@ const Detail = () => {
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // review state 정의
   const [reviewData, setReviewData] = useState({
     imageUrls: [],
     reviewAverage: 0,
@@ -50,7 +49,6 @@ const Detail = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
 
-  // 컴포넌트가 마운트될 때 localStorage에서 유저 정보를 가져옴
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
@@ -71,7 +69,6 @@ const Detail = () => {
       });
   };
 
-  // FE -> BE : Tour API 요청
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -79,7 +76,7 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
-        setLoading(false); // 데이터 로드가 완료되면 로딩 상태를 false로 설정
+        setLoading(false); 
         console.log("Tours response data : ", response.data);
       } catch (error) {
         console.error("Error fetching tours:", error);
@@ -92,7 +89,6 @@ const Detail = () => {
     }
   }, [user]);
 
-  // NavLanguages 관리 state : 문자열을 배열로 변환
   const [navLanguages, setNavLanguages] = useState([]);
   useEffect(() => {
     if (tour && tour.user && tour.user.userLanguage) {
@@ -106,7 +102,6 @@ const Detail = () => {
 
   const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
 
-  // FE -> BE : ReviewData API 요청
   useEffect(() => {
     const fetchReviewData = async () => {
       try {
@@ -123,14 +118,11 @@ const Detail = () => {
     fetchReviewData();
   }, []);
 
-  // 작성자 전용 -> 수정, 삭제 버튼 클릭 시 옵션창 열기
   const [openOption, setOpenOption] = useState(false);
 
-  // 첫 번째 리뷰를 변수에 저장
   const firstReview =
     reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
 
-  // MB : Nav 프로필 클릭 이벤트 정의
   const onClickNav = (e) => {
     if (
       window.Android &&
@@ -142,7 +134,6 @@ const Detail = () => {
     }
   };
 
-  // MB : 리뷰 클릭 이벤트 정의
   const onClickReview = (e) => {
     if (
       window.Android &&
@@ -154,21 +145,18 @@ const Detail = () => {
     }
   };
 
-  // tour date formatting
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
-    return dateString.replace(/\.$/, "").replace(/\s/g, ""); // 마지막 점 제거 후 공백 제거
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
-  // price 변수 fotmatting
   const formattedPrice = `₩ ${tour.price.toLocaleString()}`;
 
   const handlePlanClick = (plan) => {
     setSelectedPlan(plan);
     setShowModal(true);
 
-    // 모달이 열릴 때 body의 스크롤을 잠급니다.
     document.body.style.overflow = "hidden";
   };
 
@@ -176,7 +164,6 @@ const Detail = () => {
     setShowModal(false);
     setSelectedPlan(null);
 
-    // 모달이 닫힐 때 body의 스크롤을 해제합니다.
     document.body.style.overflow = "auto";
   };
 
@@ -190,7 +177,6 @@ const Detail = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
-  // 테마 맵핑 데이터
   const categoryMapping = {
     1: { ko: "시장", en: "Market" },
     2: { ko: "액티비티", en: "Activity" },
@@ -206,7 +192,6 @@ const Detail = () => {
     12: { ko: "사진", en: "Photography" },
   };
 
-  // 테마 이름 가져오기
   const getCategoryNames = () => {
     return tour.categoryIds
       .map((id) => categoryMapping[id])
@@ -234,13 +219,12 @@ const Detail = () => {
 
   return (
     <div className={styles.Detail}>
-      {/* 투어 사진(캐러셀) */}
       {user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
         <div className={styles.WriterOnlyOptionSection}>
           <img
             src={getStaticImage("menu_vertical_button")}
             style={{ width: "30px", height: "30px" }}
-            onClick={() => setOpenOption((cur) => !cur)} // 토글
+            onClick={() => setOpenOption((cur) => !cur)}
           />
           {openOption && (
             <div className={styles.WriterOptions}>
@@ -266,16 +250,13 @@ const Detail = () => {
       )}
       <Carousel tourId={tour.tourId} images={images} user={user} />
 
-      {/* 투어 정보(간략하게) */}
       <div className={styles.tour_info}>
-        {/* first */}
         <div className={styles.tour_info_first}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
           <div>
             <StarScore2 score={tour.reviewAverage * 20} />
           </div>
         </div>
-        {/* second */}
         <div className={styles.tour_info_first}>
           <div className={styles.tour_maxParticipants}>
             {user && user.isKorean
@@ -286,7 +267,7 @@ const Detail = () => {
             {getCategoryNames() &&
               getCategoryNames()
                 .split(", ")
-                .slice(2) // 3번째 이후의 카테고리들을 가져옵니다.
+                .slice(2)
                 .map((category, index) => (
                   <div key={index + 2} className={styles.categoryBox}>
                     {category}
@@ -294,7 +275,6 @@ const Detail = () => {
                 ))}
           </div>
         </div>
-        {/* third */}
         <div className={styles.tour_info_first}>
           <div>
             {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
@@ -312,7 +292,6 @@ const Detail = () => {
         </div>
       </div>
 
-      {/* Nav 정보 */}
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
@@ -345,7 +324,6 @@ const Detail = () => {
           </div>
         </div>
       </div>
-      {/* 투어 일정 */}
       <div className={styles.tourPlan}>
         <h3 className={styles.tourPlanTitle}>
           {user && user.isKorean ? `일정` : `Plan`}
@@ -366,7 +344,6 @@ const Detail = () => {
           ))}
         </div>
       </div>
-      {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
         <h3 className={styles.tourReminderPrive}>
           {" "}
@@ -378,7 +355,6 @@ const Detail = () => {
         </h3>
         <h4>{tour.description}</h4>
       </div>
-      {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
         <div className={styles.buttonContainer}>
           <button className={styles.Button}>
@@ -403,7 +379,6 @@ const Detail = () => {
         )}
       </div>
 
-      {/* Plan 모달 */}
       {selectedPlan && (
         <Modal3 show={showModal} onClose={closeModal} plan={selectedPlan} />
       )}
