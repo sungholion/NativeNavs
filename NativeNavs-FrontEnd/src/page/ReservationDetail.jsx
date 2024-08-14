@@ -192,7 +192,7 @@ const ReservationDetail = () => {
             <div className={styles.tourInfoBottominfoItem}>
               <p className={styles.tourInfoBottominfoItemTitle}>
                 {user && user.isKorean
-                  ? "추가 요청 사항DD"
+                  ? "추가 요청 사항"
                   : "Additional Requests"}
               </p>
               <p className={styles.tourInfoBottominfoItemContent}>
