@@ -3,7 +3,7 @@ package com.nativenavs.auth.service;
 import com.nativenavs.user.dto.UserDTO;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,10 +11,10 @@ import java.util.Optional;
 import static com.nativenavs.user.dto.UserDTO.toUserDTO;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     // 이메일 로그인 로직
     public UserDTO loginByEmail(String email, String password, String device) {
@@ -31,5 +31,6 @@ public class AuthServiceImpl implements AuthService{
         }
 
     }
+
 
 }
