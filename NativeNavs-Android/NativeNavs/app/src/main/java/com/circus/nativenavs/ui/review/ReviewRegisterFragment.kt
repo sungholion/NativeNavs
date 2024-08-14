@@ -47,14 +47,12 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
                 if (data != null) {
                     val clipData = data.clipData
                     if (clipData != null) {
-                        // 여러 파일이 선택된 경우
                         val uris = ArrayList<Uri>()
                         for (i in 0 until clipData.itemCount) {
                             uris.add(clipData.getItemAt(i).uri)
                         }
                         filePathCallback?.onReceiveValue(uris.toTypedArray())
                     } else {
-                        // 단일 파일이 선택된 경우
                         val uri = data.data
                         filePathCallback?.onReceiveValue(arrayOf(uri!!))
                     }
@@ -164,7 +162,6 @@ class ReviewRegisterFragment : BaseFragment<FragmentReviewRegisterBinding>(
             }
 
         val url = WEBURL + "tour/detail/${args.tourId}/reviews/create/${args.reservationId}"
-        Log.d(TAG, "initCustomView: $url")
         binding.reviewRegisterCustomWv.loadWebViewUrl(url)
     }
 

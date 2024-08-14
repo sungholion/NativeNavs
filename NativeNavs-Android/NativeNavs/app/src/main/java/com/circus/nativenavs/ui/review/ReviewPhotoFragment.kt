@@ -76,7 +76,6 @@ class ReviewPhotoFragment : BaseFragment<FragmentReviewPhotoBinding>(
             url = WEBURL + "trav/${args.travId}/reviewphotos"
         }
 
-        Log.d(TAG, "initCustomView: $url")
         binding.reviewPhotoCustomWv.loadWebViewUrl(url)
 
     }

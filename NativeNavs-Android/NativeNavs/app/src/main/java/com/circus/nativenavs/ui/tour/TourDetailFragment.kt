@@ -59,7 +59,6 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     private fun initObserve() {
         chattingViewModel.chatRoomId.observe(viewLifecycleOwner) { roomId ->
             if (roomId != -1) {
-                Log.d(TAG, "onViewCreated: 화면 이동")
                 val action =
                     TourDetailFragmentDirections.actionTourDetailFragmentToChattingRoomFragment(
                         chatId = roomId
@@ -120,7 +119,6 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         }
 
         val url = WEBURL + "tour/detail/${args.tourId}"
-        Log.d(TAG, "initCustomView: $url")
         binding.tourDetailWv.loadWebViewUrl(url)
 
     }
@@ -151,7 +149,6 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToNavProfileFragment(navId: Int) {
-        Log.d(TAG, "navigateToNavProfileFragment: $navId")
         val action = TourDetailFragmentDirections.actionTourDetailFragmentToProfileFragment(
             userId = navId,
             navId = navId,
@@ -161,14 +158,12 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
     }
 
     fun navigateToReviewListFragment(tourId: Int) {
-        Log.d(TAG, "navigateToReviewListFragment: $tourId")
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToReviewListFragment(tourId)
         navigate(action)
     }
 
     fun navigateToTourModifyFragment(tourId: Int) {
-        Log.d(TAG, "navigateToReviewListFragment: $tourId")
         val action =
             TourDetailFragmentDirections.actionTourDetailFragmentToTourModifyFragment(tourId)
         navigate(action)
@@ -188,8 +183,4 @@ class TourDetailFragment : BaseFragment<FragmentTourDetailBinding>(
         chattingViewModel.setChatRoomId(-1)
     }
 
-    override fun onPause() {
-        super.onPause()
-//        chattingViewModel.setChatRoomId(-1)
-    }
 }

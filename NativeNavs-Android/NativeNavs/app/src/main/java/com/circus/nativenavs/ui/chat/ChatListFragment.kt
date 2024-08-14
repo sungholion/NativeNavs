@@ -46,7 +46,6 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
     private fun initObserve() {
         chattingViewModel.chatRoomList.observe(viewLifecycleOwner) { chatRoomList ->
             if(chatRoomList.isNotEmpty()){
-                Log.d(TAG, "observeViewModel: $chatRoomList")
                 chatListAdapter.submitList(chatRoomList)
                 binding.noChattingCl.visibility = GONE
                 binding.chatListRv.visibility = VISIBLE
@@ -62,7 +61,6 @@ class ChatListFragment : BaseFragment<FragmentChatListBinding>(
         chatListAdapter.setItemClickListener(object : ChatListAdapter.ChatItemClickListener {
             override fun onItemClicked(chatRoom: ChatRoomDto) {
                 chattingViewModel.setCurrentChatRoom(chatRoom)
-                Log.d(TAG, "onItemClicked: $chatRoom")
                 val action =
                     ChatListFragmentDirections.actionChatListFragmentToChattingRoomFragment(
                         chatRoom.roomId

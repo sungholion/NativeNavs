@@ -57,7 +57,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
     private lateinit var categoryAdapter: TourCategoryAdapter
 
 
-    private lateinit var currentList : List<CategoryDto>
+    private lateinit var currentList: List<CategoryDto>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -88,31 +88,27 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
 
     private fun initView() {
         binding.apply {
-            if(homeActivityViewModel.searchTravel.value != ""){
+            if (homeActivityViewModel.searchTravel.value != "") {
                 searchEditText.setText(homeActivityViewModel.searchTravel.value)
                 tourSearchTravelTitleContentTv.text = homeActivityViewModel.searchTravel.value
             }
             tourSearchDateTitleContentTv.text = homeActivityViewModel.searchDate.value
         }
         binding.calendarView.setOnMonthChangedListener { widget, date ->
-            // 기존에 설정되어 있던 Decorators 초기화
             binding.calendarView.removeDecorators()
             binding.calendarView.invalidateDecorators()
 
-            // Decorators 추가
             initCalendar(date.month)
         }
 
-        homeActivityViewModel.categoryCheckList.observe(viewLifecycleOwner){
+        homeActivityViewModel.categoryCheckList.observe(viewLifecycleOwner) {
             categoryAdapter.submitList(it.toList())
-            Log.d("reset", "initView: $it")
         }
     }
 
-    fun initAdapter() {
+    private fun initAdapter() {
 
         categoryAdapter = TourCategoryAdapter({ category, isChecked ->
-            Log.d("a", "initAdaper: ${category.id}")
             homeActivityViewModel.toggleCategory(category.id)
         }, SharedPref.language == "ko")
         binding.tourSearchThemeRv.adapter = categoryAdapter
@@ -154,9 +150,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
             tourSearchBtn.setOnClickListener {
                 homeActivityViewModel.let {
                     it.updateSearchTheme()
-                    Log.d("img", "initEvent: ${it.searchTravel.value}")
-                    Log.d("img", "initEvent: ${it.searchDate.value}")
-                    Log.d("img", "initEvent: ${it.searchTheme.value}")
                     navigate(R.id.action_tourSearchFragment_to_tourListFragment)
                 }
             }
@@ -277,7 +270,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
     }
 
     private fun toggleExpandableLayout() {
-        // 여행 검색창
         if (travelIsExpanded) {
             CoroutineScope(Dispatchers.Main).launch {
                 collapse(binding.tourSearchTravelContentLayout)
@@ -288,7 +280,7 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
             binding.tourSearchTravelLl.visibility = GONE
             expand(binding.tourSearchTravelContentLayout)
         }
-        // 날짜 검색창
+
         if (dateIsExpanded) {
             binding.tourSearchDateLl.visibility = VISIBLE
             collapse(binding.tourSearchDateContentLayout)
@@ -297,7 +289,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
             expand(binding.tourSearchDateContentLayout)
         }
 
-        // 테마 검색창
         if (themeIsExpanded) {
             binding.tourSearchThemeLl.visibility = VISIBLE
             collapse(binding.tourSearchThemeContentLayout)
@@ -350,7 +341,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
         }
     }
 
-    /* 일요일 날짜의 색상을 설정하는 클래스 */
     private inner class SundayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
             val sunday = day.date.with(DayOfWeek.SUNDAY).dayOfMonth
@@ -362,7 +352,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
         }
     }
 
-    /* 토요일 날짜의 색상을 설정하는 클래스 */
     private inner class SaturdayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
             val saturday = day.date.with(DayOfWeek.SATURDAY).dayOfMonth
@@ -374,7 +363,6 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
         }
     }
 
-    /* 이번달에 속하지 않지만 캘린더에 보여지는 이전달/다음달의 일부 날짜를 설정하는 클래스 */
     private inner class SelectedMonthDecorator(val selectedMonth: Int) : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day.month != selectedMonth
@@ -392,7 +380,4 @@ class TourSearchFragment : BaseFragment<FragmentTourSearchBinding>(
         }
     }
 
-    companion object {
-
-    }
 }

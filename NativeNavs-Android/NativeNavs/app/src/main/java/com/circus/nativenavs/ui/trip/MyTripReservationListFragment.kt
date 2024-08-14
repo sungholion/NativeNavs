@@ -34,7 +34,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     }
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: 나여기")
         homeActivity.hideBottomNav(false)
         isPageLoaded = false
     }
@@ -49,7 +48,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
 
     private fun initWebView() {
         val url = WEBURL + "reservation/${args.tourId}/list"
-        Log.d(TAG, "initCustomView: $url")
         binding.myTripReservationListWv.loadWebViewUrl(url)
 
     }

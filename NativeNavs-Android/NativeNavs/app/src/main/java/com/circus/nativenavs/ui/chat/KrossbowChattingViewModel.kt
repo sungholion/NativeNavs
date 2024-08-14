@@ -40,7 +40,7 @@ class KrossbowChattingViewModel : ViewModel() {
     private val _currentChatRoom = MutableLiveData<ChatRoomDto>()
     val currentChatRoom: LiveData<ChatRoomDto> = _currentChatRoom
 
-    private val _chatRoomId = MutableLiveData<Int>(-1)
+    private val _chatRoomId = MutableLiveData(-1)
     val chatRoomId: LiveData<Int> = _chatRoomId
 
     private val _chatMessages = MutableLiveData<List<MessageDto>>()
@@ -88,10 +88,8 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     fun createChatRoom(tourId: Int) {
-        Log.d(TAG, "createChatRoom: 실행전")
         viewModelScope.launch {
             _currentChatRoom.value = chatRetrofit.createChatRoom(tourId)
-            Log.d(TAG, "createChatRoom: ${currentChatRoom.value}")
             currentChatRoom.value?.let {
                 _chatRoomId.value = it.roomId
             }
@@ -122,11 +120,6 @@ class KrossbowChattingViewModel : ViewModel() {
 
     fun setChatRoomId(roomId: Int) {
         _chatRoomId.value = roomId
-        Log.d(TAG, "setChatRoomId: ${chatRoomId.value}")
-    }
-
-    fun resetCurrentChatRoom() {
-//        _currentChatRoom.postValue(ChatRoomDto())
     }
 
     fun getChatMessages(roomId: Int) {
@@ -178,10 +171,8 @@ class KrossbowChattingViewModel : ViewModel() {
 
                 val wsClient = OkHttpWebSocketClient(okHttpClient)
                 val stompClient = StompClient(wsClient)
-                Log.d(TAG, "connectWebSocket: ${chatRoomId.value}")
                 stompSession = stompClient.connect(
                     url = "ws://i11d110.p.ssafy.io/api/ws-stomp/websocket",
-//                    url = "ws://192.168.100.185:8080/api/ws-stomp/websocket",
                     customStompConnectHeaders = mapOf(
                         "Authorization" to "${SharedPref.accessToken}",
                         "roomId" to "${chatRoomId.value}"
@@ -205,27 +196,16 @@ class KrossbowChattingViewModel : ViewModel() {
     private suspend fun observeMessages() {
         try {
             val subscriptionMessage = stompSession.subscribe(
-                StompSubscribeHeaders(
-                    destination = "/room/${chatRoomId.value}",
-//                    customHeaders = mapOf(
-//                        "Authorization" to "${SharedPref.accessToken}"
-//                    )
-                )
+                StompSubscribeHeaders(destination = "/room/${chatRoomId.value}")
             )
 
             val subscriptionConnection = stompSession.subscribe(
-                StompSubscribeHeaders(
-                    destination = "/status/room/${chatRoomId.value}",
-//                    customHeaders = mapOf(
-//                        "Authorization" to "${SharedPref.accessToken}"
-//                    )
-                )
+                StompSubscribeHeaders(destination = "/status/room/${chatRoomId.value}")
             )
 
             isConnected = true
 
             subscriptionMessage.collect { frame ->
-                Log.d(TAG, "frame observeMessages: $frame")
                 val newMessage = moshi.adapter(MessageDto::class.java).fromJson(frame.bodyAsText)
                 newMessage?.let {
                     handleOnMessageReceived(newMessage)
@@ -233,8 +213,6 @@ class KrossbowChattingViewModel : ViewModel() {
             }
 
             subscriptionConnection.collect { frame ->
-                Log.d(TAG, "frame observe Connection: $frame")
-
                 val userCount =
                     moshi.adapter(ChatUserCountDto::class.java).fromJson(frame.bodyAsText)
                 userCount?.let {
@@ -251,20 +229,16 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     private fun markMessagesAsRead() {
-        Log.d(TAG, "markMessagesAsRead: ")
         val messages = uiState.value?.let {
             it.messages.toMutableList().map {
                 it.copy(messageChecked = true)
             }
         }
-        Log.d(TAG, "Messages markMessagesAsRead: $messages")
         _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
-        Log.d(TAG, "markMessagesAsRead: 11111111111111111111111 ${_uiState.value}")
     }
 
 
     private fun handleOnMessageReceived(message: MessageDto) {
-        Log.d(TAG, "handleOnMessageReceived: $message")
         try {
             addMessage(message)
         } catch (e: Exception) {
@@ -273,17 +247,13 @@ class KrossbowChattingViewModel : ViewModel() {
     }
 
     private fun addMessage(message: MessageDto) {
-        Log.d(TAG, "addMessage: $message")
-
         if (message.senderId != SharedPref.userId) {
             markMessagesAsRead()
         }
-        Log.d(TAG, "markMessagesAsRead: 22222222222222222222222")
-        Log.d(TAG, "addMessage------------: ${uiState.value}")
+
         val messages = uiState.value?.messages?.toMutableList()
         messages?.add(message)
         _uiState.value = messages?.let { _uiState.value?.copy(messages = it) }
-        Log.d(TAG, "markMessagesAsRead: 333333333333333333333")
     }
 
     fun sendMessage(messageSent: () -> Unit) {
@@ -293,12 +263,7 @@ class KrossbowChattingViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 stompSession.withMoshi(moshi).convertAndSend(
-                    StompSendHeaders(
-                        destination = "/send/${chatRoomId.value}",
-//                        customHeaders = mapOf(
-//                            "Authorization" to "${SharedPref.accessToken}"
-//                        )
-                    ),
+                    StompSendHeaders(destination = "/send/${chatRoomId.value}"),
                     message
                 )
 
@@ -323,7 +288,6 @@ class KrossbowChattingViewModel : ViewModel() {
                 messageChecked = false
             )
         } ?: MessageDto()
-        Log.d(TAG, "message: $tempMessage")
         return tempMessage
     }
 

@@ -203,19 +203,15 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         return try {
             val date = LocalDate.parse(dateString, formatter)
 
-            // 월이 1월부터 12월 사이인지 확인합니다.
             val isCorrectMonth = date.monthValue in 1..12
-            // 일이 1일부터 해당 월의 마지막 날까지 유효한지 확인합니다.
             val isCorrectDay = date.dayOfMonth in 1..date.lengthOfMonth()
 
             isCorrectMonth && isCorrectDay
         } catch (e: DateTimeParseException) {
-            // 날짜 파싱에 실패하면 false를 반환합니다.
             false
         }
     }
 
-    // 이미지 선택 인텐트 시작
     private fun openImagePicker() {
         getImageLauncher.launch("image/*")
     }
@@ -234,10 +230,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
                 }
             }
         }
-        Log.d(
-            "FileConversion",
-            "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes"
-        )
         return file
     }
 
@@ -250,23 +242,19 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
         return compressedFile
     }
 
-    // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
-        Log.d("YourFragment", "Selected Image URI: $imageUri")
         var file = uriToFile(requireContext(), imageUri)
 
         val maxSize = 10 * 1024 * 1024 // 10MB
         if (file.length() > maxSize) {
             file = compressImage(file)
 
-            // 압축 후에도 파일 크기가 허용 범위를 초과하는지 확인
             if (file.length() > maxSize) {
                 showToast("File size still exceeds limit after compression")
                 return
             }
         }
-        Log.d("handle", "handleImage: ${file.length()}")
-        // 파일을 MultipartBody.Part로 변환
+
         val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
         signUpViewModel.updateImageFile(
             MultipartBody.Part.createFormData(
@@ -279,7 +267,6 @@ class SignUpProfileFragment : BaseFragment<FragmentSignUpProfileBinding>(
 
     }
 
-    // ActivityResultLauncher 선언
     private val getImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { handleImage(it) }

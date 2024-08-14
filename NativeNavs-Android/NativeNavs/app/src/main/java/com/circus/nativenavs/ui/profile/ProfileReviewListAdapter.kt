@@ -36,8 +36,6 @@ class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto, ProfileReviewList
         }
     }
 
-
-
     inner class ProfileReviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bindInfo(dto: ProfileReviewDto){
             itemView.apply {
@@ -48,10 +46,10 @@ class ProfileReviewListAdapter : ListAdapter<ProfileReviewDto, ProfileReviewList
                 findViewById<TextView>(R.id.profile_review_user_language).text = dto.userLanguage
 
                 Glide.with(this)
-                    .load(dto.img) // 불러올 이미지 url
-                    .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
-                    .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
-                    .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                    .load(dto.img)
+                    .placeholder(R.drawable.logo_nativenavs)
+                    .error(R.drawable.logo_nativenavs)
+                    .fallback(R.drawable.logo_nativenavs)
                     .into(findViewById<ImageView>(R.id.profile_review_img))
 
                 Glide.with(this)

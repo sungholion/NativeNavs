@@ -13,7 +13,7 @@ fun generateQRCode(text: String, width: Int, height: Int): Bitmap? {
     val qrCodeWriter = QRCodeWriter()
     val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
     hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
-    hints[EncodeHintType.MARGIN] = 1 // Default margin is 4
+    hints[EncodeHintType.MARGIN] = 1
 
     return try {
         val bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height, hints)

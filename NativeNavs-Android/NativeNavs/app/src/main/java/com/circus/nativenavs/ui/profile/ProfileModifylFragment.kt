@@ -167,7 +167,6 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
     }
 
-    // 이미지 선택 인텐트 시작
     private fun openImagePicker() {
         getImageLauncher.launch("image/*")
     }
@@ -186,10 +185,6 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
                 }
             }
         }
-        Log.d(
-            "FileConversion",
-            "File Path: ${file.absolutePath}, File Size: ${file.length()} bytes"
-        )
         return file
     }
 
@@ -202,7 +197,6 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         return compressedFile
     }
 
-    // 선택한 이미지 처리
     private fun handleImage(imageUri: Uri) {
         var file = uriToFile(requireContext(), imageUri)
 
@@ -210,14 +204,11 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         if (file.length() > maxSize) {
             file = compressImage(file)
 
-            // 압축 후에도 파일 크기가 허용 범위를 초과하는지 확인
             if (file.length() > maxSize) {
                 showToast("File size still exceeds limit after compression")
                 return
             }
         }
-        Log.d("handle", "handleImage: ${file.length()}")
-        // 파일을 MultipartBody.Part로 변환
         val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
         homeActivityViewModel.updateImageFile(
             MultipartBody.Part.createFormData(
@@ -229,7 +220,6 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
 
     }
 
-    // ActivityResultLauncher 선언
     private val getImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let { handleImage(it) }
@@ -243,21 +233,10 @@ class ProfileModifylFragment : BaseFragment<FragmentProfileModifyBinding>(
         binding.profileModifyCompleteBtn.setOnClickListener {
             if (clicked) showToast("잠시만 기다려 주세요")
             else {
-//                clicked = true
-//                val password = binding.profileModifyPasswordEt.text.toString()
-//                val passwordCheck = binding.profileModifyPasswordCheckEt.text.toString()
-//                if (!isPasswordValid(password)) {
-//                    clicked = false
-//                    showToast(getString(R.string.profile_password_message))
-//                } else if (passwordCheck != password) {
-//                    showToast(getString(R.string.profile_password_check_message))
-//                    clicked = false
-//                } else
-                    if (homeActivityViewModel.nicknameCheck.value == false){
+                if (homeActivityViewModel.nicknameCheck.value == false) {
                     showToast(getString(R.string.profile_nickname_check))
                     clicked = false
-                }
-                else {
+                } else {
                     homeActivityViewModel.let {
                         binding.apply {
                             it.updateProfileModifyUser(

@@ -36,7 +36,7 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
 ) {
 
     private lateinit var homeActivity: HomeActivity
-    private val homeActivityViewModel : HomeActivityViewModel by activityViewModels()
+    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
     private lateinit var bridge: ReservationDetailBridge
     private var isPageLoaded = false
     private val args: ReservationDetailFragmentArgs by navArgs()
@@ -62,42 +62,44 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
         initEvent()
     }
 
-    private fun initData(){
+    private fun initData() {
         homeActivityViewModel.getReservation(args.reservationId)
         homeActivityViewModel.updateReservationStatusCode(-1)
     }
-    private fun initEvent(){
+
+    private fun initEvent() {
         binding.reservationReviewBtn.setOnClickListener {
-            val action = ReservationDetailFragmentDirections.actionReservationDetailFragmentToReviewRegisterFragment(
-                tourId = args.tourId,
-                reservationId = args.reservationId
-            )
+            val action =
+                ReservationDetailFragmentDirections.actionReservationDetailFragmentToReviewRegisterFragment(
+                    tourId = args.tourId,
+                    reservationId = args.reservationId
+                )
             navigate(action)
         }
     }
-    private fun initObserve()
-    {
-        homeActivityViewModel.reservation.observe(viewLifecycleOwner){
-            Log.d(TAG, "initObserve: ${it}")
-            if(it != null){
-                if(isToday(it.date) && it.status == "RESERVATION"){
-                    binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility = VISIBLE
-                }
-                else if(it.status == "DONE" && !it.reviewed){
+
+    private fun initObserve() {
+        homeActivityViewModel.reservation.observe(viewLifecycleOwner) {
+            if (it != null) {
+                if (isToday(it.date) && it.status == "RESERVATION") {
+                    binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility =
+                        VISIBLE
+                } else if (it.status == "DONE" && !it.reviewed) {
                     binding.reservationReviewBtn.visibility = VISIBLE
-                }
-                else{
-                    binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility = INVISIBLE
+                } else {
+                    binding.reservationDetailCustomWv.binding.customWebviewTitleQrIv.visibility =
+                        INVISIBLE
                     binding.reservationReviewBtn.visibility = INVISIBLE
                 }
             }
         }
-        homeActivityViewModel.reservationStatus.observe(viewLifecycleOwner){
-            if(it != -1){
-                when(it){
+        homeActivityViewModel.reservationStatus.observe(viewLifecycleOwner) {
+            if (it != -1) {
+                when (it) {
                     200 -> {
                         showToast(getString(R.string.reservation_done))
                     }
+
                     else -> {
                         showToast(getString(R.string.reservation_fail))
                     }
@@ -105,19 +107,17 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             }
         }
     }
-    private fun isToday(reservationDate : String) : Boolean {
-        // 날짜 포맷터를 정의합니다.
+
+    private fun isToday(reservationDate: String): Boolean {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        // 문자열을 LocalDate 객체로 변환합니다.
         val inputDate = LocalDate.parse(reservationDate, formatter)
 
-        // 현재 날짜를 가져옵니다.
         val today = LocalDate.now()
 
-        // 날짜를 비교합니다.
         return inputDate == today
     }
+
     private fun initBridge() {
         bridge =
             ReservationDetailBridge(
@@ -153,7 +153,6 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             }
 
         val url = WEBURL + "reservation/${args.tourId}/detail/${args.reservationId}"
-        Log.d(TAG, "initCustomView: $url")
         binding.reservationDetailCustomWv.loadWebViewUrl(url)
 
     }
@@ -168,17 +167,16 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
         })
         binding.reservationDetailCustomWv.setOnQRClickListener(
             object : CustomTitleWebView.OnQRClickListener {
-            override fun onClick() {
-                if (SharedPref.isNav == true) {
-                    startQRCodeScan()
+                override fun onClick() {
+                    if (SharedPref.isNav == true) {
+                        startQRCodeScan()
+                    } else {
+                        startActivity(Intent(requireContext(), QRCreateActivity::class.java).apply {
+                            action = "${args.reservationId}"
+                        })
+                    }
                 }
-                else {
-                    startActivity(Intent(requireContext(), QRCreateActivity::class.java).apply {
-                        action = "${args.reservationId}"
-                    })
-                }
-            }
-        })
+            })
         homeActivity.onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
@@ -198,11 +196,10 @@ class ReservationDetailFragment : BaseFragment<FragmentReservationDetailBinding>
             )
         navigate(action)
     }
-    fun navigateBack(){
+
+    fun navigateBack() {
         popBackStack()
     }
-
-
 
     private fun startQRCodeScan() {
         IntentIntegrator.forSupportFragment(this).apply {

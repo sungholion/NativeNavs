@@ -22,7 +22,6 @@ class TourModifyBridge(
     fun navigateFromTourModifyToTourDetailFragment(tourId: Int, navId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.navigateFromTourModifyToTourDetailFragment(tourId, navId)
-            Log.d(TAG, "navigateFromTourModifyToTourDetailFragment: $tourId ,$navId")
         }
     }
 
@@ -37,9 +36,7 @@ class TourModifyBridge(
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }

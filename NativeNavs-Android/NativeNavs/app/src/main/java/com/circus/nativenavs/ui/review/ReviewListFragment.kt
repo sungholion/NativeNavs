@@ -78,23 +78,18 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
 
         var url = ""
         if (args.tourId != -1) {
-            Log.d(TAG, "initE: aaaaaaaaaaaaaaaaaaaa")
             url = WEBURL + "tour/detail/${args.tourId}/reviews"
         } else if (args.navId != -1) {
-            Log.d(TAG, "initE: bbbbbbbbbbbbbbbbbbbbb")
             url = WEBURL + "nav/${args.navId}/reviews"
         } else if (args.travId != -1) {
-            Log.d(TAG, "initE: ccccccccccccccccccccc")
             url = WEBURL + "trav/${args.travId}/reviews"
         }
 
-        Log.d(TAG, "initCustomView: $url")
         binding.reviewCustomWv.loadWebViewUrl(url)
 
     }
 
     fun navigateToTourReviewPhotoFragment(tourId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $tourId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(tourId = tourId)
         navigate(action)
@@ -107,7 +102,6 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTravReviewPhotoFragment(travId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(travId = travId)
         navigate(action)

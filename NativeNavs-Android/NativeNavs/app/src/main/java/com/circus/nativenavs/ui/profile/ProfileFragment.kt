@@ -72,11 +72,9 @@ class ProfileFragment :
     }
 
     private fun initData() {
-        Log.d(TAG, "initData: ${args.userId == SharedPref.userId}")
         homeActivityViewModel.let {
             it.getProfileUser(args.userId)
             if (args.userId == SharedPref.userId) {
-                Log.d(TAG, "initData: ${SharedPref.isNav == true}")
                 if (SharedPref.isNav == true) it.getNavReview(args.userId)
                 else it.getTravReview(args.userId)
             } else {
@@ -89,18 +87,19 @@ class ProfileFragment :
 
     @SuppressLint("SetTextI18n")
     private fun initView() {
-        // 데이터 바인딩 설정
         binding.profileTitleLayout.titleText = getString(R.string.app_bar_profile)
 
         homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
             if (SharedPref.userId != it.id) binding.profileModifyBtn.visibility = INVISIBLE
             else binding.profileModifyBtn.visibility = VISIBLE
+
             Glide.with(this)
-                .load(it.image) // 불러올 이미지 url
-                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(binding.profileUserIv) // 이미지를 넣을 뷰
+                .load(it.image)
+                .placeholder(R.drawable.logo_nativenavs)
+                .error(R.drawable.logo_nativenavs)
+                .fallback(R.drawable.logo_nativenavs)
+                .into(binding.profileUserIv)
+
             binding.profileUserNameTv.text = it.nickname
             binding.profileUserType.text =
                 if (it.isNav) getString(R.string.sign_type_nav) else getString(R.string.sign_type_trav)
@@ -128,7 +127,6 @@ class ProfileFragment :
 
     private fun initEvent() {
         binding.profileModifyBtn.setOnClickListener {
-//            checkPassDialog()
             navigate(R.id.action_profileFragment_to_profileModifylFragment)
         }
 
@@ -140,12 +138,9 @@ class ProfileFragment :
             lateinit var action: NavDirections
 
             homeActivityViewModel.profileUser.observe(viewLifecycleOwner) { it ->
-                Log.d(TAG, "initEvent: ${it}")
                 action = if (it.isNav) {
-                    Log.d(TAG, "initEvent Nav: ${args.userId}")
                     ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(navId = args.userId)
                 } else {
-                    Log.d(TAG, "initEvent trav: ${args.userId}")
                     ProfileFragmentDirections.actionProfileFragmentToReviewListFragment(travId = args.userId)
                 }
             }
@@ -160,12 +155,6 @@ class ProfileFragment :
     private fun initObserve() {
         homeActivityViewModel.apply {
             reviewStatus.observe(viewLifecycleOwner) {
-
-                Log.d(TAG, "initObserve: 111111")
-                Log.d(TAG, "initObserve: $it")
-                Log.d(TAG, "initObserve: ${homeActivityViewModel.profileUserReviewDto.value}")
-                Log.d(TAG, "initObserve: nav ${args.navId} trav ${args.travId}")
-
                 binding.profileReviewRv.visibility = GONE
                 binding.profileEmptyReviews.visibility = VISIBLE
                 if (it != -1) {
@@ -185,7 +174,6 @@ class ProfileFragment :
                             )
 
                         }
-                        Log.d(TAG, "initObserve: ${profileUserReviewDto.value!!.reviews.size}")
                         if (profileUserReviewDto.value!!.reviews.isEmpty()) {
                             binding.profileReviewRv.visibility = GONE
                             binding.profileEmptyReviews.visibility = VISIBLE
@@ -209,26 +197,23 @@ class ProfileFragment :
                         binding.profileStampList.visibility = VISIBLE
                         binding.profileEmptyStamp.visibility = GONE
                     }
-                    // 실제로는 데이터 목록에서 원하는 3개 항목을 가져와야 합니다.
                     val stampsToDisplay = it.take(3)
-                    // ImageView 배열
                     val imageViews = arrayOf(
                         binding.profileStamp1,
                         binding.profileStamp2,
                         binding.profileStamp3
                     )
 
-                    // 각 ImageView에 이미지 설정
                     for (i in imageViews.indices) {
                         if (i < stampsToDisplay.size) {
                             val stamp = stampsToDisplay[i]
                             imageViews[i].visibility = VISIBLE
                             Glide.with(requireContext())
-                                .load(stamp.image) // 불러올 이미지 url
-                                .placeholder(R.drawable.logo_nativenavs) // 이미지 로딩 시작하기 전 표시할 이미지
-                                .error(R.drawable.logo_nativenavs) // 로딩 에러 발생 시 표시할 이미지
-                                .fallback(R.drawable.logo_nativenavs) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                                .into(imageViews[i]) // 이미지를 넣을 뷰
+                                .load(stamp.image)
+                                .placeholder(R.drawable.logo_nativenavs)
+                                .error(R.drawable.logo_nativenavs)
+                                .fallback(R.drawable.logo_nativenavs)
+                                .into(imageViews[i])
                         } else {
                             imageViews[i].visibility = GONE
                         }
@@ -238,18 +223,14 @@ class ProfileFragment :
         }
     }
 
-    fun formatDate(inputDate: String): String {
-        // 기존 날짜 문자열 포맷 정의
+    private fun formatDate(inputDate: String): String {
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-        // 새로운 날짜 문자열 포맷 정의
         val outputFormatter =
             if (SharedPref.language == "ko") DateTimeFormatter.ofPattern("yyyy년 M월")
             else DateTimeFormatter.ofPattern("MMMM yyyy");
 
-        // 날짜 문자열을 LocalDateTime 객체로 파싱
         val dateTime = LocalDateTime.parse(inputDate, inputFormatter)
 
-        // LocalDateTime 객체를 원하는 포맷의 문자열로 변환
         return dateTime.format(outputFormatter)
     }
 }

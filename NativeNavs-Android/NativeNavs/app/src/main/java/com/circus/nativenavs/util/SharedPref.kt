@@ -16,7 +16,7 @@ object SharedPref {
             } else {
                 remove(type)
             }
-            apply() // 모든 변경 사항을 적용
+            apply()
         }
     }
 

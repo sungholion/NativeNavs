@@ -12,7 +12,7 @@ import com.circus.nativenavs.util.generateQRCode
 
 class QRCreateActivity : BaseActivity<ActivityQrcreateBinding>(ActivityQrcreateBinding::inflate) {
 
-    private var qrText =  "Hello, QR Code!"
+    private var qrText = "Hello, QR Code!"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +22,6 @@ class QRCreateActivity : BaseActivity<ActivityQrcreateBinding>(ActivityQrcreateB
         }
 
         val qrCodeBitmap = generateQRCode(qrText, 512, 512)
-       binding.qrCodeImageView.setImageBitmap(qrCodeBitmap)
+        binding.qrCodeImageView.setImageBitmap(qrCodeBitmap)
     }
 }

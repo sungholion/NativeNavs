@@ -57,7 +57,6 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
         initCustomView()
         initWebView()
 
-
     }
 
 
@@ -114,7 +113,6 @@ class TourModifyFragment : BaseFragment<FragmentTourModifyBinding>(
             }
 
         val url = WEBURL + "tour/edit/${args.tourId}"
-        Log.d(TAG, "initCustomView: $url")
         binding.tourModifyWv.loadWebViewUrl(url)
 
     }

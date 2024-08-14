@@ -22,7 +22,6 @@ class WishListBridge(
     fun navigateToWishDetailFragment(tourId: Int, navId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.navigateToWishDetailFragment(tourId, navId)
-            Log.d(TAG, "navigateToWishDetailFragment: $tourId, $navId")
         }
     }
 
@@ -30,7 +29,6 @@ class WishListBridge(
     fun navigateFromWishToTourListFragment() {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.navigateFromWishToTourListFragment()
-            Log.d(TAG, "navigateFromWishToTourListFragment: ")
         }
     }
 
@@ -38,9 +36,7 @@ class WishListBridge(
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }

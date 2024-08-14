@@ -22,7 +22,6 @@ class StampListAdapter : ListAdapter<StampDto, StampListAdapter.StampViewHolder>
     class StampViewHolder(private val binding: ItemStampBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(stampDto: StampDto) {
             binding.stampTv.text = stampDto.name
-            // Use an image loading library like Glide or Picasso to load the image
              Glide.with(binding.stampIv.context)
                  .load(stampDto.image)
                  .into(binding.stampIv)

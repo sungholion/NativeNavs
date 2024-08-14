@@ -31,6 +31,7 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
     private lateinit var bridge: ReservationRegisterBridge
     private var isPageLoaded = false
     private val args: ReservationRegisterFragmentArgs by navArgs()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         homeActivity = context as HomeActivity
@@ -48,7 +49,6 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
         initBridge()
         initWebView()
         initCustomView()
-
 
     }
 
@@ -115,7 +115,6 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             }
 
         val url = WEBURL + "reservation/${args.tourId}/create/${args.travId}"
-        Log.d(TAG, "initCustomView: $url")
         binding.reservationRegisterCustomWv.loadWebViewUrl(url)
 
     }
@@ -136,7 +135,8 @@ class ReservationRegisterFragment : BaseFragment<FragmentReservationRegisterBind
             )
         navigate(action)
     }
-    fun navigateToReservationRegisterChattingRoom(){
+
+    fun navigateToReservationRegisterChattingRoom() {
         popBackStack()
     }
 }

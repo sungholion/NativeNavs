@@ -49,9 +49,8 @@ class ApplicationClass : Application() {
             if (task.isSuccessful) {
                 val token = task.result
                 SharedPref.fcmToken = token
-                Log.d("FCM", "initFcmToken: $token")
             } else {
-                Log.w("FCM", "Fetching FCM registration token failed", task.exception)
+                Log.e("FCM", "Fetching FCM registration token failed", task.exception)
             }
         }
     }
@@ -80,9 +79,9 @@ class ApplicationClass : Application() {
             .addInterceptor { chain ->
                 val originalRequest: Request = chain.request()
                 val requestWithHeaders = originalRequest.newBuilder()
-                    .header("X-NCP-APIGW-API-KEY-ID", "eedtgq7ie7") // Client ID 추가
-                    .header("X-NCP-APIGW-API-KEY", "K1bjIq79fFQmPsf9XsLGGvuZ0I1H4FmPrrk4Oezx") // Client Secret 추가
-                    .header("Content-Type", "application/json") // Client Secret 추가
+                    .header("X-NCP-APIGW-API-KEY-ID", "eedtgq7ie7")
+                    .header("X-NCP-APIGW-API-KEY", "K1bjIq79fFQmPsf9XsLGGvuZ0I1H4FmPrrk4Oezx")
+                    .header("Content-Type", "application/json")
                     .build()
                 chain.proceed(requestWithHeaders)
             }
