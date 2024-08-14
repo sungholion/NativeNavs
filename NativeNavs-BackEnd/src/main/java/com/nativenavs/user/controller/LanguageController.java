@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "언어 API", description = "전체 언어 조회")
 public class LanguageController {
 
-    // DI --------------------------------------------------------------------------------------------------------------
+
 
     private final LanguageService languageService;
 
-    // API -------------------------------------------------------------------------------------------------------------
+
 
     @Operation(summary = "전체 언어 조회 API", description = "전체 언어 목록을 조회")
     @GetMapping("search/all")
@@ -41,9 +41,3 @@ public class LanguageController {
     }
 }
 
-/*
-    리팩토링 사항
-    1. User와 Language Mapping 하기 - Language List로 입력받아 저장하기
-    2. 1에 따른 CRUD API 만들
-
- */

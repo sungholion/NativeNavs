@@ -31,7 +31,7 @@ public class WishlistEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    // 생성자
+
     public WishlistEntity(UserEntity user, TourEntity tour) {
         this.user = user;
         this.tour = tour;

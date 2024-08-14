@@ -31,7 +31,7 @@ public class UserStampEntity {
     private StampEntity stamp;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDate createdDate; // 리뷰 작성 일시
+    private LocalDate createdDate;
 
 
 

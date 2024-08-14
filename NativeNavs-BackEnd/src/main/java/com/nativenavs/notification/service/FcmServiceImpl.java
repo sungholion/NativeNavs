@@ -62,7 +62,6 @@ public class FcmServiceImpl implements FcmService {
 
         String tourTitle = tourService.findTourById(tourId).getTitle();
 
-        // flag 1 : 채팅 / 2 : 예약 신청 완료 / 3 : 투어 종료 / 4 : 투어 예정 알림
         if(flag == 1){
             sendTitle = "채팅 시작";
             sendMessage = "김싸피님과 채팅을 시작합니다";

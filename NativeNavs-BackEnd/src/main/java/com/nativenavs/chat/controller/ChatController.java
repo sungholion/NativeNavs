@@ -19,18 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ChatController {
 
-    // DI --------------------------------------------------------------------------------------------------------------
 
     private final ChatService chatService;
 
-    // API -------------------------------------------------------------------------------------------------------------
 
-    @MessageMapping("/{roomId}") // 여기로 전송되면 메서드 호출 -> WebSocketConfig prefixes 에서 적용한건 앞에 생략
-    @SendTo("/room/{roomId}")    // 구독하고 있는 장소로 메시지 전송 (목적지) -> WebSocketConfig Broker 에서 적용한건 앞에 붙어줘야됨
+    @MessageMapping("/{roomId}")
+    @SendTo("/room/{roomId}")
     public ChatDTO chatting(@DestinationVariable int roomId, ChatDTO chatDTO) {
         log.info("채팅 메시지 수신: roomId={}, senderId={}, content={}", roomId, chatDTO.getSenderId(), chatDTO.getContent());
 
-        ChatEntity chatEntity = chatService.createChat(     // 채팅 생성 및 저장
+        ChatEntity chatEntity = chatService.createChat(
                 roomId,
                 chatDTO.getSenderId(),
                 chatDTO.getSenderNickname(),
@@ -46,7 +44,3 @@ public class ChatController {
     }
 }
 
-/*
-    리팩토링
-
- */

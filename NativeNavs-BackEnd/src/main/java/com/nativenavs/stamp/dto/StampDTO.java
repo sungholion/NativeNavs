@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StampDTO {
-//    private int stampId;
+
     private String name;
     private String image;
     private LocalDate createdDate;
@@ -29,7 +29,7 @@ public class StampDTO {
 
     public static StampDTO toStampDTO(UserStampEntity userStampEntity) {
         StampDTO stampDTO = new StampDTO();
-//        stampDTO.setStampId(userStampEntity.);
+
         stampDTO.setName(userStampEntity.getStamp().getName());
         stampDTO.setImage(userStampEntity.getStamp().getImage());
         stampDTO.setCreatedDate(userStampEntity.getCreatedDate());

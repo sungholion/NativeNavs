@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();   // 인증 회원을 임시 저장
+    private final Set<String> authenticatedUsers = ConcurrentHashMap.newKeySet();
     @Autowired
     private AwsS3ObjectStorage awsS3ObjectStorageUpload;
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public boolean checkDuplicatedEmail(String email) {
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByNickname(nickname).isPresent();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public void addAuthenticatedUser(String email){
@@ -61,12 +61,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setImage(imageUrl);
 
         userRepository.save(userEntity);
-        authenticatedUsers.remove(userDTO.getEmail()); // 메모리 저장소에서 인증 회원 제거 (가입 완료했으니)
+        authenticatedUsers.remove(userDTO.getEmail());
 
-//        userStampService.addStamp(1, userEntity.getId());
+
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public List<UserSearchDTO> searchAllUser() {
@@ -84,13 +84,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO searchByEmail(String email) {    // 로그인이나 내부에서 필요할 때 password를 포함하여 반환
+    public UserDTO searchByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return UserDTO.toUserDTO(userEntity);
     }
 
-    public UserSearchDTO searchByEmailForClient(String email){  // 사용자가 조회 시, password를 빼고 반환
+    public UserSearchDTO searchByEmailForClient(String email){
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
         return UserSearchDTO.toUserSearchDTO(userEntity);
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
         return UserSearchDTO.toUserSearchDTO(userEntity);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Transactional
     @Override
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        //새로 들어오는 정보가 없다면
+
         if (updateUserDTO.getNickname() == null ) {
             updateUserEntity.setNickname(updateUserEntity.getNickname());
         } else {
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(findUserEntity.get());
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Override
     public int changeEmailToId(String email) {
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
         return userEntity.getId();
     }
 
-    // ----
+
 
     @Transactional
     @Override

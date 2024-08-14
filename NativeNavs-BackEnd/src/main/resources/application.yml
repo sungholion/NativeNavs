@@ -1,37 +1,35 @@
 springdoc:
   swagger-ui:
-    path: /swagger  # swagger-ui 접근 경로에 대한 별칭, 해당 주소로 접속해도 http://localhost:8080/swagger-ui/index.html로 리다이렉션 됨.
-    groups-order: DESC # path, query, body, response 순으로 출력
-    tags-sorter: alpha # 태그를 알파벳 순으로 정렬
-    operations-sorter: alpha  # delete - get - patch - post - put 순으로 정렬, alpha를 사용하면 알파벳 순으로 정렬 가능
+    path: /swagger
+    groups-order: DESC
+    tags-sorter: alpha
+    operations-sorter: alpha
 
-#  paths-to-match:
-#    - /api/** # swagger-ui에 표시할 api의 엔드포인트 패턴
+
+
 
 spring:
-  mail: # email 발송/인증
-    host: smtp.gmail.com # 1
-    port: 587 # 2
-    username: ssafyd110@gmail.com # 3
-    password: qzvzxehofrkhhfat # 4
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ssafyd110@gmail.com
+    password: qzvzxehofrkhhfat
     properties:
       mail:
         smtp:
-          auth: true # 5
-          timeout: 5000 # 6
+          auth: true
+          timeout: 5000
           starttls:
-            enable: true # 7
-#  auth-code-expiration-millis: 1800000
+            enable: true
 
 
-#aws s3 bucket
+
 cloud:
   aws:
     s3:
       bucket: nativenavs
     credentials:
       access-key: AKIAQIJRRZNAE34YDWXX
-#      secret-key: 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
       secret-key: ENC(NKtINeQJYRu8mUVC4JGRlMaU+VNhBhUfFruvMeRLCFqniy7euTBpiMyioaW660udQSuQSQGOMtU=)
     region:
       static: ap-northeast-2
@@ -42,7 +40,6 @@ cloud:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-     #   key: ${JASYPT_ENCRYPTOR_KEY}
     key: 110110
 
 

@@ -43,14 +43,12 @@ public class StampService {
 
     @Transactional
     public List<StampDTO> getAllStampsByUserId(int userId) {
-        // 유저가 존재하는지 확인
+
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 유저가 가진 스탬프 리스트 조회
         List<UserStampEntity> userStamps = userStampRepository.findAllByUser(user);
 
-        // UserStampEntity 리스트를 StampDTO 리스트로 변환
         return userStamps.stream()
                 .map(StampDTO::toStampDTO)
                 .collect(Collectors.toList());

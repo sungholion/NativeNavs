@@ -44,12 +44,12 @@ public class TourService {
         tourEntity.setThumbnailImage(thumbnailUrl);
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        // UserEntity를 TourEntity에 설정
+
         tourEntity.setUser(userEntity);
 
         TourEntity savedTour = tourRepository.save(tourEntity);
 
-        // 카테고리 정보 처리
+
         List<Integer> categoryIds = tourRequestDTO.getCategoryIds();
         if (categoryIds != null && !categoryIds.isEmpty()) {
             for (Integer categoryId : categoryIds) {
@@ -70,7 +70,7 @@ public class TourService {
         for (int i = 0; i < tourRequestDTO.getPlans().size(); i++) {
             tourRequestDTO.getPlans().get(i).setImage(planImageUrls.get(i));
         }
-        // 일정 정보 처리
+
         List<PlanRequestDTO> planRequestDTOS = tourRequestDTO.getPlans();
         if (!planRequestDTOS.isEmpty()) {
             for (PlanRequestDTO planRequestDTO : planRequestDTOS) {
@@ -93,7 +93,7 @@ public class TourService {
         return planEntity;
     }
 
-    //entity -> DTO 작업이 필요
+
     public List<TourDTO> findAllTours() {
         List<TourEntity> tourEntityList = tourRepository.findAll().stream()
                 .sorted(Comparator.comparingInt(TourEntity::getReviewCount).reversed())
@@ -113,7 +113,7 @@ public class TourService {
         if (optionalTourEntity.isPresent()) {
             TourEntity tourEntity = optionalTourEntity.get();
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
-            // Fetching categories
+
             List<Integer> categoryIds = tourEntity.getTourCategories().stream()
                     .map(tc -> tc.getCategory().getId())
                     .collect(Collectors.toList());
@@ -156,9 +156,9 @@ public class TourService {
     }
 
     private void updateTourCategories(TourEntity tourEntity, List<Integer> categoryIds) {
-        // 기존 카테고리 삭제
+
         tourCategoryRepository.deleteByTourId(tourEntity.getId());
-        // 새로운 카테고리 추가
+
         if (categoryIds != null) {
             for (Integer categoryId : categoryIds) {
                 Optional<CategoryEntity> categoryEntity = categoryRepository.findById(categoryId);
@@ -173,11 +173,11 @@ public class TourService {
     }
 
     private void updateTourPlans(TourEntity tourEntity, List<PlanRequestDTO> plans, List<MultipartFile> planImages) {
-        // 기존 플랜 가져오기
+
         List<PlanEntity> currentPlans = planRepository.findByTourId(tourEntity.getId());
-        // 기존 플랜을 모두 삭제
+
         planRepository.deleteAll(currentPlans);
-        // 새로운 플랜 저장
+
         int imageIndex = 0;
         for (PlanRequestDTO planDTO : plans) {
             PlanEntity planEntity = new PlanEntity();
@@ -187,17 +187,17 @@ public class TourService {
             planEntity.setLatitude(planDTO.getLatitude());
             planEntity.setLongitude(planDTO.getLongitude());
             planEntity.setAddressFull(planDTO.getAddressFull());
-            // 플랜 이미지 처리
+
             if (planDTO.getImage() != null && !planDTO.getImage().isEmpty()) {
-                // 기존 플랜의 이미지가 있는 경우 그대로 사용
+
                 planEntity.setImage(planDTO.getImage());
             } else if (planImages != null && imageIndex < planImages.size() && planImages.get(imageIndex) != null && !planImages.get(imageIndex).isEmpty()) {
-                // 새 플랜에 대한 이미지 업로드 처리
+
                 String imageUrl = awsS3ObjectStorageUpload.uploadFile(planImages.get(imageIndex));
                 planEntity.setImage(imageUrl);
                 imageIndex++;
             }
-            // 플랜 엔티티 저장
+
             planRepository.save(planEntity);
         }
     }

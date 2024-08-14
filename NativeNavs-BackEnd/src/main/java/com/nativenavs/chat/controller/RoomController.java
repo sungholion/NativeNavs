@@ -21,12 +21,9 @@ import java.util.List;
 @Tag(name = "채팅방 API", description = "채팅방 생성 / 채팅방 목록 조회 / 채팅방 입장 / 특정 채팅방 정보 조회")
 public class RoomController {
 
-    // DI --------------------------------------------------------------------------------------------------------------
-
     private final ChatService chatService;
     private final RoomService roomService;
 
-    // API -------------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "채팅방 생성 API", description = "tourId, token을 입력하여 채팅방 생성")
     @PostMapping("/create/{tourId}")
@@ -76,8 +73,3 @@ public class RoomController {
         return ResponseEntity.ok(roomDTO);
     }
 }
-
-/*
-    리팩토링
-
- */

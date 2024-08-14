@@ -45,10 +45,10 @@ public class WishlistService {
                     TourEntity tourEntity = tourRepository.findById(wishlistEntity.getTour().getId()).orElse(null);
                     UserEntity userEntity = userRepository.findById(userId)
                             .orElseThrow(() -> new NoSuchElementException("User not found"));
-                    // UserDTO로 변환
+
                     UserDTO userDTO = UserDTO.toUserDTO(userEntity);
                     return tourEntity != null ? TourDTO.toTourDTO(tourEntity) : null;
-                }).filter(tourDTO -> tourDTO != null) // null을 필터링
+                }).filter(tourDTO -> tourDTO != null)
                 .collect(Collectors.toList());
     }
 

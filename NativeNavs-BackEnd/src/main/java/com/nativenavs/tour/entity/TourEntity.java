@@ -27,44 +27,44 @@ public class TourEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 투어 ID
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user; // 유저 엔티티와의 관계
+    private UserEntity user;
 
     @Column(nullable = false, length = 100)
-    private String title; // 투어 제목
+    private String title;
 
     @Column(name = "thumbnail_image", nullable = false, length = 255)
-    private String thumbnailImage; // 썸네일 이미지
+    private String thumbnailImage;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description; // 투어 설명
+    private String description;
 
     @Column(nullable = false, length = 30)
-    private String location; // 투어 위치 정보 (시,군)
+    private String location;
 
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private int price; // 예상 가격
+    private int price;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDate startDate; // 투어 시작일
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate endDate; // 투어 종료일
+    private LocalDate endDate;
 
     @Column(name = "review_average", nullable = false, columnDefinition = "FLOAT DEFAULT 0.0")
-    private float reviewAverage; // 투어 리뷰 평점
+    private float reviewAverage;
 
     @Column(name = "review_count", nullable = false, columnDefinition = "INT DEFAULT 0")
-    private int reviewCount; // 투어 리뷰 수
+    private int reviewCount;
 
     @Column(name = "max_participant", nullable = false, columnDefinition = "INT DEFAULT 1")
-    private int maxParticipant; // 투어 최대 참여 인원
+    private int maxParticipant;
 
     @Column(name = "is_removed", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean isRemoved; // 투어 삭제 여부
+    private boolean isRemoved;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TourCategoryEntity> tourCategories;
@@ -77,7 +77,7 @@ public class TourEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistEntity> wishLists = new ArrayList<>();
-    //DTO -> Entity 로 옮겨닮기
+
     public static TourEntity toSaveEntity(TourRequestDTO tourRequestDTO){
         TourEntity tourEntity = new TourEntity();
         tourEntity.setTitle(tourRequestDTO.getTitle());

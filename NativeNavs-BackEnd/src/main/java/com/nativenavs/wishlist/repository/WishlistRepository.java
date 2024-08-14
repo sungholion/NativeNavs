@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface WishlistRepository extends JpaRepository<WishlistEntity,Integer> {
-    // 특정 사용자의 모든 위시리스트 조회
+
     List<WishlistEntity> findByUserId(int userId);
 
     WishlistEntity findByUserIdAndTourId(int userId, int tourId);

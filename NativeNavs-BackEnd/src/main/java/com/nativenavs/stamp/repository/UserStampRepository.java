@@ -1,6 +1,5 @@
 package com.nativenavs.stamp.repository;
 
-import com.nativenavs.review.entity.ReviewEntity;
 import com.nativenavs.stamp.entity.UserStampEntity;
 import com.nativenavs.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

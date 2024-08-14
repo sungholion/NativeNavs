@@ -48,7 +48,7 @@ public class WishlistController {
         }
     }
 
-    //조회
+
     @Operation(summary = "위시리스트 조회 API", description = "위시리스트에서 조회할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -65,7 +65,7 @@ public class WishlistController {
         }
     }
 
-    //삭제
+
     @Operation(summary = "위시리스트 삭제 API", description = "위시리스트에서 삭제할때 사용하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -74,7 +74,7 @@ public class WishlistController {
     public ResponseEntity<?> wishlistRemvove( @RequestHeader("Authorization") String token,
                                               @Parameter(description = "투어 ID", required = true, example = "1") @PathVariable int tourId ){
         try{
-            int userIdFromEmail = getUserIdFromJWT(token); // JWT에서 이���일 받아 id로 ��환
+            int userIdFromEmail = getUserIdFromJWT(token);
             wishlistService.removeWishlist(userIdFromEmail, tourId);
             return ResponseEntity.ok("위시리스트 삭제 성공");
         }catch(Exception e){
@@ -83,7 +83,7 @@ public class WishlistController {
         }
     }
 
-    //불린체크
+
     @Operation(summary = "위시리스트 체크 API", description = "특정투어가 위시리스트에 있는지 체크하는 API")
     @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content(mediaType = "application/json"))
@@ -93,7 +93,7 @@ public class WishlistController {
                                               @Parameter(description = "투어 ID", required = true, example = "1") @PathVariable int tourId){
 
         try {
-            int userIdFromEmail = getUserIdFromJWT(token); // JWT에서 이�일 받아 id
+            int userIdFromEmail = getUserIdFromJWT(token);
             boolean isWishlist = wishlistService.checkIsWishlist(userIdFromEmail, tourId);
             return ResponseEntity.ok(isWishlist);
         }
@@ -104,9 +104,9 @@ public class WishlistController {
     }
 
 
-    //JWT에서 이메일 받아 id로 치환
+
     private int getUserIdFromJWT(String token){
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String jwtToken = token.replace("Bearer ", "");
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
        return userService.changeEmailToId(email);
     }

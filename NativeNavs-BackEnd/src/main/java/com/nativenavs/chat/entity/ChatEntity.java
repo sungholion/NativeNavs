@@ -23,7 +23,7 @@ public class ChatEntity {
     private Boolean messageChecked;
     private String sendTime;
 
-    // 이게 필요한가? 없으면 초기화?가 안됬다고 하긴함
+
     @Builder
     public ChatEntity(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, Boolean messageChecked, String sendTime) {
         this.roomId = roomId;
@@ -48,7 +48,7 @@ public class ChatEntity {
                 .build();
     }
 
-    // 읽음 상태 업데이트
+
     public void markAsRead() {
         this.messageChecked = true;
     }

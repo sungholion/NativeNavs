@@ -16,13 +16,13 @@ public class ReviewImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_image_id")
-    private int id; // 리뷰 이미지 ID
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)
-    private ReviewEntity review; // 리뷰
+    private ReviewEntity review;
 
     @Column(name = "image", length = 255)
-    private String image; // 리뷰 이미지
+    private String image;
 
 }

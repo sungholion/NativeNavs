@@ -35,12 +35,12 @@ public class ReviewService {
 
     @Transactional
     public ReviewEntity addReview(ReviewRequestDTO reviewRequestDTO, UserEntity reviewer,List<MultipartFile> images, int reservationId) {
-        // Tour, Guide와 Reviewer 정보를 조회
+
         TourEntity tour = tourRepository.findById(reviewRequestDTO.getTourId())
                 .orElseThrow(() -> new IllegalArgumentException("Tour not found"));
-        //투어 정보에 해당하는 guidId 찾기
+
         UserEntity guide = tour.getUser();
-        // 리뷰 생성
+
         ReviewEntity review = new ReviewEntity();
 
         review.setReviewer(reviewer);
@@ -51,7 +51,7 @@ public class ReviewService {
         review.setCreatedAt(LocalDateTime.now());
         review = reviewRepository.save(review);
 
-        // 리뷰와 관련된 이미지 저장
+
         if (images != null) {
             for (MultipartFile image : images) {
                 ReviewImageEntity reviewImage = new ReviewImageEntity();
@@ -75,28 +75,28 @@ public class ReviewService {
     }
 
     private void updateTourReviewStats(TourEntity tour, int newScore) {
-        // 리뷰 수 증가
+
         int newReviewCount = tour.getReviewCount() + 1;
-        // 새로운 평균 점수 계산
+
         float newAverageScore = ((tour.getReviewAverage() * tour.getReviewCount()) + newScore) / newReviewCount;
-        // 업데이트된 값 설정
+
         tour.setReviewCount(newReviewCount);
         tour.setReviewAverage(newAverageScore);
 
-        // 저장
+
         tourRepository.save(tour);
     }
 
     private void updateGuideReviewStats(UserEntity guide, int newScore) {
-        // 리뷰 수 증가
+
         int newReviewCount = guide.getNavReviewCount() + 1;
-        // 새로운 평균 점수 계산
+
         float newAverageScore = ((guide.getNavReviewAverage() * guide.getNavReviewCount()) + newScore) / newReviewCount;
-        // 업데이트된 값 설정
+
         guide.setNavReviewCount(newReviewCount);
         guide.setNavReviewAverage(newAverageScore);
 
-        // 저장
+
         userRepository.save(guide);
     }
 
@@ -111,13 +111,13 @@ public class ReviewService {
                 .map(ReviewResponseDTO::toReviewDTO)
                 .collect(Collectors.toList());
 
-        // 최종 반환 DTO 생성 및 데이터 설정
+
         TourReviewDTO responseDTO = new TourReviewDTO();
         responseDTO.setReviewAverage(tour.getReviewAverage());
         responseDTO.setImageUrls(imageUrls);
         responseDTO.setReviews(reviewDTOs);
         responseDTO.setReviewCount(tour.getReviewCount());
-        responseDTO.setTotalImageCount(imageUrls.size()); // 5:
+        responseDTO.setTotalImageCount(imageUrls.size());
 
         return responseDTO;
     }
@@ -133,7 +133,7 @@ public class ReviewService {
                 .map(ReviewResponseDTO::toReviewDTO)
                 .collect(Collectors.toList());
 
-        // 최종 반환 DTO 생성 및 데이터 설정
+
         GuideReviewDTO responseDTO = new GuideReviewDTO();
         responseDTO.setReviewAverage(guide.getNavReviewAverage());
         responseDTO.setImageUrls(imageUrls);
@@ -145,7 +145,7 @@ public class ReviewService {
     }
 
     public TravReviewDTO findReviewByUserId(int travId){
-//        UserEntity trav = userRepository.findById(travId).orElseThrow(() -> new IllegalArgumentException("guide not found"));
+
 
         List<ReviewEntity> reviewEntities = reviewRepository.findByReviewerId(travId);
 
@@ -153,7 +153,7 @@ public class ReviewService {
                 .map(ReviewResponseDTO::toReviewDTO)
                 .collect(Collectors.toList());
 
-        // 최종 반환 DTO 생성 및 데이터 설정
+
         TravReviewDTO responseDTO = new TravReviewDTO();
         responseDTO.setReviews(reviewDTOs);
         responseDTO.setReviewCount(reviewDTOs.size());

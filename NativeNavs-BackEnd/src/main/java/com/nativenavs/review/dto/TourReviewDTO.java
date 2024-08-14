@@ -15,5 +15,5 @@ public class TourReviewDTO {
     private int totalImageCount;
     private List<String> imageUrls;
     private List<ReviewResponseDTO> reviews;
-    // Getters and Setters
+
 }

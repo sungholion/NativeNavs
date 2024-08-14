@@ -22,9 +22,9 @@ public class ReviewResponseDTO {
     private int score;
     private String description;
     private LocalDateTime createdAt;
-    private UserDTO reviewer; // 리뷰어 정보
-    private List<String> imageUrls; // 이미지 URL 리스트
-    private String tourTitle; // 투어 정보
+    private UserDTO reviewer;
+    private List<String> imageUrls;
+    private String tourTitle;
 
 
     public static ReviewResponseDTO toReviewDTO(ReviewEntity reviewEntity) {

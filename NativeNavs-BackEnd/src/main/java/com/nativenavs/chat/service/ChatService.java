@@ -20,13 +20,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-    // DI --------------------------------------------------------------------------------------------------------------
 
     private final ChatRepository chatRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final UserService userService;
     private final ConnectionService connectionService;
-    // Method ----------------------------------------------------------------------------------------------------------
+
 
     @Transactional
     public ChatEntity createChat(int roomId, int senderId, String senderNickname, String senderProfileImage, String content, boolean messageChecked, String sendTime) {
@@ -48,7 +47,7 @@ public class ChatService {
                 senderNickname,
                 senderProfileImage,
                 content,
-                resultIsRead,  // 두명 다 연결이면 읽음 처리
+                resultIsRead,
                 sendTime
         ));
 
@@ -60,20 +59,20 @@ public class ChatService {
 
     public List<ChatDTO> findAllChatByRoomId(int roomId, String token) {
 
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String jwtToken = token.replace("Bearer ", "");
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
-        UserDTO userDTO = userService.searchByEmail(email); // token으로부터 현재 로그인한 userDTO 찾기
+        UserDTO userDTO = userService.searchByEmail(email);
 
 
         return chatRepository.findAllByRoomId(roomId).stream()
                 .map(chatEntity -> {
-                    // 채팅 조회 시 읽음 처리
+
 
                     if(userDTO.getId() != chatEntity.getSenderId()){
                         chatEntity.markAsRead();
                     }
 
-                    chatRepository.save(chatEntity);  // 읽음 상태 저장 or 미저장
+                    chatRepository.save(chatEntity);
 
                     return ChatDTO.builder()
                             .id(chatEntity.getId().toHexString())
@@ -89,7 +88,6 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
-    // 추가: 특정 채팅을 읽음으로 표시하는 메서드
     @Transactional
     public void markChatAsRead(String chatId) {
         ChatEntity chatEntity = chatRepository.findById(new ObjectId(chatId).getTimestamp())

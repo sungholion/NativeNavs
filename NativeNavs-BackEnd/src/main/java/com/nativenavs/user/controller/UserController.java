@@ -28,12 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "회원 API", description = "중복 체크 / 이메일 인증 / 회원 가입 CRUD / FCM Token")
 public class UserController {
 
-    // DI --------------------------------------------------------------------------------------------------------------
 
     private final UserService userService;
     private final EmailService emailService;
 
-    // API -------------------------------------------------------------------------------------------------------------
+
 
     @Operation(summary = "email 중복 체크 API", description = "회원 가입 시 email이 중복인지 확인")
     @GetMapping("/checkDuplicated/email/{email}")
@@ -160,7 +159,7 @@ public class UserController {
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Operation(summary = "전체 회원 검색 API", description = "가입된 전체 회원을 검색")
     @GetMapping("/search/all")
@@ -264,7 +263,6 @@ public class UserController {
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "회원 정보 수정 API", description = "회원 정보 수정")
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -318,7 +316,7 @@ public class UserController {
         }
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+
 
     @Operation(summary = "Email을 ID로 전환하는 API", description = "email을 입력하여 해당 id를 조회")
     @ApiResponse(responseCode = "1000", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
@@ -386,9 +384,3 @@ public class UserController {
     }
 }
 
-/*
-    리팩토링
-
-
-
- */

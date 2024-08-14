@@ -55,7 +55,7 @@ public class TourController {
             int tourId = tourService.addTour(tourRequestDTO,userId,thumbnailImage, planImages);
             return ResponseEntity.ok(Collections.singletonMap("tourId", tourId));
         } catch (Exception e) {
-            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세
+            e.printStackTrace();
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 등록 실패");
         }
@@ -122,7 +122,7 @@ public class TourController {
             tourService.modifyTour(id, tourRequestDTO, thumbnailImage, planImages);
             return ResponseEntity.ok("투어 수정 완료");
         } catch (Exception e) {
-            System.out.println(e); // 실제 코드에서는 로그를 사용하세요
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 수정 실패");
         }
     }
@@ -181,16 +181,16 @@ public class TourController {
             List<GuideTourDTO> myTourList = tourService.findToursByGuide(guideId);
             return ResponseEntity.ok(myTourList);
         } catch (Exception e) {
-            e.printStackTrace(); // 실제 코드에서는 로그를 사용하세요
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투어 리스트 조회 실패");
         }
     }
 
 
 
-    //JWT에서 이메일 받아 id로 치환
+
     private int getUserIdFromJWT(String token){
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String jwtToken = token.replace("Bearer ", "");
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
         return userService.changeEmailToId(email);
     }

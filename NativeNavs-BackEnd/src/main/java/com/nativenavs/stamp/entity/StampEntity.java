@@ -24,9 +24,7 @@ public class StampEntity {
     @Column(nullable = false)
     private String image;
 
-//    @OneToMany(mappedBy = "stamp", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<> images; // 리뷰 이미지
-//
+
 
 }
 

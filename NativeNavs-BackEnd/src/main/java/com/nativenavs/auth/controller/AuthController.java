@@ -25,12 +25,10 @@ import java.util.Map;
 @Tag(name = "로그인 API", description = "로그인 / 로그아웃 / AccessToken 갱신 / AccessToken 만료 확인")
 public class AuthController {
 
-    // DI --------------------------------------------------------------------------------------------------------------
 
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    // API -------------------------------------------------------------------------------------------------------------
 
     @Operation(summary = "로그인 API", description = "email, password을 입력하여 로그인")
     @PostMapping("/login")
@@ -101,7 +99,6 @@ public class AuthController {
 
         try {
             if (jwtTokenProvider.validateToken(accessToken)) {
-                // 로그아웃된 토큰을 블랙리스트에 추가
                 jwtTokenProvider.invalidateToken(accessToken);
                 response.put("message", "로그아웃 성공");
 
@@ -183,8 +180,3 @@ public class AuthController {
 
 
 }
-
-/*
-    리팩토링
-
- */

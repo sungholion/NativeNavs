@@ -55,7 +55,7 @@ public class TourDTO {
         tourDTO.setRemoved(tourEntity.isRemoved());
 
         if (tourEntity.getUser() != null) {
-            UserDTO userDTO = UserDTO.toUserDTO(tourEntity.getUser()); // UserDTO 변환 메서드 호출
+            UserDTO userDTO = UserDTO.toUserDTO(tourEntity.getUser());
             tourDTO.setUser(userDTO);
         }
 

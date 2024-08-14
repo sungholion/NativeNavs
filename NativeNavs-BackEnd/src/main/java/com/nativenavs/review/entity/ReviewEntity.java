@@ -26,26 +26,25 @@ public class ReviewEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity reviewer; // 리뷰어
+    private UserEntity reviewer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_id", nullable = false)
-    private TourEntity tour; // 투어
+    private TourEntity tour;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id", nullable = false)
-    private UserEntity guide; // 가이드
+    private UserEntity guide;
 
     @Column(name = "score", nullable = false)
-    private Integer score; // 리뷰 점수
+    private Integer score;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description; // 리뷰 내용
+    private String description;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt; // 리뷰 작성 일시
-
+    private LocalDateTime createdAt;
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReviewImageEntity> images; // 리뷰 이미지
+    private List<ReviewImageEntity> images;
 
 }

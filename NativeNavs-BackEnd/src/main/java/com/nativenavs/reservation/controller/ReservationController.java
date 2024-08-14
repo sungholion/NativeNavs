@@ -81,7 +81,7 @@ public class ReservationController {
             reservationService.checkFirstReservation(reservationEntity.getParticipant());
             return ResponseEntity.ok("예약 완료, 예약 ID: " + reservationEntity.getId());
         } catch (Exception e) {
-            e.printStackTrace();  // 실제 코드에서는 로그를 사용하세요
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약실패");
         }
     }
@@ -115,7 +115,6 @@ public class ReservationController {
             return ResponseEntity.ok("예약 취소 완료");
 
         } catch (Exception e) {
-            // 로그 기록 (여기서는 예시로 printStackTrace 사용, 실제로는 로깅 프레임워크를 사용하는 것이 좋습니다)
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예약 취소 실패");
         }
@@ -133,11 +132,11 @@ public class ReservationController {
             ReservationResponseDTOWrapper reservations = reservationService.getReservationsForParticipant(participant.orElse(null));
             return ResponseEntity.ok(reservations);
         }  catch (Exception e) {
-            // 로그 기록 (여기서는 예시로 printStackTrace 사용, 실제로는 로깅 프레임워크를 사용하는 것이 좋습니다)
+
             e.printStackTrace();
-            // 에러 응답 반환
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null); // 에러 응답이 필요하다면 메시지를 포함할 수 있습니다.
+                    .body(null);
         }
     }
 
@@ -152,7 +151,7 @@ public class ReservationController {
 
             TourEntity tour = tourRepository.findById(tourId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 ID의 투어를 찾을 수 없습니다: " + tourId));
-            ReservationTourDTO reservationEntities = reservationService.getParticipantsForTour(tour);  // 가이드 정보가 null이면 null을 ����
+            ReservationTourDTO reservationEntities = reservationService.getParticipantsForTour(tour);
             return ResponseEntity.ok(reservationEntities);
 
         } catch (Exception e) {
@@ -188,7 +187,7 @@ public class ReservationController {
             @Parameter(description = "조회할 예약 ID", required = true, example = "1") @PathVariable int reservationId, @RequestHeader("Authorization") String token) {
         try {
 
-            ReservationReviewDTO reservationReviewDTO = reservationService.getReservationForReview(reservationId);  // 가이드 정보가 null이면 null을 ����
+            ReservationReviewDTO reservationReviewDTO = reservationService.getReservationForReview(reservationId);
             return ResponseEntity.ok(reservationReviewDTO);
 
         } catch (Exception e) {
@@ -197,9 +196,9 @@ public class ReservationController {
         }
     }
 
-    //JWT에서 이메일 받아 id로 치환
+
     private int getUserIdFromJWT(String token){
-        String jwtToken = token.replace("Bearer ", ""); // "Bearer " 부분 제거
+        String jwtToken = token.replace("Bearer ", "");
         String email = JwtTokenProvider.getEmailFromToken(jwtToken);
         return userService.changeEmailToId(email);
     }

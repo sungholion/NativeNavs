@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
-    private int id; // int or long
+    private int id;
     private String email;
     private String password;
     private String name;
