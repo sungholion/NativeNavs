@@ -135,8 +135,6 @@ public class ReservationService {
 
     }
 
-
-
     public void finishReservation(int reservationId) {
         // 예약을 조회합니다.
         ReservationEntity reservation = reservationRepository.findById(reservationId)
@@ -168,9 +166,7 @@ public class ReservationService {
         int count =reservationRepository.countByParticipantId(userId);
         // 예약 기록이 없으면 첫 예약이므로 스탬프 발급
         if (count==1) {
-            userStampService.addStamp(2, userId); // 스탬프 ID 1을 발급
+            userStampService.addStamp(2, userId);
         }
     }
-
-
 }

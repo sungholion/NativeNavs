@@ -13,7 +13,7 @@ spring:
     host: smtp.gmail.com # 1
     port: 587 # 2
     username: ssafyd110@gmail.com # 3
-    password: qzvzxehofrkhhfat # 4
+    password: ENC(76fAeYxgjYqmVTN147FFrTlWLCAiau9BSfSVrZ02bXQ=) # 4
     properties:
       mail:
         smtp:
@@ -31,7 +31,6 @@ cloud:
       bucket: nativenavs
     credentials:
       access-key: AKIAQIJRRZNAE34YDWXX
-#      secret-key: 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
       secret-key: ENC(NKtINeQJYRu8mUVC4JGRlMaU+VNhBhUfFruvMeRLCFqniy7euTBpiMyioaW660udQSuQSQGOMtU=)
     region:
       static: ap-northeast-2
@@ -42,7 +41,7 @@ cloud:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-     #   key: ${JASYPT_ENCRYPTOR_KEY}
+#    key: ${JASYPT_ENCRYPTOR_KEY}
     key: 110110
 
 
