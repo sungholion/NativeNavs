@@ -153,6 +153,7 @@ const ReservationList = () => {
             navigateToReservationListFragmentReservationDetail={
               navigateToReservationListFragmentReservationDetail
             }
+            isComplete={true}
           />
         ))}
       </div>
