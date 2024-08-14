@@ -63,7 +63,6 @@ class AppSettingFragment : BaseFragment<FragmentAppSettingBinding>(
         binding.settingLanguageSp.adapter = spinnerAdapter
 
         val savedLanguage = SharedPref.language
-        println("초기 : " + SharedPref.language)
         val initialPosition = if (savedLanguage == "ko") 0 else 1
         binding.settingLanguageSp.setSelection(initialPosition)
 

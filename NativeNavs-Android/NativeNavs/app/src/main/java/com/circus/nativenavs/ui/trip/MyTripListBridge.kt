@@ -20,7 +20,6 @@ class MyTripListBridge(
     fun navigateToMyTripDetailFragment(tourId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.navigateToMyTripDetailFragment(tourId)
-            Log.d(TAG, "navigateToMyTripDetailFragment: $tourId")
         }
     }
     @JavascriptInterface

@@ -69,7 +69,6 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
 
     private fun initObserve() {
         chattingViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-            Log.d(TAG, "observeViewModel: $uiState")
             messageListAdapter.submitList(uiState.messages.toList())
             messageListAdapter.notifyDataSetChanged()
             binding.chatMessageRv.apply {
@@ -83,11 +82,9 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
     private fun initEvent() {
         messageListAdapter.setItemClickListener(object : MessageListAdapter.ChatItemClickListener {
             override fun onItemClicked(content: String, position: Int) {
-                //번역본<->원문으로 돌리기
                 if (chattingViewModel.uiState.value!!.messages[position].translatedContent != "") {
                     chattingViewModel.translateMessage(position)
                 } else {
-                    //번역해서 가져오기
                     chattingViewModel.translateMessage(
                         RequestTranslate(
                             source = "auto",
@@ -137,7 +134,7 @@ class ChattingRoomFragment : BaseFragment<FragmentChattingRoomBinding>(
                 if (bottom < oldBottom) {
                     postDelayed({
                         layoutManager?.scrollToPosition(chattingViewModel.uiState.value!!.messages.size - 1)
-                    }, 50) // 100ms 지연을 주어 키보드가 완전히 올라온 뒤 스크롤하도록 합니다.
+                    }, 50)
                 }
             }
         }

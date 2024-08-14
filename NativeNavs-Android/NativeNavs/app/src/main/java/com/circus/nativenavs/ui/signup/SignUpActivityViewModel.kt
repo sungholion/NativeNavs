@@ -90,7 +90,6 @@ class SignUpActivityViewModel : ViewModel() {
         }
     }
 
-
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     private val _dupliState = MutableLiveData<Pair<Int,String>>()
@@ -105,17 +104,12 @@ class SignUpActivityViewModel : ViewModel() {
 
     fun signUp() {
         viewModelScope.launch {
-
             if (_body.value != null ){
                 val userJson = Gson().toJson(_signUpDTO.value)
                 val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
                 val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
                 val response = retrofit.postSignUp(requestBody, _body.value!!)
-                Log.d(TAG, "signUp: $requestBody ${_body.value}")
-                // HTTP 상태 코드 출력
                 _signStatus.postValue(response?.code())
-                println("HTTP 상태 코드: ${response?.code()}")
-                println("HTTP 상태: ${response?.body()}")
             }
             else _signStatus.postValue(999)
         }
@@ -123,12 +117,7 @@ class SignUpActivityViewModel : ViewModel() {
 
     fun getEmailCode(email : String){
         viewModelScope.launch {
-
             val response = retrofit.getEmailVerifyCode(email)
-            println("email : $email")
-            println("이메일 전송 Response code: ${response.code()}")
-            println("이메일 전송 Response headers: ${response.headers()}")
-            println("이메일 전송 Response error body: ${response.errorBody()}")
             _emailStatus.postValue(response.code())
 
         }
@@ -138,11 +127,7 @@ class SignUpActivityViewModel : ViewModel() {
         viewModelScope.launch {
             val response = retrofit.setEmailVerifyCode(email,code)
 
-            // 상태 코드 업데이트
             _emailStatusCode.postValue(response.code())
-            println("이메일 인증 Response code: ${response.code()}")
-            println("이메일 인증 Response headers: ${response.headers()}")
-            println("이메일 인증 Response error body: ${response.errorBody()?.string()}")
         }
     }
 
@@ -193,6 +178,7 @@ class SignUpActivityViewModel : ViewModel() {
     fun updateUserLanguage(language: String){
         _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
+
     @Override
     override fun toString(): String {
         return "이메일 : " + _signUpDTO.value?.email +
@@ -206,6 +192,5 @@ class SignUpActivityViewModel : ViewModel() {
                 "\n 생년월일 : " + _signUpDTO.value?.birth +
                 "\n 앱 설정 언어 : " + _signUpDTO.value?.isKorean
     }
-
 
 }

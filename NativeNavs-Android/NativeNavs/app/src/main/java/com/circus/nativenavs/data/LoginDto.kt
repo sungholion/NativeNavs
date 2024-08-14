@@ -4,9 +4,7 @@ data class LoginDto(
     val email: String,
     val password : String,
     val device : String
-){
-
-}
+)
 
 data class LoginResponse(
     val message: String,

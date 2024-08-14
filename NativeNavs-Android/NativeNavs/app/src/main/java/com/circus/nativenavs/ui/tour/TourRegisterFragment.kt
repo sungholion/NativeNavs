@@ -168,7 +168,6 @@ class TourRegisterFragment : BaseFragment<FragmentTourRegisterBinding>(
             }
 
         val url = WEBURL + "tour/create"
-        Log.d(TAG, "initCustomView: $url")
         binding.tourRegisterWv.loadWebViewUrl(url)
 
     }

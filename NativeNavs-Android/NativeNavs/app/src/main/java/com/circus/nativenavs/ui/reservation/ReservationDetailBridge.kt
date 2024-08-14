@@ -29,8 +29,6 @@ class ReservationDetailBridge(
         }
     }
 
-
-
     fun sendUserData(user: UserDto) {
         val gson = Gson()
         val json = gson.toJson(user)

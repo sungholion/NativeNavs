@@ -1,7 +1,5 @@
 package com.circus.nativenavs.data
 
-import java.io.File
-
 data class SignUpDto(
     val email: String,
     val password: String,
@@ -17,6 +15,4 @@ data class SignUpDto(
     val image : String = ""
 )
 
-data class LanguageListDto (val language : List<String>){
-
-}
+data class LanguageListDto (val language : List<String>)

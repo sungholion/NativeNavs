@@ -7,6 +7,4 @@ data class ProfileReviewDto(
     val img:String,
     val userName:String,
     val userLanguage: String,
-    val userImg : String) {
-
-}
+    val userImg : String)

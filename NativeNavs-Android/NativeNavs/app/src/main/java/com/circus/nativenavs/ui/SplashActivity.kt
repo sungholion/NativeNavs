@@ -49,10 +49,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun initView() {
-        // 비디오 파일 경로 설정
         binding.splashVideo.setVideoPath("android.resource://" + packageName + "/" + R.raw.splash_version4)
 
-        // 비디오 준비 완료 후에 비디오를 시작하고, 완료 시 이벤트 처리
         binding.splashVideo.setOnPreparedListener { mediaPlayer ->
             binding.splashVideo.start()  // 비디오 시작
             CoroutineScope(Dispatchers.Main).launch {
@@ -61,7 +59,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             }
 
             mediaPlayer.setOnCompletionListener {
-                // 비디오가 끝났을 때 LoginActivity로 전환
                 if (!isLogin) {
                     startActivity(Intent(this, LoginActivity::class.java))
                 } else startActivity(homeActivityIntent)
@@ -95,7 +92,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     private fun initNewtWorkCheck() {
         if (!isNetworkAvailable()) {
             showToast("인터넷에 연결되어 있지 않습니다.")
-            finish() // 앱 종료
+            finish()
         }
     }
 

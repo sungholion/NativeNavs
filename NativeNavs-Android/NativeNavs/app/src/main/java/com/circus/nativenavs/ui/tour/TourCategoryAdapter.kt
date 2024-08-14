@@ -42,12 +42,10 @@ private val onCategoryClicked: (CategoryDto, Boolean) -> Unit
                 textOff = if(isKorean) category.name else category.englishName
                 isChecked = category.isChecked
 
-                Log.d("reset", "bind: $category")
-
                 val background = if (!category.isChecked ) {
-                    R.drawable.stroke_round_circle_gray_d9d9 // or use a color
+                    R.drawable.stroke_round_circle_gray_d9d9
                 } else {
-                    R.drawable.shape_track_on // or use a color
+                    R.drawable.shape_track_on
                 }
                 setBackgroundResource(background)
 

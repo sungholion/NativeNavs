@@ -20,7 +20,6 @@ class MyTripReservationListBridge(
     fun navigateToReservationDetailFragment(reservationId: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             fragment.navigateToReservationDetailFragment(reservationId)
-            Log.d(TAG, "navigateToReservationDetailFragment: reservationId")
         }
     }
 }

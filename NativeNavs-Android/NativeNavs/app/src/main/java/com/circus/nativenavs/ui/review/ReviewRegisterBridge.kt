@@ -23,7 +23,6 @@ class ReviewRegisterBridge(
     fun moveFromReviewRegisterToReviewListFragment(tourId: Int) {
         CoroutineScope(Dispatchers.Main).launch{
             fragment.moveFromReviewRegisterToReviewListFragment(tourId)
-            Log.d(TAG, "moveFromReviewRegisterToReviewListFragment: $tourId")
         }
     }
 
@@ -38,9 +37,7 @@ class ReviewRegisterBridge(
         val gson = Gson()
         val json = gson.toJson(user)
         val script = "javascript:getUserData('$json');"
-        Log.d(TAG, "sendUserData: $script")
         evaluateWebViewFunction(script) { result ->
-            Log.d(TAG, "sendUserData: $result")
         }
 
     }
