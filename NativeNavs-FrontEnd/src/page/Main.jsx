@@ -12,18 +12,16 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
-    setSearch(JSON.parse(localStorage.getItem("search")));
 
     window.getSearchData = (searchJson) => {
       const parsedSearch = JSON.parse(searchJson);
       setSearch(parsedSearch);
       localStorage.setItem("search", searchJson);
     };
-  }, []);
+  }, [searchJson]);
 
   const fetchTours = async () => {
     setLoading(true);
@@ -56,7 +54,6 @@ const Main = () => {
     if (user && search) {
       console.log("API 요청 시작");
       fetchTours();
-      setForceRender((prev) => !prev);
     }
   }, [user, search]);
 
@@ -130,11 +127,14 @@ const Main = () => {
             />
           ))
         ) : (
-          <p className={styles.noToursMessage}>
-            {user && user.isKorean
-              ? "검색된 투어 정보가 없습니다."
-              : "No tour information found."}
-          </p>
+          <div>
+            <img src="" alt="" />
+            <p className={styles.noToursMessage}>
+              {user && user.isKorean
+                ? "검색된 투어 정보가 없습니다."
+                : "No tour information found."}
+            </p>
+          </div>
         )}
       </div>
     </div>
