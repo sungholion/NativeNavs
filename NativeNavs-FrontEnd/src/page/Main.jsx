@@ -12,6 +12,7 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
+  const [showEmptyScreen, setShowEmptyScreen] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -39,9 +40,6 @@ const Main = () => {
             : ""
         }`
       );
-      console.log(
-        `https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`
-      );
       console.log("투어 검색 API 요청 성공", tourResponse.data);
       setTours(tourResponse.data);
     } catch (error) {
@@ -62,12 +60,31 @@ const Main = () => {
     if (!loading) {
       const timer = setTimeout(() => {
         setIsReadyToDisplay(true);
+
+        // 빈 화면을 0.1초 동안 표시
+        const emptyScreenTimer = setTimeout(() => {
+          setShowEmptyScreen(true);
+
+          // 빈 화면 표시 동안 빠르게 리렌더링을 트리거
+          for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+              setShowEmptyScreen((prev) => !prev);
+            }, i * 10);
+          }
+
+          // 빈 화면 종료 후 다시 콘텐츠를 표시
+          setTimeout(() => {
+            setShowEmptyScreen(false);
+          }, 100);
+
+        }, 1000); // 1초 후 빈 화면 표시 시작
+
+        return () => clearTimeout(emptyScreenTimer);
       }, 1000); // 1초 동안 로딩 상태를 유지
-  
+
       return () => clearTimeout(timer);
     }
   }, [loading]);
-  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,6 +105,10 @@ const Main = () => {
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
     return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
+
+  if (showEmptyScreen) {
+    return <div className={styles.emptyScreen}></div>; // 빈 화면 표시
+  }
 
   if (!isReadyToDisplay) {
     return (
