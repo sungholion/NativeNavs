@@ -13,6 +13,7 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -58,6 +59,7 @@ const Main = () => {
     if (user && search) {
       console.log("API 요청 시작");
       fetchTours();
+      setForceRender((prev) => !prev);
     }
   }, [user, search]);
 
