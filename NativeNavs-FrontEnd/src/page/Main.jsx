@@ -12,6 +12,7 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
