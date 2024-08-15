@@ -14,21 +14,18 @@
   0% {
     transform: rotate(0deg);
   }
-  0% {
+  100% {
     transform: rotate(360deg);
   }
-  100% {
-    transform: rotate(1440deg);
-  }  
-}  
+}
 
 .needle {
   position: absolute;
-  width: 30%; /* 바늘 이미지 크기 */
+  width: 30%;
   height: 30%;
-  transform-origin: center center; /* 바늘의 중심을 회전 축으로 설정 */
-  animation: rotateNeedle 4s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* 1초 동안 지수적으로 가속하며 360도 회전, 무한 반복 */
-  z-index: 2; /* 바늘 이미지가 앞에 위치 */
+  transform-origin: center center;
+  animation: rotateNeedle 1s cubic-bezier(0.5, 0, 1, 1) infinite;
+  z-index: 2;
 }
 
 
