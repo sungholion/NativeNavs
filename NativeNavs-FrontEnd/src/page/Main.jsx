@@ -6,12 +6,14 @@ import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
+
 const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -24,7 +26,10 @@ const Main = () => {
     };
   }, []);
 
+  
+
   const fetchTours = async () => {
+    setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -38,6 +43,9 @@ const Main = () => {
             : ""
         }`
       );
+      console.log(
+        `https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`
+      );
       console.log("투어 검색 API 요청 성공", tourResponse.data);
       setTours(tourResponse.data);
     } catch (error) {
@@ -47,23 +55,22 @@ const Main = () => {
     }
   };
 
-  // 데이터 미리 로드
   useEffect(() => {
     if (user && search) {
+      console.log("API 요청 시작");
       fetchTours();
+      setForceRender((prev) => !prev);
     }
   }, [user, search]);
 
-  // 페이지 전환 효과를 처리하면서 데이터 준비
   useEffect(() => {
-    if (!loading) {
-      // 1초 동안 전환 효과를 유지한 후 데이터 표시
-      const timer = setTimeout(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
         setIsReadyToDisplay(true);
-      }, 1000); // 1초 동안 로딩 상태를 유지
+      }
+    }, 1000);
 
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, [loading]);
 
   useEffect(() => {
