@@ -25,6 +25,7 @@ const Main = () => {
     if (storedSearch) {
       const parsedSearch = JSON.parse(storedSearch);
       setSearch(parsedSearch);
+      console.log(search)
     }
   }, []);
 
