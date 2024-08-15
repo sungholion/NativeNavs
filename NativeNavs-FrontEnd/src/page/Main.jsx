@@ -27,7 +27,12 @@ const Main = () => {
       setSearch(parsedSearch);
       console.log(search)
     }
-  }, []);
+
+    if (user && search) {
+      console.log("API 요청 시작 - user와 search 상태:", { user, search });
+      fetchTours();
+    }
+  }, [user, search]);
 
   
 
@@ -57,13 +62,6 @@ const Main = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (user && search) {
-      console.log("API 요청 시작 - user와 search 상태:", { user, search });
-      fetchTours();
-    }
-  }, [user, search]);
   
   useEffect(() => {
     const timer = setTimeout(() => {
