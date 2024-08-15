@@ -34,6 +34,7 @@ const Main = () => {
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
+      console.log(search);
       console.log(
         `?location=${search.travel}&date=${search.date}&categoryId=${category}`
       );
