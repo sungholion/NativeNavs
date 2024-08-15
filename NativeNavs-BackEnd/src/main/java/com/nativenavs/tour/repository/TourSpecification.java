@@ -9,6 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class TourSpecification{
+    public static Specification<TourEntity> isNotRemoved() {
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.isFalse(root.get("isRemoved"));
+    }
 
     public static Specification<TourEntity> hasLocationContaining(String location) {
         return (root, query, criteriaBuilder) ->

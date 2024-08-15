@@ -1,7 +1,12 @@
 package com.nativenavs.wishlist.repository;
 
+import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.wishlist.entity.WishlistEntity;
+import jakarta.transaction.Transactional;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +21,5 @@ public interface WishlistRepository extends JpaRepository<WishlistEntity,Integer
     boolean existsByUserIdAndTourId(int userId, int tourId);
 
     int countByTourId(int tourId);
+
 }

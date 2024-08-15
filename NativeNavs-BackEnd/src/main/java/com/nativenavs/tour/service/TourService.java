@@ -12,6 +12,7 @@ import com.nativenavs.tour.repository.*;
 import com.nativenavs.user.entity.UserEntity;
 import com.nativenavs.user.repository.UserRepository;
 import com.nativenavs.wishlist.repository.WishlistRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class TourService {
 
     //entity -> DTO 작업이 필요
     public List<TourDTO> findAllTours() {
-        List<TourEntity> tourEntityList = tourRepository.findAll().stream()
+        List<TourEntity> tourEntityList = tourRepository.findAllActiveTours().stream()
                 .sorted(Comparator.comparingInt(TourEntity::getReviewCount).reversed())
                 .toList();
 
@@ -110,7 +111,7 @@ public class TourService {
 
 
     public TourDTO findTourById(int id) {
-        Optional<TourEntity> optionalTourEntity = tourRepository.findById(id);
+        Optional<TourEntity> optionalTourEntity = tourRepository.findByIdAndIsRemovedFalse(id);
         if (optionalTourEntity.isPresent()) {
             TourEntity tourEntity = optionalTourEntity.get();
             TourDTO tourDTO = TourDTO.toTourDTO(tourEntity);
@@ -203,12 +204,20 @@ public class TourService {
         }
     }
 
+    @Transactional
     public void removeTour(int id) {
-        tourRepository.deleteById(id);
+        // 1. 해당 Tour 엔티티를 가져옴
+        TourEntity tour = tourRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tour not found with id " + id));
+
+        tour.setRemoved(true);
+        tourRepository.save(tour);
     }
 
     public List<TourDTO> searchTours(String location, LocalDate date, List<Integer> categoryIds) {
         Specification<TourEntity> spec = Specification.where(null);
+
+        spec = spec.and(TourSpecification.isNotRemoved());
 
         if (location != null && !location.isEmpty()) {
             spec = spec.and(TourSpecification.hasLocationContaining(location));
@@ -226,7 +235,7 @@ public class TourService {
     }
 
     public List<GuideTourDTO> findToursByGuide(int guideId) {
-        List<TourEntity> tours = tourRepository.findByUserId(guideId);
+        List<TourEntity> tours = tourRepository.findByUserIdAndIsRemovedFalse(guideId);
         return tours.stream().map(this::convertToGuideTourDTO).collect(Collectors.toList());
     }
 
@@ -245,7 +254,7 @@ public class TourService {
     }
 
     public TourDTO findTourByTourId(int tourId) {
-        Optional<TourEntity> tourEntity = tourRepository.findById(tourId);
+        Optional<TourEntity> tourEntity = tourRepository.findByIdAndIsRemovedFalse(tourId);
         return tourEntity.map(TourDTO::toTourDTO).orElse(null);
     }
 }

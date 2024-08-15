@@ -24,7 +24,7 @@ public class WishlistService {
     private final UserRepository userRepository;
 
     public void addWishlist(int userId, int tourId){
-        TourEntity tour = tourRepository.findById(tourId).orElseThrow(()->new IllegalArgumentException("Tour not found"));
+        TourEntity tour = tourRepository.findByIdAndIsRemovedFalse(tourId).orElseThrow(()->new IllegalArgumentException("Tour not found"));
         UserEntity user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("User not found"));
         boolean isWished = wishlistRepository.existsByUserIdAndTourId(userId, tourId);
         if(isWished){
@@ -42,7 +42,7 @@ public class WishlistService {
 
         return wishes.stream()
                 .map(wishlistEntity -> {
-                    TourEntity tourEntity = tourRepository.findById(wishlistEntity.getTour().getId()).orElse(null);
+                    TourEntity tourEntity = tourRepository.findByIdAndIsRemovedFalse(wishlistEntity.getTour().getId()).orElse(null);
                     UserEntity userEntity = userRepository.findById(userId)
                             .orElseThrow(() -> new NoSuchElementException("User not found"));
                     // UserDTO로 변환
