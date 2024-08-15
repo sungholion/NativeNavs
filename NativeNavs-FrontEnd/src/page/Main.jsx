@@ -7,7 +7,7 @@ import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
 const Main = () => {
-  const [tours, setTours] = useState();
+  const [tours, setTours] = useState(null);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
