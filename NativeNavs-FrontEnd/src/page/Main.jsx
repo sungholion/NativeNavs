@@ -34,7 +34,6 @@ const Main = () => {
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
-      console.log(search);
       console.log(
         `?location=${search.travel}&date=${search.date}&categoryId=${category}`
       );
@@ -54,6 +53,7 @@ const Main = () => {
       console.error("투어 API 요청 실패", error);
     } finally {
       setLoading(false);
+      setSearch(null);
     }
   };
 
@@ -61,7 +61,6 @@ const Main = () => {
     if (user && search) {
       console.log("API 요청 시작 - user와 search 상태:", { user, search });
       fetchTours();
-      setSearch(null);
     }
   }, [user, search]);
 
