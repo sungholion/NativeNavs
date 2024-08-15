@@ -32,7 +32,7 @@ const Main = () => {
       console.log("API 요청 시작 - user와 search 상태:", { user, search });
       fetchTours();
     }
-  }, [user, search]);
+  }, []);
 
   
 
