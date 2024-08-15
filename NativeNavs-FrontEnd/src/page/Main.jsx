@@ -130,7 +130,7 @@ const Main = () => {
             />
           ))
         ) : (
-          <p>
+          <p className={styles.noToursMessage}>
             {user && user.isKorean
               ? "검색된 투어 정보가 없습니다."
               : "No tour information found."}
