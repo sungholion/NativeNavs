@@ -68,7 +68,7 @@ const Main = () => {
       if (!loading) {
         setIsReadyToDisplay(true);
       }
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [loading]);
