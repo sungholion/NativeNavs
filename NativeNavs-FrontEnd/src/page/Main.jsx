@@ -8,7 +8,7 @@ import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
 
 const Main = () => {
-  const [tours, setTours] = useState(null);
+  const [tours, setTours] = useState();
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,13 +27,10 @@ const Main = () => {
       setSearch(parsedSearch);
       console.log(search)
     }
-
-    console.log("API 요청 시작 - user와 search 상태:", { user, search });
-    fetchTours();
-    setSearch(null)
   }, []);
 
   
+
   const fetchTours = async () => {
     setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
@@ -61,13 +58,12 @@ const Main = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (user && search) {
-  //     console.log("API 요청 시작 - user와 search 상태:", { user, search });
-  //     fetchTours();
-  //     setSearch(null)
-  //   }
-  // }, [user, search]);
+  useEffect(() => {
+    if (user && search) {
+      console.log("API 요청 시작 - user와 search 상태:", { user, search });
+      fetchTours();
+    }
+  }, [user, search]);
   
   useEffect(() => {
     const timer = setTimeout(() => {
