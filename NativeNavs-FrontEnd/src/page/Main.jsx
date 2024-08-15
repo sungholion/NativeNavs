@@ -63,7 +63,7 @@ const Main = () => {
       console.log("API 요청 시작");
       fetchTours();
     }
-  }, [search]);
+  }, [user, search]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
