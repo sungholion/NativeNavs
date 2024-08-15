@@ -18,6 +18,7 @@ const Main = () => {
     setSearch(JSON.parse(localStorage.getItem("search")));
 
     window.getSearchData = (searchJson) => {
+      console.log("getSearchData 호출됨", searchJson);
       const parsedSearch = JSON.parse(searchJson);
       setSearch(parsedSearch);
       localStorage.setItem("search", searchJson);
