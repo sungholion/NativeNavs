@@ -6,14 +6,12 @@ import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
-
 const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -26,10 +24,8 @@ const Main = () => {
     };
   }, []);
 
-  
-
   const fetchTours = async () => {
-    setLoading(true); 
+    setLoading(true);
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -59,18 +55,23 @@ const Main = () => {
     if (user && search) {
       console.log("API 요청 시작");
       fetchTours();
-      setForceRender((prev) => !prev);
     }
   }, [user, search]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!loading) {
+    if (!loading) {
+      // 첫 번째 단계: 1초 후에 렌더링 준비 상태로 전환
+      const timer = setTimeout(() => {
         setIsReadyToDisplay(true);
-      }
-    }, 1000);
 
-    return () => clearTimeout(timer);
+        // 두 번째 단계: 바로 렌더링이 일어나게 하여 업데이트
+        setTimeout(() => {
+          setForceRender((prev) => !prev); // 강제 렌더링을 트리거
+        }, 0); // 0ms 딜레이로 바로 실행
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
   }, [loading]);
 
   useEffect(() => {
