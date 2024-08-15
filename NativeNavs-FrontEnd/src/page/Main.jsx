@@ -74,20 +74,6 @@ const Main = () => {
     return () => clearTimeout(timer);
   }, [loading]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) {
-        fetchTours();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [search]);
-
   const formatDate = (date) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
