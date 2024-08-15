@@ -15,14 +15,17 @@ const Main = () => {
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-    setSearch(JSON.parse(localStorage.getItem("search")));
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
 
-    window.getSearchData = (searchJson) => {
-      const parsedSearch = JSON.parse(searchJson);
+    const storedSearch = localStorage.getItem("search");
+    if (storedSearch) {
+      const parsedSearch = JSON.parse(storedSearch);
       setSearch(parsedSearch);
-      localStorage.setItem("search", searchJson);
-    };
+    }
   }, []);
 
   
