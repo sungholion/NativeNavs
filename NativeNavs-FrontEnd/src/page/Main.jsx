@@ -6,6 +6,7 @@ import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
 
+
 const Main = () => {
   const [tours, setTours] = useState(null);
   const [user, setUser] = useState(null);
@@ -14,36 +15,30 @@ const Main = () => {
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received userJson:", userJson);
-      try {
-        setUser(Json.parse(userJson));
-        console.log("userJson 저장 성공");
-      } catch (error) {
-        console.error("userJson 저장 실패", error);
-      }
-    };
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    }
 
-    window.getSearchData = (searchJson) => {
-      console.log("Received searchJson:", searchJson);
-      try {
-        setSearch(Json.parse(searchJson));
-        console.log("searchJson 저장 성공");
-      } catch (error) {
-        console.error("searchJson 저장 실패", error);
-      }
-    };
+    const storedSearch = localStorage.getItem("search");
+    if (storedSearch) {
+      const parsedSearch = JSON.parse(storedSearch);
+      setSearch(parsedSearch);
+      console.log(search)
+    }
   }, []);
 
-  const fetchTours = async () => {
-    setLoading(true);
+  
+  const fetchTours = () => {
+    setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
       console.log(
         `?location=${search.travel}&date=${search.date}&categoryId=${category}`
       );
-      const tourResponse = await axios.get(
+      const tourResponse = axios.get(
         `https://i11d110.p.ssafy.io/api/tours/search${
           search.travel || search.date || category
             ? `?location=${search.travel}&date=${search.date}&categoryId=${category}`
@@ -66,10 +61,10 @@ const Main = () => {
     if (user && search) {
       console.log("API 요청 시작 - user와 search 상태:", { user, search });
       fetchTours();
-      setSearch(null);
+      setSearch(null)
     }
   }, [user, search]);
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!loading) {
@@ -106,25 +101,24 @@ const Main = () => {
   return (
     <div className={styles.main}>
       <div className={styles.tourList}>
-        {tours &&
-          tours.map((tour) => (
-            <Tour_Item
-              key={tour.id}
-              tourId={tour.id}
-              userId={tour.user.id}
-              title={tour.title}
-              thumbnailImage={tour.thumbnailImage}
-              startDate={formatDate(tour.startDate)}
-              endDate={formatDate(tour.endDate)}
-              reviewAverage={tour.reviewAverage}
-              nav_profile_img={tour.user.image}
-              nickname={tour.user.nickname}
-              navigateFragment={navigateToTourDetailFragment}
-              user={user}
-              userLanguages={tour.user.userLanguage}
-              categoryIds={tour.categoryIds}
-            />
-          ))}
+        {tours && tours.map((tour) => (
+          <Tour_Item
+            key={tour.id}
+            tourId={tour.id}
+            userId={tour.user.id}
+            title={tour.title}
+            thumbnailImage={tour.thumbnailImage}
+            startDate={formatDate(tour.startDate)}
+            endDate={formatDate(tour.endDate)}
+            reviewAverage={tour.reviewAverage}
+            nav_profile_img={tour.user.image}
+            nickname={tour.user.nickname}
+            navigateFragment={navigateToTourDetailFragment}
+            user={user}
+            userLanguages={tour.user.userLanguage}
+            categoryIds={tour.categoryIds}
+          />
+        ))}
       </div>
     </div>
   );
