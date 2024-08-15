@@ -30,7 +30,7 @@ const Main = () => {
   }, []);
 
   
-  const fetchTours = () => {
+  const fetchTours = async () => {
     setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
     try {
@@ -38,7 +38,7 @@ const Main = () => {
       console.log(
         `?location=${search.travel}&date=${search.date}&categoryId=${category}`
       );
-      const tourResponse = axios.get(
+      const tourResponse = await axios.get(
         `https://i11d110.p.ssafy.io/api/tours/search${
           search.travel || search.date || category
             ? `?location=${search.travel}&date=${search.date}&categoryId=${category}`
