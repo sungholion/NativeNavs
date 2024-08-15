@@ -69,7 +69,7 @@ const Main = () => {
           // 새로고침이 발생했음을 기록
           localStorage.setItem("hasReloaded", "true");
           window.location.reload();
-        }, 0);
+        }, 1000);
 
         return () => clearTimeout(timer);
       } else {
