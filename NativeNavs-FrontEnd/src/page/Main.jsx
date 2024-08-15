@@ -12,7 +12,6 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -61,15 +60,11 @@ const Main = () => {
 
   useEffect(() => {
     if (!loading) {
-      // 첫 번째 단계: 1초 후에 렌더링 준비 상태로 전환
       const timer = setTimeout(() => {
         setIsReadyToDisplay(true);
 
-        // 두 번째 단계: 바로 렌더링이 일어나게 하여 업데이트
-        setTimeout(() => {
-          setForceRender((prev) => !prev); // 강제 렌더링을 트리거
-        }, 0); // 0ms 딜레이로 바로 실행
-      }, 1000);
+        window.location.reload();
+      }, 0);
 
       return () => clearTimeout(timer);
     }
