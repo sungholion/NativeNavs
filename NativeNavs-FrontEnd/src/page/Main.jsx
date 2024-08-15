@@ -21,12 +21,16 @@ const Main = () => {
       setUser(parsedUser);
     }
 
-    const storedSearch = localStorage.getItem("search");
-    if (storedSearch) {
-      const parsedSearch = JSON.parse(storedSearch);
-      setSearch(parsedSearch);
-      console.log(search)
-    }
+    window.getSearchData = (searchJson) => {
+      console.log("Received searchJson:", searchJson);
+      try {
+        setSearch(Json.parse(searchJson));
+        console.log("searchData 저장 성공");
+        console.log(search)
+      } catch (error) {
+        console.error("searchJson 저장 실패", error);
+      }
+    };
   }, []);
 
   
