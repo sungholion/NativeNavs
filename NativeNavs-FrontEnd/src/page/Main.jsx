@@ -60,13 +60,22 @@ const Main = () => {
 
   useEffect(() => {
     if (!loading) {
-      const timer = setTimeout(() => {
+      const hasReloaded = localStorage.getItem("hasReloaded");
+
+      if (!hasReloaded) {
+        const timer = setTimeout(() => {
+          setIsReadyToDisplay(true);
+
+          // 새로고침이 발생했음을 기록
+          localStorage.setItem("hasReloaded", "true");
+          window.location.reload();
+        }, 0);
+
+        return () => clearTimeout(timer);
+      } else {
+        // 만약 새로고침이 이미 발생했으면, 바로 화면을 표시
         setIsReadyToDisplay(true);
-
-        window.location.reload();
-      }, 0);
-
-      return () => clearTimeout(timer);
+      }
     }
   }, [loading]);
 
