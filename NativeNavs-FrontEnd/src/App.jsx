@@ -41,6 +41,16 @@ function App() {
       }
     };
 
+    window.getSearchData = (searchJson) => {
+      console.log("getSearchData 호출됨", searchJson);
+      try {
+        localStorage.setItem("search", searchJson);
+        console.log("searchJson 저장 성공");
+      } catch (error) {
+        console.error("searchJson 저장 실패", error);
+      }
+    };
+
   }, []);
 
   return (
