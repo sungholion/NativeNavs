@@ -12,7 +12,6 @@ const Main = () => {
   const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
-  const [showEmptyScreen, setShowEmptyScreen] = useState(false);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
@@ -26,7 +25,6 @@ const Main = () => {
   }, []);
 
   const fetchTours = async () => {
-    setLoading(true);
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -49,37 +47,19 @@ const Main = () => {
     }
   };
 
+  // 데이터 미리 로드
   useEffect(() => {
     if (user && search) {
-      console.log("API 요청 시작");
       fetchTours();
     }
   }, [user, search]);
 
+  // 페이지 전환 효과를 처리하면서 데이터 준비
   useEffect(() => {
     if (!loading) {
+      // 1초 동안 전환 효과를 유지한 후 데이터 표시
       const timer = setTimeout(() => {
         setIsReadyToDisplay(true);
-
-        // 빈 화면을 0.1초 동안 표시
-        const emptyScreenTimer = setTimeout(() => {
-          setShowEmptyScreen(true);
-
-          // 빈 화면 표시 동안 빠르게 리렌더링을 트리거
-          for (let i = 0; i < 10; i++) {
-            setTimeout(() => {
-              setShowEmptyScreen((prev) => !prev);
-            }, i * 10);
-          }
-
-          // 빈 화면 종료 후 다시 콘텐츠를 표시
-          setTimeout(() => {
-            setShowEmptyScreen(false);
-          }, 100);
-
-        }, 1000); // 1초 후 빈 화면 표시 시작
-
-        return () => clearTimeout(emptyScreenTimer);
       }, 1000); // 1초 동안 로딩 상태를 유지
 
       return () => clearTimeout(timer);
@@ -105,10 +85,6 @@ const Main = () => {
     const dateString = new Date(date).toLocaleDateString("ko-KR", options);
     return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
-
-  if (showEmptyScreen) {
-    return <div className={styles.emptyScreen}></div>; // 빈 화면 표시
-  }
 
   if (!isReadyToDisplay) {
     return (
