@@ -27,9 +27,7 @@ import ReservationListForTour from "./page/ReservationListForTour";
 import NavTourList from "./page/NavTourList";
 import ReservationCreate from "./page/ReservationCreate";
 
-
 function App() {
-
   useEffect(() => {
     window.getUserData = (userJson) => {
       console.log("Received userJson:", userJson);
@@ -40,8 +38,7 @@ function App() {
         console.error("userJson 저장 실패", error);
       }
     };
-  
-    useEffect(() => {
+
     window.getSearchData = (searchJson) => {
       console.log("Received searchJson:", searchJson);
       try {
@@ -51,7 +48,6 @@ function App() {
         console.error("searchJson 저장 실패", error);
       }
     };
-
   }, []);
 
   return (
