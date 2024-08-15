@@ -22,6 +22,7 @@ const Main = () => {
     }
 
     const storedSearch = localStorage.getItem("search");
+    localStorage.removeItem('search')
     if (storedSearch) {
       const parsedSearch = JSON.parse(storedSearch);
       setSearch(parsedSearch);
