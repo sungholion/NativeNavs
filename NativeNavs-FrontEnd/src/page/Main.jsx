@@ -15,13 +15,14 @@ const Main = () => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
+    setSearch(JSON.parse(localStorage.getItem("search")));
 
     window.getSearchData = (searchJson) => {
       const parsedSearch = JSON.parse(searchJson);
       setSearch(parsedSearch);
       localStorage.setItem("search", searchJson);
     };
-  }, [searchJson]);
+  }, []);
 
   const fetchTours = async () => {
     setLoading(true);
