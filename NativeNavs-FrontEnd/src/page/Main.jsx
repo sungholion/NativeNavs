@@ -14,14 +14,21 @@ const Main = () => {
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-    setSearch(JSON.parse(localStorage.getItem("search")));
-
-    window.getSearchData = (searchJson) => {
-      const parsedSearch = JSON.parse(searchJson);
-      setSearch(parsedSearch);
-      localStorage.setItem("search", searchJson);
-    };
+    const userFromStorage = JSON.parse(localStorage.getItem("user"));
+    const searchFromStorage = JSON.parse(localStorage.getItem("search"));
+  
+    setUser(userFromStorage);
+  
+    if (searchFromStorage) {
+      localStorage.removeItem("search");
+      window.getSearchData = (searchJson) => {
+        const parsedSearch = JSON.parse(searchJson);
+        setSearch(parsedSearch);
+        localStorage.setItem("search", searchJson);
+      };
+    } else {
+      setSearch(searchFromStorage);
+    }
   }, []);
 
   const fetchTours = async () => {
