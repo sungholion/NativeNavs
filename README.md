@@ -27,16 +27,16 @@ SSAFY 11기 2학기 공통 프로젝트
 <img src="https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?logo=springsecurity&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/STOMP-337AB7?&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/WebSocket-337AB7?&logoColor=fff&style=for-the-badge">
 
 ### Android
 
 <img src="https://img.shields.io/badge/Android-34A853?logo=android&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?logo=jetpackcompose&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/Android%20Jetpack-4285F4?logo=jetpackcompose&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/FCM-4285F4?logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/STOMP-337AB7?&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/WebSocket-337AB7?&logoColor=fff&style=for-the-badge">
 
 ### DB
 
@@ -54,6 +54,7 @@ SSAFY 11기 2학기 공통 프로젝트
 
 ### Team Collaboration Tools
 
+<img src="https://img.shields.io/badge/Jira-0052CC?logo=jira&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/GitLab-FC6D26?logo=gitlab&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Mattermost-0058CC?logo=mattermost&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Discord-5865F2?logo=discord&logoColor=fff&style=for-the-badge">
@@ -87,12 +88,13 @@ SSAFY 11기 2학기 공통 프로젝트
 
 - 메인 화면에서 올라온 여러 투어 관련 글 볼 수 있음
 - 각 투어 글마다 리뷰 확인 가능
+- 특정 조건 달성 시 스탬프를 획득하는 재미 요소
 
 가이트(현지인) 입장
 
-- 가이드는 생각해 둔 투어 일정에 대한 글을 작성 할 수 있다.
-- 관광객과 1:1 채팅이 가능하고, 채팅을 통해 협의되었을 경우 투어 일정을 잡아 둘 수 있음 (예약 시스템)
-- 둘이 만났을 경우에 QR체크를 통해 확인이 가능하도록
+- 가이드는 생각해 둔 투어 일정에 대한 글 작성
+- 관광객과 1:1 채팅이 가능하고, 채팅을 통해 협의되었을 경우 예약 가능
+- 둘이 만났을 경우에 QR체크를 통해 확인이 가능
 
 관광객(특히 외국인 관광객) 입장
 
@@ -108,7 +110,7 @@ SSAFY 11기 2학기 공통 프로젝트
 첫 화면
 
 <center>
-<img src="./READMEimg/login.jpg" style="width:300px">
+<img src="./READMEimg/login.jpg" style="width:200px">
 </center>
 
 ### 회원가입
@@ -116,9 +118,9 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 회원가입 절차 모습
 
-<img src="./READMEimg/signin1.jpg" style="width:300px">
-<img src="./READMEimg/signin2.jpg" style="width:300px">
-<img src="./READMEimg/signin3.jpg" style="width:300px">
+<img src="./READMEimg/signin1.jpg" style="width:200px">
+<img src="./READMEimg/signin2.jpg" style="width:200px">
+<img src="./READMEimg/signin3.jpg" style="width:200px">
 
 <br>
 <br>
@@ -127,7 +129,7 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 이메일 인증 코드 번호
 
-<img src="./READMEimg/verify.png" style="width:300px">
+<img src="./READMEimg/verify.png" style="width:200px">
 </center>
 
 ## 기능
@@ -139,7 +141,7 @@ SSAFY 11기 2학기 공통 프로젝트
 | 메인화면 | 프로필 사진 |
 | -------- | ----------- |
 
-| <img src="./READMEimg/NavMain.jpg" style="width:300px"> | <img src="./READMEimg/Profile.jpg" style="width:300px"> |
+| <img src="./READMEimg/NavMain.jpg" style="width:200px"> | <img src="./READMEimg/Profile.jpg" style="width:200px"> |
 
 왼쪽은 여행객이 로그인 했을 때 , 오른쪽은 가이드 계정 로그인 했을 때  
 각각 마다 밑에 NavigationBar가 다름
@@ -155,8 +157,8 @@ SSAFY 11기 2학기 공통 프로젝트
 
 <h4>예약 작성</h4>
 
-<img src="./READMEimg/ReservationMake2.jpg" style="width:300px">
-<img src="./READMEimg/ReservationMake3.jpg" style="width:300px">
+<img src="./READMEimg/ReservationMake2.jpg" style="width:200px">
+<img src="./READMEimg/ReservationMake3.jpg" style="width:200px">
 
 </center>
 
@@ -165,8 +167,8 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 
 <h4>위시리스트</h4>
-<img src="./READMEimg/Main_Wish.jpg" style="width:300px">
-<img src="./READMEimg/WishList.jpg" style="width:300px">
+<img src="./READMEimg/Main_Wish.jpg" style="width:200px">
+<img src="./READMEimg/WishList.jpg" style="width:200px">
 
 <h4> 완료한 투어 목록 및 예약 리스트 </h4>
 
@@ -178,16 +180,16 @@ SSAFY 11기 2학기 공통 프로젝트
 
 채팅 방 목록
 
-<img src="./READMEimg/Chat.jpg" style="width:300px">
+<img src="./READMEimg/Chat.jpg" style="width:200px">
 
 영어에서 한국어로 번역이 가능하도록 기능 지원  
 해당 채팅칸에 터치를 하면 작동하며 다시 터치하면 원래대로 돌아감
 
-<img src="./READMEimg/Chat_Translation.png">
+<img src="./READMEimg/Chat_Translation.png" style="width:600px">
 
 가이드(Navs) 입장에선 해당 채팅방에 "예약" 버튼이 활성화가 됨
 
-<img src="./READMEimg/ReservationMake1.jpg" style="width:300px">
+<img src="./READMEimg/ReservationMake1.jpg" style="width:200px">
 
 </center>
 
@@ -196,41 +198,41 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 
 <h4>상세 글</h4>  
-<img src="./READMEimg/tour_detail1.jpg" style="width:300px">  
-<img src="./READMEimg/tour_detail2.jpg" style="width:300px">
-<img src="./READMEimg/tour_detail_review.jpg" style="width:300px">
+<img src="./READMEimg/tour_detail1.jpg" style="width:200px">  
+<img src="./READMEimg/tour_detail2.jpg" style="width:200px">
+<img src="./READMEimg/tour_detail_review.jpg" style="width:200px">
 
 <br>
 <br>
 
 가이드(Navs) 입장에선 하단 버튼에서 **예약 현황**으로 바뀜
 
-<img src="./READMEimg/tour_detail_nav.jpg" style="width:300px">
+<img src="./READMEimg/tour_detail_nav.jpg" style="width:200px">
 
 <br>
 <br>
 
 **Plan(계획) 아이템들을 클릭하면 뜨는 모습**
 
-<img src="./READMEimg/plan_image.jpg" style="width:300px">
+<img src="./READMEimg/plan_image.jpg" style="width:200px">
 
 <h4>리뷰</h4>
 (View All Reviews > 버튼을 누르면 들어가짐)
 
-<img src="./READMEimg/review_detail.jpg" style="width:300px">
+<img src="./READMEimg/review_detail.jpg" style="width:200px">
 
 **리뷰 포토들 목록**
 
-<img src="./READMEimg/review_photo1.jpg" style="width:300px">
-<img src="./READMEimg/review_photo2.jpg" style="width:300px">
+<img src="./READMEimg/review_photo1.jpg" style="width:200px">
+<img src="./READMEimg/review_photo2.jpg" style="width:200px">
 
 </center>
 
 ### 예약 리스트(관광객전용) & 예약 상세(공통)
 
 <center>
-<img src="./READMEimg/ResList.jpg" style="width:300px">
-<img src="./READMEimg/ResDetail.jpg" style="width:300px">
+<img src="./READMEimg/ResList.jpg" style="width:200px">
+<img src="./READMEimg/ResDetail.jpg" style="width:200px">
 
 각각 예약 목록들(투어 관광객에 보여주는 것)
 
@@ -239,8 +241,8 @@ SSAFY 11기 2학기 공통 프로젝트
 ### 나의 투어 작성 목록 및 예약 현황 (가이드 전용)
 
 <center>
-<img src="./READMEimg/myTourList.jpg" style="width:300px">
-<img src="./READMEimg/tourResList.jpg" style="width:300px"  >
+<img src="./READMEimg/myTourList.jpg" style="width:200px">
+<img src="./READMEimg/tourResList.jpg" style="width:200px"  >
 
 가이드 입장에서 본인이 작성한 투어글들 볼 수 있고  
 해당 글들에 대해서 예약 목록을 볼 수 있음
@@ -257,7 +259,7 @@ SSAFY 11기 2학기 공통 프로젝트
 
 예약 상세에보기에서 만남 날짜 때 QR 버튼이 나타남
 
-<img src="./READMEimg/Screenshot_20240815_164413_NativeNavs.jpg" style="width:300px">
+<img src="./READMEimg/Screenshot_20240815_164413_NativeNavs.jpg" style="width:200px">
 
 관광객 입장에선 QR이 보이고, 가이드 입장에서 카메라가 열리는 구조로 되어 있음
 가이드가 관광객 QR를 찍음으로써 만났다는 인증이 되는 방식
@@ -266,7 +268,22 @@ SSAFY 11기 2학기 공통 프로젝트
 
 ## 알림
 
+<center>
+
 예약이 완료되었는 등의 이벤트 가 발생하면 알림이 발생함
+
+<img src="./READMEimg/alarm.jpg" style="width:300px" >
+
+</center>
+
+## 스탬프
+
+<center>
+
+<img src="./READMEimg/stamp_detail.jpg" style="width:200px">
+<img src="./READMEimg/profile_stamp.jpg" style="width:200px">
+
+</center>
 
 # 🔨 사용한 기술
 
@@ -277,13 +294,13 @@ SSAFY 11기 2학기 공통 프로젝트
 
 반대로 웹에서 미리 함수를 정의하고, 앱에서 이를 읽어서 명령어를 실행시키는 방식도 가능합니다
 
-<img src ="./READMEimg/HybridApp.png" style="width:300px">
+<img src ="./READMEimg/HybridApp.png" style="width:200px">
 
 ## FCM 활용한 푸쉬 알림 기능
 
 <img src="./READMEimg/FCM.png" style="width:400px">
 
-## WebSocket & Storm
+## WebSocket & STOMP
 
 ### WebSocket
 
@@ -294,7 +311,7 @@ SSAFY 11기 2학기 공통 프로젝트
 웹 소켓 위에서 동작하는 메시징 프로토콜이며  
 텍스트 기반 간단한 명령여를 사용하여 - 클라이언트 과 서버 간 메세지 교환이 손쉽게 이루어 질 수 있음
 
-<img src ="./READMEimg/STOMP.png" style="width:300px">
+<img src ="./READMEimg/STOMP.png" style="width:200px">
 
 ## QR
 
