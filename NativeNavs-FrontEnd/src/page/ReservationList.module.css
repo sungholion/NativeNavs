@@ -1,9 +1,8 @@
-.ReservationList {
-  width: 100%;
-} 
-
 .upcomingTourList {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .completedTourList {
@@ -50,6 +49,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
 .WishListTitle {
@@ -64,7 +64,7 @@
 
 
 .TourListTitle {
-  margin-left: 20px;
+  padding-left: 20px;
   font-weight: bold;
 }
 

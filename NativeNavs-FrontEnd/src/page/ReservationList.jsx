@@ -39,7 +39,7 @@ const ReservationList = () => {
     } catch (error) {
       console.error("투어 예약 리스트 받아오기 실패:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -80,33 +80,31 @@ const ReservationList = () => {
         <h2 className={styles.TourListTitle}>
           {user && user.isKorean ? "예정된 Tour" : "Upcoming Tour"}
         </h2>
-        <div className={styles.ReservationList}>
 
-          <div className={styles.upcomingTourList}>
-            {reservationsInProgress.length > 0 && (
-              <Carousel2
-                reservationsInProgress={reservationsInProgress}
-                navigateToReservationListFragmentReservationDetail={
-                  navigateToReservationListFragmentReservationDetail
-                }
-                user={user}
-              />
-            )}
-          </div>
-          <h2 className={styles.TourListTitle}>
-            {user && user.isKorean ? "완료된 Tour" : "Completed Tour"}
-          </h2>
-          <div className={styles.completedTourList}>
-            {reservationsCompleted.map((tour) => (
-              <Tour_Item3
-                key={tour.tourId}
-                tour={tour}
-                navigateToReservationListFragmentReservationDetail={
-                  navigateToReservationListFragmentReservationDetail
-                }
-              />
-            ))}
-          </div>
+        <div className={styles.upcomingTourList}>
+          {reservationsInProgress.length > 0 && (
+            <Carousel2
+              reservationsInProgress={reservationsInProgress}
+              navigateToReservationListFragmentReservationDetail={
+                navigateToReservationListFragmentReservationDetail
+              }
+              user={user}
+            />
+          )}
+        </div>
+        <h2 className={styles.TourListTitle}>
+          {user && user.isKorean ? "완료된 Tour" : "Completed Tour"}
+        </h2>
+        <div className={styles.completedTourList}>
+          {reservationsCompleted.map((tour) => (
+            <Tour_Item3
+              key={tour.tourId}
+              tour={tour}
+              navigateToReservationListFragmentReservationDetail={
+                navigateToReservationListFragmentReservationDetail
+              }
+            />
+          ))}
         </div>
       </>
     );
@@ -139,7 +137,7 @@ const ReservationList = () => {
             size="4"
             text={user && user.isKorean ? "둘러보기" : "Browse"}
             onClickEvent={() => {
-              navigateToReservationListFragmentTourList(); 
+              navigateToReservationListFragmentTourList();
             }}
           />
         </div>
@@ -155,6 +153,7 @@ const ReservationList = () => {
             navigateToReservationListFragmentReservationDetail={
               navigateToReservationListFragmentReservationDetail
             }
+            isComplete={true}
           />
         ))}
       </div>

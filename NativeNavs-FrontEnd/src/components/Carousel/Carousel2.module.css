@@ -6,7 +6,7 @@
 .carouselImage {
     width: 100%;
     height: 288.4px;
-    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    object-fit: cover; 
     border-radius: 10px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .tourLeftInfo {
-    width: 65%;
+    width: 60%;
 }
 
 .tourLeftInfo > p {
@@ -87,16 +87,21 @@
 }
 
 .singleTourContainer {
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
 
+.singtourInfoTopContainer{
+    width: 100%;
+}
+
 .singlecarouselImage {
-    width: 320px;
-    height: 320px;
-    object-fit: cover; /* 이미지가 부모 요소를 꽉 채우도록 설정 */
+    width: 100%;
+    height: 345px;
+    object-fit: cover; 
     border-radius: 10px;
 }
 
@@ -108,4 +113,5 @@
     padding: 10px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
+    width: 100%;
 }

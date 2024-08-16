@@ -9,7 +9,7 @@ import {
   showReviewRegisterFailDialog,
 } from "@/utils/get-android-function";
 
-const MAX_IMAGE_COUNT = 5; 
+const MAX_IMAGE_COUNT = 5;
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,7 +27,7 @@ const ReviewCreate = () => {
   const [reviewData, dispatch] = useReducer(reducer, {
     score: 0,
     description: "",
-    image: [], 
+    image: [],
   });
 
   const [user, setUser] = useState(null);
@@ -38,7 +38,7 @@ const ReviewCreate = () => {
       setUser(parsedUser);
     }
   }, []);
-  const [info, setInfo] = useState(null); 
+  const [info, setInfo] = useState(null);
 
   useEffect(() => {
     axios
@@ -151,7 +151,7 @@ const ReviewCreate = () => {
 
       <section className="ScoreRating">
         <h4>
-          {user.isKorean
+          {user?.isKorean
             ? "Nav와 함께한 여행은 어땠나요?"
             : "How was your trip with Nav?"}
         </h4>
@@ -162,7 +162,7 @@ const ReviewCreate = () => {
       <section className="ReviewImgUploadSection">
         <div className="ReviewImgUploadHeader">
           <div>
-            {user.isKorean == false ? "사진 등록 :" : "Upload Photos :"}
+            {user?.isKorean ? "사진 등록 :" : "Upload Photos :"}
             <span>
               {reviewData.image.length} / {MAX_IMAGE_COUNT}
             </span>
@@ -189,7 +189,7 @@ const ReviewCreate = () => {
             ))
           ) : (
             <div className="noImgUploaded ">
-              {user.isKorean
+              {user?.isKorean
                 ? "아직 등록한 이미지가 없습니다."
                 : "No images uploaded yet."}
             </div>
@@ -231,7 +231,7 @@ const ReviewCreate = () => {
             onSubmit();
           }}
         >
-          {user.isKorean == false ? "제출" : "Submit"}
+          {user?.isKorean ? "제출" : "Submit"}
         </button>
       </section>
     </div>

@@ -9,6 +9,7 @@ import {
   navigateBack,
 } from "../utils/get-android-function";
 import Modal2 from "../components/Modal/Modal2";
+import { getStringedDate } from "@/utils/get-stringed-date";
 
 const ReservationDetail = () => {
   const [tour, setTour] = useState();
@@ -199,21 +200,23 @@ const ReservationDetail = () => {
                 {tour.reservationDescription}
               </p>
             </div>
-            <div className={styles.buttonContainer}>
-              {!modal ? (
-                <button onClick={clickModal} className={styles.reserveButton}>
-                  {user && user.isKorean ? "예약 취소" : "Cancel"}
-                </button>
-              ) : (
-                <Modal2
-                  cancelTourReservation={cancelTourReservation}
-                  navigateBack={navigateBack}
-                  clickModal={clickModal}
-                  className={styles.reserveButton}
-                  user={user}
-                />
-              )}
-            </div>
+            {tour && tour.reservationDate > getStringedDate(new Date()) && (
+              <div className={styles.buttonContainer}>
+                {!modal ? (
+                  <button onClick={clickModal} className={styles.reserveButton}>
+                    {user && user.isKorean ? "예약 취소" : "Cancel"}
+                  </button>
+                ) : (
+                  <Modal2
+                    cancelTourReservation={cancelTourReservation}
+                    navigateBack={navigateBack}
+                    clickModal={clickModal}
+                    className={styles.reserveButton}
+                    user={user}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </>
       )}
