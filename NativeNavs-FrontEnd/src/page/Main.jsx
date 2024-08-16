@@ -5,24 +5,30 @@ import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
 import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
 import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
-import NoTour from "./NoTour";
 
-const Main = ({ search }) => {
+
+const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
+  const [search, setSearch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    setUser(JSON.parse(localStorage.getItem("user")));
+    setSearch(JSON.parse(localStorage.getItem("search")));
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    window.getSearchData = (searchJson) => {
+      const parsedSearch = JSON.parse(searchJson);
+      setSearch(parsedSearch);
+      localStorage.setItem("search", searchJson);
+    };
   }, []);
 
+  
+
   const fetchTours = async () => {
-    setLoading(true);
+    setLoading(true); 
     const category = search ? search.category.map(String).join(".") : "";
     try {
       console.log("투어 검색 API 요청 시작");
@@ -60,7 +66,7 @@ const Main = ({ search }) => {
       if (!loading) {
         setIsReadyToDisplay(true);
       }
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [loading]);
@@ -105,28 +111,24 @@ const Main = ({ search }) => {
   return (
     <div className={styles.main}>
       <div className={styles.tourList}>
-        {tours && tours.length > 0 ? (
-          tours.map((tour) => (
-            <Tour_Item
-              key={tour.id}
-              tourId={tour.id}
-              userId={tour.user.id}
-              title={tour.title}
-              thumbnailImage={tour.thumbnailImage}
-              startDate={formatDate(tour.startDate)}
-              endDate={formatDate(tour.endDate)}
-              reviewAverage={tour.reviewAverage}
-              nav_profile_img={tour.user.image}
-              nickname={tour.user.nickname}
-              navigateFragment={navigateToTourDetailFragment}
-              user={user}
-              userLanguages={tour.user.userLanguage}
-              categoryIds={tour.categoryIds}
-            />
-          ))
-        ) : (
-          <NoTour user={user}/>
-        )}
+        {tours.map((tour) => (
+          <Tour_Item
+            key={tour.id}
+            tourId={tour.id}
+            userId={tour.user.id}
+            title={tour.title}
+            thumbnailImage={tour.thumbnailImage}
+            startDate={formatDate(tour.startDate)}
+            endDate={formatDate(tour.endDate)}
+            reviewAverage={tour.reviewAverage}
+            nav_profile_img={tour.user.image}
+            nickname={tour.user.nickname}
+            navigateFragment={navigateToTourDetailFragment}
+            user={user}
+            userLanguages={tour.user.userLanguage}
+            categoryIds={tour.categoryIds}
+          />
+        ))}
       </div>
     </div>
   );

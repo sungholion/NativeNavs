@@ -27,8 +27,8 @@ import ReservationListForTour from "./page/ReservationListForTour";
 import NavTourList from "./page/NavTourList";
 import ReservationCreate from "./page/ReservationCreate";
 
+
 function App() {
-  const [search, setSearch] = useState(null);
 
   useEffect(() => {
     window.getUserData = (userJson) => {
@@ -41,21 +41,12 @@ function App() {
       }
     };
 
-    window.getSearchData = (searchJson) => {
-      console.log("Received searchJson:", searchJson);
-      try {
-        setSearch(JSON.parse(searchJson));
-        console.log("searchJson 저장 성공");
-      } catch (error) {
-        console.error("searchJson 저장 실패", error);
-      }
-    };
   }, []);
 
   return (
     <>
       <Routes>
-        <Route path="/main" element={<Main search={search} />} />
+        <Route path="/main" element={<Main />} />
 
         <Route path="/tour" element={<Tour />}>
           <Route path="create" element={<TourCreate />} />
