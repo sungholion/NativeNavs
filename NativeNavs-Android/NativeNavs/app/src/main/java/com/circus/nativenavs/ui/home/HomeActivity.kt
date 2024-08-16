@@ -12,7 +12,8 @@ import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseActivity
 import com.circus.nativenavs.databinding.ActivityHomeBinding
 import com.circus.nativenavs.ui.chat.ChatListFragment
-import com.circus.nativenavs.ui.home.mypage.MypageFragment
+import com.circus.nativenavs.ui.chat.KrossbowChattingViewModel
+import com.circus.nativenavs.ui.mypage.MypageFragment
 import com.circus.nativenavs.ui.reservation.ReservationListFragment
 import com.circus.nativenavs.ui.tour.TourListFragment
 import com.circus.nativenavs.ui.tour.TourRegisterFragment
@@ -23,19 +24,33 @@ import com.circus.nativenavs.ui.trip.MyTripFragment
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val homeActivityViewModel: HomeActivityViewModel by viewModels()
+    private val chattingViewModel: KrossbowChattingViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initData()
         initView()
+        homeActivityViewModel.postFcmToken()
+    }
 
-        Log.d("HomeActivity", "onCreate: userId ${SharedPref.userId} isNav ${SharedPref.isNav}")
+    private fun initData() {
+        homeActivityViewModel.getUser(SharedPref.userId!!)
+        homeActivityViewModel.updateLanguageList()
+        homeActivityViewModel.updateCategoryList()
 
+        if (intent != null) {
+            homeActivityViewModel.setNotiFlag(intent.getIntExtra("flag", -1))
+            homeActivityViewModel.setNotiRoomId(intent.getIntExtra("roomId", -1))
+            homeActivityViewModel.setNotiReservationId(intent.getIntExtra("reservationId", -1))
+            homeActivityViewModel.setNotiTourId(intent.getIntExtra("tourId", -1))
+        }
     }
 
     private fun initView() {
         binding.mainBottomNav.menu.clear()
-        if(SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
+        if (SharedPref.isNav == true) binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_navs)
         else binding.mainBottomNav.inflateMenu(R.menu.menu_bottom_nav_trav)
 
         val navHostFragment =

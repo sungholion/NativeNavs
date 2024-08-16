@@ -4,18 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
-import com.circus.nativenavs.data.UserDto
 import com.circus.nativenavs.databinding.FragmentMyTripReservationListBinding
-import com.circus.nativenavs.databinding.FragmentReservationListBinding
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailBridge
 import com.circus.nativenavs.util.CustomTitleWebView
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 import com.circus.nativenavs.util.popBackStack
 
@@ -36,7 +32,11 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
         super.onAttach(context)
         homeActivity = context as HomeActivity
     }
-
+    override fun onResume() {
+        super.onResume()
+        homeActivity.hideBottomNav(false)
+        isPageLoaded = false
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,8 +47,7 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
     }
 
     private fun initWebView() {
-        val url = "https://i11d110.p.ssafy.io/reservation/${args.tourId}/list"
-        Log.d(TAG, "initCustomView: $url")
+        val url = WEBURL + "reservation/${args.tourId}/list"
         binding.myTripReservationListWv.loadWebViewUrl(url)
 
     }
@@ -92,12 +91,6 @@ class MyTripReservationListFragment : BaseFragment<FragmentMyTripReservationList
             bridge,
             "Android"
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeActivity.hideBottomNav(true)
-        isPageLoaded = false
     }
 
 }

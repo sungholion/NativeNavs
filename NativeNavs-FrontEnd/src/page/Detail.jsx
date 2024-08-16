@@ -5,12 +5,22 @@ import styles from "./Detail.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Carousel from "@/components/Carousel/Carousel.jsx";
-import Rating from "@/components/Star/Rating(Basic).jsx";
 import Review_Item from "@/components/Review_Item/Review_Item.jsx";
 import Plan_Item2 from "@/components/Plan_Item/Plan_Item2";
+import { getStaticImage } from "@/utils/get-static-image";
+import {
+  navigateToTourModifyFragment,
+  navigateToTourListFragment,
+} from "@/utils/get-android-function";
+import NativeNavs from "@/assets/NativeNavs.png";
+import StarScore2 from "../components/Star/StarScore2";
+import Modal3 from "../components/Modal/Modal3";
+import NativeNavsRemoveNeedle from "@/assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "@/assets/compassNeedleRemoveBack.png";
 
 const Detail = () => {
   const params = useParams();
+  const [user, setUser] = useState(null);
   const [tour, setTour] = useState({
     price: 0,
     title: "",
@@ -25,8 +35,40 @@ const Detail = () => {
     plans: [],
     removed: false,
   });
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // axios get 요청을 통해 server로부터 JSON 정보
+  const [reviewData, setReviewData] = useState({
+    imageUrls: [],
+    reviewAverage: 0,
+    reviewCount: 0,
+    reviews: [],
+    totalImageCount: 0,
+  });
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
+  const onDeleteEvent = async () => {
+    await axios
+      .delete(`https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`, {
+        headers: {
+          Authorization: user.userToken,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        navigateToTourListFragment();
+      })
+      .catch((err) => {
+        console.err(err);
+      });
+  };
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -34,156 +76,258 @@ const Detail = () => {
           `https://i11d110.p.ssafy.io/api/tours/${params.tour_id}`
         );
         setTour(response.data);
+        setLoading(false);
+        console.log("Tours response data : ", response.data);
       } catch (error) {
         console.error("Error fetching tours:", error);
+        setLoading(false);
       }
     };
 
-    fetchTour();
-  }, [params.tour_id]);
+    if (user) {
+      fetchTour();
+    }
+  }, [user]);
+
+  const [navLanguages, setNavLanguages] = useState([]);
+  useEffect(() => {
+    if (tour && tour.user && tour.user.userLanguage) {
+      const userLanguage = tour.user.userLanguage
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguage);
+      console.log(navLanguages);
+    }
+  }, [tour]);
+
+  const images = [tour.thumbnailImage, ...tour.plans.map((plan) => plan.image)];
 
   useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
+    const fetchReviewData = async () => {
       try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
-        console.log(`isNav: ${parsedUser.isNav}`);
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/reviews/tour/${params.tour_id}`
+        );
+        setReviewData(response.data);
+        console.log("Reviews response data : ", response.data);
       } catch (error) {
-        console.error("Failed to parse user JSON", error);
+        console.error("Error fetching reviewData:", error);
       }
     };
+
+    fetchReviewData();
   }, []);
 
+  const [openOption, setOpenOption] = useState(false);
+
+  const firstReview =
+    reviewData.reviews.length > 0 ? reviewData.reviews[0] : null;
+
   const onClickNav = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToNavProfileFragment === "function"
     ) {
-      window.Android.navigateToNavProfileFragment(tour.userId);
+      window.Android.navigateToNavProfileFragment(parseInt(tour.user.id));
     } else {
       console.log("Android.navigateToNavProfileFragment is not defined");
     }
   };
 
   const onClickReview = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
     if (
       window.Android &&
       typeof window.Android.navigateToReviewListFragment === "function"
     ) {
-      window.Android.navigateToReviewListFragment(tour.id);
+      window.Android.navigateToReviewListFragment(parseInt(tour.id));
     } else {
       console.log("Android.navigateToReviewListFragment is not defined");
     }
   };
 
-  const formattedStartDate = tour.startDate
-    ? new Date(tour.startDate).toLocaleDateString()
-    : "N/A";
-  const formattedEndDate = tour.endDate
-    ? new Date(tour.endDate).toLocaleDateString()
-    : "N/A";
-
-  const formattedPrice = tour.price.toLocaleString();
-
-  // 예시 리뷰 데이터
-  const reviewData = {
-    user: {
-      user_id: 1,
-      image:
-        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEyMTZfMTMx%2FMDAxNjcxMTg2NTM1MDYx.0vuGB7rfq1YZPV1kA8Wbuz51yLAS5Tvs0Zeuhiz-kswg.0iqBKg3vLwCvwnln6AqxZpV67RYgvEQ8qV7Y2wnqoI4g.JPEG.loivme%2F%25B8%25F1%25B5%25B5%25B8%25AE.jpg&type=sc960_832",
-      nickname: "오리",
-      nation: "미국",
-    },
-    score: 4.2,
-    description: "너무 맛있어요",
-    created_at: new Date(2024, 3, 2),
-    tour: {
-      tour_id: 2,
-      title: "무진장 투어",
-    },
-    needToShowTourTitle: true,
-    imageList: [
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDA2MTlfMTgg%2FMDAxNzE4NzkzODA1MTQ5.5WZpqKWvIOCPc_v8V9tqTKZbQxC-cegb4Ql6zjOVdGgg.kOY5ndrPZE1VI_qj_5Mdoq0vjqAkx8bxEuzv0etqb-Ag.JPEG%2FIMG_9138.JPG&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20140922_33%2Fholaha00_1411349776141T4rkI_JPEG%2F%25B9%25D9%25B4%25D9_%25B9%25E8%25B0%25E6%25BB%25E7%25C1%25F8_%25B8%25F0%25C0%25BD_%25281%2529.jpg&type=sc960_832",
-      "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MThfNDkg%2FMDAxNjI5Mjk0ODk2MTE3.9xQesy494fYu0DXNAk50hFRL3feTyiQAjP3FB5agcgog.s-21YxuWQNkPWcFv46a_i9krhMFZohStNgomCpu1E_gg.GIF.cooolsydney%2F%25BF%25C0%25B8%25AE%25BA%25D2%25B0%25ED%25B1%25E2.gif&type=a340",
-    ],
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
   };
 
-  if (!tour) {
-    return <div>Loading...</div>;
+  const formattedPrice = `₩ ${tour.price.toLocaleString()}`;
+
+  const handlePlanClick = (plan) => {
+    setSelectedPlan(plan);
+    setShowModal(true);
+
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedPlan(null);
+
+    document.body.style.overflow = "auto";
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  const categoryMapping = {
+    1: { ko: "시장", en: "Market" },
+    2: { ko: "액티비티", en: "Activity" },
+    3: { ko: "자연", en: "Nature" },
+    4: { ko: "역사", en: "History" },
+    5: { ko: "문화", en: "Culture" },
+    6: { ko: "축제", en: "Festival" },
+    7: { ko: "음식", en: "Food" },
+    8: { ko: "트렌디", en: "Trendy" },
+    9: { ko: "랜드마크", en: "Landmark" },
+    10: { ko: "쇼핑", en: "Shopping" },
+    11: { ko: "미용", en: "Beauty" },
+    12: { ko: "사진", en: "Photography" },
+  };
+
+  const getCategoryNames = () => {
+    return tour.categoryIds
+      .map((id) => categoryMapping[id])
+      .filter(Boolean)
+      .map((category) => (user.isKorean ? category.ko : category.en))
+      .join(", ");
+  };
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
   }
 
   return (
     <div className={styles.Detail}>
-      {/* 투어 사진(캐러셀) */}
-      <Carousel
-        images={
-          tour.thumbnailImage
-            ? [tour.thumbnailImage, tour.thumbnailImage, tour.thumbnailImage]
-            : []
-        }
-      />
-      {/* 투어 정보(간략하게) */}
-      <section className={styles.tour_info}>
-        {/* left */}
-        <div className={styles.tour_leftinfo}>
+      {user && tour && Number(user?.userId) === Number(tour?.user?.id) && (
+        <div className={styles.WriterOnlyOptionSection}>
+          <img
+            src={getStaticImage("menu_vertical_button")}
+            style={{ width: "30px", height: "30px" }}
+            onClick={() => setOpenOption((cur) => !cur)}
+          />
+          {openOption && (
+            <div className={styles.WriterOptions}>
+              <button
+                className={styles.buttonEdit}
+                onClick={() => {
+                  navigateToTourModifyFragment(Number(params.tour_id));
+                }}
+              >
+                {user && user.isKorean ? "수정" : "Edit"}
+              </button>
+              <button
+                className={styles.buttonDelete}
+                onClick={() => {
+                  onDeleteEvent();
+                }}
+              >
+                {user && user.isKorean ? "삭제" : "Delete"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+      <Carousel tourId={tour.tourId} images={images} user={user} />
+
+      <div className={styles.tour_info}>
+        <div className={styles.tour_info_first}>
           <h3 className={styles.tour_title}>{tour.title}</h3>
-          <p className={styles.tour_maxParticipants}>
-            최대 인원 : {tour.maxParticipants}명
-          </p>
-          <p className={styles.tour_duration}>
-            {formattedStartDate} ~ {formattedEndDate}
-          </p>
-        </div>
-
-        {/* right */}
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_rating}>
-            <div className={styles.tour_rating_inner}>
-              <Rating avg={tour.reviewAverage} />
-            </div>
-          </div>
-
-          <div className={styles.tour_nav_language}>
-            <div className={styles.tour_nav_language_inner}>
-              <img src={"/src/assets/language.png"} alt="언어 이미지" />
-              {tour.categoryIds.length > 1 ? (
-                <p>
-                  {tour.categoryIds[0]} 외 {tour.categoryIds.length - 1}개 국어
-                </p>
-              ) : (
-                <p>{tour.categoryIds[0]}</p>
-              )}
-            </div>
+          <div>
+            <StarScore2 score={tour.reviewAverage * 20} />
           </div>
         </div>
-      </section>
+        <div className={styles.tour_info_first}>
+          <div className={styles.tour_maxParticipants}>
+            {user && user.isKorean
+              ? `최대 인원 ${tour.maxParticipants}명`
+              : `Maximum ${tour.maxParticipants} people`}
+          </div>
+          <div className={styles.categoryContainer}>
+            {getCategoryNames() &&
+              getCategoryNames()
+                .split(", ")
+                .slice(2)
+                .map((category, index) => (
+                  <div key={index + 2} className={styles.categoryBox}>
+                    {category}
+                  </div>
+                ))}
+          </div>
+        </div>
+        <div className={styles.tour_info_first}>
+          <div>
+            {formatDate(tour.endDate)} ~ {formatDate(tour.endDate)}
+          </div>
+          <div className={styles.categoryContainer}>
+            {getCategoryNames()
+              .split(", ")
+              .slice(0, 2)
+              .map((category, index) => (
+                <div key={index} className={styles.categoryBox}>
+                  {category}
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
 
-      {/* Nav 정보 */}
       <div className={styles.navInfo}>
         <div className={styles.navInfo_inner} onClick={onClickNav}>
           <div className={styles.navInfoImage}>
-            <img
-              src={tour.thumbnailImage}
-              alt={tour.userId}
-              className={styles.nav_img}
-            />
+            {tour.user ? (
+              <img
+                src={tour.user.image}
+                alt={tour.userId}
+                className={styles.nav_img}
+              />
+            ) : (
+              <div></div>
+            )}
           </div>
           <div className={styles.navInfoText}>
-            <p className={styles.navNickname}>Navs : {tour.userId}님</p>
+            {tour && tour.user ? (
+              <p className={styles.navNickname}>
+                <img className={styles.NativeNavs} src={NativeNavs} alt="Nav" />
+                {user && user.isKorean
+                  ? `Nav: ${tour.user.nickname}님`
+                  : `Nav: ${tour.user.nickname}`}
+              </p>
+            ) : (
+              <p>loading..</p>
+            )}
             <p className={styles.navLanguage}>
-              언어 : {tour.categoryIds.join(", ")}
+              {user && user.isKorean
+                ? `🌏 언어: ${navLanguages.join(", ")}`
+                : `🌏 Language: ${navLanguages.join(", ")}`}
             </p>
           </div>
         </div>
       </div>
-      {/* 투어 일정 */}
       <div className={styles.tourPlan}>
-        <h3 className={styles.tourPlanTitle}>Plan</h3>
+        <h3 className={styles.tourPlanTitle}>
+          {user && user.isKorean ? `일정` : `Plan`}
+        </h3>
         <div className={styles.tourPlanContainer}>
           {tour.plans.map((plan) => (
             <Plan_Item2
@@ -195,30 +339,49 @@ const Detail = () => {
               longitude={plan.longitude}
               addressFull={plan.addressFull}
               enableDeleteOption={false}
+              onClick={() => handlePlanClick(plan)}
             />
           ))}
         </div>
       </div>
-      {/* 투어 예상금액 및 당부사항 */}
       <div className={styles.tourReminder}>
-        <h3 className={styles.tourReminderPrive}>예상 금액</h3>
-        <h4>{formattedPrice}₩</h4>
-        <h3 className={styles.tourReminderDecription}>투어 설명</h3>
+        <h3 className={styles.tourReminderPrive}>
+          {" "}
+          {user && user.isKorean ? "예상 금액" : "Estimated Price"}
+        </h3>
+        <h4>{formattedPrice}</h4>
+        <h3 className={styles.tourReminderDecription}>
+          {user && user.isKorean ? "당부 사항" : "Reminder"}
+        </h3>
         <h4>{tour.description}</h4>
       </div>
-      {/* 투어 리뷰 */}
       <div className="" onClick={onClickReview}>
-        <Review_Item
-          user={reviewData.user}
-          tour_id={tour.id}
-          score={reviewData.score}
-          description={reviewData.description}
-          created_at={reviewData.created_at}
-          tour={reviewData.tour}
-          needToShowTourTitle={reviewData.needToShowTourTitle}
-          imageList={reviewData.imageList}
-        />
+        <div className={styles.buttonContainer}>
+          <button className={styles.Button}>
+            {user && user.isKorean ? "전체 리뷰 보기 >" : "View All Reviews >"}
+          </button>
+        </div>
+        {firstReview ? (
+          <Review_Item
+            user={firstReview.reviewer}
+            score={firstReview.score}
+            description={firstReview.description}
+            tour={firstReview.tourTitle}
+            needToShowTourTitle={false}
+            imageList={firstReview.imageUrls}
+          />
+        ) : (
+          <p>
+            {user && user.isKorean
+              ? "첫 리뷰를 남겨주세요!"
+              : "Be the first to leave a review!"}
+          </p>
+        )}
       </div>
+
+      {selectedPlan && (
+        <Modal3 show={showModal} onClose={closeModal} plan={selectedPlan} />
+      )}
     </div>
   );
 };

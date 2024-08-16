@@ -1,6 +1,7 @@
 package com.nativenavs.tour.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -11,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PlanDTO {
     private int id;
-    private String field;         // 일정을 설명할 필드
-    private String description;  // 일정 설명
-    private String image;        // 일정 사진
-    private BigDecimal latitude;     // 위도
-    private BigDecimal longitude;    // 경도
-    private String addressFull;  // 주소
+    private String field;
+    private String description;
+    private String image;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
+    private String addressFull;
 }

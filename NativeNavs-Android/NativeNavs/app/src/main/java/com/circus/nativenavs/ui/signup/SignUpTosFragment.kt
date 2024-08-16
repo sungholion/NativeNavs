@@ -10,6 +10,7 @@ import android.webkit.WebViewClient
 import com.circus.nativenavs.R
 import com.circus.nativenavs.config.BaseFragment
 import com.circus.nativenavs.databinding.FragmentSignUpTosBinding
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.popBackStack
 
 class SignUpTosFragment : BaseFragment<FragmentSignUpTosBinding>(
@@ -34,9 +35,9 @@ class SignUpTosFragment : BaseFragment<FragmentSignUpTosBinding>(
             setSupportZoom(false)
             domStorageEnabled = true
         }
-
         binding.signupTosWv.webViewClient = WebViewClient()
         binding.signupTosWv.webChromeClient = WebChromeClient()
+        binding.signupTosWv.loadUrl(WEBURL + "privacy_terms")
     }
 
     private fun initEvent() {

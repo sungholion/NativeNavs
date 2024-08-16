@@ -1,75 +1,104 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./WishListItem.module.css";
 import NativeNavs from "../../assets/NativeNavs.png";
-import { tours } from "../../dummy.jsx";
 import Button from "../Button/Button.jsx";
 import Tour_Item from "../Tour_Item/Tour_Item.jsx";
-import thumbnail_image from "../../assets/thumbnail_image.png";
-import { useNavigate } from "react-router-dom";
 import {
   navigateToWishDetailFragment,
   navigateFromWishToTourListFragment,
-} from "../../utils/get-android-function"; // 함수 임포트
+} from "../../utils/get-android-function";
 
-const WishListItem = () => {
-  const navigate = useNavigate();
+import NativeNavsRemoveNeedle from "../../assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "../../assets/compassNeedleRemoveBack.png";
+
+const WishListItem = ({ user, tours, wishList = [], loading = true }) => {
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
+
+  const wishListedTours = tours.filter((tour) => wishList.includes(tour.id));
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.TotalContainer}>
-      {/* 위시리스트 */}
-      <div className={styles.WishListContainer}>
-        {/* 삼항 연산자 */}
-        {tours && tours.length > 0 ? (
-          // 예정된 여행이 있는 경우
-          <div>
-            {tours.map((tour) => {
-              const formattedStartDate = tour.start_date
-                ? new Date(tour.start_date).toLocaleDateString("en-CA")
-                : "N/A";
-              const formattedEndDate = tour.end_date
-                ? new Date(tour.end_date).toLocaleDateString("en-CA")
-                : "N/A";
-
-              return (
-                <div key={tour.tour_id}>
-                  <Tour_Item
-                    navigateToTourDetailFragment={navigateToWishDetailFragment}
-                    key={tour.tour_id}
-                    tour_id={tour.tour_id}
-                    user_id={tour.user_id}
-                    title={tour.title}
-                    thumbnail_image={tour.image || thumbnail_image}
-                    start_date={formattedStartDate}
-                    end_date={formattedEndDate}
-                    review_average={tour.review_average}
-                    nav_profile_img={tour.img_url}
-                    nav_nickname={tour.nickname}
-                    nav_language={tour.language ? tour.language : []}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          // 예정된 여행이 없는 경우
-          <div className={styles.TopContainer}>
-            <img
-              className={styles.NativeNavsImg}
-              src={NativeNavs}
-              alt="NativeNavs"
+      {wishListedTours.length === 0 ? (
+        <div className={styles.NoneWishListContainer}>
+          <img
+            className={styles.NativeNavsImg}
+            src={NativeNavs}
+            alt="NativeNavs"
+          />
+          <h2>
+            {user && user.isKorean
+              ? "아직 관심을 둔 Tour가 없어요!"
+              : "No tours saved yet!"}
+          </h2>
+          <h5>
+            {user && user.isKorean
+              ? "NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!"
+              : "Start your unique experience in Korea now with NativeNavs!"}
+          </h5>
+          <Button
+            size="4"
+            text={user && user.isKorean ? "둘러보기" : "Browse"}
+            onClickEvent={() => {
+              navigateFromWishToTourListFragment();
+            }}
+          />
+        </div>
+      ) : (
+        <div className={styles.WishListContainer}>
+          {wishListedTours.map((tour) => (
+            <Tour_Item
+              key={tour.id}
+              tourId={tour.id}
+              userId={tour.user.userId}
+              title={tour.title}
+              thumbnailImage={tour.thumbnailImage}
+              startDate={formatDate(tour.startDate)}
+              endDate={formatDate(tour.endDate)}
+              reviewAverage={tour.reviewAverage}
+              user={user}
+              nav_profile_img={tour.user.image}
+              nickname={tour.user.nickname}
+              userLanguages={tour.user.userLanguage}
+              navigateFragment={navigateToWishDetailFragment}
+              categoryIds={tour.categoryIds}
+              isWishPage={true}
             />
-            <h3>아직 관심을 둔 Tour가 없어요!</h3>
-            <h6>NativeNavs를 통해 한국에서 특별한 추억을 만들어 보세요!</h6>
-            <Button
-              size="3"
-              text={"둘러보기"}
-              onClickEvent={() => {
-                navigateFromWishToTourListFragment(); // 네이티브 함수 호출
-              }}
-            />
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

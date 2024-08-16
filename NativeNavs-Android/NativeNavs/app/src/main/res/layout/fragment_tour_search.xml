@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_d9d9_70"
+        tools:context=".ui.tour.TourSearchFragment">
+
+        <ImageButton
+            android:id="@+id/tour_search_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icon_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tour_search_travel_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="@+id/tour_search_close_btn"
+            app:layout_constraintTop_toBottomOf="@+id/tour_search_close_btn">
+
+            <LinearLayout
+                android:id="@+id/tour_search_travel_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/bold"
+                    android:id="@+id/tour_search_travel_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_title_travel"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tour_search_travel_title_content_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tour_search_travel_contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tour_search_travel_title"
+                    style="@style/semiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginTop="@dimen/font_size_btn_long"
+                    android:text="@string/search_title_travel_tv"
+                    android:textSize="30dp" />
+                <!-- Search Bar -->
+                <EditText
+                    android:id="@+id/searchEditText"
+                    style="@style/et_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/font_size_btn_long"
+                    android:drawableLeft="@android:drawable/ic_menu_search"
+                    android:hint="Gumi"
+                    android:padding="8dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginEnd="@dimen/font_size_btn_long"
+                    android:background="@color/gray_d9d9" />
+
+                <TextView
+                    style="@style/medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginTop="@dimen/font_size_btn_long"
+                    android:text="@string/search_title_popular_travel_tv"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+
+                    <ToggleButton
+                        android:id="@+id/buttonSeoul"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_seoul_btn"
+                        android:textOn="@string/search_title_travel_seoul_btn" />
+
+                    <ToggleButton
+                        android:id="@+id/buttonBusan"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Busan_btn"
+                        android:textOn="@string/search_title_travel_Busan_btn" />
+
+                    <ToggleButton
+                        android:id="@+id/buttonDaegu"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Daegu_btn"
+                        android:textOn="@string/search_title_travel_Daegu_btn" />
+                    <ToggleButton
+                        android:id="@+id/buttonJeju"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Jeju_btn"
+                        android:textOn="@string/search_title_travel_Jeju_btn" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal">
+                    <ToggleButton
+                        android:id="@+id/buttonIncheon"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Incheon_btn"
+                        android:textOn="@string/search_title_travel_Incheon_btn" />
+                    <ToggleButton
+                        android:id="@+id/buttonDaejeon"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Daejeon_btn"
+                        android:textOn="@string/search_title_travel_Daejeon_btn" />
+                    <ToggleButton
+                        android:id="@+id/buttonGwangju"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/stroke_round_25_dark_grey"
+                        android:checked="false"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:textOff="@string/search_title_travel_Gwangju_btn"
+                        android:textOn="@string/search_title_travel_Gwangju_btn" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/search_travel_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_travel_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tour_search_date_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="@+id/tour_search_close_btn"
+            app:layout_constraintTop_toBottomOf="@+id/tour_search_travel_cardView">
+
+            <LinearLayout
+                android:id="@+id/tour_search_date_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/bold"
+                    android:id="@+id/tour_search_date_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_title_date"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tour_search_date_title_content_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tour_search_date_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:visibility="visible">
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="370.5dp"
+                    app:mcv_tileSize="53dp"
+                    app:mcv_selectionMode="single"
+                    android:layout_marginTop="32dp"
+                    app:mcv_selectionColor="@color/nn_blue"
+                    app:mcv_showOtherDates="all" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/regular"
+                        android:id="@+id/search_date_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_date_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/tour_search_theme_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintStart_toStartOf="@+id/tour_search_close_btn"
+            app:layout_constraintTop_toBottomOf="@+id/tour_search_date_cardView">
+
+            <LinearLayout
+                android:id="@+id/tour_search_theme_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/bold"
+                    android:id="@+id/tour_search_theme_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_title_theme"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/tour_search_theme_contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tour_search_theme_title"
+                    style="@style/semiBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginTop="@dimen/font_size_btn_long"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/search_title_theme_tv"
+                    android:textSize="30dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tour_search_theme_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/font_size_btn_long"
+                    android:layout_marginEnd="@dimen/font_size_btn_long"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    android:layout_marginBottom="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/regular"
+                        android:id="@+id/search_theme_cancel_tv"
+                        android:backgroundTint="@color/gray_d9d9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="20dp"
+                        android:gravity="center"
+                        android:text="@string/search_cancel"/>
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <ToggleButton
+                        android:id="@+id/tour_search_theme_check_btn"
+                        style="@style/regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textOn="@string/search_check"
+                        android:textOff="@string/search_check"
+                        android:textColor="@color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="6dp"
+                        android:background="@drawable/shape_track_on"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/tour_search_btn_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tour_search_reset_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/search_reset_btn" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tour_search_btn"
+                style="@style/btn_short_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_search_btn" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

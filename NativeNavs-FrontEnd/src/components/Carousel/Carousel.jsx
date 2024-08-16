@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import styles from "./Carousel.module.css";
+import Heart from "../Heart/Heart";
+import axios from "axios";
 
 const StyledSlider = styled(Slider)`
   .slick-slide {
@@ -25,24 +27,25 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-export default function Carousel({ images }) {
+export default function Carousel({ images, user, tourId }) {
   const settings = {
     centerMode: false,
+    centerPadding: "0",
     infinite: true,
     dots: true,
-    arrows: false, // 슬라이더 화살표 버튼 비활성화
-    speed: 750,
-    slidesToShow: 1,
+    arrows: false, 
+    speed: 500,
+    slidesToShow: 1, 
     slidesToScroll: 1,
     adaptiveHeight: false,
-    variableWidth: false, // Set to false to make slides have equal width
+    variableWidth: false, 
   };
 
   return (
     <div className={styles.carouselContainer}>
       <StyledSlider {...settings}>
         {images.map((image, index) => (
-          <div key={index}>
+          <div style={styles.heartContainer} key={index}>
             <img
               src={image}
               alt={`slide-${index}`}

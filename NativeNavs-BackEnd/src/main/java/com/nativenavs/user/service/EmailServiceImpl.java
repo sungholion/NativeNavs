@@ -18,7 +18,9 @@ class EmailServiceImpl implements EmailService{
     @Autowired
     private UserService userService;
 
-    private final Map<String, String> authenticationStore = new ConcurrentHashMap<>();  // 이메일과 인증 코드를 임시 저장
+    private final Map<String, String> authenticationStore = new ConcurrentHashMap<>();
+
+
 
     public void sendAuthenticationCodeEmail(String email) {
         String authenticationCode = generateAuthenticationCode();
@@ -31,22 +33,22 @@ class EmailServiceImpl implements EmailService{
         message.setText(text);
         mailSender.send(message);
 
-        authenticationStore.put(email, authenticationCode); // 메모리 저장소에 회원 이메일과 매치되는 인증코드 저장
+        authenticationStore.put(email, authenticationCode);
     }
 
     private String generateAuthenticationCode() {
         SecureRandom random = new SecureRandom();
         int num = random.nextInt(1000000);
-        return String.format("%06d", num);  // 랜덤 숫자 6자리
+        return String.format("%06d", num);
     }
 
     @Override
     public boolean authenticateEmail(String email,String authenticationCode) {
-        String storeCode = authenticationStore.get(email);  // 메모리 저장소에 있는 인증코드와, 입력 받은 이메일과 매칭
+        String storeCode = authenticationStore.get(email);
 
         if(storeCode != null && storeCode.equals(authenticationCode)) {
-            authenticationStore.remove(email);  // 저장소에 있던 인증 코드 삭제
-            userService.addAuthenticatedUser(email);    // userService에 인증된 회원임을 추가함
+            authenticationStore.remove(email);
+            userService.addAuthenticatedUser(email);
             return true;
         }
 

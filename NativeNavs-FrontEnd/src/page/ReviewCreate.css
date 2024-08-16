@@ -1,0 +1,155 @@
+.ReviewCreate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.ScoreRating {
+  margin: 5px 10px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  flex-direction: flex-start;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+
+  h4 {
+    align-self: flex-start;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.ReviewImgUploadSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+  width: 90%;
+
+  .ReviewImgUploadHeader {
+    color: black;
+    font-size: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    > span {
+      color: #595959;
+      font-weight: bold;
+    }
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    div {
+      background-color: #595959;
+      color: white;
+      font-size: 30px;
+      text-align: center;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+  }
+  input {
+    display: none;
+  }
+}
+
+.ReviewImgUpload {
+  display: flex;
+  flex-direction: row;
+
+  width: 90vw;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  img {
+    width: 15vw;
+    height: 15vw;
+    border-radius: 5%;
+    margin-right: 3vw;
+    align-self: flex-start;
+  }
+}
+
+.noImgUploaded {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  height: 15vw;
+  border-radius: 10px;
+  color: #595959;
+  font-size: 20px;
+  border: 1px solid #d9d9d9;
+  align-self: center;
+}
+
+.Reviewdescription {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+  width: 90%;
+
+  div {
+    align-self: flex-start;
+    font-weight: semi-bold;
+    font-size: 20px;
+
+    span {
+      color: #595959;
+      font-weight: normal;
+      font-size: 16px;
+    }
+  }
+
+  textarea {
+    width: 80vw;
+    height: 150px;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #595959;
+  }
+}
+
+.ReviewButtonSection {
+  margin-top: 10px;
+  button {
+    width: 20vw;
+    height: 5vh;
+    color: white;
+    background-color: #20bec9;
+    border: none;
+    border-radius: 5px;
+    margin: 0px 20vw;
+  }
+
+  button:active {
+    background-color: #1a9c9c;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  }
+  button:focus {
+    outline: none;
+  }
+
+  .notAbleButton {
+    display: none;
+  }
+}

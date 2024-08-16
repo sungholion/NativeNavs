@@ -1,3 +1,41 @@
-.heart_default {
+.heart {
+  position: relative;
+  width: 13px; /* 20px의 3분의 2 */
+  height: 13px; /* 20px의 3분의 2 */
+  background-color: #444;
+  transform: rotate(-45deg);
+  margin: 20px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 13px; /* 20px의 3분의 2 */
+  height: 13px; /* 20px의 3분의 2 */
+  background-color: inherit;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -7px; /* -10px의 3분의 2 */
+  left: 0;
+}
+
+.heart::after {
+  left: 7px; /* 10px의 3분의 2 */
+  top: 0;
+}
+
+/* 클릭되지 않은 상태 */
+.heart-unliked {
+  background-color: #444;
+}
+
+/* 클릭된 상태 */
+.heart-liked {
+  background-color: red;
 }

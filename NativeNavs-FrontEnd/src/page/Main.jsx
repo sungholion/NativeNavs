@@ -3,45 +3,110 @@ import axios from "axios";
 import Tour_Item from "../components/Tour_Item/Tour_Item";
 import styles from "./Main.module.css";
 import { navigateToTourDetailFragment } from "../utils/get-android-function";
+import NativeNavsRemoveNeedle from "../assets/NativeNavsRemoveNeedle.png";
+import compassNeedleRemoveBack from "../assets/compassNeedleRemoveBack.png";
+
 
 const Main = () => {
   const [tours, setTours] = useState([]);
   const [user, setUser] = useState(null);
+  const [search, setSearch] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isReadyToDisplay, setIsReadyToDisplay] = useState(false);
 
-  // axios get 요청을 통해 server로부터 JSON 정보
   useEffect(() => {
-    // useEffect 안에서 비동기(async) 함수를 정의
-    const fetchTours = async () => {
-      try {
-        const response = await axios.get(
-          "https://i11d110.p.ssafy.io/api/tours"
-        );
-        setTours(response.data);
-      } catch (error) {
-        console.error("Error fetching tours:", error);
+    setUser(JSON.parse(localStorage.getItem("user")));
+    setSearch(JSON.parse(localStorage.getItem("search")));
+
+    window.getSearchData = (searchJson) => {
+      const parsedSearch = JSON.parse(searchJson);
+      setSearch(parsedSearch);
+      localStorage.setItem("search", searchJson);
+    };
+  }, []);
+
+  
+
+  const fetchTours = async () => {
+    setLoading(true); 
+    const category = search ? search.category.map(String).join(".") : "";
+    try {
+      console.log("투어 검색 API 요청 시작");
+      console.log(
+        `?location=${search.travel}&date=${search.date}&categoryId=${category}`
+      );
+      const tourResponse = await axios.get(
+        `https://i11d110.p.ssafy.io/api/tours/search${
+          search.travel || search.date || category
+            ? `?location=${search.travel}&date=${search.date}&categoryId=${category}`
+            : ""
+        }`
+      );
+      console.log(
+        `https://i11d110.p.ssafy.io/api/tours/search?location=${search.travel}&date=${search.date}&categoryId=${category} 로 요청을 보냄`
+      );
+      console.log("투어 검색 API 요청 성공", tourResponse.data);
+      setTours(tourResponse.data);
+    } catch (error) {
+      console.error("투어 API 요청 실패", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user && search) {
+      console.log("API 요청 시작");
+      fetchTours();
+    }
+  }, [user, search]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loading) {
+        setIsReadyToDisplay(true);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        fetchTours();
       }
     };
 
-    // 정의한 비동기 함수를 즉시 호출
-    fetchTours();
-  }, []);
+    window.addEventListener("scroll", handleScroll);
 
-  // android로부터 유저 정보를 수신 및 파싱
-  useEffect(() => {
-    window.getUserData = (userJson) => {
-      console.log("Received user JSON:", userJson);
-      try {
-        const parsedUser = JSON.parse(userJson);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`User ID: ${parsedUser.userId}`);
-        console.log(`Token: ${parsedUser.userToken}`); // 후에 추가될 예정
-        console.log(`isNav: ${parsedUser.isNav}`);
-        setUser(parsedUser);
-      } catch (error) {
-        console.error("Failed to parse user JSON", error);
-      }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [search]);
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const dateString = new Date(date).toLocaleDateString("ko-KR", options);
+    return dateString.replace(/\.$/, "").replace(/\s/g, "");
+  };
+
+  if (!isReadyToDisplay) {
+    return (
+      <div className={styles.compassContainer}>
+        <img
+          src={NativeNavsRemoveNeedle}
+          alt="Compass Background"
+          className={styles.backgroundImage}
+        />
+        <img
+          src={compassNeedleRemoveBack}
+          alt="Compass Needle"
+          className={styles.needle}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.main}>
@@ -50,16 +115,18 @@ const Main = () => {
           <Tour_Item
             key={tour.id}
             tourId={tour.id}
-            userId={tour.userId}
+            userId={tour.user.id}
             title={tour.title}
             thumbnailImage={tour.thumbnailImage}
-            startDate={new Date(tour.startDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
-            endDate={new Date(tour.endDate).toLocaleDateString()} // 'yyyy-mm-dd' 형식으로 바꾸기 위해 toLocaleDateString() 사용
+            startDate={formatDate(tour.startDate)}
+            endDate={formatDate(tour.endDate)}
             reviewAverage={tour.reviewAverage}
-            nav_profile_img={tour.thumbnailImage}
-            nav_nickname={tour.userId}
-            navigateToTourDetailFragment={navigateToTourDetailFragment}
-            user={user} // 파싱된 유저 정보를 Tour_Item에 전달
+            nav_profile_img={tour.user.image}
+            nickname={tour.user.nickname}
+            navigateFragment={navigateToTourDetailFragment}
+            user={user}
+            userLanguages={tour.user.userLanguage}
+            categoryIds={tour.categoryIds}
           />
         ))}
       </div>

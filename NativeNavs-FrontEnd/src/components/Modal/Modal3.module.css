@@ -1,0 +1,53 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* 배경을 어둡고 반투명하게 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  max-height: 90%; /* 모달의 최대 높이를 제한하여 화면을 벗어나지 않게 함 */
+  overflow: auto; /* 전체 모달 내용을 스크롤 가능하게 설정 */
+}
+
+.closeButton {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  font-size: 24px;
+  z-index: 1001;
+}
+
+.modalImage {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.planDetails {
+  text-align: left;
+  margin-top: 10px; /* 이미지와 텍스트 사이의 간격을 설정 */
+  max-height: 20vh; /* 텍스트 섹션의 최대 높이 설정 */
+}
+
+.planDetails h3 {
+  margin-top: 0;
+  font-weight: bold;
+}
+
+.planDetails p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}

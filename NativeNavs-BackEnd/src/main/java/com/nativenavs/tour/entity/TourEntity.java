@@ -1,6 +1,10 @@
 package com.nativenavs.tour.entity;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
 import com.nativenavs.tour.dto.TourDTO;
+import com.nativenavs.tour.dto.TourRequestDTO;
+import com.nativenavs.user.entity.UserEntity;
+import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -8,6 +12,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,65 +27,69 @@ public class TourEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 투어 ID
+    private int id;
 
-    //@ManyToOne
-    @Column(name = "user_id", nullable = false)
-    private int userId; // 유저 ID
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
     @Column(nullable = false, length = 100)
-    private String title; // 투어 제목
+    private String title;
 
     @Column(name = "thumbnail_image", nullable = false, length = 255)
-    private String thumbnailImage; // 썸네일 이미지
+    private String thumbnailImage;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String description; // 투어 설명
+    private String description;
 
     @Column(nullable = false, length = 30)
-    private String location; // 투어 위치 정보 (시,군)
+    private String location;
 
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
-    private int price; // 예상 가격
+    private int price;
 
     @Column(name = "start_date", nullable = false)
-    private LocalDate startDate; // 투어 시작일
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private LocalDate endDate; // 투어 종료일
+    private LocalDate endDate;
 
     @Column(name = "review_average", nullable = false, columnDefinition = "FLOAT DEFAULT 0.0")
-    private float reviewAverage; // 투어 리뷰 평점
+    private float reviewAverage;
 
     @Column(name = "review_count", nullable = false, columnDefinition = "INT DEFAULT 0")
-    private int reviewCount; // 투어 리뷰 수
+    private int reviewCount;
 
     @Column(name = "max_participant", nullable = false, columnDefinition = "INT DEFAULT 1")
-    private int maxParticipant; // 투어 최대 참여 인원
+    private int maxParticipant;
 
     @Column(name = "is_removed", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean isRemoved; // 투어 삭제 여부
+    private boolean isRemoved;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TourCategoryEntity> tourCategories;
 
     @OneToMany(mappedBy = "tourId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanEntity> plans;
-    //DTO -> Entity 로 옮겨닮기
-    public static TourEntity toSaveEntity(TourDTO tourDTO){
+
+    @OneToMany(mappedBy="tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> reservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishlistEntity> wishLists = new ArrayList<>();
+
+    public static TourEntity toSaveEntity(TourRequestDTO tourRequestDTO){
         TourEntity tourEntity = new TourEntity();
-        tourEntity.setUserId(tourDTO.getUserId());
-        tourEntity.setTitle(tourDTO.getTitle());
-        tourEntity.setThumbnailImage(tourDTO.getThumbnailImage());
-        tourEntity.setDescription(tourDTO.getDescription());
-        tourEntity.setLocation(tourDTO.getLocation());
-        tourEntity.setPrice(tourDTO.getPrice());
-        tourEntity.setStartDate(tourDTO.getStartDate());
-        tourEntity.setEndDate(tourDTO.getEndDate());
-        tourEntity.setReviewAverage(tourDTO.getReviewAverage());
-        tourEntity.setReviewCount(tourDTO.getReviewCount());
-        tourEntity.setMaxParticipant(tourDTO.getMaxParticipants());
-        tourEntity.setRemoved(tourDTO.isRemoved());
+        tourEntity.setTitle(tourRequestDTO.getTitle());
+        tourEntity.setDescription(tourRequestDTO.getDescription());
+        tourEntity.setLocation(tourRequestDTO.getLocation());
+        tourEntity.setPrice(tourRequestDTO.getPrice());
+        tourEntity.setStartDate(tourRequestDTO.getStartDate());
+        tourEntity.setEndDate(tourRequestDTO.getEndDate());
+        tourEntity.setReviewAverage(0.0F);
+        tourEntity.setReviewCount(0);
+        tourEntity.setMaxParticipant(tourRequestDTO.getMaxParticipants());
+        tourEntity.setRemoved(false);
         return tourEntity;
     }
 }

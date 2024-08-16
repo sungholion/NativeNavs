@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   z-index: 1;
+  padding-bottom: 12vh;
 
   p {
     flex: 1;
@@ -21,12 +22,14 @@
 }
 
 .Request textarea {
-  margin: 2vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
   padding: 10px;
+  height: 50vh;
   font-size: 16px;
-  border: 2px solid black;
+  border: 2px solid #d9d9d9;
   min-height: 150px;
-  border-radius: 5px;
+  border-radius: 10px;
   resize: vertical;
 }
 
@@ -36,22 +39,29 @@
   margin-left: 10vw;
 }
 
+.lengthCounter {
+  margin-left: 10vw;
+  color: #595959;
+  font-size: 14px;
+}
+
 .ButtonSection {
-  display: flex;
-  justify-content: space-between;
-  align-self: center;
-  align-items: center;
   position: fixed;
-  bottom: 2vh;
+  background-color: white;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0;
+  background-color: white;
+  border-top: 1px solid #d9d9d9;
 
   button {
-    width: 20vw;
-    height: 5vh;
+    width: 30vw;
+    height: 6vh;
     color: white;
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
-    margin: 0px 20vw;
+    bottom: 2vh;
   }
 
   button:active {
@@ -60,5 +70,15 @@
   }
   button:focus {
     outline: none;
+  }
+
+  .leftButton {
+    position: absolute;
+    left: 10vw;
+  }
+
+  .rightButton {
+    position: absolute;
+    right: 10vw;
   }
 }

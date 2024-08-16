@@ -1,8 +1,6 @@
 export const duration_expression = (d1, d2) => {
-  // d1, d2 : Date() 객체
   const diffDate = Math.abs(d1.getTime() - d2.getTime());
 
-  //년 단위
   const year = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 365));
   const month = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 30));
   const week = Math.floor(diffDate / (1000 * 60 * 60 * 24 * 7));

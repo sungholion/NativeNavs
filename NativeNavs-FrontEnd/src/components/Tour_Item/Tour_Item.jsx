@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Rating from "../Star/Rating(Basic)";
 import Heart from "../Heart/Heart";
 import styles from "./Tour_Item.module.css";
-import { getStaticImage } from "@/utils/get-static-image";
+import axios from "axios";
+import HeartOut from "../Heart/HeartOut";
 
 const Tour_Item = ({
-  tourId,
+  tourId = -1,
   userId,
   title,
   thumbnailImage,
@@ -14,66 +14,170 @@ const Tour_Item = ({
   endDate,
   reviewAverage,
   nav_profile_img,
-  nav_nickname,
-  navigateToTourDetailFragment,
-  user, // 추가: user 정보를 props로 받음
+  nickname,
+  navigateFragment,
+  user,
+  userLanguages,
+  categoryIds,
+  isWishPage = false,
 }) => {
-  const navigate = useNavigate();
   const [isWishListed, setIsWishListed] = useState(false);
 
-  // 투어 클릭 이벤트
-  const onClickTour = (e) => {
-    e.stopPropagation(); // 이벤트 전파 방지
-    if (user) {
-      // 네이티브 안드로이드 브릿지를 사용해 투어 상세 페이지로 이동
-      navigateToTourDetailFragment(tourId, user.userId);
-    } else {
-      console.error("User 정보가 없습니다.");
+  const fetchWishLists = async () => {
+    if (user && user.isNav == false) {
+      console.log("위시리스트 체크 API 요청 시작");
+      try {
+        const response = await axios.get(
+          `https://i11d110.p.ssafy.io/api/wishlist/check/${tourId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.userToken}`,
+              accept: "application/json",
+            },
+          }
+        );
+        console.log("위시리스트 체크 API 응답 성공", response.data);
+        setIsWishListed(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
-  // 위시리스트 이벤트
-  const toggleWishlist = (e) => {
+  useEffect(() => {
+    fetchWishLists();
+  }, [tourId]);
+
+  const onClickTour = (e) => {
+    console.log(parseInt(tourId));
+    console.log(userId);
+    console.log(user);
+    navigateFragment(parseInt(tourId), parseInt(userId));
+  };
+
+  const toggleWishlist = async (e) => {
     e.stopPropagation();
-    setIsWishListed((current) => !current);
+    try {
+      if (isWishListed) {
+        await axios.delete(
+          `https://i11d110.p.ssafy.io/api/wishlist/${tourId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.userToken}`,
+            },
+          }
+        );
+      } else {
+        await axios.post(
+          `https://i11d110.p.ssafy.io/api/wishlist?tourId=${tourId}`,
+          null,
+          {
+            headers: {
+              Authorization: `Bearer ${user.userToken}`,
+            },
+          }
+        );
+      }
+      setIsWishListed((prev) => !prev);
+    } catch (error) {
+      console.error("위시리스트 업데이트 중 오류 발생:", error);
+    }
+  };
+
+  const [navLanguages, setNavLanguages] = useState([]);
+  useEffect(() => {
+    if (userLanguages) {
+      const userLanguageList = userLanguages
+        .split(",")
+        .map((lang) => lang.trim());
+      setNavLanguages(userLanguageList);
+    }
+  }, [userLanguages]);
+
+  const categoryMapping = {
+    1: { ko: "시장", en: "Market" },
+    2: { ko: "액티비티", en: "Activity" },
+    3: { ko: "자연", en: "Nature" },
+    4: { ko: "역사", en: "History" },
+    5: { ko: "문화", en: "Culture" },
+    6: { ko: "축제", en: "Festival" },
+    7: { ko: "음식", en: "Food" },
+    8: { ko: "트렌디", en: "Trendy" },
+    9: { ko: "랜드마크", en: "Landmark" },
+    10: { ko: "쇼핑", en: "Shopping" },
+    11: { ko: "미용", en: "Beauty" },
+    12: { ko: "사진", en: "Photography" },
+  };
+
+  const getCategoryNames = () => {
+    return categoryIds
+      .map((id) => categoryMapping[id])
+      .filter(Boolean)
+      .map((category) => (user.isKorean ? category.ko : category.en))
+      .join(", ");
   };
 
   return (
-    <div onClick={onClickTour} className={styles.tour_item}>
-      {/* 투어 이미지 */}
+    <div className={styles.Tour_Item} onClick={onClickTour}>
       <div className={styles.thumbnail_container}>
         <img src={thumbnailImage} alt="" className={styles.tour_thumbnail} />
-        <div className={styles.heart_container}>
-          <Heart
-            isWishListed={isWishListed}
-            setIsWishListed={setIsWishListed}
-            onClickEvent={toggleWishlist}
-          />
-        </div>
+        {!user.isNav && (
+          <div>
+            <div className={styles.heart_container}>
+              <Heart
+                isWishListed={isWishListed}
+                onClickEvent={toggleWishlist}
+              />
+            </div>
+            <div className={styles.heart_container}>
+              <HeartOut isWishListed={isWishListed} />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* 투어 정보 */}
-      <section className={styles.tour_info}>
-        {/* 왼쪽 정보 */}
-        <div className={styles.tour_leftinfo}>
-          <p className={styles.tour_title}>{title}</p>
-          <p className={styles.tour_duration}>
-            {startDate} ~ {endDate}
-          </p>
-          <Rating avg={reviewAverage} />
-        </div>
-        {/* 오른쪽 정보 */}
-        <div className={styles.tour_rightinfo}>
-          <div className={styles.tour_nav}>
-            {/* Nav 프로필 이미지 */}
-            <img
-              src={nav_profile_img}
-              alt={nav_nickname}
-              className={styles.nav_img}
-            />
-            {/* Nav 닉네임 */}
-            <p style={{ cursor: "pointer" }}>{nav_nickname}</p>
+      <section className={styles.infoContainer}>
+        <div className={styles.infoTopContainer}>
+          <div className={styles.infoTopLeftContainer}>
+            <p className={styles.tour_title}>{title}</p>
+            <p className={styles.tour_duration}>
+              {startDate} ~ {endDate}
+            </p>
           </div>
+          <div className={styles.infoTopRightContainer}>
+            <div className={styles.tour_nav}>
+              <img
+                src={nav_profile_img}
+                alt={nickname}
+                className={styles.nav_img}
+              />
+              <p className={styles.tour_nav}>{nickname}</p>
+            </div>
+            <div className={styles.categoryContainer}>
+              {getCategoryNames()
+                .split(", ")
+                .slice(0, isWishPage ? 1 : 2)
+                .map((category, index) => (
+                  <div key={index} className={styles.categoryBox}>
+                    {category}
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.infoBottomContainer}>
+          <Rating reviewAverage={reviewAverage} />
+
+          {navLanguages.length > 1 ? (
+            <p className={styles.navLanguages}>
+              {user && user.isKorean
+                ? `🌏 ${navLanguages[0]} 외 ${navLanguages.length - 1}개 국어`
+                : `🌏 ${navLanguages[0]} and ${navLanguages.length - 1} other`}
+            </p>
+          ) : (
+            <p className={styles.navLanguages}>🌏 {navLanguages[0]}</p>
+          )}
         </div>
       </section>
     </div>

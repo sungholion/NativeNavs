@@ -11,10 +11,8 @@ data class SignUpDto(
     val nation: String,
     val birth : String,
     val isKorean : Boolean,
-    val image : String = "",
-    val device : String = ""
+    val device : String = "",
+    val image : String = ""
 )
 
-data class LanguageListDto (val language : List<String>){
-
-}
+data class LanguageListDto (val language : List<String>)

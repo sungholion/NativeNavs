@@ -51,6 +51,6 @@ class CustomSpinnerAdapter(context: Context, list: ArrayList<String>) :
 
     fun setSelectedItemPosition(position: Int) {
         selectedItemPosition = position
-        notifyDataSetChanged() // 선택된 항목을 갱신하기 위해 어댑터를 다시 로드
+        notifyDataSetChanged()
     }
 }

@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 8vh;
+  padding-bottom: 12vh;
 
   hr {
     color: #595959;
@@ -12,10 +12,12 @@
 }
 
 .TourThumbnailCheck {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
+
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -30,26 +32,30 @@
 }
 
 .TourTitle {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
 
   > div {
-    margin: 10px;
-    font-size: 20px;
+    margin: 10px 20px;
+    font-size: 24px;
+    color: #595959;
   }
 }
 
 .TourDuration {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
+
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -57,46 +63,50 @@
 
   .TourDateShow {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100vw;
+
+    .TourDateArea {
+      margin: 10px 10px;
+    }
 
     span {
-      font-size: min(25px, 4vw);
+      font-size: 24px;
       margin: 0px 10px;
     }
 
     .DateBox {
-      border: 1px solid #595959;
-      padding: 3%;
-      border-radius: 5%;
+      font-size: 20px;
+      color: #595959;
     }
   }
 }
 
 .TourMaxPeople {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
 
   > div {
-    margin-left: 3%;
+    margin: 10px 20px;
     font-size: 24px;
+    color: #595959;
   }
 }
 
 .TourPlanList {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   > p {
-    align-self: left;
+    margin: 10px 20px;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .TourPlanItem {
@@ -111,10 +121,11 @@
 }
 
 .TourTheme {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   > p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
@@ -123,6 +134,7 @@
 
 .TourThemeList {
   display: flex;
+  align-self: center;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -132,7 +144,8 @@
   .TourThemeItem {
     border: 1px solid #595959;
     font-size: 20px;
-    border-radius: 5%;
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
     padding: 2px;
     display: inline-block;
     width: 20vw;
@@ -142,21 +155,22 @@
 }
 
 .ButtonSection {
-  display: flex;
-  justify-content: space-between;
-  align-self: center;
-  align-items: center;
   position: fixed;
-  bottom: 2vh;
+  background-color: white;
+  width: 100vw;
+  height: 10vh;
+  bottom: 0;
+  background-color: white;
+  border-top: 1px solid #d9d9d9;
 
   button {
-    width: 20vw;
-    height: 5vh;
+    width: 30vw;
+    height: 6vh;
     color: white;
     background-color: #20bec9;
     border: none;
     border-radius: 5px;
-    margin: 0px 20vw;
+    bottom: 2vh;
   }
 
   button:active {
@@ -166,40 +180,59 @@
   button:focus {
     outline: none;
   }
+
+  .leftButton {
+    position: absolute;
+    left: 10vw;
+  }
+
+  .rightButton {
+    position: absolute;
+    right: 10vw;
+  }
+
+  .disabled {
+    background-color: lightcoral;
+  }
+
+  .loading {
+    background-color: #d9d9d9;
+  }
 }
 
 .Tourdescription {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
   > div {
+    align-self: center;
+    width: 80vw;
     padding: 2%;
-    margin: 10px;
-    border-radius: 5%;
-    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    border: 2px solid #d9d9d9;
     font-size: 18px;
   }
 }
 
 .TourExpectPrice {
-  width: 80vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   p {
+    margin-left: 20px;
     align-self: left;
     font-weight: bold;
     font-size: 22px;
   }
   > div {
-    padding: 2%;
-    margin: 10px;
-    border-radius: 5%;
-    border: 1px solid #d9d9d9;
-    font-size: 18px;
+    margin: 10px 20px;
+    color: #595959;
+    font-size: 24px;
   }
 }

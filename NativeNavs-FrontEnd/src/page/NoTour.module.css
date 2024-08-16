@@ -1,0 +1,71 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tourList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@keyframes rotateNeedleSlowDown {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg); /* 빠르게 회전 */
+  }
+}
+
+
+.needle {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  transform-origin: center center;
+  animation: rotateNeedleSlowDown 1.5s cubic-bezier(0, 0, 0.5, 1) forwards; /* 처음에는 빠르게, 나중에 느리게 */
+  z-index: 2;
+}
+
+.compassContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 화면의 중앙에 위치하도록 설정 */
+  width: 140px; /* 전체 크기 */
+  height: 140px; /* 전체 크기 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}  
+
+.backgroundImage {
+  position: absolute;
+  width: 100%; /* 부모 요소에 맞게 전체 크기로 설정 */
+  height: 100%;
+  z-index: 1; /* 배경 이미지가 뒤에 위치 */
+}  
+
+.messageContainer {
+    margin-top: 200px; /* 변경: 텍스트를 이미지 아래로 이동 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.message {
+    font-size: 16px;
+    color: black;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    text-align: center;
+}
+  
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }

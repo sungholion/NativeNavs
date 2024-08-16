@@ -1,6 +1,11 @@
 package com.nativenavs.user.entity;
 
+import com.nativenavs.reservation.entity.ReservationEntity;
+import com.nativenavs.review.entity.ReviewEntity;
+import com.nativenavs.stamp.entity.UserStampEntity;
+import com.nativenavs.tour.entity.TourEntity;
 import com.nativenavs.user.dto.UserDTO;
+import com.nativenavs.wishlist.entity.WishlistEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,7 +28,7 @@ public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 투어 ID
+    private int id;
 
     @Column(nullable = false, length = 50)
     private String email;
@@ -50,17 +57,17 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String nation;
 
-    @Column(nullable = false, length = 255) // 254 255
+    @Column(nullable = false, length = 255)
     private String image;
 
     @Column(nullable = true)
-    private int navReviewCount; // 가이드가 받은 리뷰 총 수
+    private int navReviewCount;
 
     @Column(nullable = true)
-    private float navReviewAverage; // 가이드가 받은 리뷰 총 평점
+    private float navReviewAverage;
 
     @Column(nullable = true)
-    private int travReservationCount;   // 여행자가 경험한 여행 총 수
+    private int travReservationCount;
 
     @Column(nullable = false)
     private boolean isKorean;
@@ -68,9 +75,31 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String device;
 
+    @Column(nullable = false, length = 255)
+    private String fcmToken;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserStampEntity> userStamps;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WishlistEntity> wishList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TourEntity> tours = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> guideReservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationEntity> participantReservations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewEntity> reviewsGiven = new ArrayList<>();
+
     // DTO -> Entity
     public static UserEntity toSaveEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
+        userEntity.setPassword(userDTO.getPassword());
         userEntity.setId(userDTO.getId());
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setName(userDTO.getName());
@@ -80,7 +109,7 @@ public class UserEntity extends BaseEntity {
         userEntity.setBirth(userDTO.getBirth());
         userEntity.setUserLanguage(userDTO.getUserLanguage());
         userEntity.setNation(userDTO.getNation());
-        userEntity.setImage(userDTO.getImage());
+//        userEntity.setImage(userDTO.getImage());
         userEntity.setNavReviewCount(userDTO.getNavReviewCount());
         userEntity.setNavReviewAverage(userDTO.getNavReviewAverage());
         userEntity.setTravReservationCount(userDTO.getTravReservationCount());

@@ -3,17 +3,13 @@ import styles from "./Plan_Item2.module.css";
 import { getStaticImage } from "@/utils/get-static-image";
 
 const Plan_Item2 = ({
-  plan_id,
-  tour_id,
   field,
   description,
-  latitude,
-  longitude,
-  address_full,
   image,
+  onClick,
 }) => {
   return (
-    <div className={styles.Plan_Item2}>
+    <div onClick={onClick} className={styles.Plan_Item2}>
       <div className={styles.container}>
         <img src={image} alt="image" className={styles.plan_img} />
         <div className={styles.text}>

@@ -1,5 +1,7 @@
 package com.circus.nativenavs.ui.signup
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +12,15 @@ import com.circus.nativenavs.data.LanguageListDto
 import com.circus.nativenavs.data.LanguageServerDto
 import com.circus.nativenavs.data.SignUpDto
 import com.circus.nativenavs.data.service.UserService
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
+private const val TAG = "SignUpActivityViewModel"
 class SignUpActivityViewModel : ViewModel() {
 
     private val _signUpDTO = MutableLiveData(
@@ -54,6 +63,15 @@ class SignUpActivityViewModel : ViewModel() {
     private val _checkCount = MutableLiveData<Int>(0)
     val checkCount : LiveData<Int> get() = _checkCount
 
+    private var _body = MutableLiveData<MultipartBody.Part?>(null)
+    val body : LiveData<MultipartBody.Part?> get() = _body
+    private var _imageUri = MutableLiveData<Uri>()
+    val imageUri : LiveData<Uri> = _imageUri
+    fun updateImageFile(image :MultipartBody.Part, uri : Uri){
+        _imageUri.value = uri
+        _body.value = image
+    }
+
     fun updateCheckList(language : String, isChecked: Boolean){
         var count = 0
         _languageCheckList.value?.onEach {
@@ -72,7 +90,6 @@ class SignUpActivityViewModel : ViewModel() {
         }
     }
 
-
     private val retrofit = ApplicationClass.retrofit.create(UserService::class.java)
 
     private val _dupliState = MutableLiveData<Pair<Int,String>>()
@@ -87,24 +104,20 @@ class SignUpActivityViewModel : ViewModel() {
 
     fun signUp() {
         viewModelScope.launch {
-            val response = _signUpDTO.value?.let { retrofit.postSignUp(it) }
-
-            // HTTP 상태 코드 출력
-            println(_signUpDTO.value)
-            _signStatus.postValue(response?.code())
-            println("HTTP 상태 코드: ${response?.code()}")
-            println("HTTP 상태: ${response?.body()}")
+            if (_body.value != null ){
+                val userJson = Gson().toJson(_signUpDTO.value)
+                val userRequestBody = userJson.toRequestBody("application/json".toMediaTypeOrNull())
+                val requestBody = MultipartBody.Part.createFormData("user", null, userRequestBody)
+                val response = retrofit.postSignUp(requestBody, _body.value!!)
+                _signStatus.postValue(response?.code())
+            }
+            else _signStatus.postValue(999)
         }
     }
 
     fun getEmailCode(email : String){
         viewModelScope.launch {
-
             val response = retrofit.getEmailVerifyCode(email)
-            println("email : $email")
-            println("이메일 전송 Response code: ${response.code()}")
-            println("이메일 전송 Response headers: ${response.headers()}")
-            println("이메일 전송 Response error body: ${response.errorBody()}")
             _emailStatus.postValue(response.code())
 
         }
@@ -114,11 +127,7 @@ class SignUpActivityViewModel : ViewModel() {
         viewModelScope.launch {
             val response = retrofit.setEmailVerifyCode(email,code)
 
-            // 상태 코드 업데이트
             _emailStatusCode.postValue(response.code())
-            println("이메일 인증 Response code: ${response.code()}")
-            println("이메일 인증 Response headers: ${response.headers()}")
-            println("이메일 인증 Response error body: ${response.errorBody()?.string()}")
         }
     }
 
@@ -169,6 +178,7 @@ class SignUpActivityViewModel : ViewModel() {
     fun updateUserLanguage(language: String){
         _signUpDTO.value = _signUpDTO.value?.copy(userLanguage = language)
     }
+
     @Override
     override fun toString(): String {
         return "이메일 : " + _signUpDTO.value?.email +
@@ -182,6 +192,5 @@ class SignUpActivityViewModel : ViewModel() {
                 "\n 생년월일 : " + _signUpDTO.value?.birth +
                 "\n 앱 설정 언어 : " + _signUpDTO.value?.isKorean
     }
-
 
 }

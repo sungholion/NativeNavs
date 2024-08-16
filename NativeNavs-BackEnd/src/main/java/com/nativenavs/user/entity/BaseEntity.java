@@ -22,9 +22,9 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @CreatedDate
     @Column(updatable = false, name = "created_at", nullable = false)
-    private LocalDateTime createdAt;  // 회원가입 일시
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;  // 회원 정보 수정 일시
+    private LocalDateTime updatedAt;
 }

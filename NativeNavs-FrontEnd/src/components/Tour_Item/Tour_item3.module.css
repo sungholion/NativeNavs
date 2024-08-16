@@ -1,0 +1,40 @@
+.Tour_Item3 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tour_left_info {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tour_right_info {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+}
+
+.thumbnailImage {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+}
+
+.tour_right_info > p{
+    margin: 1px;
+}
+
+.title {
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 두 줄로 제한 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}

@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.chat.ChatListFragment">
 
         <TextView
             android:id="@+id/chat_list_title_tv"
-            style="@style/title_fragment"
+            style="@style/bold"
+            android:textSize="44sp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="10dp"
+            android:paddingStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chat_list_title"
@@ -21,14 +28,67 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:animateLayoutChanges="false"
             android:overScrollMode="never"
             android:scrollbars="none"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chat_list_title_tv"
             tools:listitem="@layout/item_chatroom" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_chatting_cl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_list_title_tv">
+
+            <ImageView
+                android:id="@+id/chat_message_iv"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginBottom="18dp"
+                android:src="@drawable/icon_meesage"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/chat_message_tv"/>
+            <TextView
+                android:id="@+id/chat_message_tv"
+                style="@style/medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/chat_list_no_message_title"
+                android:textSize="16sp"
+                android:letterSpacing="0.03"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chat_message_iv"
+                app:layout_constraintBottom_toTopOf="@+id/chat_message_content_tv"/>
+
+            <TextView
+                android:id="@+id/chat_message_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_8A8A"
+                style="@style/regular"
+                android:letterSpacing="0.03"
+                android:text="@string/chat_list_no_message_content"
+                android:textSize="14sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chat_message_tv"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

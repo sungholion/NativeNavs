@@ -16,8 +16,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .allowedOriginPatterns("*")
                         .allowedHeaders("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS" , "PATCH")
-                        .exposedHeaders("Authorization", "RefreshToken");
-                //.allowCredentials(true);
+                        .exposedHeaders("Authorization", "RefreshToken")
+                .allowCredentials(true);
             }
         };
     }

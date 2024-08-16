@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Main from "./page/Main";
 import Nav from "./page/Nav";
 import Privacy_Terms from "./page/Privacy_Terms";
@@ -12,6 +12,7 @@ import WishList from "./page/WishList";
 import Review from "./page/Review";
 import { Outlet } from "react-router-dom";
 import ReviewPhotos from "./page/ReviewPhotos";
+import ReviewCreate from "./page/ReviewCreate";
 import {
   navigateToTourReviewPhotoFragment,
   navigateToNavReviewPhotoFragment,
@@ -20,14 +21,33 @@ import {
 import { getStaticImage } from "./utils/get-static-image";
 import TourCreate from "./page/TourCreate";
 import TourEdit from "./page/TourEdit";
+import ReservationList from "./page/ReservationList";
+import ReservationDetail from "./page/ReservationDetail";
+import ReservationListForTour from "./page/ReservationListForTour";
+import NavTourList from "./page/NavTourList";
+import ReservationCreate from "./page/ReservationCreate";
+
 
 function App() {
-  const param = useSearchParams();
+
+  useEffect(() => {
+    window.getUserData = (userJson) => {
+      console.log("Received userJson:", userJson);
+      try {
+        localStorage.setItem("user", userJson);
+        console.log("userJson 저장 성공");
+      } catch (error) {
+        console.error("userJson 저장 실패", error);
+      }
+    };
+
+  }, []);
 
   return (
     <>
       <Routes>
         <Route path="/main" element={<Main />} />
+
         <Route path="/tour" element={<Tour />}>
           <Route path="create" element={<TourCreate />} />
           <Route path="edit/:tour_id" element={<TourEdit />} />
@@ -37,56 +57,71 @@ function App() {
               path="reviews"
               element={
                 <Review
+                  keyword={"tour"}
                   navigateToReviewPhotoFragment={
                     navigateToTourReviewPhotoFragment
                   }
                 />
               }
             />
-            <Route path="reviewphotos" element={<ReviewPhotos />} />
             <Route
-              path="reviews/create"
-              element={<div>투어 리뷰 작성 페이지</div>}
+              path="reviewphotos"
+              element={<ReviewPhotos keyword={"tour"} />}
+            />
+            <Route
+              path="reviews/create/:reservation_id"
+              element={
+                <div>
+                  <ReviewCreate />
+                </div>
+              }
             />
           </Route>
         </Route>
+
         <Route path="/nav/:user_id" element={<Nav />}>
           <Route
             path="reviews"
             element={
               <Review
+                keyword={"nav"}
                 navigateToReviewPhotoFragment={navigateToNavReviewPhotoFragment}
               />
             }
           />
-          <Route path="reviewphotos" element={<ReviewPhotos />} />
-          <Route path="tourlist" element={<div>투어목록</div>} />
+          <Route
+            path="reviewphotos"
+            element={<ReviewPhotos keyword={"guide"} />}
+          />
+          <Route path="tourlist" element={<NavTourList />} />
         </Route>
+
         <Route path="/trav/:user_id" element={<Trav />}>
           <Route
             path="reviews"
             element={
               <Review
+                keyword={"trav"}
                 navigateToReviewPhotoFragment={
                   navigateToTravReviewPhotoFragment
                 }
               />
             }
           />
-          <Route path="reviewphotos" element={<ReviewPhotos />} />
           <Route path="wishlist" element={<WishList />} />
-          <Route
-            path="reservation_list"
-            element={<div>예약리스트 및 완료된 Tour</div>}
-          />
+          <Route path="reservation_list" element={<ReservationList />} />
         </Route>
+
         <Route path="/reservation/:tour_id" element={<Reservation />}>
-          <Route path="list" element={<div>해당 투어에 대한 예약 목록</div>} />
-          <Route path="create" element={<div>예약 하기</div>} />
-          <Route path="detail/:res_id" element={<div>예약 상세 정보</div>} />
+          <Route path="list" element={<ReservationListForTour />} />
+          <Route path="create/:trav_id" element={<ReservationCreate />} />
+          <Route path="detail/:res_id" element={<ReservationDetail />} />
         </Route>
+
         <Route path="/privacy_terms" element={<Privacy_Terms />} />
+
         <Route path="/team" element={<Team />} />
+
         <Route
           path="*"
           element={

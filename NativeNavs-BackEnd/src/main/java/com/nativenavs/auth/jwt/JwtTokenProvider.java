@@ -17,7 +17,7 @@ public class JwtTokenProvider {
 
     private Set<String> tokenBlacklist = new HashSet<>();
 
-    // 액세스 토큰 생성
+
     public String generateAccessToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
@@ -30,7 +30,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // 리프레시 토큰 생성
+
     public String generateRefreshToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();

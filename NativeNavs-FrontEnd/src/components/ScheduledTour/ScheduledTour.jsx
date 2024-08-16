@@ -13,10 +13,8 @@ const ScheduledTour = () => {
   return (
     <div className={styles.TotalContainer}>
       {tours && tours.length > 0 ? (
-        /* 예정된 여행이 있는 경우 */
         <div>
           {tours.map((tour) => {
-            // 날짜를 문자열로 변환
             const formattedDate = tour.date.toLocaleDateString();
 
             return (

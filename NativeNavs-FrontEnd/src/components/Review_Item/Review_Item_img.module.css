@@ -1,5 +1,5 @@
 .item_img {
-  width: 50vw;
+  width: 50w;
   height: 50vw;
   overflow: hidden;
   object-fit: cover;
@@ -14,8 +14,8 @@
 }
 
 .item_img_one img {
-  width: 50vw;
-  height: 50vw;
+  width: 60vw;
+  height: 60vw;
   overflow: hidden;
   object-fit: cover;
   border-radius: 5px;

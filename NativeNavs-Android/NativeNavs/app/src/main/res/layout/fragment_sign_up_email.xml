@@ -11,7 +11,7 @@
         <include
             android:id="@+id/signup_title_layout"
             layout="@layout/layout_title_back"
-            app:titleText="@{`회원가입`}" />
+            app:titleText="@string/sign_login_signup" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -90,6 +90,8 @@
                 android:layout_marginEnd="0dp"
                 android:inputType="number"
                 android:enabled="false"
+                android:lines="1"
+                android:maxLines="1"
                 app:layout_constraintEnd_toStartOf="@+id/signup_code_auth_btn"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,6 +151,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                android:lines="1"
+                android:maxLines="1"
                 android:inputType="textPassword"
                 android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -183,6 +187,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_page"
+                android:lines="1"
+                android:maxLines="1"
                 android:inputType="textPassword"
                 android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"

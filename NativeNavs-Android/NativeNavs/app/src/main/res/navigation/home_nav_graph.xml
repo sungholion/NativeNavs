@@ -17,6 +17,15 @@
         <action
             android:id="@+id/action_tourListFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
+        <action
+            android:id="@+id/action_tourListFragment_to_tourSearchFragment"
+            app:destination="@id/tourSearchFragment" />
+        <action
+            android:id="@+id/action_tourListFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_tourListFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
@@ -39,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.MypageFragment"
+        android:name="com.circus.nativenavs.ui.mypage.MypageFragment"
         android:label="MypageFragment"
         tools:layout="@layout/fragment_mypage">
         <action
@@ -57,6 +66,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_tosFragment"
             app:destination="@id/tosFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
     </fragment>
     <fragment
         android:id="@+id/reservationListFragment"
@@ -66,6 +78,11 @@
         <action
             android:id="@+id/action_reservationListFragment_to_reservationDetailFragment"
             app:destination="@id/reservationDetailFragment" />
+        <action
+            android:id="@+id/action_reservationListFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/tourListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/tourRegisterFragment"
@@ -74,7 +91,9 @@
         tools:layout="@layout/fragment_tour_register">
         <action
             android:id="@+id/action_tourRegisterFragment_to_tourDetailFragment"
-            app:destination="@id/tourDetailFragment" />
+            app:destination="@id/tourDetailFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/reservationDetailFragment"
@@ -87,6 +106,13 @@
         <argument
             android:name="tourId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_reviewRegisterFragment"
+            app:destination="@id/reviewRegisterFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/tourDetailFragment"
@@ -108,12 +134,23 @@
         <action
             android:id="@+id/action_tourDetailFragment_to_myTripReservationListFragment"
             app:destination="@id/myTripReservationListFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourModifyFragment"
+            app:destination="@id/tourModifyFragment" />
+        <action
+            android:id="@+id/action_tourDetailFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@layout/fragment_tour_list"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/appSettingFragment"
         android:name="com.circus.nativenavs.ui.setting.AppSettingFragment"
         android:label="AppSettingFragment"
-        tools:layout="@layout/fragment_app_setting" >
+        tools:layout="@layout/fragment_app_setting">
         <action
             android:id="@+id/action_appSettingFragment_self"
             app:destination="@id/appSettingFragment"
@@ -154,17 +191,46 @@
         <argument
             android:name="userId"
             app:argType="integer" />
+        <argument
+            android:name="navId"
+            app:argType="integer" />
+        <argument
+            android:name="travId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/profileModifylFragment"
         android:name="com.circus.nativenavs.ui.profile.ProfileModifylFragment"
         android:label="ProfileModifylFragment"
-        tools:layout="@layout/fragment_profile_modify" />
+        tools:layout="@layout/fragment_profile_modify">
+        <action
+            android:id="@+id/action_profileModifylFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileModifylFragment_to_profileLanguageFragment"
+            app:destination="@id/profileLanguageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reservationRegisterFragment"
         android:name="com.circus.nativenavs.ui.reservation.ReservationRegisterFragment"
         android:label="ReservationRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" />
+        tools:layout="@layout/fragment_reservation_register">
+        <argument
+            android:name="tourId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="travId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_reservationRegisterFragment_to_reservationDetailFragment"
+            app:destination="@id/reservationDetailFragment"
+            app:popUpTo="@id/chattingRoomFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewListFragment"
@@ -190,15 +256,27 @@
         android:id="@+id/reviewRegisterFragment"
         android:name="com.circus.nativenavs.ui.review.ReviewRegisterFragment"
         android:label="ReviewRegisterFragment"
-        tools:layout="@layout/fragment_reservation_register" />
+        tools:layout="@layout/fragment_reservation_register">
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+        <argument
+            android:name="reservationId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_reviewRegisterFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment"
+            app:popUpTo="@id/reservationDetailFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/stampDetailFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.StampDetailFragment"
+        android:name="com.circus.nativenavs.ui.mypage.StampDetailFragment"
         android:label="StampDetailFragment"
         tools:layout="@layout/fragment_stamp_detail" />
     <fragment
         android:id="@+id/stampFragment"
-        android:name="com.circus.nativenavs.ui.home.mypage.StampFragment"
+        android:name="com.circus.nativenavs.ui.mypage.StampFragment"
         android:label="StampFragment"
         tools:layout="@layout/fragment_stamp" />
     <fragment
@@ -225,6 +303,9 @@
         <action
             android:id="@+id/action_myTripFragment_to_tourDetailFragment"
             app:destination="@id/tourDetailFragment" />
+        <action
+            android:id="@+id/action_myTripFragment_to_tourRegisterFragment"
+            app:destination="@id/tourRegisterFragment" />
     </fragment>
     <fragment
         android:id="@+id/tourWishListFragment"
@@ -236,7 +317,9 @@
             app:destination="@id/tourDetailFragment" />
         <action
             android:id="@+id/action_tourWishListFragment_to_tourListFragment"
-            app:destination="@id/tourListFragment" />
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/myTripReservationListFragment"
@@ -249,6 +332,9 @@
         <action
             android:id="@+id/action_myTripReservationListFragment_to_reservationDetailFragment"
             app:destination="@id/reservationDetailFragment" />
+        <action
+            android:id="@+id/action_myTripReservationListFragment_self"
+            app:destination="@id/myTripReservationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewPhotoFragment"
@@ -268,4 +354,38 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/profileLanguageFragment"
+        android:name="com.circus.nativenavs.ui.profile.ProfileLanguageFragment"
+        android:label="ProfileLanguageFragment"
+        tools:layout="@layout/fragment_sign_up_language">
+        <action
+            android:id="@+id/action_profileLanguageFragment_to_profileModifylFragment"
+            app:destination="@id/profileModifylFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tourSearchFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourSearchFragment"
+        android:label="TourSearchFragment"
+        tools:layout="@layout/fragment_tour_search">
+        <action
+            android:id="@+id/action_tourSearchFragment_to_tourListFragment"
+            app:destination="@id/tourListFragment"
+            app:popUpTo="@id/tourListFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/tourModifyFragment"
+        android:name="com.circus.nativenavs.ui.tour.TourModifyFragment"
+        android:label="TourModifyFragment"
+        tools:layout="@layout/fragment_tour_modify">
+        <argument
+            android:name="tourId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.circus.nativenavs.ui.mypage.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" />
 </navigation>

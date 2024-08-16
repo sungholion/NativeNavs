@@ -19,8 +19,9 @@
     <string name="app_bar_review">Review</string>
     <string name="app_bar_review_register">Write Review</string>
     <string name="app_bar_profile">Profile</string>
-    <string name="app_bar_profile_modify">Edit Profile</string>
+    <string name="app_bar_profile_modify">Edit</string>
 
+    <string name="app_bar_my_trip_list">My TourList</string>
     <string name="tour_wish_list_title">WishList</string>
 
     <!-- My Page -->
@@ -34,6 +35,9 @@
 
     <!--sign-->
     <string name="profile_myreview">My Review</string>
+    <string name="profile_password_message">Please Check Password Valid</string>
+    <string name="profile_password_check_message">Please Check Password</string>
+    <string name="profile_nickname_check">Please Check Duplicate NickName</string>
     <string name="sign_next">Next</string>
     <string name="sign_email">Email</string>
     <string name="sign_pw">Password</string>
@@ -60,7 +64,7 @@
     <string name="sign_type_trav">Trav</string>
     <string name="sign_type_trav_explain">Traveler</string>
     <string name="sign_nickname">Nickname</string>
-    <string name="sign_nickname_check">Check Availability</string>
+    <string name="sign_nickname_check">Check</string>
     <string name="sign_nickname_help">Enter a nickname to display on NativeNavs (4-20 characters, letters and numbers only).\nUsed nicknames are not allowed.</string>
     <string name="sign_nationality">Country</string>
     <string name="sign_languages">Select Languages</string>
@@ -130,4 +134,60 @@
     <string name="profile_other_trav_review">\'s Review</string>
     <string name="profile_other_nav_review">\'s Review</string>
     <string name="profile_other_stamp">\'s Stamp</string>
+    <string name="tour_detail_chat">1:1 Chat</string>
+    <string name="tour_detail_reservation">Booking Status</string>
+    <string name="dialog_pass_title">Password</string>
+    <string name="dialog_pass_content">Please enter a password</string>
+    <string name="dialog_user_delete_title">Withdrawal</string>
+    <string name="dialog_user_delete_content">Do you  want to cancel your membership</string>
+    <string name="dialog_ok_btn">Ok</string>
+    <string name="dialog_cancel_btn">Cancel</string>
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+    <string name="chat_list_no_message_title">You don\'t have any messages</string>
+    <string name="search_title_travel">Where to</string>
+    <string name="search_title_date">Date</string>
+    <string name="search_title_theme">Category</string>
+    <string name="search_title_travel_tv">your travel destination</string>
+    <string name="search_title_travel_seoul_btn">Seoul</string>
+    <string name="search_title_travel_Incheon_btn">Incheon</string>
+    <string name="search_title_travel_Daegu_btn">Daegu</string>
+    <string name="search_title_travel_Daejeon_btn">Daejeon</string>
+    <string name="search_title_travel_Gwangju_btn">Gwangju</string>
+    <string name="search_title_travel_Busan_btn">Busan</string>
+    <string name="search_title_travel_Jeju_btn">Jeju</string>
+    <string name="search_title_popular_travel_tv">"Popular travel "</string>
+    <string name="search_reset_btn">reset</string>
+    <string name="search_search_btn">search</string>
+    <string name="search_title_theme_tv">Choose Category</string>
+    <string name="dialog_cancel_register_tour">Are you sure you want to finish registering your tour?</string>
+    <string name="dialog_register_tour_positive">Finish</string>
+    <string name="dialog_register_tour_negative">Keep Creating</string>
+    <string name="dialog_register_fail">Tour registration failed. Please try again.</string>
+    <string name="dialog_confirm">Got it</string>
+    <string name="dialog_modify_fail">Tour modification failed. Please try again.</string>
+    <string name="dialog_cancel_register_reservation">Are you sure you want to finish registering your reservation?</string>
+    <string name="dialog_cancel_modify_tour">Are you sure you want to finish modifying your tour?</string>
+    <string name="dialog_cancel_register_review">Are you sure you want to finish registering your review?</string>
+    <string name="dialog_register_review_fail">Review registration failed. Please try again.</string>
+    <string name="dialog_cancel_reservation_tour">Are you sure you want to finish registering your reservation?</string>
+    <string name="dialog_register_reservation_fail">Reservation registration failed. Please try again.</string>
+    <string name="reservation_review_btn">Review</string>
+    <string name="reservation_done">stamp has been issued!</string>
+    <string name="reservation_fail">Please try authentication again</string>
+    <string name="chat_list_no_message_content">When you receive a new message, it will appear here</string>
+    <string name="profile_empty_review">There are no registered reviews</string>
+    <string name="profile_empty_stamp">There is no stamp issued</string>
+    <string name="noti_empty">There are no registered notifications</string>
+    <string name="noti_empty_content">When you receive a new notification, it will appear here</string>
+    <string name="profile_other_myreview">My Reivew</string>
+    <string name="stamp">Stamp</string>
+    <string name="stamp_detail_empty">There is no stamp issued</string>
+    <string name="stamp_detail_empty_content">Collect stamps through new activities</string>
+    <string name="profile_pw_help">If you only want to change your profile, please enter your current password. \\n Please enter 8 to 20 characters using a mixture of alphabets, lowercase letters, and special characters.</string>
+    <string name="sign_photo">Profile Photo</string>
+    <string name="search_check">Check</string>
+    <string name="search_cancel"><u>Cancel</u></string>
+    <string name="tour_detail_booking_help">Book your trip by chatting with Nav!</string>
+    <string name="mypage_password">"Change Password "</string>
 </resources>

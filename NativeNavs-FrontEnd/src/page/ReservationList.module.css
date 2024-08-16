@@ -1,0 +1,106 @@
+.upcomingTourList {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.completedTourList {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.completedTourList > div {
+  margin-bottom: 20px;
+}
+
+.MiddleContainer {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.MiddleContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+.MiddleContainer h2 {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.MiddleContainer h5 {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 180px;
+  text-align: center;
+} 
+
+.TopContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.WishListTitle {
+  font-weight: bold; /* 굵게 설정 */
+  margin: 20px;
+}
+
+.NativeNavsImg {
+  width: 80px;
+  height: 80px;
+}
+
+
+.TourListTitle {
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+@keyframes rotateNeedle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.compassContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.needle {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  transform-origin: center center;
+  animation: rotateNeedle 1s cubic-bezier(0.5, 0, 1, 1) infinite;
+  z-index: 2;
+}

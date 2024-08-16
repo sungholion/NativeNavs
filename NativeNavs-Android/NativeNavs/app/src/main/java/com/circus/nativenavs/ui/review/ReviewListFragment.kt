@@ -15,8 +15,8 @@ import com.circus.nativenavs.databinding.FragmentReviewListBinding
 import com.circus.nativenavs.util.CustomTitleWebView
 import com.circus.nativenavs.util.popBackStack
 import com.circus.nativenavs.ui.home.HomeActivity
-import com.circus.nativenavs.ui.tour.TourDetailBridge
-import com.circus.nativenavs.ui.tour.TourDetailFragmentArgs
+import com.circus.nativenavs.util.SharedPref
+import com.circus.nativenavs.util.WEBURL
 import com.circus.nativenavs.util.navigate
 
 private const val TAG = "ReviewListFragment"
@@ -59,16 +59,32 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     private fun initWebView() {
-        var url = ""
-        if (args.tourId != -1) {
-            url = "https://i11d110.p.ssafy.io/tour/detail/${args.tourId}/reviews"
-        } else if (args.navId != -1) {
-            url = "https://i11d110.p.ssafy.io/nav/${args.navId}/reviews"
-        } else if (args.travId != -1) {
-            url = "https://i11d110.p.ssafy.io/trav/${args.travId}/reviews"
+        binding.reviewCustomWv.binding.customWebviewTitleWv.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                if (!isPageLoaded) {
+                    isPageLoaded = true
+                    bridge.sendUserData(
+                        UserDto(
+                            SharedPref.userId!!,
+                            SharedPref.accessToken!!,
+                            SharedPref.isNav!!,
+                            SharedPref.language == "ko"
+                        )
+                    )
+                }
+            }
         }
 
-        Log.d(TAG, "initCustomView: $url")
+        var url = ""
+        if (args.tourId != -1) {
+            url = WEBURL + "tour/detail/${args.tourId}/reviews"
+        } else if (args.navId != -1) {
+            url = WEBURL + "nav/${args.navId}/reviews"
+        } else if (args.travId != -1) {
+            url = WEBURL + "trav/${args.travId}/reviews"
+        }
+
         binding.reviewCustomWv.loadWebViewUrl(url)
 
     }
@@ -86,7 +102,6 @@ class ReviewListFragment : BaseFragment<FragmentReviewListBinding>(
     }
 
     fun navigateToTravReviewPhotoFragment(travId: Int) {
-        Log.d(TAG, "navigateToTravReviewPhotoFragment: $travId")
         val action =
             ReviewListFragmentDirections.actionReviewListFragmentToReviewPhotoFragment(travId = travId)
         navigate(action)

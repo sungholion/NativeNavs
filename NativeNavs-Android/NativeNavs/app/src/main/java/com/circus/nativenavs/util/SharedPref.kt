@@ -1,9 +1,24 @@
 package com.circus.nativenavs.util
 
 import android.content.SharedPreferences
+import android.util.Log
 
 object SharedPref {
     var sharedPrefs: SharedPreferences? = null
+
+    fun remove(type: String) {
+        sharedPrefs?.edit()?.apply {
+            if (type == LOGOUT) {
+                remove(ACCESSTOKEN)
+                remove(REFRESHTOKEN)
+                remove(USER_ID)
+                remove(IS_NAV)
+            } else {
+                remove(type)
+            }
+            apply()
+        }
+    }
 
     var userId: Int?
         get() = sharedPrefs?.getInt(USER_ID, 0) ?: 0
@@ -26,7 +41,6 @@ object SharedPref {
             }
         }
 
-
     var language: String?
         get() = sharedPrefs?.getString(LANGUAGE, null) ?: "ko"
         set(value) {
@@ -45,5 +59,18 @@ object SharedPref {
             sharedPrefs?.edit()?.putString(REFRESHTOKEN, value)?.apply()
         }
 
+    var fcmToken: String?
+        get() = sharedPrefs?.getString(FCM_TOKEN, null)
+        set(value) {
+            sharedPrefs?.edit()?.putString(FCM_TOKEN, value)?.apply()
+        }
+
+    var enabledNoti: Boolean?
+        get() = sharedPrefs?.getBoolean(ENABLED_NOTI, true)
+        set(value) {
+            if (value != null) {
+                sharedPrefs?.edit()?.putBoolean(ENABLED_NOTI, value)?.apply()
+            }
+        }
 
 }

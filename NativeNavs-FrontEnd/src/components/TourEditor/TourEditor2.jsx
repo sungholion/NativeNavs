@@ -26,7 +26,7 @@ const reducer = (state, action) => {
   }
 };
 
-const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
+const TourEditor2 = ({ goBeforePage, goAfterPage, user }) => {
   const { plans } = useContext(TourDataContext);
   const { onTourDataChange } = useContext(TourDispatchContext);
 
@@ -104,13 +104,18 @@ const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
     <>
       <div className={styles.TourEditor2}>
         <section className={styles.Header}>
-          <p>일정 목록</p>
+          <p>{user && user.isKorean ? "일정 목록" : "Schedule List"}</p>
           <img
             src={getStaticImage("add")}
             alt=""
             onClick={() => {
               if (planList.length > 20) {
-                window.alert("최대 20개 계획만 가능해요!");
+                window.alert(
+                  user && user.isKorean
+                    ? "최대 20개 계획만 가능해요!"
+                    : "You can only add up to 20 plans!"
+                );
+
                 return;
               }
               setAddModalOpen(true);
@@ -144,7 +149,12 @@ const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
               );
             })
           ) : (
-            <div className={styles.PlanListEmpty}>
+            <div
+              className={styles.PlanListEmpty}
+              onClick={() => {
+                setAddModalOpen(true);
+              }}
+            >
               <p style={{ fontSize: "24px", fontWeight: "bold" }}>
                 <span
                   style={{
@@ -164,10 +174,14 @@ const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
                       textAlign: "center",
                     }}
                   />
-                  를 눌러
+                  {user && user.isKorean ? "를 눌러" : "To add"}
                 </span>
                 <br />
-                <span>일정을 추가해 주세요</span>
+                <span>
+                  {user && user.isKorean
+                    ? "일정을 추가해 주세요"
+                    : "a schedule"}
+                </span>
               </p>
             </div>
           )}
@@ -188,20 +202,30 @@ const TourEditor2 = ({ goBeforePage, goAfterPage }) => {
         </section>
         <section className={styles.ButtonSection}>
           <button
+            className={styles.leftButton}
             onClick={() => {
               onTourDataChange("plans", [...planList]);
               goBeforePage();
             }}
           >
-            뒤로
+            {user && user.isKorean ? "뒤로" : "Back"}
           </button>
           <button
+            className={styles.rightButton}
             onClick={() => {
-              onTourDataChange("plans", [...planList]);
-              goAfterPage();
+              if (planList.length > 0) {
+                onTourDataChange("plans", [...planList]);
+                goAfterPage();
+              } else {
+                window.alert(
+                  user?.isKorean
+                    ? "일정을 추가해 주세요"
+                    : "Please add a schedule"
+                );
+              }
             }}
           >
-            다음
+            {user && user.isKorean ? "다음" : "Next"}
           </button>
         </section>
       </div>

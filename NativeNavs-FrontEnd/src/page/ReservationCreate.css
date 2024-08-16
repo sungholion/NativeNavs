@@ -1,0 +1,42 @@
+.ReservationCreate {
+  display: flex;
+  flex-direction: column; /* flex-direction을 column으로 설정 */
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+}
+
+.TravInforSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90vw;
+
+  h4 {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .TravInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    align-self: center;
+
+    img {
+      width: 18vw;
+      height: 18vw;
+      border-radius: 70%;
+    }
+    > div {
+      font-size: 8vw;
+      margin-left: 2vw;
+    }
+  }
+}
