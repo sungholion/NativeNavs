@@ -1,20 +1,38 @@
-<center>
-<h1>NativeNavs</h1>
+# NativeNavs
 
-SSAFY 11기 2학기 공통 프로젝트
 
-</center>
+<h3>SSAFY 11기 2학기 공통 프로젝트</h3>
+
+</br>
+
+<div align="center">
+<img src="./READMEimg/TeamLogo.png" style="width:300px ">
+</div>
+
+
+
+# 팀원 소개
+
+<div align="center">
+
+| <img src="https://github.com/dlguswls456.png" width="100"/> | <img src="https://github.com/ansehdwls.png" width="100"/> | <img src="https://github.com/suwhan2.png" width="100"/> | <img src="https://github.com/sungholion.png" width="100"/> | <img src="https://github.com/CHASANGGON.png" width="100"/> | <img src="https://github.com/SnowySparks.png" width="100"/> |
+|:---------------------------------------------------------:|:-------------------------------------------------------:|:----------------------------------------------------------:|:---------------------------------------------------------:|:---------------------------------------------------------:|:---------------------------------------------------------:|
+|       [이현진 - MB](https://github.com/dlguswls456)       |       [문동진 - MB](https://github.com/ansehdwls)       |       [최수환 - BE](https://github.com/suwhan2)       |       [조성호 - BE](https://github.com/sungholion)       |       [차상곤 - FE](https://github.com/CHASANGGON)       |       [김경 - FE](https://github.com/SnowySparks)       |
+
+[팀노션](https://worried-venom-487.notion.site/Circus-NativeNavs-s-Notion-db7c7ef8b35e4ba4b2f731fb45ca0b98) | [백로그](https://docs.google.com/spreadsheets/d/15WcJPjiMF_tzAu-eFwJ_k6g8Dr8fRtLvuA1UcCKHaHk/edit?usp=sharing) | [디자인](https://www.figma.com/design/EfS4sC3ONU5kXkS4gsEiUn/D110?node-id=0-1&node-type=canvas&t=d7ufe8EIAsDE6PCF-0)
+| [개발 일지](https://worried-venom-487.notion.site/60fd1b1753314e9d89537ea47528ae4e)
+
+</div>
+
+
+
 
 <center>
-<img src="./READMEimg/TeamLogo.png" style="max-width:400px ">
-</center>
-<center>
-<h2>Tech Stack</h2>
+<h1>Tech Stack</h1>
 
 ### FrontEnd
 
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
 <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
@@ -23,16 +41,14 @@ SSAFY 11기 2학기 공통 프로젝트
 
 ### BackEnd
 
-<img src="https://img.shields.io/badge/JAVA-FBBA00?logoColor=000&style=for-the-badge">
-<img src="https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/JAVA-FBBA00?logoColor=000&style=for-the-badge"> <img src="https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?logo=springsecurity&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/WebSocket-337AB7?&logoColor=fff&style=for-the-badge">
 
 ### Android
 
-<img src="https://img.shields.io/badge/Android-34A853?logo=android&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/Android-34A853?logo=android&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Android%20Jetpack-4285F4?logo=jetpackcompose&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/FCM-4285F4?logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=fff&style=for-the-badge">
@@ -40,26 +56,28 @@ SSAFY 11기 2학기 공통 프로젝트
 
 ### DB
 
-<img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Redis-FF4438?logoColor=fff&style=for-the-badge">
 
 ### CI/CD
 
-<img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Amazon%20S3-569A31?logo=amazons3&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Amazon%20EC2-F90?logo=amazonec2&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/NGINX-009639?logo=nginx&logoColor=fff&style=for-the-badge">
 
 ### Team Collaboration Tools
 
-<img src="https://img.shields.io/badge/Jira-0052CC?logo=jira&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/GitLab-FC6D26?logo=gitlab&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/Jira-0052CC?logo=jira&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/GitLab-FC6D26?logo=gitlab&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Mattermost-0058CC?logo=mattermost&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Discord-5865F2?logo=discord&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Notion-000?logo=notion&logoColor=fff&style=for-the-badge">
 </center>
+
+</br>
+</br>
+<h1>Architecture</h1>
+<img src=https://github.com/user-attachments/assets/7ca266ab-d01e-4baa-a000-84db0dbac579>
 
 # 소개
 
@@ -118,9 +136,7 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 회원가입 절차 모습
 
-<img src="./READMEimg/signin1.jpg" style="width:200px">
-<img src="./READMEimg/signin2.jpg" style="width:200px">
-<img src="./READMEimg/signin3.jpg" style="width:200px">
+<img src="./READMEimg/signin1.jpg" style="width:200px"> <img src="./READMEimg/signin2.jpg" style="width:200px"> <img src="./READMEimg/signin3.jpg" style="width:200px">
 
 <br>
 <br>
@@ -157,8 +173,7 @@ SSAFY 11기 2학기 공통 프로젝트
 
 <h4>예약 작성</h4>
 
-<img src="./READMEimg/ReservationMake2.jpg" style="width:200px">
-<img src="./READMEimg/ReservationMake3.jpg" style="width:200px">
+<img src="./READMEimg/ReservationMake2.jpg" style="width:200px"> <img src="./READMEimg/ReservationMake3.jpg" style="width:200px">
 
 </center>
 
@@ -167,8 +182,7 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 
 <h4>위시리스트</h4>
-<img src="./READMEimg/Main_Wish.jpg" style="width:200px">
-<img src="./READMEimg/WishList.jpg" style="width:200px">
+<img src="./READMEimg/Main_Wish.jpg" style="width:200px"> <img src="./READMEimg/WishList.jpg" style="width:200px">
 
 <h4> 완료한 투어 목록 및 예약 리스트 </h4>
 
@@ -198,9 +212,7 @@ SSAFY 11기 2학기 공통 프로젝트
 <center>
 
 <h4>상세 글</h4>  
-<img src="./READMEimg/tour_detail1.jpg" style="width:200px">  
-<img src="./READMEimg/tour_detail2.jpg" style="width:200px">
-<img src="./READMEimg/tour_detail_review.jpg" style="width:200px">
+<img src="./READMEimg/tour_detail1.jpg" style="width:200px">   <img src="./READMEimg/tour_detail2.jpg" style="width:200px"> <img src="./READMEimg/tour_detail_review.jpg" style="width:200px">
 
 <br>
 <br>
@@ -223,16 +235,14 @@ SSAFY 11기 2학기 공통 프로젝트
 
 **리뷰 포토들 목록**
 
-<img src="./READMEimg/review_photo1.jpg" style="width:200px">
-<img src="./READMEimg/review_photo2.jpg" style="width:200px">
+<img src="./READMEimg/review_photo1.jpg" style="width:200px"> <img src="./READMEimg/review_photo2.jpg" style="width:200px">
 
 </center>
 
 ### 예약 리스트(관광객전용) & 예약 상세(공통)
 
 <center>
-<img src="./READMEimg/ResList.jpg" style="width:200px">
-<img src="./READMEimg/ResDetail.jpg" style="width:200px">
+<img src="./READMEimg/ResList.jpg" style="width:200px"> <img src="./READMEimg/ResDetail.jpg" style="width:200px">
 
 각각 예약 목록들(투어 관광객에 보여주는 것)
 
@@ -241,8 +251,7 @@ SSAFY 11기 2학기 공통 프로젝트
 ### 나의 투어 작성 목록 및 예약 현황 (가이드 전용)
 
 <center>
-<img src="./READMEimg/myTourList.jpg" style="width:200px">
-<img src="./READMEimg/tourResList.jpg" style="width:200px"  >
+<img src="./READMEimg/myTourList.jpg" style="width:200px"> <img src="./READMEimg/tourResList.jpg" style="width:200px"  >
 
 가이드 입장에서 본인이 작성한 투어글들 볼 수 있고  
 해당 글들에 대해서 예약 목록을 볼 수 있음
@@ -280,8 +289,7 @@ SSAFY 11기 2학기 공통 프로젝트
 
 <center>
 
-<img src="./READMEimg/stamp_detail.jpg" style="width:200px">
-<img src="./READMEimg/profile_stamp.jpg" style="width:200px">
+<img src="./READMEimg/stamp_detail.jpg" style="width:200px"> <img src="./READMEimg/profile_stamp.jpg" style="width:200px">
 
 </center>
 
