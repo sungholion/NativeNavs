@@ -1,4 +1,4 @@
-# NativeNavs
+# NativeNavs - '외국인 관광객을 위한 가이드 매칭 안드로이드 앱'
 
 
 <h3>SSAFY 11기 2학기 공통 프로젝트</h3>
